@@ -22,6 +22,7 @@ package tain.kr.com.test.enumtest.v03;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 
@@ -195,25 +196,35 @@ public enum TypeTR0000 {
 	
 	private static boolean flag = true;
 	
+	private static int cntFld = -1;
 	private static int lenTotal = -1;
 	
 	private static int setLenTotal() throws Exception {
 		
 		if (lenTotal < 0) {
+			int cnt = 0;
 			int off = 0;
 			
 			for (TypeTR0000 fld : TypeTR0000.values()) {
 				off += fld.getLen();
+				cnt ++;
 			}
 			
 			lenTotal = off;
+			cntFld = cnt;
 		}
 		
 		return lenTotal;
 	}
 	
+	public static int getCntFld() throws Exception {
+		setLenTotal();
+		return cntFld;
+	}
+	
 	public static int getLength() throws Exception {
-		return setLenTotal();
+		setLenTotal();
+		return lenTotal;
 	}
 	
 	public static byte[] makeBytes() throws Exception {
@@ -263,7 +274,41 @@ public enum TypeTR0000 {
 	
 	public static String decompress(byte[] bytes) throws Exception {
 		
-		return null;
+		byte[] ret = null;
+		
+		if (!flag) {
+			/*
+			 * TODO 20160308 : for test
+			 */
+			StringTokenizer st = new StringTokenizer(new String(bytes), "|", false);
+			int count = st.countTokens();
+			
+			for (int i=0; i < count && st.hasMoreTokens(); i++) {
+				String str = st.nextToken();
+				
+				if (flag) log.debug("> [" + str + "]");
+			}
+		}
+		
+		if (flag) {
+			/*
+			 * 
+			 */
+			ret = TypeTR0000.makeBytes();
+			
+			String[] items = new String(bytes).split("\\|");
+			int i = 0;
+			
+			for (TypeTR0000 fld : TypeTR0000.values()) {
+				
+				if (flag) log.debug("> [" + items[i] + "]");
+
+				fld.setVal(ret, items[i]);
+				++ i;
+			}
+		}
+		
+		return new String(ret);
 	}
 	
 	///////////////////////////////////////////////////////////////////////
@@ -324,10 +369,16 @@ public enum TypeTR0000 {
 			TypeTR0000.print(bytes);
 			
 			String strCompress = TypeTR0000.compress(bytes);
-			
 			if (flag) log.debug("> COMPRESS [" + strCompress + "]");
 			
 			String strDecompress = TypeTR0000.decompress(strCompress.getBytes("EUC-KR"));
+			if (flag) log.debug("> DECOMPRESS [" + strDecompress + "]");
+			
+			if (strDecompress.equals(new String(bytes))) {
+				log.debug(">>>>> EQUALS");
+			} else {
+				log.debug(">>>>> MISMATCH");
+			}
 		}
 	}
 	
