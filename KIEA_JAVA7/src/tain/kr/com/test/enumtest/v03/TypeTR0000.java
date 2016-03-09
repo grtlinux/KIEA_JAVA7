@@ -114,24 +114,79 @@ public enum TypeTR0000 {
 	
 	////////////////////////////////////////////////////////////////////
 	
-	public void fill(byte[] bytes, byte by) {
+	public void fill(byte[] bytes, byte by) throws Exception {
 		
 		for (int i=0; i < this.len; i++) {
 			bytes[this.off + i] = by;
 		}
 	}
 	
-	public void setVal(byte[] bytes, String val) {
+	public void setVal(byte[] bytes) throws Exception  {
+		// clear the exist string
+		fill(bytes, (byte)' ');
+	}
+	
+	public void setVal(byte[] bytes, byte[] byVal) throws Exception {
 		
-		if (val == null) {
+		if (byVal == null) {
 			// clear the exist string
-			for (int i=0; i < this.len; i++) {
-				bytes[this.off + i] = (byte) ' ';
-			}
-			
+			fill(bytes, (byte)' ');
 			return;
 		}
 		
+		int byLen = byVal.length;
 		
+		if (this.type == 'C') {
+			// left arrange
+			for (int i=0, j=0; i < this.len; i++, j++) {
+				if (j < byLen) {
+					bytes[this.off + i] = byVal[j];
+				} else {
+					bytes[this.off + i] = (byte) this.lead;
+				}
+			}
+		} else if (this.type == 'N') {
+			// right arrange
+			for (int i=0, j=0; i < this.len; i++, j++) {
+				if (j < byLen) {
+					bytes[this.off + this.len - 1 - i] = byVal[byLen - 1 - j];
+				} else {
+					bytes[this.off + this.len - 1 - i] = (byte) this.lead;
+				}
+			}
+		} else {
+			// TODO 2016.03.08 : ERROR
+		}
 	}
+	
+	public void setVal(byte[] bytes, String strVal) throws Exception {
+		if (strVal == null) {
+			// clear the exist string
+			fill(bytes, (byte)' ');
+			return;
+		}
+		
+		setVal(bytes, strVal.getBytes("EUC-KR"));
+	}
+	
+	public String getString(byte[] bytes) throws Exception {
+		return new String(bytes, this.off, this.len);
+	}
+	
+	public byte[] getBytes(byte[] bytes) throws Exception {
+		byte[] ret = new byte[this.len];
+		
+		for (int i=0; i < this.len; i++) {
+			ret[i] = bytes[this.off + i];
+		}
+		
+		return ret;
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
+
 }
