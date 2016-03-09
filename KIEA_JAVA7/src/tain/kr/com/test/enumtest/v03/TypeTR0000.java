@@ -233,15 +233,37 @@ public enum TypeTR0000 {
 			TR_CODE .setVal(bytes, "");
 			TR_DATE .setVal(bytes, new SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(new Date()));
 			TR_TIME .setVal(bytes, new SimpleDateFormat("HHmmss"  , Locale.KOREA).format(new Date()));
-			TR_USER .setVal(bytes, "QWERT12345");
-			TR_PASS .setVal(bytes, "1Q2WER4RKD");
-			KEY_CODE.setVal(bytes, "FK39SXKMMM");
+			TR_USER .setVal(bytes, "USER");
+			TR_PASS .setVal(bytes, "PASS");
+			KEY_CODE.setVal(bytes, "KEY");
 			BODY_LEN.setVal(bytes, String.valueOf(0));
 			RET_CODE.setVal(bytes, "");
 			RET_MSG .setVal(bytes, "");
 		}
 		
 		return bytes;
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
+
+	public static String compress(byte[] bytes) throws Exception {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		for (TypeTR0000 fld : TypeTR0000.values()) {
+			
+			sb.append(fld.getString(bytes).trim()).append("|");
+		}
+		
+		if (flag) sb.deleteCharAt(sb.length() - 1);
+
+		return sb.toString();
+	}
+	
+	public static String decompress(byte[] bytes) throws Exception {
+		
+		return null;
 	}
 	
 	///////////////////////////////////////////////////////////////////////
@@ -281,6 +303,7 @@ public enum TypeTR0000 {
 				off += fld.getLen();
 			}
 			
+			if (flag) log.debug("[" + new String(bytes) + "]");
 			if (flag) log.debug("Total Length = " + off);
 		}
 	}
@@ -299,6 +322,12 @@ public enum TypeTR0000 {
 			
 			TypeTR0000.print();
 			TypeTR0000.print(bytes);
+			
+			String strCompress = TypeTR0000.compress(bytes);
+			
+			if (flag) log.debug("> COMPRESS [" + strCompress + "]");
+			
+			String strDecompress = TypeTR0000.decompress(strCompress.getBytes("EUC-KR"));
 		}
 	}
 	
