@@ -19,6 +19,12 @@
  */
 package tain.kr.com.test.enumtest.v03;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import org.apache.log4j.Logger;
+
 /**
  * Code Templates > Comments > Types
  *
@@ -35,15 +41,16 @@ package tain.kr.com.test.enumtest.v03;
  */
 public enum TypeTR0000 {
 
-	TR_LEN            ('N', '0',   0,   4, "TR_LEN"        , "TR 길이"         , "0100"),
-	TR_CODE           ('C', ' ',   4,   6, "TR_CODE"       , "TR 코드"         , "TR0100"),
-	TR_DATE           ('C', '0',  10,   8, "TR_DATE"       , "TR 발생일자"     , "YYYYMMDD"),
-	TR_TIME           ('C', '0',  18,   6, "TR_TIME"       , "TR 발생시간"     , "HHMMSS"),
-	TR_USER           ('C', ' ',  24,  10, "TR_USER"       , "TR 사용자"       , "USER"),
-	TR_PASS           ('C', ' ',  34,  10, "TR_PASS"       , "TR 비밀번호"     , "PASS"),
-	KEY_CODE          ('C', ' ',  44,  10, "KEY_CODE"      , "키코드"          , "0000000000"),
-	DATA_LEN          ('N', '0',  54,  15, "DATA_LEN"      , "DATA 길이"       , "000000000000000"),
-	FILLER            ('C', '.',  69,  31, "FILLER"        , "RESERVED "       , ""),
+	TR_LEN            ('N', '0',   0,   4, "TR_LEN"        , "TR 길이"         , "0100"           ),
+	TR_CODE           ('C', ' ',   4,   6, "TR_CODE"       , "TR 코드"         , "TrCode"         ),
+	TR_DATE           ('C', '0',  10,   8, "TR_DATE"       , "TR 발생일자"     , "YYYYMMDD"       ),
+	TR_TIME           ('C', '0',  18,   6, "TR_TIME"       , "TR 발생시간"     , "HHMMSS"         ),
+	TR_USER           ('C', ' ',  24,  10, "TR_USER"       , "TR 사용자"       , "USER"           ),
+	TR_PASS           ('C', ' ',  34,  10, "TR_PASS"       , "TR 비밀번호"     , "PASS"           ),
+	KEY_CODE          ('C', ' ',  44,  10, "KEY_CODE"      , "키코드"          , "0000000000"     ),
+	BODY_LEN          ('N', '0',  54,   4, "BODY_LEN"      , "BODY 길이"       , "0000"           ),
+	RET_CODE          ('C', ' ',  58,   5, "RET_CODE"      , "리턴코드"        , ""               ),
+	RET_MSG           ('C', ' ',  63,  37, "RET_MSG"       , "리턴메시지"      , ""               ),
 	;
 	
 	private final char type;
@@ -185,8 +192,120 @@ public enum TypeTR0000 {
 
 	///////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////
+	
+	private static boolean flag = true;
+	
+	private static int lenTotal = -1;
+	
+	private static int setLenTotal() throws Exception {
+		
+		if (lenTotal < 0) {
+			int off = 0;
+			
+			for (TypeTR0000 fld : TypeTR0000.values()) {
+				off += fld.getLen();
+			}
+			
+			lenTotal = off;
+		}
+		
+		return lenTotal;
+	}
+	
+	public static int getLength() throws Exception {
+		return setLenTotal();
+	}
+	
+	public static byte[] makeBytes() throws Exception {
+		
+		setLenTotal();
+		
+		byte[] bytes = new byte[lenTotal];
+		
+		if (flag) {
+			for (TypeTR0000 fld : TypeTR0000.values()) {
+				fld.setVal(bytes, fld.getDefVal());
+			}
+		}
+		
+		if (flag) {
+			TR_LEN  .setVal(bytes, String.valueOf(lenTotal));
+			TR_CODE .setVal(bytes, "");
+			TR_DATE .setVal(bytes, new SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(new Date()));
+			TR_TIME .setVal(bytes, new SimpleDateFormat("HHmmss"  , Locale.KOREA).format(new Date()));
+			TR_USER .setVal(bytes, "QWERT12345");
+			TR_PASS .setVal(bytes, "1Q2WER4RKD");
+			KEY_CODE.setVal(bytes, "FK39SXKMMM");
+			BODY_LEN.setVal(bytes, String.valueOf(0));
+			RET_CODE.setVal(bytes, "");
+			RET_MSG .setVal(bytes, "");
+		}
+		
+		return bytes;
+	}
+	
 	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
+	
+	private static final Logger log = Logger.getLogger(TypeTR0000.class);
+	
+	public static void print() throws Exception {
+		
+		if (flag) {
+			int len = 0;
+			int off = 0;
+			for (TypeTR0000 fld : TypeTR0000.values()) {
+				len = fld.getLen();
+				
+				if (flag) log.debug(String.format("[%s] [%3d:%3d] [%3d:%3d] [%-10s] [%s] [%s]"
+						, fld.getType(), off, fld.getOff(), len, fld.getLen(), fld.getName(), fld.getDesc(), fld.getDefVal()));
+				
+				off += fld.getLen();
+			}
+			
+			if (flag) log.debug("Total Length = " + off);
+		}
+	}
+	
+	public static void print(byte[] bytes) throws Exception {
+		
+		if (flag) {
+			int len = 0;
+			int off = 0;
+			for (TypeTR0000 fld : TypeTR0000.values()) {
+				len = fld.getLen();
+				
+				if (flag) log.debug(String.format("[%s] [%3d:%3d] [%3d:%3d] [%-10s] [%s]"
+						, fld.getType(), off, fld.getOff(), len, fld.getLen(), fld.getName(), fld.getString(bytes)));
+				
+				off += fld.getLen();
+			}
+			
+			if (flag) log.debug("Total Length = " + off);
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////
 
+	private static void test01(String[] args) throws Exception {
+		
+		if (flag) {
+			
+			byte[] bytes = TypeTR0000.makeBytes();
+			
+			TypeTR0000.TR_CODE.setVal(bytes, "TR0000");
+			TypeTR0000.RET_MSG.setVal(bytes, "SUCCESS");
+			
+			TypeTR0000.print();
+			TypeTR0000.print(bytes);
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
+
+		if (flag) test01(args);
+	}
 }
