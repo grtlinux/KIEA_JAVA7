@@ -126,7 +126,7 @@ public class StringTokenizerTestMain {
 	
 	private static void test03(String[] args) throws Exception {
 	
-		if (flag) {
+		if (!flag) {
 			/*
 			 * Scanner
 			 */
@@ -138,7 +138,22 @@ public class StringTokenizerTestMain {
 			
 			String str = scan.nextLine();
 			
-			log.debug(">>>>> " + str);
+			log.debug(">>>>> [" + str + "]");
+		}
+		
+		if (flag) {
+			/*
+			 * Deploy Key
+			 */
+			
+			@SuppressWarnings("resource")
+			Scanner scan = new Scanner(System.in);
+			
+			System.out.println(">>>>> input the deploy key..");
+			
+			String str = scan.nextLine();
+			
+			System.out.println(">>>>> [" + str + "]");
 		}
 	}
 	
@@ -146,8 +161,8 @@ public class StringTokenizerTestMain {
 		
 		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
-		if (flag) test01(args);
-		if (flag) test02(args);
+		if (!flag) test01(args);
+		if (!flag) test02(args);
 		if (flag) test03(args);
 	}
 }
