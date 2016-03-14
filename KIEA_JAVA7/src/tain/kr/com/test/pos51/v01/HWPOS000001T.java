@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.pos51.v01;
 
+import java.util.StringTokenizer;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -87,8 +89,8 @@ public enum HWPOS000001T {
 	 * Code Templates > Comments > Constructors
 	 *
 	 * <PRE>
-	 *   -. ClassName  : TypeTR0000
-	 *   -. MethodName : TypeTR0000
+	 *   -. ClassName  : HWPOS000001T
+	 *   -. MethodName : HWPOS000001T
 	 *   -. Comment    :
 	 *   -. Author     : taincokr
 	 *   -. First Date : 2016. 2. 1. {time}
@@ -185,12 +187,196 @@ public enum HWPOS000001T {
 
 	///////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////
+	
 	private static boolean flag = true;
+	
+	private static int cntFld = -1;
+	private static int lenTotal = -1;
+	
+	private static int setLenTotal() throws Exception {
+		
+		if (lenTotal < 0) {
+			int cnt = 0;
+			int off = 0;
+			
+			for (HWPOS000001T fld : HWPOS000001T.values()) {
+				off += fld.getLen();
+				cnt ++;
+			}
+			
+			lenTotal = off;
+			cntFld = cnt;
+		}
+		
+		return lenTotal;
+	}
+	
+	public static int getCntFld() throws Exception {
+		setLenTotal();
+		return cntFld;
+	}
+	
+	public static int getLength() throws Exception {
+		setLenTotal();
+		return lenTotal;
+	}
+	
+	public static byte[] makeBytes() throws Exception {
+		
+		setLenTotal();
+		
+		byte[] bytes = new byte[lenTotal];
+		
+		if (flag) {
+			for (HWPOS000001T fld : HWPOS000001T.values()) {
+				fld.setVal(bytes, fld.getDefVal());
+			}
+		}
+		
+		if (flag) {
+			HWPOS000001T.DATA_CLAS         .setVal(bytes, "TR");
+			HWPOS000001T.TOT_DATA_CNT      .setVal(bytes, "");
+			HWPOS000001T.TR_FILLER         .setVal(bytes, "");
+		}
+		
+		return bytes;
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
 
+	public static String compress(byte[] bytes) throws Exception {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		for (HWPOS000001T fld : HWPOS000001T.values()) {
+			
+			sb.append(fld.getString(bytes).trim()).append("|");
+		}
+		
+		if (flag) sb.deleteCharAt(sb.length() - 1);
+
+		return sb.toString();
+	}
+	
+	public static String decompress(byte[] bytes) throws Exception {
+		
+		byte[] ret = null;
+		
+		if (!flag) {
+			/*
+			 * TODO 20160308 : for test
+			 */
+			StringTokenizer st = new StringTokenizer(new String(bytes), "|", false);
+			int count = st.countTokens();
+			
+			for (int i=0; i < count && st.hasMoreTokens(); i++) {
+				String str = st.nextToken();
+				
+				if (flag) log.debug("> [" + str + "]");
+			}
+		}
+		
+		if (flag) {
+			/*
+			 * 
+			 */
+			ret = HWPOS000001T.makeBytes();
+			
+			String[] items = new String(bytes).split("\\|", HWPOS000001T.getCntFld());   // TODO 2016.03.14 : have to fix the field count... ^^
+			int i = 0;
+			
+			for (HWPOS000001T fld : HWPOS000001T.values()) {
+				
+				if (!flag) log.debug("> [" + items[i] + "]");
+				if (flag) log.debug(String.format("> [%-20s] [%s]", fld.name, items[i]));
+
+				fld.setVal(ret, items[i]);
+				++ i;
+			}
+		}
+		
+		return new String(ret);
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
+	
 	private static final Logger log = Logger.getLogger(HWPOS000001T.class);
+	
+	public static void print() throws Exception {
+		
+		if (flag) {
+			int len = 0;
+			int off = 0;
+			for (HWPOS000001T fld : HWPOS000001T.values()) {
+				len = fld.getLen();
+				
+				if (flag) log.debug(String.format("[%s] [%3d:%3d] [%3d:%3d] [%-10s] [%s] [%s]"
+						, fld.getType(), off, fld.getOff(), len, fld.getLen(), fld.getName(), fld.getDesc(), fld.getDefVal()));
+				
+				off += fld.getLen();
+			}
+			
+			if (flag) log.debug("Total Length = " + off);
+		}
+	}
+	
+	public static void print(byte[] bytes) throws Exception {
+		
+		if (flag) {
+			int len = 0;
+			int off = 0;
+			for (HWPOS000001T fld : HWPOS000001T.values()) {
+				len = fld.getLen();
+				
+				if (flag) log.debug(String.format("[%s] [%3d:%3d] [%3d:%3d] [%-10s] [%s]"
+						, fld.getType(), off, fld.getOff(), len, fld.getLen(), fld.getName(), fld.getString(bytes)));
+				
+				off += fld.getLen();
+			}
+			
+			if (flag) log.debug("[" + new String(bytes) + "]");
+			if (flag) log.debug("Total Length = " + off);
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	private static void test01(String[] args) throws Exception {
+		
+		if (flag) {
+			
+			if (flag) log.debug(String.format("[FLD_CNT:%d] [REC_LEN:%d]", HWPOS000001T.getCntFld(), HWPOS000001T.getLength()));
+			
+			byte[] bytes = HWPOS000001T.makeBytes();
+			
+			HWPOS000001T.DATA_CLAS         .setVal(bytes, "TR");
+			HWPOS000001T.TOT_DATA_CNT      .setVal(bytes, "");
+			HWPOS000001T.TR_FILLER         .setVal(bytes, "");
+			
+			HWPOS000001T.print();
+			HWPOS000001T.print(bytes);
+			
+			String strCompress = HWPOS000001T.compress(bytes);
+			if (flag) log.debug("> COMPRESS [" + strCompress + "]");
+			
+			String strDecompress = HWPOS000001T.decompress(strCompress.getBytes("EUC-KR"));
+			if (flag) log.debug("> DECOMPRESS [" + strDecompress + "]");
+			
+			if (strDecompress.equals(new String(bytes))) {
+				log.debug(">>>>> EQUALS");
+			} else {
+				log.debug(">>>>> MISMATCH");
+			}
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 
+		if (flag) test01(args);
+	}
 }

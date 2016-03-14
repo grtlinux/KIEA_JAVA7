@@ -19,6 +19,11 @@
  */
 package tain.kr.com.test.pos51.v01;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.StringTokenizer;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -87,8 +92,8 @@ public enum HWPOS000001H {
 	 * Code Templates > Comments > Constructors
 	 *
 	 * <PRE>
-	 *   -. ClassName  : TypeTR0000
-	 *   -. MethodName : TypeTR0000
+	 *   -. ClassName  : HWPOS000001H
+	 *   -. MethodName : HWPOS000001H
 	 *   -. Comment    :
 	 *   -. Author     : taincokr
 	 *   -. First Date : 2016. 2. 1. {time}
@@ -185,12 +190,198 @@ public enum HWPOS000001H {
 
 	///////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////
+	
 	private static boolean flag = true;
+	
+	private static int cntFld = -1;
+	private static int lenTotal = -1;
+	
+	private static int setLenTotal() throws Exception {
+		
+		if (lenTotal < 0) {
+			int cnt = 0;
+			int off = 0;
+			
+			for (HWPOS000001H fld : HWPOS000001H.values()) {
+				off += fld.getLen();
+				cnt ++;
+			}
+			
+			lenTotal = off;
+			cntFld = cnt;
+		}
+		
+		return lenTotal;
+	}
+	
+	public static int getCntFld() throws Exception {
+		setLenTotal();
+		return cntFld;
+	}
+	
+	public static int getLength() throws Exception {
+		setLenTotal();
+		return lenTotal;
+	}
+	
+	public static byte[] makeBytes() throws Exception {
+		
+		setLenTotal();
+		
+		byte[] bytes = new byte[lenTotal];
+		
+		if (flag) {
+			for (HWPOS000001H fld : HWPOS000001H.values()) {
+				fld.setVal(bytes, fld.getDefVal());
+			}
+		}
+		
+		if (flag) {
+			HWPOS000001H.DATA_CLAS         .setVal(bytes, "HD");
+			HWPOS000001H.SND_DATE          .setVal(bytes, new SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(new Date()));
+			HWPOS000001H.HD_FILLER         .setVal(bytes, "");
+		}
+		
+		return bytes;
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
 
+	public static String compress(byte[] bytes) throws Exception {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		for (HWPOS000001H fld : HWPOS000001H.values()) {
+			
+			sb.append(fld.getString(bytes).trim()).append("|");
+		}
+		
+		if (flag) sb.deleteCharAt(sb.length() - 1);
+
+		return sb.toString();
+	}
+	
+	public static String decompress(byte[] bytes) throws Exception {
+		
+		byte[] ret = null;
+		
+		if (!flag) {
+			/*
+			 * TODO 20160308 : for test
+			 */
+			StringTokenizer st = new StringTokenizer(new String(bytes), "|", false);
+			int count = st.countTokens();
+			
+			for (int i=0; i < count && st.hasMoreTokens(); i++) {
+				String str = st.nextToken();
+				
+				if (flag) log.debug("> [" + str + "]");
+			}
+		}
+		
+		if (flag) {
+			/*
+			 * 
+			 */
+			ret = HWPOS000001H.makeBytes();
+			
+			String[] items = new String(bytes).split("\\|", HWPOS000001H.getCntFld());   // TODO 2016.03.14 : have to fix the field count... ^^
+			if (flag) log.debug("items.length = " + items.length);
+
+			int i = 0;
+			
+			for (HWPOS000001H fld : HWPOS000001H.values()) {
+				
+				if (!flag) log.debug("> [" + items[i] + "]");
+				if (flag) log.debug(String.format("> [%-20s] [%s]", fld.name, items[i]));
+
+				fld.setVal(ret, items[i]);
+				++ i;
+			}
+		}
+		
+		return new String(ret);
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
+	
 	private static final Logger log = Logger.getLogger(HWPOS000001H.class);
+	
+	public static void print() throws Exception {
+		
+		if (flag) {
+			int len = 0;
+			int off = 0;
+			for (HWPOS000001H fld : HWPOS000001H.values()) {
+				len = fld.getLen();
+				
+				if (flag) log.debug(String.format("[%s] [%3d:%3d] [%3d:%3d] [%-10s] [%s] [%s]"
+						, fld.getType(), off, fld.getOff(), len, fld.getLen(), fld.getName(), fld.getDesc(), fld.getDefVal()));
+				
+				off += fld.getLen();
+			}
+			
+			if (flag) log.debug("Total Length = " + off);
+		}
+	}
+	
+	public static void print(byte[] bytes) throws Exception {
+		
+		if (flag) {
+			int len = 0;
+			int off = 0;
+			for (HWPOS000001H fld : HWPOS000001H.values()) {
+				len = fld.getLen();
+				
+				if (flag) log.debug(String.format("[%s] [%3d:%3d] [%3d:%3d] [%-10s] [%s]"
+						, fld.getType(), off, fld.getOff(), len, fld.getLen(), fld.getName(), fld.getString(bytes)));
+				
+				off += fld.getLen();
+			}
+			
+			if (flag) log.debug("[" + new String(bytes) + "]");
+			if (flag) log.debug("Total Length = " + off);
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	private static void test01(String[] args) throws Exception {
+		
+		if (flag) {
+		
+			if (flag) log.debug(String.format("[FLD_CNT:%d] [REC_LEN:%d]", HWPOS000001H.getCntFld(), HWPOS000001H.getLength()));
+			
+			byte[] bytes = HWPOS000001H.makeBytes();
+			
+			HWPOS000001H.DATA_CLAS         .setVal(bytes, "HD");
+			HWPOS000001H.SND_DATE          .setVal(bytes, new SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(new Date()));
+			HWPOS000001H.HD_FILLER         .setVal(bytes, "");
+			
+			HWPOS000001H.print();
+			HWPOS000001H.print(bytes);
+			
+			String strCompress = HWPOS000001H.compress(bytes);
+			if (flag) log.debug("> COMPRESS [" + strCompress + "]");
+			
+			String strDecompress = HWPOS000001H.decompress(strCompress.getBytes("EUC-KR"));
+			if (flag) log.debug("> DECOMPRESS [" + strDecompress + "]");
+			
+			if (strDecompress.equals(new String(bytes))) {
+				log.debug(">>>>> EQUALS");
+			} else {
+				log.debug(">>>>> MISMATCH");
+			}
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 
+		if (flag) test01(args);
+	}
 }

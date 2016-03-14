@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.pos51.v01;
 
+import java.util.StringTokenizer;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -97,8 +99,8 @@ public enum POSHW000003D {
 	 * Code Templates > Comments > Constructors
 	 *
 	 * <PRE>
-	 *   -. ClassName  : TypeTR0000
-	 *   -. MethodName : TypeTR0000
+	 *   -. ClassName  : POSHW000003D
+	 *   -. MethodName : POSHW000003D
 	 *   -. Comment    :
 	 *   -. Author     : taincokr
 	 *   -. First Date : 2016. 2. 1. {time}
@@ -195,13 +197,216 @@ public enum POSHW000003D {
 
 	///////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////
-
+	
 	private static boolean flag = true;
+	
+	private static int cntFld = -1;
+	private static int lenTotal = -1;
+	
+	private static int setLenTotal() throws Exception {
+		
+		if (lenTotal < 0) {
+			int cnt = 0;
+			int off = 0;
+			
+			for (POSHW000003D fld : POSHW000003D.values()) {
+				off += fld.getLen();
+				cnt ++;
+			}
+			
+			lenTotal = off;
+			cntFld = cnt;
+		}
+		
+		return lenTotal;
+	}
+	
+	public static int getCntFld() throws Exception {
+		setLenTotal();
+		return cntFld;
+	}
+	
+	public static int getLength() throws Exception {
+		setLenTotal();
+		return lenTotal;
+	}
+	
+	public static byte[] makeBytes() throws Exception {
+		
+		setLenTotal();
+		
+		byte[] bytes = new byte[lenTotal];
+		
+		if (flag) {
+			for (POSHW000003D fld : POSHW000003D.values()) {
+				fld.setVal(bytes, fld.getDefVal());
+			}
+		}
+		
+		if (flag) {
+			POSHW000003D.DATA_CLAS         .setVal(bytes, "DT");
+			POSHW000003D.OUTSIDUSERID      .setVal(bytes, "");
+			POSHW000003D.REGINO            .setVal(bytes, "");
+			POSHW000003D.DELIVYMD          .setVal(bytes, "");
+			POSHW000003D.DELIVHHMI         .setVal(bytes, "");
+			POSHW000003D.DELIVRSLTCD       .setVal(bytes, "");
+			POSHW000003D.NONDELIVREASNCD   .setVal(bytes, "");
+			POSHW000003D.NONDELIVREASNCDNM .setVal(bytes, "");
+			POSHW000003D.SUBRECPRSNNM      .setVal(bytes, "");
+			POSHW000003D.RELRECPRSNCD      .setVal(bytes, "");
+			POSHW000003D.RELRECPRSNCDNM    .setVal(bytes, "");
+			POSHW000003D.SSN               .setVal(bytes, "");
+			POSHW000003D.DELIVRSLTCHGCD    .setVal(bytes, "");
+		}
+		
+		return bytes;
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
 
-	private static final Logger log = Logger.getLogger(HWPOS000001D.class);
+	public static String compress(byte[] bytes) throws Exception {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		for (POSHW000003D fld : POSHW000003D.values()) {
+			
+			sb.append(fld.getString(bytes).trim()).append("|");
+		}
+		
+		if (flag) sb.deleteCharAt(sb.length() - 1);
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
+		return sb.toString();
+	}
+	
+	public static String decompress(byte[] bytes) throws Exception {
+		
+		byte[] ret = null;
+		
+		if (!flag) {
+			/*
+			 * TODO 20160308 : for test
+			 */
+			StringTokenizer st = new StringTokenizer(new String(bytes), "|", false);
+			int count = st.countTokens();
+			
+			for (int i=0; i < count && st.hasMoreTokens(); i++) {
+				String str = st.nextToken();
+				
+				if (flag) log.debug("> [" + str + "]");
+			}
+		}
+		
+		if (flag) {
+			/*
+			 * 
+			 */
+			ret = POSHW000003D.makeBytes();
+			
+			String[] items = new String(bytes).split("\\|", POSHW000003D.getCntFld());   // TODO 2016.03.14 : have to fix the field count... ^^
+			int i = 0;
+			
+			for (POSHW000003D fld : POSHW000003D.values()) {
+				
+				if (!flag) log.debug("> [" + items[i] + "]");
+				if (flag) log.debug(String.format("> [%-20s] [%s]", fld.name, items[i]));
 
+				fld.setVal(ret, items[i]);
+				++ i;
+			}
+		}
+		
+		return new String(ret);
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
+	
+	private static final Logger log = Logger.getLogger(POSHW000003D.class);
+	
+	public static void print() throws Exception {
+		
+		if (flag) {
+			int len = 0;
+			int off = 0;
+			for (POSHW000003D fld : POSHW000003D.values()) {
+				len = fld.getLen();
+				
+				if (flag) log.debug(String.format("[%s] [%3d:%3d] [%3d:%3d] [%-10s] [%s] [%s]"
+						, fld.getType(), off, fld.getOff(), len, fld.getLen(), fld.getName(), fld.getDesc(), fld.getDefVal()));
+				
+				off += fld.getLen();
+			}
+			
+			if (flag) log.debug("Total Length = " + off);
+		}
+	}
+	
+	public static void print(byte[] bytes) throws Exception {
+		
+		if (flag) {
+			int len = 0;
+			int off = 0;
+			for (POSHW000003D fld : POSHW000003D.values()) {
+				len = fld.getLen();
+				
+				if (flag) log.debug(String.format("[%s] [%3d:%3d] [%3d:%3d] [%-10s] [%s]"
+						, fld.getType(), off, fld.getOff(), len, fld.getLen(), fld.getName(), fld.getString(bytes)));
+				
+				off += fld.getLen();
+			}
+			
+			if (flag) log.debug("[" + new String(bytes) + "]");
+			if (flag) log.debug("Total Length = " + off);
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
+
+	private static void test01(String[] args) throws Exception {
+		
+		if (flag) {
+			
+			if (flag) log.debug(String.format("[FLD_CNT:%d] [REC_LEN:%d]", POSHW000003D.getCntFld(), POSHW000003D.getLength()));
+			
+			byte[] bytes = POSHW000003D.makeBytes();
+			
+			POSHW000003D.DATA_CLAS         .setVal(bytes, "DT");
+			POSHW000003D.OUTSIDUSERID      .setVal(bytes, "");
+			POSHW000003D.REGINO            .setVal(bytes, "");
+			POSHW000003D.DELIVYMD          .setVal(bytes, "");
+			POSHW000003D.DELIVHHMI         .setVal(bytes, "");
+			POSHW000003D.DELIVRSLTCD       .setVal(bytes, "");
+			POSHW000003D.NONDELIVREASNCD   .setVal(bytes, "");
+			POSHW000003D.NONDELIVREASNCDNM .setVal(bytes, "");
+			POSHW000003D.SUBRECPRSNNM      .setVal(bytes, "");
+			POSHW000003D.RELRECPRSNCD      .setVal(bytes, "");
+			POSHW000003D.RELRECPRSNCDNM    .setVal(bytes, "");
+			POSHW000003D.SSN               .setVal(bytes, "");
+			POSHW000003D.DELIVRSLTCHGCD    .setVal(bytes, "");
+			
+			POSHW000003D.print();
+			POSHW000003D.print(bytes);
+			
+			String strCompress = POSHW000003D.compress(bytes);
+			if (flag) log.debug("> COMPRESS [" + strCompress + "]");
+			
+			String strDecompress = POSHW000003D.decompress(strCompress.getBytes("EUC-KR"));
+			if (flag) log.debug("> DECOMPRESS [" + strDecompress + "]");
+			
+			if (strDecompress.equals(new String(bytes))) {
+				log.debug(">>>>> EQUALS");
+			} else {
+				log.debug(">>>>> MISMATCH");
+			}
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
+
+		if (flag) test01(args);
+	}
 }

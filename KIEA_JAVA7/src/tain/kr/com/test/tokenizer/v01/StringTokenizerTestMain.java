@@ -157,12 +157,37 @@ public class StringTokenizerTestMain {
 		}
 	}
 	
+	private static void test04(String[] args) throws Exception {
+		
+		if (flag) {
+			String str = "HD||12345678||";
+			
+			String[] items = str.split("\\|", 5);   // <---
+			
+			for (String item : items) {
+				log.debug(">" + item);
+			}
+	
+		}
+		
+		if (flag) {
+			String str = "HD||12345678||";
+			
+			String[] items = str.split("\\|", 100);   // <---
+			
+			for (String item : items) {
+				log.debug(">" + item);
+			}
+		}
+	}
+	
 	public static void main(String[] args) throws Exception {
 		
 		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
 		if (!flag) test01(args);
 		if (!flag) test02(args);
-		if (flag) test03(args);
+		if (!flag) test03(args);
+		if (flag) test04(args);
 	}
 }
