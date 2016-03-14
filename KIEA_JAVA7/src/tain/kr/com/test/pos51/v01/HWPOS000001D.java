@@ -37,6 +37,10 @@ import org.apache.log4j.Logger;
  */
 public enum HWPOS000001D {
 
+	/*
+	 * 계약등기 > 1.접수정보 내역 > DATA : 671 bytes
+	 */
+	
 	DATA_CLAS         ('C', ' ',     0,   2,   "DATA_CLAS"           ,"데이타구분"                       , "" ),
 	CARDSENDYMD       ('C', ' ',     2,   8,   "CARDSENDYMD"         ,"발송일자"                         , "" ),
 	REGINO            ('C', ' ',    10,  13,   "REGINO"              ,"등기번호"                         , "" ),

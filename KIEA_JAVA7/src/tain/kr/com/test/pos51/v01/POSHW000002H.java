@@ -37,6 +37,10 @@ import org.apache.log4j.Logger;
  */
 public enum POSHW000002H {
 
+	/*
+	 * 계약등기 > 2.접수결과 > DATA : 737 bytes
+	 */
+	
 	DATA_CLAS         ('C', ' ',     0,   2,   "DATA_CLAS"           ,"데이타구분"                       , "" ),
 	SND_DATE          ('C', ' ',     2,   8,   "SND_DATE"            ,"전송일자"                         , "" ),
 	HD_FILLER         ('C', ' ',    10, 727,   "HD_FILLER"           ,"공백"                             , "" ),

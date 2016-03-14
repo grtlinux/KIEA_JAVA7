@@ -37,6 +37,10 @@ import org.apache.log4j.Logger;
  */
 public enum POSHW000003D {
 
+	/*
+	 * 계약등기 > 3.배달결과 > DATA : 271 bytes
+	 */
+	
 	DATA_CLAS         ('C', ' ',     0,   2,   "DATA_CLAS"           ,"데이터구분"                       , "" ),
 	OUTSIDUSERID      ('C', ' ',     2,  13,   "OUTSIDUSERID"        ,"외부기관구분코드"                 , "" ),
 	REGINO            ('C', ' ',    15,  13,   "REGINO"              ,"등기번호"                         , "" ),

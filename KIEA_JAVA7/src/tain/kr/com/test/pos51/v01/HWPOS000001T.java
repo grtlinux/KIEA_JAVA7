@@ -37,6 +37,10 @@ import org.apache.log4j.Logger;
  */
 public enum HWPOS000001T {
 
+	/*
+	 * 계약등기 > 1.접수정보 내역 > TAIL : 671 bytes
+	 */
+	
 	DATA_CLAS         ('C', ' ',     0,   2,   "DATA_CLAS"           ,"데이터구분"                       , "" ),
 	TOT_DATA_CNT      ('C', ' ',     2,  11,   "TOT_DATA_CNT"        ,"총데이타건수"                     , "" ),
 	TR_FILLER         ('C', ' ',    13, 658,   "TR_FILLER"           ,"공백"                             , "" ),

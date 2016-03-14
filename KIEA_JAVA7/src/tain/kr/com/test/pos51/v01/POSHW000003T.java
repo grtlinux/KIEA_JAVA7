@@ -37,6 +37,10 @@ import org.apache.log4j.Logger;
  */
 public enum POSHW000003T {
 
+	/*
+	 * 계약등기 > 3.배달결과 > TAIL : 271 bytes
+	 */
+	
 	DATA_CLAS         ('C', ' ',     0,   2,   "DATA_CLAS"           ,"데이터구분"                       , "" ),
 	TOT_DATA_CNT      ('C', ' ',     2,  10,   "TOT_DATA_CNT"        ,"총데이타건수"                     , "" ),
 	TR_FILLER         ('C', ' ',    12, 259,   "TR_FILLER"           ,"공백"                             , "" ),

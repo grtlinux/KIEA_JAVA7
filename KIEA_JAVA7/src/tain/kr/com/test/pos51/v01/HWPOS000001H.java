@@ -37,6 +37,10 @@ import org.apache.log4j.Logger;
  */
 public enum HWPOS000001H {
 
+	/*
+	 * 계약등기 > 1.접수정보 내역 > HEADER : 671 bytes
+	 */
+	
 	DATA_CLAS         ('C', ' ',     0,   2,   "DATA_CLAS"           ,"데이타구분(HD)"                   , "" ),
 	SND_DATE          ('C', ' ',     2,   8,   "SND_DATE"            ,"전송일자(년월일)"                 , "" ),
 	HD_FILLER         ('C', ' ',    10, 661,   "HD_FILLER"           ,"공백"                             , "" ),

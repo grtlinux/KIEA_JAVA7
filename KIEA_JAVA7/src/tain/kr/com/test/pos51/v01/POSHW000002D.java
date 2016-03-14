@@ -37,6 +37,10 @@ import org.apache.log4j.Logger;
  */
 public enum POSHW000002D {
 
+	/*
+	 * 계약등기 > 2.접수결과 > DATA : 737 bytes
+	 */
+	
 	DATA_CLAS         ('C', ' ',     0,   2,   "DATA_CLAS"           ,"데이터구분"                       , "" ),
 	OUTSIDUSERID      ('C', ' ',     2,  13,   "OUTSIDUSERID"        ,"외부접수고객아이디"               , "" ),
 	REGINO            ('C', ' ',    15,  13,   "REGINO"              ,"등기번호"                         , "" ),
