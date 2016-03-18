@@ -44,6 +44,30 @@ public class ResourceBundleTestMain {
 	private static final Logger log = Logger.getLogger(ResourceBundleTestMain.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private ResourceBundle rb = null;
+	
+	public ResourceBundleTestMain() {
+	
+		if (flag) {
+			String name = this.getClass().getName().replace('.', '/');
+			if (flag) log.debug(">>>>> " + name);
+			
+			this.rb = ResourceBundle.getBundle(name);
+		}
+	}
+	
+	public String get(String key) throws Exception {
+		
+		String ret = null;
+		
+		if (flag) {
+			ret = this.rb.getString(key);
+		}
+		
+		return ret;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -54,8 +78,18 @@ public class ResourceBundleTestMain {
 			
 			ResourceBundle rb = ResourceBundle.getBundle(name);
 			
-			if (flag) log.debug(">" + rb.getString("tain.list"));
-			if (flag) log.debug(">" + rb.getString("tain.lists"));
+			if (flag) log.debug("1> [" + rb.getString("tain.list") + "]");
+			if (flag) log.debug("1> [" + rb.getString("tain.lists") + "]");
+		}
+	}
+	
+	private static void test02(String[] args) throws Exception {
+		
+		if (flag) {
+			ResourceBundleTestMain testMain = new ResourceBundleTestMain();
+			
+			if (flag) log.debug("2> [" + testMain.get("tain.list") + "]");
+			if (flag) log.debug("2> [" + testMain.get("tain.lists") + "]");
 		}
 	}
 	
@@ -64,5 +98,6 @@ public class ResourceBundleTestMain {
 		if (flag) log.debug(">" + new Object(){}.getClass().getEnclosingClass().getName());
 		
 		if (flag) test01(args);
+		if (flag) test02(args);
 	}
 }
