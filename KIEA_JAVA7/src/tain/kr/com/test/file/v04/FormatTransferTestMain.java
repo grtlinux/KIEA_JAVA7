@@ -56,6 +56,10 @@ public class FormatTransferTestMain {
 
 	private static void test01(String[] args) throws Exception {
 		
+		if (flag) {
+			System.setProperty("line.separator", "\n");
+		}
+		
 		ResourceBundle rb = null;
 		
 		if (flag) {
@@ -96,6 +100,10 @@ public class FormatTransferTestMain {
 	}
 	
 	private static void test02(String[] args) throws Exception {
+		
+		if (flag) {
+			System.setProperty("line.separator", "\n");
+		}
 		
 		ResourceBundle rb = null;
 		
