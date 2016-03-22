@@ -1,0 +1,74 @@
+00000001 OFSPOS5101 00101      0671      0000004   S POS HWPOS000001 11            20160322   141302360   01
+00000002 OFSPOS5101 00101      0671      0000004   S POS HWPOS000001 11            20160322   141414852   02
+00000003 OFSPOS5101 00101      0671      0000004   S POS HWPOS000001 11            20160322   150651997   03
+00000004 OFSPOS5101 00101      0671      0000004   S POS HWPOS000001 11            20160322   152747752   04
+00000005 OFSPOS5101 00101      0671      0000004   S POS HWPOS000001 11            20160322   154746782   05
+
+*seq    *read_ps    FQ_len     Data_len  Data_cnt  S_POS_HWPOS000001 FileName_len  YYYYMMDD   HHMMSSsss   File_seq
+
+
+
+	TR_LEN            ('N', '0',   0,   4, "TR_LEN"        , "TR 길이"         , "0100"           ),
+	TR_CODE           ('C', ' ',   4,   6, "TR_CODE"       , "TR 코드"         , "TrCode"         ),
+	TR_DATE           ('C', '0',  10,   8, "TR_DATE"       , "TR 발생일자"     , "YYYYMMDD"       ),
+	TR_TIME           ('C', '0',  18,   6, "TR_TIME"       , "TR 발생시간"     , "HHMMSS"         ),
+	TR_USER           ('C', ' ',  24,  10, "TR_USER"       , "TR 사용자"       , "USER"           ),
+	TR_PASS           ('C', ' ',  34,  10, "TR_PASS"       , "TR 비밀번호"     , "PASS"           ),
+	KEY_CODE          ('C', ' ',  44,  10, "KEY_CODE"      , "키코드"          , "0000000000"     ),
+	BODY_LEN          ('N', '0',  54,   4, "BODY_LEN"      , "BODY 길이"       , "0000"           ),
+	RET_CODE          ('C', ' ',  58,   5, "RET_CODE"      , "리턴코드"        , ""               ),
+	RET_MSG           ('C', ' ',  63,  37, "RET_MSG"       , "리턴메시지"      , ""               ),
+	;
+	
+	private final char type;
+	private final char lead;
+	private final int off;
+	private final int len;
+	private final String name;
+	private final String desc;
+	private final String defVal; 
+
+FQ_SEQ
+FQ_RDR
+FQ_LEN
+REC_LEN
+REC_CNT
+REC_SR
+REC_ORG
+REC_FILE
+REC_FSIZ
+REC_DATE
+REC_TIME
+REC_SEQ
+
+  8,   0
+ 10,   8
+  5,  18
+  4,  23
+  7,  27
+  1,  34
+  3,  35
+ 11,  38
+  2,  49
+  8,  51
+  9,  59
+  2,  68
+ 55, 123
+
+"FQ_SEQ
+"FQ_RDR
+"FQ_LEN
+"REC_LEN
+"REC_CNT
+"REC_SR
+"REC_ORG
+"REC_FILE
+"REC_FSIZ
+"REC_DATE
+"REC_TIME
+"REC_SEQ
+
+FQ
+
+
+
