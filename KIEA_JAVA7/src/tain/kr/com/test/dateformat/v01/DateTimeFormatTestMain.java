@@ -50,10 +50,20 @@ public class DateTimeFormatTestMain {
 		}
 	}
 	
+	private static void test04(String[] args) throws Exception {
+		
+		if (flag) {
+			Long tm = new Date().getTime() + 1000 * 60 * 60 * 24 * 10;
+			
+			log.debug(">" + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.KOREA).format(new Date(tm)));
+		}
+	}
+	
 	public static void main(String[] args) throws Exception {
 		
 		if (!flag) test01(args);
 		if (!flag) test02(args);
-		if (flag) test03(args);
+		if (!flag) test03(args);
+		if (flag) test04(args);
 	}
 }
