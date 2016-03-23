@@ -48,9 +48,56 @@ public class RandomAccessFileTest {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static void test01(String[] args) throws Exception {
+		
 		if (flag) {
-			String fileName = "";
-			RandomAccessFile raf = new RandomAccessFile(fileName, "rw");
+			/*
+			 * Send FQ : OASPOS5101
+			 *     1. read FQ
+			 *     2. write FQ_RDR
+			 */
+			
+			String fileName = "N:/TEMP/TEST/HANWA/send/DAT/20160323/OASPOS5101";
+			
+			RandomAccessFile raf = null;
+			
+			try {
+				raf = new RandomAccessFile(fileName, "rw");
+				
+				String line = null;
+				long pos = -1;
+				
+				while (true) {
+					pos = raf.getFilePointer();
+					line = raf.readLine();
+					if (line == null)
+						break;
+					
+					if (flag) log.debug(String.format("(%05d)[%3d:%s]", pos, line.length(), line));
+					
+					byte[] byLine = line.getBytes();
+					
+					String fqReader = FqType.FQ_RDR.getString(byLine);
+					if ("          ".equals(fqReader)) {
+						FqType.FQ_RDR.setVal(byLine, "OASPOS5101");
+						
+						raf.seek(pos);
+						raf.write(byLine, 0, FqType.getLength());
+						
+						break;
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (raf != null) try { raf.close(); } catch (Exception e) {}
+			}
+		}
+	}
+	
+	private static void test02(String[] args) throws Exception {
+		
+		if (flag) {
+			
 		}
 	}
 	
@@ -59,5 +106,6 @@ public class RandomAccessFileTest {
 		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
 		if (flag) test01(args);
+		if (flag) test02(args);
 	}
 }
