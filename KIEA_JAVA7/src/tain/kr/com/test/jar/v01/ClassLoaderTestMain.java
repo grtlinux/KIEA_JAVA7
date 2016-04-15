@@ -19,6 +19,11 @@
  */
 package tain.kr.com.test.jar.v01;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.net.URL;
+import java.util.Properties;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -43,14 +48,50 @@ public class ClassLoaderTestMain {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static String getProperty(String filePath, String keyName) {
+		String value = null;
+		
+		try {
+			Properties props = new Properties();
+			FileInputStream fis = new FileInputStream(filePath);
+			props.load(new BufferedInputStream(fis));
+			value = props.getProperty(keyName).trim();
+			fis.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return value;
+	}
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static void test01(String[] args) throws Exception {
 		
-		if (flag) {
+		if (!flag) {
 			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 			
 			if (flag) log.debug(">>>>> " + classLoader);
+		}
+		
+		if (flag) {
+			String filePath = "";
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			
+			if (classLoader == null) {
+				classLoader = ClassLoader.getSystemClassLoader();
+				
+				URL url = classLoader.getResource("board.properties");
+				if (url == null) {
+					System.out.println("null");
+				} else {
+					filePath = url.getPath();
+					System.out.println("PATH = " + filePath);
+				}
+				
+				String info = getProperty(filePath, "datasource");
+				System.out.println("INFO = " + info);
+			}
 		}
 	}
 	
