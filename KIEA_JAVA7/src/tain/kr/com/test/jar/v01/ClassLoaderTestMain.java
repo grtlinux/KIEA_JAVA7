@@ -68,13 +68,28 @@ public class ClassLoaderTestMain {
 
 	private static void test01(String[] args) throws Exception {
 		
-		if (!flag) {
-			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		if (flag) {
+			ClassLoader classLoader = null;
+			classLoader = Thread.currentThread().getContextClassLoader();
+			if (flag) log.debug(">>>>> " + classLoader);
+			if (flag) log.debug(">>>>> " + classLoader.getResource("."));
+
+			classLoader = classLoader.getParent();
+			if (flag) log.debug(">>>>> " + classLoader);
+			if (flag) log.debug(">>>>> " + classLoader.getResource("."));
+
+			classLoader = classLoader.getParent();
+			if (flag) log.debug(">>>>> " + classLoader);
+			if (flag) log.debug(">>>>> " + classLoader.getResource("."));
+
+			//classLoader = classLoader.getParent();              // ERROR
+			//if (flag) log.debug(">>>>> " + classLoader);
 			
+			classLoader = ClassLoader.getSystemClassLoader();
 			if (flag) log.debug(">>>>> " + classLoader);
 		}
 		
-		if (flag) {
+		if (!flag) {
 			String filePath = "";
 			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 			
@@ -92,6 +107,13 @@ public class ClassLoaderTestMain {
 				String info = getProperty(filePath, "datasource");
 				System.out.println("INFO = " + info);
 			}
+		}
+		
+		if (!flag) {
+			ClassLoader classLoader = null;
+			classLoader = Thread.currentThread().getContextClassLoader();
+			if (flag) log.debug(">>>>> " + classLoader);
+			if (flag) log.debug(">>>>> " + classLoader.getResource("."));
 		}
 	}
 	
