@@ -19,6 +19,13 @@
  */
 package tain.kr.com.test.runJar.v02;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,14 +42,38 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class RsrcURLConnection {
+public class RsrcURLConnection extends URLConnection {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(RsrcURLConnection.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private ClassLoader classLoader = null;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public RsrcURLConnection(URL url, ClassLoader classLoader) {
+		super(url);
+		this.classLoader = classLoader;
+	}
+	
+	public void connect() throws IOException {
+		
+	}
+	
+	public InputStream getInputStream() throws IOException {
+		String file = URLDecoder.decode(url.getFile(), JIJConstants.UTF8_ENCODING);
+		if (flag) log.debug("URL : " + file);
+		
+		InputStream is = classLoader.getResourceAsStream(file);
+		if (is == null) {
+			throw new MalformedURLException("Could not open InputStreasm for URL '" + url + "'");
+		}
+		
+		return is;
+	}
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 }

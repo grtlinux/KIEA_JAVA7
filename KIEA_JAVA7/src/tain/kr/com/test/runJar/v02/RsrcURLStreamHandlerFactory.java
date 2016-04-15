@@ -19,6 +19,9 @@
  */
 package tain.kr.com.test.runJar.v02;
 
+import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,15 +38,40 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class RsrcURLStreamHandlerFactory {
+public class RsrcURLStreamHandlerFactory implements URLStreamHandlerFactory {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger
-			.getLogger(RsrcURLStreamHandlerFactory.class);
+	private static final Logger log = Logger.getLogger(RsrcURLStreamHandlerFactory.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private ClassLoader classLoader = null;
+	private URLStreamHandlerFactory factory = null;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public RsrcURLStreamHandlerFactory(ClassLoader classLoader) {
+		this.classLoader = classLoader;
+	}
+	
+	public URLStreamHandler createURLStreamHandler(String protocol) {
+		
+		if (flag) log.debug("PROTOCOL : " + protocol);
+		
+		if (JIJConstants.INTERNAL_URL_PROTOCOL.equals(protocol))
+			return new RsrcURLStreamHandler(classLoader);
+		
+		if (factory != null)
+			return factory.createURLStreamHandler(protocol);
+		
+		return null;
+	}
+	
+	public void setURLStreamHandlerFactory(URLStreamHandlerFactory factory) {
+		this.factory = factory;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 }

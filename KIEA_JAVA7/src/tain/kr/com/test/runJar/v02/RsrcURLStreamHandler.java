@@ -19,6 +19,11 @@
  */
 package tain.kr.com.test.runJar.v02;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,15 +40,46 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class RsrcURLStreamHandler {
+public class RsrcURLStreamHandler extends URLStreamHandler {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger
-			.getLogger(RsrcURLStreamHandler.class);
+	private static final Logger log = Logger.getLogger(RsrcURLStreamHandler.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private ClassLoader classLoader = null;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public RsrcURLStreamHandler(ClassLoader classLoader) {
+		this.classLoader = classLoader;
+	}
+	
+	protected URLConnection openConnection(URL url) throws IOException {
+		return new RsrcURLConnection(url, this.classLoader);
+	}
+	
+	protected void parseURL(URL url, String spec, int start, int limit) {
+	
+		if (flag) log.debug("[" + url + ", " + spec + ", " + start + ", " + limit + "]");
+		
+		String file;
+		
+		if (spec.startsWith(JIJConstants.INTERNAL_URL_PROTOCOL_WITH_COLON))
+			file = spec.substring(5);
+		else if (url.getFile().equals(JIJConstants.CURRENT_DIR))
+			file = spec;
+		else if (url.getFile().endsWith(JIJConstants.PATH_SEPARATOR))
+			file = url.getFile() + spec;
+		else
+			file = spec;
+		
+		if (flag) log.debug("file = [" + file + "]");
+		
+		setURL(url, JIJConstants.INTERNAL_URL_PROTOCOL, "", -1, null, null, file, null, null);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 }

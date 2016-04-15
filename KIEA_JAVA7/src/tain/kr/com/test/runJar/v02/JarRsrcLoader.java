@@ -20,7 +20,9 @@
 package tain.kr.com.test.runJar.v02;
 
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -65,6 +67,8 @@ public class JarRsrcLoader {
 		if (line == null)
 			return null;
 		
+		if (!flag) log.debug("line = [" + line + "]");
+		
 		List<String> result = new ArrayList<String>();
 		
 		int firstPos = 0;
@@ -72,7 +76,9 @@ public class JarRsrcLoader {
 			int lastPos = line.indexOf(' ', firstPos);
 			if (lastPos == -1) {
 				lastPos = line.length();
-			} else if (lastPos > firstPos) {
+			}
+			
+			if (lastPos > firstPos) {
 				result.add(line.substring(firstPos, lastPos));
 			}
 			
@@ -117,6 +123,8 @@ public class JarRsrcLoader {
 				if ((manifestInfo.rsrcMainClass != null) && !manifestInfo.rsrcMainClass.trim().equals(""))
 					return manifestInfo;
 			}
+			
+			break;
 		}
 		
 		System.err.println("Missing attributes for JarRsrcLoader in Manifest (" + JIJConstants.REDIRECTED_MAIN_CLASS_MANIFEST_NAME + ", " + JIJConstants.REDIRECTED_CLASS_PATH_MANIFEST_NAME + ")");
@@ -158,7 +166,7 @@ public class JarRsrcLoader {
 	
 	private static void test02(String[] args) throws Exception {
 		
-		if (flag) {
+		if (!flag) {
 			ManifestInfo manifestInfo = getManifestInfo();
 			if (manifestInfo != null) {
 				if (flag) log.debug("rsrcMainClass >>> " + manifestInfo.rsrcMainClass);
@@ -167,6 +175,32 @@ public class JarRsrcLoader {
 					if (flag) log.debug("rsrcClassPath >>> " + classPath);
 				}
 			}
+		}
+		
+		if (flag) {
+			ManifestInfo manifestInfo = getManifestInfo();
+			
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			URL.setURLStreamHandlerFactory(new RsrcURLStreamHandlerFactory(classLoader));
+			
+			URL[] rsrcUrls = new URL[manifestInfo.rsrcClassPath.length];
+			
+			for (int i=0; i < manifestInfo.rsrcClassPath.length; i++) {
+				
+				String rsrcPath = manifestInfo.rsrcClassPath[i];
+				
+				if (rsrcPath.endsWith(JIJConstants.PATH_SEPARATOR))
+					rsrcUrls[i] = new URL(JIJConstants.INTERNAL_URL_PROTOCOL_WITH_COLON + rsrcPath);
+				else
+					rsrcUrls[i] = new URL(JIJConstants.JAR_INTERNAL_URL_PROTOCOL_WITH_COLON + rsrcPath + JIJConstants.JAR_INTERNAL_SEPARATOR);
+			}
+			
+			ClassLoader jceClassLoader = new URLClassLoader(rsrcUrls, null);
+			Thread.currentThread().setContextClassLoader(jceClassLoader);
+			
+			Class<?> cls = Class.forName(manifestInfo.rsrcMainClass, true, jceClassLoader);
+			Method main = cls.getMethod(JIJConstants.MAIN_METHOD_NAME, new Class[] {args.getClass()});
+			main.invoke((Object) null, new Object[]{args});
 		}
 	}
 	
