@@ -22,7 +22,9 @@ package tain.kr.com.test.jar.v01;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.Properties;
+import java.util.jar.JarFile;
 
 import org.apache.log4j.Logger;
 
@@ -117,10 +119,85 @@ public class ClassLoaderTestMain {
 		}
 	}
 	
+	private static void test02(String[] args) throws Exception {
+		
+		if (flag) {
+			/*
+			 * 16.04.15
+			 */
+			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources("META-INF/MANIFEST.MF");
+			while (urls.hasMoreElements()) {
+				URL url = urls.nextElement();
+				log.debug(">>> " + url.toString());
+			}
+
+			System.out.println();
+		}
+		
+		if (flag) {
+			/*
+			 * 16.04.15
+			 */
+			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources("META-INF");
+			while (urls.hasMoreElements()) {
+				URL url = urls.nextElement();
+				log.debug(">>> " + url.toString());
+			}
+
+			System.out.println();
+		}
+
+		if (flag) {
+			/*
+			 * 16.04.15
+			 */
+			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources("WebPageInfo.properties");
+			while (urls.hasMoreElements()) {
+				URL url = urls.nextElement();
+				log.debug(">>> " + url.toString());
+			}
+
+			System.out.println();
+		}
+
+		if (flag) {
+			/*
+			 * 16.04.15
+			 */
+			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);   // META-INF/MANIFEST.MF
+			while (urls.hasMoreElements()) {
+				URL url = urls.nextElement();
+				log.debug(">>> " + url.toString());
+			}
+
+			System.out.println();
+		}
+
+		if (flag) {
+			/*
+			 * 16.04.15
+			 */
+			Class<ClassLoaderTestMain> clazz = ClassLoaderTestMain.class;
+			
+			URL url = clazz.getResource(".");
+			if (flag) log.debug(">>>>> " + url);
+			
+			ClassLoader classLoader = clazz.getClassLoader();
+			Enumeration<URL> urls = classLoader.getResources(".");
+			while (urls.hasMoreElements()) {
+				url = urls.nextElement();
+				if (flag) log.debug(">>>>> " + url);
+			}
+
+			System.out.println();
+		}
+	}
+	
 	public static void main(String[] args) throws Exception {
 		
 		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
-		if (flag) test01(args);
+		if (!flag) test01(args);
+		if (flag) test02(args);
 	}
 }
