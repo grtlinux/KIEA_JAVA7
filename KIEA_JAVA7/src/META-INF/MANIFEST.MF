@@ -7,5 +7,6 @@ Class-Path: ./
   libs/ant.jar
 Main-Class: tain.kr.jar.v01.JarRsrcLoader
 Rsrc-Class-Path: ./
-  libs/commons-net-3.3.jar
-Rsrc-Main-Class: tain.kr.jar.v02.JarRsrcLoader
+     libs/commons-net-3.3.jar
+     libs/ant.jar
+Rsrc-Main-Class: tain.kr.com.test.runJar.v02.RunJarTestMain
