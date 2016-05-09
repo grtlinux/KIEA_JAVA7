@@ -19,7 +19,11 @@
  */
 package tain.kr.com.test.filesync.v01;
 
+import java.io.File;
+
 import org.apache.log4j.Logger;
+
+import tain.kr.com.test.filesync.v01.util.DateTime;
 
 /**
  * Code Templates > Comments > Types
@@ -45,23 +49,49 @@ public class FolderInfo {
 	
 	private String strName = null;
 	private String strDesc = null;
-	
 	private String strPath = null;
 	
-	private long lmDate = 0;
+	private long lDate = 0;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public FolderInfo(String strName, String strDesc, String strPath) throws Exception {
 		
 		if (flag) {
+			this.strName = strName;
+			this.strDesc = strDesc;
+			this.strPath = strPath;
+		}
+		
+		if (flag) {
+			if (this.strName == null) 
+				this.strName = "FolderName";
 			
+			if (this.strDesc == null)
+				this.strDesc = "FolderDesc";
+		}
+		
+		if (flag) {
+			if (this.strPath == null)
+				throw new Exception("ERROR : wrong path name.");
 		}
 	}
 	
 	public FolderInfo(String strPath) throws Exception {
-		
+		this(null, null, strPath);
 	}
+	
+	public void check() throws Exception {
+		
+		if (flag) log.debug(">>>>> current    : " + DateTime.getInstance().get("yyyy/MM/dd HH:mm:ss"));
+		
+		if (flag) {
+			File path = new File(this.strPath);
+			this.lDate = path.lastModified();
+			if (flag) log.debug(">>>>> path mdate : " + DateTime.getInstance().get("yyyy/MM/dd HH:mm:ss", this.lDate));
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +99,16 @@ public class FolderInfo {
 	private static void test01(String[] args) throws Exception {
 		
 		if (flag) {
+			String strPath = "N:/TEMP/FILES";
 			
+			FolderInfo info = new FolderInfo(strPath);
+			
+			for (int i=0; i < 100; i++) {
+				
+				info.check();
+				
+				try { Thread.sleep(1000 * 5); } catch (InterruptedException e) {}
+			}
 		}
 	}
 	
