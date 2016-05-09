@@ -17,16 +17,19 @@
  * Copyright 2014, 2015, 2016 TAIN, Inc.
  *
  */
-package tain.kr.com.test.filesync.v01;
+package tain.kr.com.test.gson.v01;
 
 import org.apache.log4j.Logger;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : FolderInfo.java
- *   -. Package    : tain.kr.com.test.filesync.v01
+ *   -. FileName   : SimpleTestMain.java
+ *   -. Package    : tain.kr.com.test.gson.v01
  *   -. Comment    :
  *   -. Author     : taincokr
  *   -. First Date : 2016. 5. 9. {time}
@@ -35,41 +38,38 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class FolderInfo {
+public class SimpleTestMain {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(FolderInfo.class);
+	private static final Logger log = Logger.getLogger(SimpleTestMain.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private String strName = null;
-	private String strDesc = null;
+	private static final String[] name = new String[] { "Name", "Age" };
 	
-	private String strPath = null;
-	
-	private long lmDate = 0;
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public FolderInfo(String strName, String strDesc, String strPath) throws Exception {
-		
-		if (flag) {
-			
-		}
-	}
-	
-	public FolderInfo(String strPath) throws Exception {
-		
-	}
-	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static void test01(String[] args) throws Exception {
 		
 		if (flag) {
+			JsonObject obj1 = new JsonObject();
+			obj1.addProperty(name[0], "AAAA");
+			obj1.addProperty(name[1], "26");
+
+			JsonObject obj2 = new JsonObject();
+			obj2.addProperty(name[0], "BBBB");
+			obj2.addProperty(name[1], "30");
 			
+			JsonArray arrObj = new JsonArray();
+			arrObj.add(obj1);
+			arrObj.add(obj2);
+			
+			JsonObject info = new JsonObject();
+			info.add("information", arrObj);
+			
+			if (flag) log.debug(info);
 		}
 	}
 	

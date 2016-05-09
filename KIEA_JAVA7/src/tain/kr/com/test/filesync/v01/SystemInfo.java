@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.filesync.v01;
 
+import java.util.ResourceBundle;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,13 +44,61 @@ public class SystemInfo {
 	private static final Logger log = Logger.getLogger(SystemInfo.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static final String KEY_SERVER_NAME = "tain.filesync.systeminfo.server.name";
+	private static final String KEY_WAIT_TIME = "tain.filesync.systeminfo.wait.time";
+	private static final String KEY_LOOP_TIME = "tain.filesync.systeminfo.loop.time";
+	
+	private String strServerName = null;
+	private String strWaitTime = null;
+	private String strLoopTime = null;
+	
+	private int nWaitTime = 0;
+	private int nLoopTime = 0;
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private SystemInfo() throws Exception {
+		
+		if (flag) {
+			String className = this.getClass().getName();
+			ResourceBundle rb = ResourceBundle.getBundle(className.replace('.', '/'));
+			
+			this.strServerName = rb.getString(KEY_SERVER_NAME);
+			this.strWaitTime = rb.getString(KEY_WAIT_TIME);
+			this.strLoopTime = rb.getString(KEY_LOOP_TIME);
+			
+			this.nWaitTime = Integer.parseInt(this.strWaitTime);
+			this.nLoopTime = Integer.parseInt(this.strLoopTime);
+		}
+		
+		if (flag) {
+			if (flag) log.debug("### server.name = " + this.strServerName);
+			if (flag) log.debug("### wait time = " + this.nWaitTime);
+			if (flag) log.debug("### loop time = " + this.nLoopTime);
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static SystemInfo instance = null;
+	
+	public static synchronized SystemInfo getInstance() throws Exception {
+		
+		if (instance == null) {
+			instance = new SystemInfo();
+		}
+		
+		return instance;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static void test01(String[] args) throws Exception {
 		
 		if (flag) {
-			
+			SystemInfo.getInstance();
 		}
 	}
 	
