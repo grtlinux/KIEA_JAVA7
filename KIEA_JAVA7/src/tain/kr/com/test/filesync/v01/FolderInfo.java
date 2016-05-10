@@ -136,7 +136,7 @@ public class FolderInfo {
 					if (flag) {
 						// check the last modified datetime
 						long lDelta = Math.abs(new Date().getTime() - file.lastModified());
-						if (lCheckTime < lDelta) {
+						if (lCheckTime > 0 && lCheckTime < lDelta) {
 							return false;
 						}
 					}
@@ -214,7 +214,8 @@ public class FolderInfo {
 		if (!flag) {
 			String strPath = "N:/TEMP/FILES";
 			
-			FolderInfo info = new FolderInfo(strPath);
+			// FolderInfo info = new FolderInfo(strPath);
+			FolderInfo info = new FolderInfo("FILES", null, strPath);
 			
 			for (int i=0; i < 100; i++) {
 				
@@ -227,7 +228,8 @@ public class FolderInfo {
 		if (flag) {
 			String strPath = "N:/TEMP/FILES";
 			
-			new FolderInfo(strPath);
+			// new FolderInfo(strPath);
+			new FolderInfo("FILES", null, strPath);
 		}
 	}
 	

@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.filesync.v01;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
@@ -46,12 +48,14 @@ public class SystemInfo {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static final String KEY_SERVER_NAME = "tain.filesync.systeminfo.server.name";
-	private static final String KEY_WAIT_TIME = "tain.filesync.systeminfo.wait.time";
-	private static final String KEY_LOOP_TIME = "tain.filesync.systeminfo.loop.time";
+	private static final String KEY_WAIT_TIME = "tain.filesync.systeminfo.wait.time";      // for connection
+	private static final String KEY_LOOP_TIME = "tain.filesync.systeminfo.loop.time";      // for checking loop time
+	private static final String KEY_FOLDER = "tain.filesync.folder";                       // synch folder
 	
 	private String strServerName = null;
 	private String strWaitTime = null;
 	private String strLoopTime = null;
+	private Map<String, FolderInfo> mapFolderInfo = null;
 	
 	private int nWaitTime = 0;
 	private int nLoopTime = 0;
@@ -70,12 +74,34 @@ public class SystemInfo {
 			
 			this.nWaitTime = Integer.parseInt(this.strWaitTime);
 			this.nLoopTime = Integer.parseInt(this.strLoopTime);
+			
+			// mapFolderInfo
+			this.mapFolderInfo = new HashMap<String, FolderInfo>();
+			
+			for (int idx=1; idx < 10; idx++) {
+				String key = KEY_FOLDER + "." + String.valueOf(idx);
+				
+				String val = rb.getString(key);
+				if (val == null) continue;
+				
+				String[] arrVal = val.split(":", 2);
+				
+				FolderInfo folderInfo = new FolderInfo(arrVal[0], null, arrVal[1]);
+				this.mapFolderInfo.put(arrVal[0], folderInfo);
+			}
 		}
 		
 		if (flag) {
 			if (flag) log.debug("### server.name = " + this.strServerName);
 			if (flag) log.debug("### wait time = " + this.nWaitTime);
 			if (flag) log.debug("### loop time = " + this.nLoopTime);
+		}
+	}
+	
+	public void print() throws Exception {
+		
+		if (flag) {
+			
 		}
 	}
 	
