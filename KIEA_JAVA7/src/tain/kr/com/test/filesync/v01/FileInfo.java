@@ -170,15 +170,17 @@ public class FileInfo {
 	public void print() throws Exception {
 		
 		if (flag) {
-			String strPrint = String.format("[%,15d][%19s][%,20d][%1d][%s]"
+			String strPrint = String.format(" * FILE_INFO -----> [%,15d][%19s][%,20d][%1d]   [%s] [%s] [%s]"
 					, this.lSize
 					, DateTime.getInstance().get("yyyy/MM/dd HH:mm:ss", this.lDate)
 					, this.lCrc
 					, this.nStep
+					, this.strPath
+					, this.strName
 					, this.file.getCanonicalPath()
 					);
 			
-			if (flag) System.out.println(strPrint);
+			if (flag) log.debug(strPrint);
 		}
 	}
 	

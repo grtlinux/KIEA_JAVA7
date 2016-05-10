@@ -52,16 +52,16 @@ public class FolderInfo {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static final String KEY_CHECK_TIME = "tain.filesync.folderinfo.check.time";
+	private static final String KEY_SELECT_TIME = "tain.filesync.folderinfo.select.time";
 	
-	private String strCheckTime = null;
+	private String strSelectTime = null;
 	
 	private String strName = null;
 	private String strDesc = null;
 	private String strPath = null;
 	
 	private long lDate = 0;
-	private long lCheckTime = 0;
+	private long lSelectTime = 0;
 	
 	private Map<String, FileInfo> fileInfos = null;
 	
@@ -73,9 +73,9 @@ public class FolderInfo {
 			String className = this.getClass().getName();
 			ResourceBundle rb = ResourceBundle.getBundle(className.replace('.', '/'));
 			
-			this.strCheckTime = rb.getString(KEY_CHECK_TIME);
+			this.strSelectTime = rb.getString(KEY_SELECT_TIME);
 			
-			this.lCheckTime = Long.parseLong(this.strCheckTime);
+			this.lSelectTime = Long.parseLong(this.strSelectTime);
 		}
 
 		if (flag) {
@@ -102,7 +102,7 @@ public class FolderInfo {
 		}
 		
 		if (flag) makeInfo();
-		if (flag) print();
+		if (!flag) print();
 	}
 	
 	public FolderInfo(String strPath) throws Exception {
@@ -110,7 +110,7 @@ public class FolderInfo {
 	}
 	
 	private void makeInfo() throws Exception {
-		if (flag) log.debug(">>>>> private function of FolderInfo.makeInfo");
+		if (!flag) log.debug(">>>>> private function of FolderInfo.makeInfo");
 		
 		File folder = new File(this.strPath);
 
@@ -136,7 +136,7 @@ public class FolderInfo {
 					if (flag) {
 						// check the last modified datetime
 						long lDelta = Math.abs(new Date().getTime() - file.lastModified());
-						if (lCheckTime > 0 && lCheckTime < lDelta) {
+						if (lSelectTime > 0 && lSelectTime < lDelta) {
 							return false;
 						}
 					}
@@ -171,20 +171,19 @@ public class FolderInfo {
 	public void print() throws Exception {
 		
 		if (flag) {
-			String strPrint = String.format("[%s] [%s] [%s] [%s]"
+			String strPrint = String.format("* FOLDER_INFO =====> [%s] [%s] [%s] [%s] [%d]"
 					, this.strName
 					, this.strDesc
 					, this.strPath
 					, DateTime.getInstance().get("yyyy/MM/dd HH:mm:ss", this.lDate)
+					, this.lSelectTime
 					);
-			System.out.println(strPrint);
-			System.out.println();
+			if (flag) log.debug(strPrint);
 		}
 		
 		if (flag) {
 			for (Map.Entry<String, FileInfo> entry : this.fileInfos.entrySet()) {
 				entry.getValue().print();
-				System.out.println();
 			}
 		}
 	}

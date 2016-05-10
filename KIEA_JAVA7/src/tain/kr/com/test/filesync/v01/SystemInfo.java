@@ -81,8 +81,12 @@ public class SystemInfo {
 			for (int idx=1; idx < 10; idx++) {
 				String key = KEY_FOLDER + "." + String.valueOf(idx);
 				
-				String val = rb.getString(key);
-				if (val == null) continue;
+				String val = null;
+				try {
+					val = rb.getString(key);
+				} catch (Exception e) {
+					continue;
+				}
 				
 				String[] arrVal = val.split(":", 2);
 				
@@ -91,7 +95,7 @@ public class SystemInfo {
 			}
 		}
 		
-		if (flag) {
+		if (!flag) {
 			if (flag) log.debug("### server.name = " + this.strServerName);
 			if (flag) log.debug("### wait time = " + this.nWaitTime);
 			if (flag) log.debug("### loop time = " + this.nLoopTime);
@@ -101,7 +105,21 @@ public class SystemInfo {
 	public void print() throws Exception {
 		
 		if (flag) {
-			
+			// system info
+			log.debug(" * server.name = " + this.strServerName);
+			log.debug(" * wait.time(sec) = " + this.nWaitTime);
+			log.debug(" * loop.time(sec) = " + this.nLoopTime);
+		}
+		
+		if (flag) {
+			// folder info
+			for (Map.Entry<String, FolderInfo> entry : mapFolderInfo.entrySet()) {
+				String key = entry.getKey();
+				FolderInfo folderInfo = entry.getValue();
+				
+				if (flag) log.debug(" * key = " + key);
+				if (flag) folderInfo.print();
+			}
 		}
 	}
 	
@@ -120,11 +138,15 @@ public class SystemInfo {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static void test01(String[] args) throws Exception {
 		
 		if (flag) {
-			SystemInfo.getInstance();
+			SystemInfo.getInstance().print();
 		}
 	}
 	
