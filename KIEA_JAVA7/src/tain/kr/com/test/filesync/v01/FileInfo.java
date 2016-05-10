@@ -57,7 +57,9 @@ public class FileInfo {
 	private long lDate = 0;
 	private long lCrc = 0;
 	
-	private int nStep = 0;   // 1, 2, 3, 9
+	private int nStep = 0;   // 0:create 1:makeInfo, 2:compare, 3:error, 9:sync OK
+	
+	private File file = null;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -81,13 +83,115 @@ public class FileInfo {
 			if (this.strPath == null)
 				throw new Exception("ERROR : wrong file path name.");
 		}
+		
+		if (flag) makeInfo();
+		if (!flag) print();
 	}
 	
 	public FileInfo(String strName, String strPath) throws Exception {
 		this(strName, null, strPath);
 	}
 	
-	public void check() throws Exception {
+	private void makeInfo() throws Exception {
+		if (!flag) log.debug(">>>>> private function of FileInfo.makeInfo");
+		
+		if (flag) {
+			// File Object
+			this.file = new File(this.strPath + File.separator + this.strName);
+
+			if (!flag) log.debug("* file = " + this.file.getCanonicalPath());
+		}
+		
+		if (flag) {
+			// file size
+			this.lSize = this.file.length();
+			
+			if (!flag) log.debug("* size = " + this.lSize);
+		}
+		
+		if (flag) {
+			// date time of file modified
+			this.lDate = this.file.lastModified();
+			
+			if (!flag) log.debug("* date time = " + DateTime.getInstance().get("yyyy/MM/dd HH:mm:ss", this.lDate));
+		}
+		
+		if (!flag) {
+			// CRC value of file - 1
+			FileInputStream fis = new FileInputStream(this.file);
+			
+			int n;
+			long crc = 0;
+			
+			while ((n = fis.read()) >= 0) {
+				crc += n;
+			}
+			
+			fis.close();
+			
+			this.lCrc = crc;
+			
+			if (!flag) log.debug("* CRC-1 = " + this.lCrc);
+		}
+		
+		if (flag) {
+			// CRC value of file - 2
+			FileInputStream fis = new FileInputStream(this.file);
+			
+			byte[] bytBuffer = new byte[1024];
+			int n;
+			long crc = 0;
+			
+			while ((n = fis.read(bytBuffer)) >= 0) {
+				for (int i=0; i < n; i++) {
+					crc += (int) (0xFF & bytBuffer[i]);
+				}
+			}
+			
+			fis.close();
+			
+			this.lCrc = crc;
+			
+			if (!flag) log.debug("* CRC-2 = " + this.lCrc);
+		}
+		
+		if (flag) {
+			// step of file to display the status of the file
+			this.nStep = 1;  // makeInfo is OK!!!
+			
+			if (!flag) log.debug("* step = " + this.nStep);
+		}
+	}
+	
+	public int getStep() throws Exception {
+		return this.nStep;
+	}
+	
+	public void print() throws Exception {
+		
+		if (flag) {
+			String strPrint = String.format("[%,15d][%19s][%,20d][%1d][%s]"
+					, this.lSize
+					, DateTime.getInstance().get("yyyy/MM/dd HH:mm:ss", this.lDate)
+					, this.lCrc
+					, this.nStep
+					, this.file.getCanonicalPath()
+					);
+			
+			if (flag) System.out.println(strPrint);
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private void check() throws Exception {
 		
 		System.out.println();
 		
@@ -135,12 +239,10 @@ public class FileInfo {
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static void test01(String[] args) throws Exception {
 		
-		if (flag) {
+		if (!flag) {
 			String strPath = "N:/TEMP/FILES";
 			String strName = "tain-cosmarter-1.0.jar";
 			
@@ -155,10 +257,21 @@ public class FileInfo {
 		}
 	}
 	
+	private static void test02(String[] args) throws Exception {
+		
+		if (flag) {
+			String strPath = "N:/TEMP/FILES";
+			String strName = "tain-cosmarter-1.0.jar";
+			
+			new FileInfo(strName, strPath);
+		}
+	}
+	
 	public static void main(String[] args) throws Exception {
 		
 		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
 		if (flag) test01(args);
+		if (flag) test02(args);
 	}
 }

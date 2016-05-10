@@ -20,6 +20,11 @@
 package tain.kr.com.test.filesync.v01;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
@@ -47,16 +52,32 @@ public class FolderInfo {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private static final String KEY_CHECK_TIME = "tain.filesync.folderinfo.check.time";
+	
+	private String strCheckTime = null;
+	
 	private String strName = null;
 	private String strDesc = null;
 	private String strPath = null;
 	
 	private long lDate = 0;
+	private long lCheckTime = 0;
+	
+	private Map<String, FileInfo> fileInfos = null;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public FolderInfo(String strName, String strDesc, String strPath) throws Exception {
 		
+		if (flag) {
+			String className = this.getClass().getName();
+			ResourceBundle rb = ResourceBundle.getBundle(className.replace('.', '/'));
+			
+			this.strCheckTime = rb.getString(KEY_CHECK_TIME);
+			
+			this.lCheckTime = Long.parseLong(this.strCheckTime);
+		}
+
 		if (flag) {
 			this.strName = strName;
 			this.strDesc = strDesc;
@@ -75,13 +96,107 @@ public class FolderInfo {
 			if (this.strPath == null)
 				throw new Exception("ERROR : wrong path name.");
 		}
+		
+		if (flag) {
+			this.fileInfos = new HashMap<String, FileInfo>();
+		}
+		
+		if (flag) makeInfo();
+		if (flag) print();
 	}
 	
 	public FolderInfo(String strPath) throws Exception {
 		this(null, null, strPath);
 	}
 	
-	public void check() throws Exception {
+	private void makeInfo() throws Exception {
+		if (flag) log.debug(">>>>> private function of FolderInfo.makeInfo");
+		
+		File folder = new File(this.strPath);
+
+		File[] files = null;
+		
+		try {
+			// select files for checking
+			files = folder.listFiles(new FileFilter() {
+				@Override
+				public boolean accept(File file) {
+
+					if (flag) {
+						// only files
+						if (file.isDirectory())
+							return false;
+					}
+					
+					if (flag) {
+						// get name of file
+						// String name = file.getName();
+					}
+					
+					if (flag) {
+						// check the last modified datetime
+						long lDelta = Math.abs(new Date().getTime() - file.lastModified());
+						if (lCheckTime < lDelta) {
+							return false;
+						}
+					}
+
+					return true;
+				}
+			});
+			
+			if (flag) {
+				// make fileinfos Map
+				for (File file : files) {
+					try {
+						String fileName = file.getName();
+						String filePath = file.getParent();
+						
+						FileInfo fileInfo = new FileInfo(fileName, filePath);
+						
+						this.fileInfos.put(fileName, fileInfo);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			
+		}
+	}
+	
+	public void print() throws Exception {
+		
+		if (flag) {
+			String strPrint = String.format("[%s] [%s] [%s] [%s]"
+					, this.strName
+					, this.strDesc
+					, this.strPath
+					, DateTime.getInstance().get("yyyy/MM/dd HH:mm:ss", this.lDate)
+					);
+			System.out.println(strPrint);
+			System.out.println();
+		}
+		
+		if (flag) {
+			for (Map.Entry<String, FileInfo> entry : this.fileInfos.entrySet()) {
+				entry.getValue().print();
+				System.out.println();
+			}
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private void check() throws Exception {
 		
 		if (flag) log.debug(">>>>> current    : " + DateTime.getInstance().get("yyyy/MM/dd HH:mm:ss"));
 		
@@ -93,12 +208,10 @@ public class FolderInfo {
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static void test01(String[] args) throws Exception {
 		
-		if (flag) {
+		if (!flag) {
 			String strPath = "N:/TEMP/FILES";
 			
 			FolderInfo info = new FolderInfo(strPath);
@@ -109,6 +222,12 @@ public class FolderInfo {
 				
 				try { Thread.sleep(1000 * 5); } catch (InterruptedException e) {}
 			}
+		}
+
+		if (flag) {
+			String strPath = "N:/TEMP/FILES";
+			
+			new FolderInfo(strPath);
 		}
 	}
 	
