@@ -170,9 +170,9 @@ public class FileInfo {
 	public void print() throws Exception {
 		
 		if (flag) {
-			String strPrint = String.format(" * FILE_INFO -----> [%,15d][%19s][%,20d][%1d]   [%s] [%s] [%s]"
+			String strPrint = String.format(" * FILE_INFO -----> [%,15d][%,15d:%19s][%,20d][%1d]   [%s] [%s] [%s]"
 					, this.lSize
-					, DateTime.getInstance().get("yyyy/MM/dd HH:mm:ss", this.lDate)
+					, this.lDate, DateTime.getInstance().get("yyyy/MM/dd HH:mm:ss", this.lDate)
 					, this.lCrc
 					, this.nStep
 					, this.strPath
