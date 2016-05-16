@@ -19,6 +19,9 @@
  */
 package tain.kr.com.test.filesync.v02.entry;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,6 +45,27 @@ public class FolderEntry {
 	private static final Logger log = Logger.getLogger(FolderEntry.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private String name = new String();
+	private String desc = new String();
+	private Map<String, FileEntry> fileEntries = new HashMap<String, FileEntry>();
+	
+	public void print() {
+		
+		if (flag) {
+			log.debug("FolderEntry.name = " + name);
+			log.debug("FolderEntry.desc = " + desc);
+			
+			for (Map.Entry<String, FileEntry> fileEntry : fileEntries.entrySet()) {
+				String key = fileEntry.getKey();
+				FileEntry val = fileEntry.getValue();
+				
+				log.debug(">>>>> " + key);
+				val.print();
+			}
+		}
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 

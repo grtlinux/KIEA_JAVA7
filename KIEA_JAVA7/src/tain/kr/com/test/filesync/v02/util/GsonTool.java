@@ -19,10 +19,11 @@
  */
 package tain.kr.com.test.filesync.v02.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
+
+import tain.kr.com.test.filesync.v02.entry.FileEntry;
+import tain.kr.com.test.filesync.v02.entry.FolderEntry;
+import tain.kr.com.test.filesync.v02.entry.SystemEntry;
 
 import com.google.gson.Gson;
 
@@ -127,72 +128,3 @@ public class GsonTool {
 		if (flag) test01(args);
 	}
 }
-
-class FileEntry {
-	private String name = null;
-	private String path = null;
-
-	private long size = 0;
-	private long date = 0;
-	private long crc = 0;
-	
-	private int step = 0;
-	
-	public void print() {
-		String strPrint = String.format("[%s] [%s] [%d] [%d] [%d] [%d]"
-				, name
-				, path
-				, size
-				, date
-				, crc
-				, step
-				);
-		
-		System.out.println(">>>>>>>>>>> " + strPrint);
-	}
-}
-
-class FolderEntry {
-	private String name = new String();
-	private String desc = new String();
-	private Map<String, FileEntry> fileEntries = new HashMap<String, FileEntry>();
-	
-	public void print() {
-		
-		System.out.println("FolderEntry.name = " + name);
-		System.out.println("FolderEntry.desc = " + desc);
-		
-		for (Map.Entry<String, FileEntry> fileEntry : fileEntries.entrySet()) {
-			String key = fileEntry.getKey();
-			FileEntry val = fileEntry.getValue();
-			
-			System.out.println(">>>>> " + key);
-			val.print();
-		}
-	}
-}
-
-class SystemEntry {
-	private String name = new String();
-	private Map<String, FolderEntry> folderEntries = new HashMap<String, FolderEntry>();
-	
-	public void print() {
-		
-		System.out.println("SystemEntry.name = " + name);
-
-		for (Map.Entry<String, FolderEntry> folderEntry : folderEntries.entrySet()) {
-			String key = folderEntry.getKey();
-			FolderEntry val = folderEntry.getValue();
-			
-			System.out.println(">>> " + key);
-			val.print();
-		}
-	}
-}
-
-
-
-
-
-
-

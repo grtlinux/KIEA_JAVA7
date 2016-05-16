@@ -42,6 +42,32 @@ public class FileEntry {
 	private static final Logger log = Logger.getLogger(FileEntry.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private String name = null;
+	private String path = null;
+
+	private long size = 0;
+	private long date = 0;
+	private long crc = 0;
+	
+	private int step = 0;
+	
+	public void print() {
+		
+		if (flag) {
+			String strPrint = String.format("[%s] [%s] [%d] [%d] [%d] [%d]"
+					, name
+					, path
+					, size
+					, date
+					, crc
+					, step
+					);
+			
+			log.debug(">>>>>>>>>>> FileEntry : " + strPrint);
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
