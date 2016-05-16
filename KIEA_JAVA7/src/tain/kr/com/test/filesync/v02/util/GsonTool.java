@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.filesync.v02.util;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 
 import tain.kr.com.test.filesync.v02.entry.FileEntry;
@@ -47,6 +49,33 @@ public class GsonTool {
 
 	private static final Logger log = Logger.getLogger(GsonTool.class);
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private Gson gson = null;
+	
+	private GsonTool() {
+		if (flag) {
+			gson = new Gson();
+		}
+	}
+	
+	public Gson instance() throws Exception {
+		return this.gson;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static GsonTool instance = null;
+	
+	public static synchronized GsonTool getInstance() throws Exception {
+		
+		if (instance == null) {
+			instance = new GsonTool();
+		}
+		
+		return instance;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,8 +151,20 @@ public class GsonTool {
 	}
 	
 	private static void test02(String[] args) throws Exception {
+		
 		if (flag) {
+			FileEntry entry = new FileEntry();
 			
+			entry.setName("sample.file");
+			entry.setPath("/home/test/FILE");
+			entry.setSize(10241024);
+			entry.setDate(new Date().getTime());
+			entry.setCrc(1234567890L);
+			entry.setStep(1);
+			
+			String str = GsonTool.getInstance().instance().toJson(entry);
+			
+			log.debug(">>>>>" + str + "<<<<<");
 		}
 	}
 	

@@ -21,6 +21,8 @@ package tain.kr.com.test.filesync.v02.entry;
 
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+
 /**
  * Code Templates > Comments > Types
  *
@@ -43,15 +45,69 @@ public class FileEntry {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	private String name = null;
-	private String path = null;
+	private String name = null;   // file name
+	private String path = null;   // file path
 
-	private long size = 0;
-	private long date = 0;
-	private long crc = 0;
+	private long size = 0;        // file size
+	private long date = 0;        // file mdate
+	private long crc = 0;         // file crc value
 	
-	private int step = 0;
+	private int step = 0;         // step
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public FileEntry() {}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public long getSize() {
+		return size;
+	}
+
+	public long getDate() {
+		return date;
+	}
+
+	public long getCrc() {
+		return crc;
+	}
+
+	public int getStep() {
+		return step;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public void setSize(long size) {
+		this.size = size;
+	}
+
+	public void setDate(long date) {
+		this.date = date;
+	}
+
+	public void setCrc(long crc) {
+		this.crc = crc;
+	}
+
+	public void setStep(int step) {
+		this.step = step;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 	public void print() {
 		
 		if (flag) {
@@ -70,5 +126,31 @@ public class FileEntry {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	private static void test01(String[] args) throws Exception {
+		
+		if (flag) {
+			String strJson = "{ 'name':'tain-cosmarter-1.0.jar', 'path':'N:/TEMP/FILES', 'size':'1517398', 'date':'1462787084096', crc:'329886128', step:'1' }";
+			
+			Gson gson = new Gson();
+			FileEntry entry = gson.fromJson(strJson, FileEntry.class);
+			entry.print();
+			String str = gson.toJson(entry);
+			System.out.println("> " + str);
+			
+			System.out.println("\n\n\n");
+		}
+
+		if (flag) {
+			
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
+		
+		if (flag) test01(args);
+	}
 }
