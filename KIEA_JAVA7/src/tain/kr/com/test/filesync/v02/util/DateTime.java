@@ -48,9 +48,7 @@ public class DateTime {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private DateTime() throws Exception {
-		if (flag) {
-			
-		}
+		if (flag) {}
 	}
 	
 	public String getYYYYMMDD() throws Exception {

@@ -142,8 +142,8 @@ public class CheckSystem {
 	private static void test01(String[] args) throws Exception {
 		
 		if (flag) {
-			log.debug(">>>>> " + CheckSystem.getInstance().printOsName());
-			log.debug(">>>>> " + CheckSystem.getInstance().isWindows());
+			log.debug(">>>>> printOsName() = " + CheckSystem.getInstance().printOsName());
+			log.debug(">>>>> isWindows()   = " + CheckSystem.getInstance().isWindows());
 		}
 	}
 	
