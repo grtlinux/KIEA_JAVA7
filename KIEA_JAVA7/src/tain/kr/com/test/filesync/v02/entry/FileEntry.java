@@ -19,9 +19,11 @@
  */
 package tain.kr.com.test.filesync.v02.entry;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 
-import com.google.gson.Gson;
+import tain.kr.com.test.filesync.v02.util.GsonTool;
 
 /**
  * Code Templates > Comments > Types
@@ -133,17 +135,27 @@ public class FileEntry {
 		if (flag) {
 			String strJson = "{ 'name':'tain-cosmarter-1.0.jar', 'path':'N:/TEMP/FILES', 'size':'1517398', 'date':'1462787084096', crc:'329886128', step:'1' }";
 			
-			Gson gson = new Gson();
-			FileEntry entry = gson.fromJson(strJson, FileEntry.class);
+			FileEntry entry = GsonTool.getInstance().instance().fromJson(strJson, FileEntry.class);
 			entry.print();
-			String str = gson.toJson(entry);
-			System.out.println("> " + str);
+			String str = GsonTool.getInstance().instance().toJson(entry);
+			log.debug(">>>>> " + str);
 			
 			System.out.println("\n\n\n");
 		}
 
 		if (flag) {
+			FileEntry entry = new FileEntry();
 			
+			entry.setName("sample.file");
+			entry.setPath("/home/test/FILE");
+			entry.setSize(10241024);
+			entry.setDate(new Date().getTime());
+			entry.setCrc(1234567890L);
+			entry.setStep(1);
+			
+			String str = GsonTool.getInstance().instance().toJson(entry);
+			
+			log.debug(">>>>>" + str + "<<<<<");
 		}
 	}
 	
