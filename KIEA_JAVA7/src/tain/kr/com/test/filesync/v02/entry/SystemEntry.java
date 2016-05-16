@@ -49,6 +49,26 @@ public class SystemEntry {
 	private String name = new String();
 	private Map<String, FolderEntry> folderEntries = new HashMap<String, FolderEntry>();
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public String getName() {
+		return name;
+	}
+
+	public Map<String, FolderEntry> getFolderEntries() {
+		return folderEntries;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setFolderEntries(Map<String, FolderEntry> folderEntries) {
+		this.folderEntries = folderEntries;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 	public void print() {
 		
 		if (flag) {
