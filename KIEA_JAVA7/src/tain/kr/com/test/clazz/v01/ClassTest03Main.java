@@ -50,7 +50,7 @@ public class ClassTest03Main {
 	
 	private static void test01(String[] args) throws Exception
 	{
-		Class<?> cls = Class.forName("kiea.priv.zzz.java.lang.Class.UseMethod");
+		Class<?> cls = Class.forName("tain.kr.com.test.clazz.v01.UseMethod");
 		Class<?> argTypes[] = new Class[2];
 		argTypes[0] = Integer.TYPE;
 		argTypes[1] = Integer.TYPE;
@@ -70,7 +70,7 @@ public class ClassTest03Main {
 	
 	private static void test02(String[] args) throws Exception
 	{
-		Class<?> cls = Class.forName("kiea.priv.zzz.java.lang.Class.UseMethod");
+		Class<?> cls = Class.forName("tain.kr.com.test.clazz.v01.UseMethod");
 		Class<?> argTypes[] = new Class[2];
 		argTypes[0] = Integer.TYPE;
 		argTypes[1] = Integer.TYPE;
@@ -89,7 +89,7 @@ public class ClassTest03Main {
 	
 	private static void test03(String[] args) throws Exception
 	{
-		Class<?> cls = Class.forName("kiea.priv.zzz.java.lang.Class.UseMethod");
+		Class<?> cls = Class.forName("tain.kr.com.test.clazz.v01.UseMethod");
 		Class<?> argTypes[] = new Class[5];
 		argTypes[0] = Integer.TYPE;
 		argTypes[1] = Integer.TYPE;
@@ -116,7 +116,7 @@ public class ClassTest03Main {
 	
 	private static void test04(String[] args) throws Exception
 	{
-		Class<?> cls = Class.forName("kiea.priv.zzz.java.lang.Class.UseMethod");
+		Class<?> cls = Class.forName("tain.kr.com.test.clazz.v01.UseMethod");
 		Method method = cls.getMethod("add", new Class[] { Integer.TYPE, Integer.TYPE });
 		
 		Integer ret = (Integer) method.invoke(new UseMethod(), new Object[] { new Integer(27), new Integer(57), });
@@ -138,7 +138,7 @@ public class ClassTest03Main {
 	 */
 	private static void test05(String[] args) throws Exception
 	{
-		Class<?> cls = Class.forName("kiea.priv.zzz.java.lang.Class.UseMethod");
+		Class<?> cls = Class.forName("tain.kr.com.test.clazz.v01.UseMethod");
 		// Method method = cls.getMethod("arrString", String[].class);
 		// Method method = cls.getMethod("arrString", new Class[] { String[].class });
 		Method method = cls.getDeclaredMethod("arrString", new Class[] { String[].class });
@@ -154,6 +154,18 @@ public class ClassTest03Main {
 		if (flag) log.debug("\n-----------------------------------------------\n");
 	}
 	
+	private static void test06(String[] args) throws Exception
+	{
+		Class<?> cls = Class.forName("tain.kr.com.test.clazz.v01.UseMethod");
+		Method method = cls.getDeclaredMethod("strAdd", new Class[] { String[].class });
+		
+		String[] arg = { "One", "Two", "Three", "Four", "Five" };
+		String ret = (String) method.invoke(cls.newInstance(), new Object[] { arg });                                      // CORRECT 
+
+		if (flag) log.debug(">" + ret);
+		if (flag) log.debug("\n-----------------------------------------------\n");
+	}
+	
 	public static void main(String[] args) throws Exception
 	{
 		if (flag) test01(args);
@@ -161,6 +173,7 @@ public class ClassTest03Main {
 		if (flag) test03(args);
 		if (flag) test04(args);
 		if (flag) test05(args);
+		if (flag) test06(args);
 	}
 }
 
@@ -179,6 +192,18 @@ class UseMethod
 	}
 	
 	public String arrString(String[] arrStr)
+	{
+		StringBuffer sb = new StringBuffer();
+		
+		for (String str : arrStr) {
+			sb.append(str);
+			sb.append(',');
+		}
+		
+		return sb.toString();
+	}
+	
+	public static String strAdd(String[] arrStr) throws Exception
 	{
 		StringBuffer sb = new StringBuffer();
 		
