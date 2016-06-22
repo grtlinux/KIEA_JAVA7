@@ -62,7 +62,23 @@ public class PropertiesTestMain {
 		}
 	}
 	
+	private static void test02(String[] args) {
+		
+		if (flag) {
+			
+			if (flag) System.out.printf("\nSystem.getProperties()\n");
+			
+			Properties prop = System.getProperties();
+			
+			String key = "tain.kr.main";
+			String val = prop.getProperty(key, "NOT VALUE").toUpperCase();
+			
+			if (flag) System.out.printf("\n\n[%s] -> [%s]\n", key, val);
+		}		
+	}
+	
 	public static void main(String[] args) {
 		if (flag) test01(args);
+		if (flag) test02(args);
 	}
 }
