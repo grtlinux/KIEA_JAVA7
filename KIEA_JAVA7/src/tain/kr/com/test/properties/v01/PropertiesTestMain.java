@@ -1,5 +1,6 @@
 package tain.kr.com.test.properties.v01;
 
+import java.io.FileInputStream;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -59,6 +60,28 @@ public class PropertiesTestMain {
 				
 				if (flag) System.out.printf("[%s] -> [%s]\n", key, value);
 			}
+		}
+		
+		if (flag) {
+			Properties prop = new Properties();
+			
+			FileInputStream fis = null;
+			
+			String fileName = "N:/WORK/GIT/GIT_DEPLOY1/TAIN_SYNKER/TAIN_SYNKER/synker/conf/Synker.properties";
+			
+			try {
+				fis = new FileInputStream(fileName);
+				prop.load(fis);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (fis != null) {
+					try { fis.close(); } catch (Exception e) {}
+				}
+			}
+			
+			String val = prop.getProperty("tain.kr.synker.system.01.folder.01");
+			if (flag) System.out.println("val = " + val);
 		}
 	}
 	
