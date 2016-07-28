@@ -20,7 +20,9 @@
 package tain.kr.com.test.queue.v01;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -150,19 +152,49 @@ public class Queue {
 	
 	private static final int CNT_THREAD = 3;
 	
+	private static Queue que = new Queue();
+	
 	private static void test01(String[] args) throws Exception {
 		
 		if (flag) {
 			
-			if (!flag) {
+			if (flag) {
 
 				List<Thread> lstGetThr = new ArrayList<Thread>();
 				
-				for (int i=0; i < CNT_THREAD; i++) {
+				for (int idx=1; idx <= CNT_THREAD; idx++) {
 					
-					Thread thr = new Thread() {
+					Thread thr = new Thread("GET_THR_" + String.format("%03d", idx)) {
+						
+						Random rand = new Random(new Date().getTime());
+						
 						public void run() {
+							String name = this.getName();
+							if (flag) log.debug("[" + name + "]: START");
 							
+							try {
+								for (int i=0; i<10000; i++) {
+									
+									// GET
+									Integer val = (Integer) que.get();
+									if (val != null) {
+										// print value
+										if (flag) log.debug("\t\t\t\t\t[" + name + "]: get () = " + val.intValue());
+									}
+
+									waitLoop();
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							} finally {
+							}
+						}
+						
+						private void waitLoop() throws Exception {
+							
+							long waitTime = (3 + rand.nextInt(5)) * 1000;
+							
+							try { Thread.sleep(waitTime); } catch (InterruptedException e) {}
 						}
 					};
 					
@@ -174,14 +206,36 @@ public class Queue {
 
 			if (flag) {
 
-				Thread putThr = new Thread() {
+				Thread putThr = new Thread("PUT_THR") {
+
+					Random rand = new Random(new Date().getTime());
+
 					public void run() {
-						for (int i=0; i < 100; i++) {
-							
-							if (flag) log.debug("PUT_THREAD : put (" + i + ")");
-							
-							try { Thread.sleep(1000); } catch (InterruptedException e) {}
+						String name = this.getName();
+						if (flag) log.debug("[" + name + "]: START");
+
+						try {
+							for (int i=0; i < 50; i++) {
+								
+								// PUT
+								int size = que.put(Integer.valueOf(i));
+								
+								if (flag) log.debug("[" + name + "]: put (" + i + "), size = " + size);
+								
+								
+								waitLoop();
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						} finally {
 						}
+					}
+
+					private void waitLoop() throws Exception {
+						
+						long waitTime = (1 + rand.nextInt(1)) * 1000;
+						
+						try { Thread.sleep(waitTime); } catch (InterruptedException e) {}
 					}
 				};
 				
