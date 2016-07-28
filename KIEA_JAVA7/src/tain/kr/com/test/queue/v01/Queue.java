@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.queue.v01;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -146,17 +148,51 @@ public class Queue {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private static final int CNT_THREAD = 3;
 	
 	private static void test01(String[] args) throws Exception {
 		
 		if (flag) {
 			
+			if (!flag) {
+
+				List<Thread> lstGetThr = new ArrayList<Thread>();
+				
+				for (int i=0; i < CNT_THREAD; i++) {
+					
+					Thread thr = new Thread() {
+						public void run() {
+							
+						}
+					};
+					
+					thr.start();
+					
+					lstGetThr.add(thr);
+				}
+			}
+
+			if (flag) {
+
+				Thread putThr = new Thread() {
+					public void run() {
+						for (int i=0; i < 100; i++) {
+							
+							if (flag) log.debug("PUT_THREAD : put (" + i + ")");
+							
+							try { Thread.sleep(1000); } catch (InterruptedException e) {}
+						}
+					}
+				};
+				
+				putThr.start();
+			}
 		}
 	}
 	
 	public static void main(String[] args) throws Exception {
 		
-		if (flag) log.debug(">>>>> " + new Object().getClass().getEnclosingClass().getName());
+		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
 		if (flag) test01(args);
 	}
