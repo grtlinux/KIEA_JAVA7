@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
@@ -31,7 +30,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : Queue.java
+ *   -. FileName   : SingleQueue.java
  *   -. Package    : tain.kr.com.test.queue.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -41,40 +40,46 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Queue {
+public class SingleQueue {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(Queue.class);
+	private static final Logger log = Logger.getLogger(SingleQueue.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	private final Vector<Object>   queue;
-	private int                    count;
+	private Object   queue;
 
-	public Queue() {
+	public SingleQueue() {
 		
-		this.queue = new Vector<Object> (5, 5);
-		this.count = 0;
+		this.queue = null;
 	}
 
-	public synchronized int put(Object object) {
+	public int put(Object object) {
 		
-		try {
-			if (object != null) {
-				
-				this.queue.addElement(object);
-				this.count ++;
-				
-				notifyAll();
+		// TODO 2016.07.28 : for ticket logic
+		for (int i=0; i < Integer.MAX_VALUE && this.queue != null; i++) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {}
+		}
+
+		synchronized (this) {
+			try {
+				if (object != null) {
+					
+					this.queue = object;
+					
+					notifyAll();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		
-		return this.count;
+		return 1;
 	}
 	
 	public synchronized Object get() throws Exception {
@@ -82,21 +87,16 @@ public class Queue {
 		Object object = null;
 		
 		try {
-			for (int i=0; i < 1 && this.count <= 0; i++) {
+			for (int i=0; i < 1; i++) {
 
 				try {
 					wait();
 				} catch (InterruptedException e) {}
 			}
 			
-			if (this.count <= 0) {
-				return object;
-			}
-			
-			object = this.queue.elementAt(0);
-			this.queue.remove(0);
-			this.count --;
-		
+			object = this.queue;
+			this.queue = null;
+	
 		//} catch (InterruptedException e) {
 		//	throw new InterruptedException("[HANDLE] interrupted Exception by Kang Seok");
 		} catch (Exception e) {
@@ -111,20 +111,18 @@ public class Queue {
 		Object object = null;
 		
 		try {
-			for (int i=0; i < 10 && this.count <= 0; i++) {
+			for (int i=0; i < 100; i++) {
 
 				try {
 					wait(timeout);
 				} catch (InterruptedException e) {}
+				
+				if (this.queue != null)
+					break;
 			}
 			
-			if (this.count <= 0) {
-				return object;
-			}
-			
-			object = this.queue.elementAt(0);
-			this.queue.remove(0);
-			this.count --;
+			object = this.queue;
+			this.queue = null;
 		
 		//} catch (InterruptedException e) {
 		//	throw new InterruptedException("[HANDLE] interrupted Exception by Kang Seok");
@@ -134,17 +132,6 @@ public class Queue {
 
 		return object;
 	}
-	
-	public synchronized void clear() {
-		
-		this.queue.removeAllElements();
-		this.count = 0;
-	}
-	
-	public int getSize() {
-		
-		return this.count;
-	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +139,7 @@ public class Queue {
 	
 	private static final int CNT_THREAD = 3;
 	
-	private static Queue que = new Queue();
+	private static SingleQueue que = new SingleQueue();
 	
 	private static void test01(String[] args) throws Exception {
 		
@@ -235,7 +222,7 @@ public class Queue {
 					private void waitLoop() throws Exception {
 						
 						long waitTime = (1 + rand.nextInt(1)) * 1000;
-						//waitTime = 1000;
+						waitTime = 1000;
 						
 						try { Thread.sleep(waitTime); } catch (InterruptedException e) {}
 					}
