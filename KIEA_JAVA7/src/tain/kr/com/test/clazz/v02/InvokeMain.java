@@ -19,6 +19,10 @@
  */
 package tain.kr.com.test.clazz.v02;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,6 +39,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
+@SuppressWarnings("unused")
 public class InvokeMain {
 
 	private static boolean flag = true;
@@ -45,4 +50,60 @@ public class InvokeMain {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * 
+	 * Code Templates > Comments > Methods
+	 *
+	 * <PRE>
+	 *   -. ClassName  : InvokeMain
+	 *   -. MethodName : main
+	 *   -. Comment    :
+	 *   -. Author     : taincokr
+	 *   -. First Date : 2016. 8. 6. {time}
+	 * </PRE>
+	 *
+	 * @param args
+	 * @throws Exception
+	 * 
+	 * 
+	 * $ java InvokeMain Deet Deet ja JP JP
+	 * 
+	 * invoking Deet.main()
+	 * invoking testDeet()
+	 * Local = Japaness (Japen.JP),
+	 * ISO Language Code = jpn
+	 * testDeet() returned true
+	 * 
+	 * 
+	 */
+	public static void main(String... args) throws Exception {
+		
+		String className = "";
+
+		try {
+			Class<?> c = Class.forName(className);
+			
+			@SuppressWarnings("rawtypes")
+			Class[] argTypes = new Class[] { String[].class };
+			
+			Method main = c.getDeclaredMethod("main", argTypes);
+
+			String[] mainArgs = Arrays.copyOfRange(args, 1, args.length);
+			
+			System.out.format("invoking %s.main()%n", c.getName());
+			
+			main.invoke(null, (Object) mainArgs);
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

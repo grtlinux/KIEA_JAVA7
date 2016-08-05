@@ -19,6 +19,14 @@
  */
 package tain.kr.com.test.clazz.v02;
 
+import static java.lang.System.err;
+import static java.lang.System.out;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.Locale;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,7 +43,8 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Deet {
+@SuppressWarnings("unused")
+public class Deet<T> {
 
 	private static boolean flag = true;
 
@@ -43,6 +52,99 @@ public class Deet {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private boolean testDeet(Locale l) {
+		// geISO3Language() may throw a missingResourceException
+		out.format("Local = %s, ISO Language Code = %s%n", l.getDisplayName(), l.getISO3Language());
+		return true;
+	}
+	
+	private int testFoo(Locale l) {
+		return 0;
+	}
+	
+	private boolean testBar() {
+		return true;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * 
+	 * Code Templates > Comments > Methods
+	 *
+	 * <PRE>
+	 *   -. ClassName  : Deet
+	 *   -. MethodName : main
+	 *   -. Comment    :
+	 *   -. Author     : taincokr
+	 *   -. First Date : 2016. 8. 6. {time}
+	 * </PRE>
+	 *
+	 * @param args
+	 * 
+	 * 
+	 * $ java Deet Deet ja JP JP
+	 * invoking testDeet()
+	 * Locale = Japanese (Japan,JP),
+	 * ISO Language Code = jpn
+	 * testDeet() returned true
+	 * 
+	 * 
+	 * $ java Deet Deet xx XX XX
+	 * invoking testDeet()
+	 * invocation of testDeet failed:
+	 * Couldn't find 3-letter language code for xx
+	 * 
+	 * 
+	 */
+	public static void main(String... args) {
+		
+		if (args.length != 4) {
+			err.format("Usage: java Deet <classname> <language> <country> <variant>%n");
+			// return;
+			System.exit(0);
+		}
+		
+		try {
+			Class<?> c = Class.forName(args[0]);
+			Object t = c.newInstance();
+			
+			Method[] allMethods = c.getDeclaredMethods();
+			
+			for (Method m : allMethods) {
+				String mName = m.getName();
+				
+				if (!mName.startsWith("test") || (m.getGenericReturnType() != boolean.class)) {
+					continue;
+				}
+				
+				Type[] pType = m.getGenericParameterTypes();
+				if ((pType.length != 1) || Locale.class.isAssignableFrom(pType[0].getClass())) {
+					continue;
+				}
+				
+				out.format("invoking %s()%n", mName);
+				
+				try {
+					m.setAccessible(true);
+					Object o = m.invoke(t, new Locale(args[1], args[2], args[3]));
+					out.format("%s() returned %b%n", mName, (Boolean) o);
+					
+					// Handle any exceptions thrown by method to be invoked.
+				} catch (InvocationTargetException e) {
+					Throwable cause = e.getCause();
+					err.format("invocation of %s failed: %s%n", mName, cause.getMessage());
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
