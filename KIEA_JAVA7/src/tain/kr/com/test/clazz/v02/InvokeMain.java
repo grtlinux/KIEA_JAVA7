@@ -38,6 +38,9 @@ import org.apache.log4j.Logger;
  *
  * @author taincokr
  *
+ *
+ * http://docs.oracle.com/javase/tutorial/reflect/member/index.html
+ * 
  */
 @SuppressWarnings("unused")
 public class InvokeMain {
