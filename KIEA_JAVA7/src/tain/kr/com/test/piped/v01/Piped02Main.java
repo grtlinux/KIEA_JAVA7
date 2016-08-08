@@ -71,9 +71,9 @@ public class Piped02Main {
 				@Override
 				public void run() {
 					try {
-						//for (int i=1; i < 51; i++) {  // finish
+						for (int i=1; i < 51; i++) {  // finish
 						//for (int i=1; i < 501; i++) {  // finish
-						for (int i=1; i < 5001; i++) {  // finish
+						//for (int i=1; i < 5001; i++) {  // finish
 							pos.write(i);
 						}
 					} catch (Exception e) {
@@ -91,9 +91,9 @@ public class Piped02Main {
 				@Override
 				public void run() {
 					try {
-						//for (int i=51; i < 101; i++) {  // finish
+						for (int i=51; i < 101; i++) {  // finish
 						//for (int i=501; i < 1001; i++) {   // finish
-						for (int i=5001; i < 10001; i++) {   // waiting for pipe reading
+						//for (int i=5001; i < 10001; i++) {   // waiting for pipe reading
 							pos.write(i);
 						}
 					} catch (Exception e) {
@@ -193,7 +193,7 @@ public class Piped02Main {
 		
 		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
-		if (!flag) test01(args);
-		if (flag) test02(args);
+		if (flag) test01(args);
+		if (!flag) test02(args);
 	}
 }
