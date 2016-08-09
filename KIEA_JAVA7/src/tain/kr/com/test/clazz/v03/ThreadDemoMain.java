@@ -37,6 +37,69 @@ import org.apache.log4j.Logger;
  *
  * @author taincokr
  *
+ *
+ *
+ *
+ *     -------------- 클래스의 모든 method ------------------------------------------------------------------
+ *
+ *     Class<?> cl = Class.forName(className);
+ *      while(cl != null) {
+ *        for(Method m : cl.getDeclaredMethods()) {
+ *          System.out.println(
+ *            Mofifier.toString(m.getModifiers()) + " " +
+ *            m.getReturnType().getCannonicalName() + " " +
+ *            m.getName() +
+ *            Arrays.toString(m.getParameters()));
+ *        }
+ *        cl.getSuperclass();
+ *      }
+ *
+ *     ---------------- 클래스의 모든 필드 ----------------------------------------------------------------
+ *
+ *     Object obj = ...;
+ *      for (Field f : obj.getClass().getDeclaredFields()) {
+ *        f.setAccessible(true);
+ *        Object value = f.get(obj);
+ *        System.out.println(f.getName() + ":" + value);
+ *      }
+ *
+ *     --------------------------------------------------------------------------------
+ *
+ *      Field f = obj.getDeclaredField("salary");
+ *      f.setAccessible(true);
+ *      double value = f.getDouble(obj);
+ *      f.setDouble(obj, value * 1.1);
+ *
+ *     --------------------------------------------------------------------------------
+ *
+ *     Person p = ...;
+ *      Method m = p.getClass().getMethod("setName", String.class);
+ *      p.invoke(obj, "*******");
+ *
+ *     --------------------------------------------------------------------------------
+ *
+ *     정적 메서드를 호출할 때는 invoke 메서드의 첫 번째 인자에 null을 전달한다
+ *
+ *     --------------------------------------------------------------------------------
+ *
+ *     인자 없는 생성자가 포함된 객체를 생성하려면 Class 객체에서 newInstance만 호출하면 된다
+ *
+ *     Class<?> cl = ...;
+ *      Object obj = cl.newInstance();
+ *
+ *     --------------------------------------------------------------------------------
+ *
+ *     또 다른 생성자를 호출하려면 먼저 Contructor 객체를 찾은 다음에 해당 객체의 newInstance 메서드를 호출해야 한다. 
+ *     예를 들어, 어떤 클래스에 int 파리미터를 받는 공개 생성자가 이용하여 인스턴스를 다음과 같이 생성할 수 있다
+ *
+ *       Constructor constr = cl.getConstructor(int.class);
+ *      Object obj = constr.newInstance(42);
+ *
+ *     --------------------------------------------------------------------------------
+ *
+ *     [출처] [Java] 리플렉션(Reflection) 사용하기 |작성자 zzozzo
+ *
+ *
  */
 public class ThreadDemoMain extends Thread {
 
