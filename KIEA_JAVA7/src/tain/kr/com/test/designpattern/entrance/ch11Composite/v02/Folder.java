@@ -55,6 +55,7 @@ public class Folder extends Entry {
 	
 	public int getSize() {
 		int size = 0;
+		
 		for (Entry entry : folder) {
 			size += entry.getSize();
 		}
@@ -69,6 +70,7 @@ public class Folder extends Entry {
 	
 	protected void printList(String prefix) {
 		System.out.println(prefix + "/" + this);
+		
 		for (Entry entry : folder) {
 			entry.printList(prefix + "/" + name);
 		}
