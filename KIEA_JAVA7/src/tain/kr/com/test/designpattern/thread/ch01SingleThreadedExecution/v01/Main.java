@@ -52,6 +52,9 @@ public class Main {
 		
 		Gate gate = new Gate();
 		
+		/*
+		 * TODO 2016.08.13 : occur a event of logical error...
+		 */
 		new UserThread(gate, "Alice", "Alaska").start();
 		new UserThread(gate, "Bobby", "Brazil").start();
 		new UserThread(gate, "Chris", "Canada").start();
