@@ -45,11 +45,18 @@ public class Nested01Main {
 	
 	private static int person = 5;
 	
+	/*
+	 * Nested Class
+	 * 
+	 *   1. 중첩클래스의 인스턴스는 그 클래스를 포함하고 있는 클래스의 인스턴스와 직접적 연관성이 없다.
+	 *   
+	 *   2. 중첩클래스의 메소드는 자신의 멤버와 그 클래스를 포함하고 있는 클래스의 정적멤버(static)만을 참조할 수 있다.
+	 */
 	static class Television {
 		private int inch = 20;
 		
 		public void show() {
-			System.out.format("[person:%d] [inch:%d]%n", person, inch);
+			System.out.format("Nested Class [person:%d] [inch:%d]%n", person, inch);
 		}
 	}
 	
