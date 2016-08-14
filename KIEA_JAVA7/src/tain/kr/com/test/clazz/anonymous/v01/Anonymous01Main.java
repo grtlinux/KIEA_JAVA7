@@ -47,6 +47,13 @@ public class Anonymous01Main {
 		
 		if (flag) {
 			
+			/*
+			 * Anonymous Class
+			 * 
+			 *    1. 익명 클래스는 지역 클래스와 같은 특징을 가지고 있으나 이름이 없다.
+			 *    
+			 *    2. 익명 클래스는 객체를 생성할 때 클래스의 구현을 동시에 해야 한다.
+			 */
 			Object tv = new Object() {
 				int inch = 20;
 				
