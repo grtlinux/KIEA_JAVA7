@@ -76,6 +76,9 @@ class A11 {
 }
 
 class B11 extends A11 {
+	/*
+	 * final method는 상속하지 못하므로 super를 통해서 접근할 수 있다.
+	 */
 	
 	public void set(int n) {
 		super.setValue(n);
