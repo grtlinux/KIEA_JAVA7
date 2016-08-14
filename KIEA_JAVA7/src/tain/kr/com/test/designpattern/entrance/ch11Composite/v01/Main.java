@@ -35,7 +35,6 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-@SuppressWarnings("unused")
 public class Main {
 
 	private static boolean flag = true;
@@ -45,9 +44,10 @@ public class Main {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static void main(String[] args) {
-		try {
+	
+	private static void test01(String[] args) throws Exception {
+		
+		if (flag) {
 			
 			System.out.println("Making root entries...");
 			
@@ -84,9 +84,13 @@ public class Main {
 			kang.add(new File("junk.mail", 500));
 			
 			rootdir.printList();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
+		
+		if (flag) test01(args);
 	}
 }

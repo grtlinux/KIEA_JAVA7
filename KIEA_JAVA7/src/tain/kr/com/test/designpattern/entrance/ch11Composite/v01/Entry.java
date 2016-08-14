@@ -19,7 +19,6 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch11Composite.v01;
 
-import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
@@ -35,24 +34,19 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-@SuppressWarnings("unused")
 public abstract class Entry {
-
-	private static boolean flag = true;
-
-	private static final Logger log = Logger.getLogger(Entry.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public abstract String getName();
 	public abstract int getSize();
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 	public String toString() {
 		return getName() + " (" + getSize() + ")";
 	}
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
 	public void printList() {
 		printList("");
 	}
