@@ -42,11 +42,11 @@ import com.google.gson.Gson;
  * @author taincokr
  *
  */
-public class TransferTestMain {
+public class Transfer1TestMain {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(TransferTestMain.class);
+	private static final Logger log = Logger.getLogger(Transfer1TestMain.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
