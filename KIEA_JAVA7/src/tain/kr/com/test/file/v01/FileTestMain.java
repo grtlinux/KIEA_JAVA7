@@ -56,7 +56,7 @@ public class FileTestMain {
 	
 	private static void test01(String[] args) throws Exception {
 		
-		if (!flag) {
+		if (flag) {
 			/*
 			 * 1. String[] File.list()
 			 */
@@ -65,7 +65,7 @@ public class FileTestMain {
 			
 			try {
 				// create new file
-				file = new File("D:/PROJ");
+				file = new File("N:/");
 				
 				// return list of files
 				files = file.list();
@@ -82,9 +82,11 @@ public class FileTestMain {
 			} finally {
 				
 			}
+			
+			System.out.println();
 		}
 		
-		if (!flag) {
+		if (flag) {
 			/*
 			 * 2. String[] File.list(FilenameFilter)
 			 */
@@ -93,7 +95,7 @@ public class FileTestMain {
 			
 			try {
 				// create new file
-				file = new File("D:/PROJ");
+				file = new File("N:/");
 				
 				// return list of files
 				files = file.list(new FilenameFilter() {
@@ -133,9 +135,11 @@ public class FileTestMain {
 			} finally {
 				
 			}
+
+			System.out.println();
 		}
 		
-		if (!flag) {
+		if (flag) {
 			/*
 			 * 3. File[] File.listFiles()
 			 */
@@ -144,7 +148,7 @@ public class FileTestMain {
 			
 			try {
 				// create new file
-				file = new File("D:/PROJ");
+				file = new File("N:/");
 				
 				// return list of files
 				files = file.listFiles();
@@ -161,9 +165,11 @@ public class FileTestMain {
 			} finally {
 				
 			}
+
+			System.out.println();
 		}
 		
-		if (!flag) {
+		if (flag) {
 			/*
 			 * 4. File[] File.listFiles(FileFilter)
 			 */
@@ -172,7 +178,7 @@ public class FileTestMain {
 			
 			try {
 				// create new file
-				file = new File("D:/PROJ");
+				file = new File("N:/");
 				
 				// create new file filter
 				FileFilter fileFilter = new FileFilter() {
@@ -242,6 +248,8 @@ public class FileTestMain {
 			} finally {
 				
 			}
+
+			System.out.println();
 		}
 
 		if (flag) {
@@ -253,7 +261,7 @@ public class FileTestMain {
 			
 			try {
 				// create new file
-				file = new File("D:/PROG_P");
+				file = new File("N:/");
 				
 				// create new filename filter
 				FilenameFilter filenameFilter = new FilenameFilter() {
@@ -297,6 +305,8 @@ public class FileTestMain {
 			} finally {
 				
 			}
+
+			System.out.println();
 		}
 		
 		if (!flag) {
@@ -321,6 +331,8 @@ public class FileTestMain {
 			} finally {
 				
 			}
+
+			System.out.println();
 		}
 		
 	}
