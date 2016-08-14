@@ -52,6 +52,9 @@ public class Main {
 		
 		Gate gate = new Gate();
 		
+		/*
+		 * to fix the source Gate.java with using synchronized prefix
+		 */
 		new UserThread(gate, "Alice", "Alaska").start();
 		new UserThread(gate, "Bobby", "Brazil").start();
 		new UserThread(gate, "Chris", "Canada").start();
