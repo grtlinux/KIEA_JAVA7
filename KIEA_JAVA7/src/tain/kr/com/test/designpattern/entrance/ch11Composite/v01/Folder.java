@@ -40,13 +40,14 @@ public class Folder extends Entry {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private String name;
-	private Vector<Entry> folder = new Vector<Entry>();
+	private final String name;
+	private final Vector<Entry> folder;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Folder(String name) {
 		this.name = name;
+		this.folder = new Vector<Entry>();
 	}
 	
 	public String getName() {
@@ -65,8 +66,14 @@ public class Folder extends Entry {
 		return size;
 	}
 	
+	public Entry add(Entry entry) {
+		folder.addElement(entry);
+		return this;
+	}
+
 	protected void printList(String prefix) {
 		System.out.println(prefix + "/" + this);
+		
 		Iterator<Entry> it = folder.iterator();
 		while (it.hasNext()) {
 			Entry entry = it.next();
@@ -75,9 +82,4 @@ public class Folder extends Entry {
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	public Entry add(Entry entry) {
-		folder.addElement(entry);
-		return this;
-	}
 }
