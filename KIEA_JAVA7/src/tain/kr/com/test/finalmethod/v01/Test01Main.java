@@ -75,7 +75,12 @@ class A11 {
 	}
 }
 
-class B11 extends A11 {
+/*
+ * final class 는 최종 클래스, 최후에 구현된 클래스이므로 더이상 상속 구현이 불가능한 클래스를 의미한다.
+ * 
+ *     (X)   class C11 extends B11   <- 이렇게 구현이 않된다.
+ */
+final class B11 extends A11 {
 	/*
 	 * final method는 상속하지 못하므로 super를 통해서 접근할 수 있다.
 	 */
