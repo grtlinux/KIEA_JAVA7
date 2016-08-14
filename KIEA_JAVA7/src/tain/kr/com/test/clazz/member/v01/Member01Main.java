@@ -45,6 +45,14 @@ public class Member01Main {
 	
 	private int person = 5;
 	
+	/*
+	 * Member Class
+	 * 
+	 *    1. 멤버 클래스의 모든 인스턴스는 그 클래스를 포함하고 있는 클래스의 인스턴스를과 내부적으로 연관되어 있다.
+	 *       즉, 멤버 클래스는 그 클래스를 포함하고 있는 클래스의 멤버이다.
+	 *       
+	 *    2. 멤버 클래스의 메소드는 자신의 멤버 뿐 아니라 그 클래스를 포함하고 있는 클래스의 모든 멤버를 참조할 수 있다.
+	 */
 	public class Television {
 		
 		int inch = 20;
