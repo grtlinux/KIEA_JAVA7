@@ -57,6 +57,10 @@ public class TestMain {
 			card1.use();
 			card2.use();
 			card3.use();
+			
+			for (String owner : ((FactoryIDCard)factory).getOwners()) {
+				System.out.println("> " + owner);
+			}
 		}
 	}
 	
