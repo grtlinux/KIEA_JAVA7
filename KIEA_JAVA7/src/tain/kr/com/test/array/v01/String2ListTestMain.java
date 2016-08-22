@@ -62,6 +62,9 @@ public class String2ListTestMain {
 				for (String str : list1) {
 					log.debug("1 > " + str);
 				}
+				
+				System.out.println("OK > " + list1);
+				log.debug("OK > " + list1);
 			}
 			
 			String[] strArr = list1.toArray(new String[list1.size()]);
@@ -70,6 +73,9 @@ public class String2ListTestMain {
 				for (String str : strArr) {
 					log.debug("2 > " + str);
 				}
+
+				System.out.println("ERROR > " + strArr);
+				log.debug("ERROR > " + strArr);
 			}
 			
 			List<String> list2 = new ArrayList<String>(Arrays.asList(strArr));
@@ -78,6 +84,9 @@ public class String2ListTestMain {
 				for (String str : list2) {
 					log.debug("3 > " + str);
 				}
+
+				System.out.println("OK > " + list2);
+				log.debug("OK > " + list2);
 			}
 		}
 	}
