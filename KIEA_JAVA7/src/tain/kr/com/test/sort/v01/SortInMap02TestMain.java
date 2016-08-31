@@ -109,11 +109,111 @@ public class SortInMap02TestMain {
 			}
 		}
 	}
+
+	/**
+	 * 2. More General Solution
+	 * 
+	 * Code Templates > Comments > Methods
+	 *
+	 * <PRE>
+	 *   -. ClassName  : SortInMap02TestMain
+	 *   -. MethodName : test02
+	 *   -. Comment    :
+	 *   -. Author     : taincokr
+	 *   -. First Date : 2016. 9. 1. {time}
+	 * </PRE>
+	 *
+	 * @param args
+	 * @throws Exception
+	 */
+	private static void test02(String[] args) throws Exception {
+		
+		if (flag) {
+			
+			Map<String, Integer> map = new HashMap<String, Integer>();
+
+			map.put("a", 10);
+			map.put("b", 30);
+			map.put("c", 50);
+			map.put("d", 40);
+			map.put("e", 20);
+			System.out.println(map);
+			
+			Map<String, Integer> sortedMap = sortByValue(map);
+			System.out.println(sortedMap);
+		}
+	}
 	
+	private static Map<String, Integer> sortByValue(Map<String, Integer> unsortedMap) {
+		Map<String, Integer> sortedMap = new TreeMap<String, Integer>(new ValueComparator2(unsortedMap));
+		sortedMap.putAll(unsortedMap);
+		return sortedMap;
+	}
+	
+	private static class ValueComparator2 implements Comparator<Object> {
+		
+		Map<String, Integer> map;
+		
+		public ValueComparator2(Map<String, Integer> map) {
+			this.map = map;
+		}
+		
+		@Override
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		public int compare(Object o1, Object o2) {
+			Comparable val1 = (Comparable) this.map.get(o1);
+			Comparable val2 = (Comparable) this.map.get(o2);
+			return val2.compareTo(val1);
+		}
+	}
+	
+	/**
+	 * 3. Using Generic Type
+	 * 
+	 * Code Templates > Comments > Methods
+	 *
+	 * <PRE>
+	 *   -. ClassName  : SortInMap02TestMain
+	 *   -. MethodName : test03
+	 *   -. Comment    :
+	 *   -. Author     : taincokr
+	 *   -. First Date : 2016. 9. 1. {time}
+	 * </PRE>
+	 *
+	 * @param args
+	 * @throws Exception
+	 */
+	private static void test03(String[] args) throws Exception {
+		
+		if (flag) {
+			
+		}
+	}
+	
+	/**
+	 * main method
+	 * 
+	 * Code Templates > Comments > Methods
+	 *
+	 * <PRE>
+	 *   -. ClassName  : SortInMap02TestMain
+	 *   -. MethodName : main
+	 *   -. Comment    :
+	 *   -. Author     : taincokr
+	 *   -. First Date : 2016. 9. 1. {time}
+	 * </PRE>
+	 *
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String[] args) throws Exception {
 		
 		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
-		if (flag) test01(args);
+		if (!flag) test01(args);  // 1. Native Method
+		
+		if (!flag) test02(args);  // 2. More General Solution
+		
+		if (flag) test03(args);  // 3. Using Generic Type
 	}
 }
