@@ -19,8 +19,12 @@
  */
 package tain.kr.com.test.sort.v01;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -186,10 +190,104 @@ public class SortInMap02TestMain {
 	private static void test03(String[] args) throws Exception {
 		
 		if (flag) {
-			
+			// <String, Integer> Map
+			HashMap<String, Integer> map = new HashMap<String, Integer>();
+			map.put("a", 10);
+			map.put("b", 30);
+			map.put("c", 50);
+			map.put("d", 40);
+			map.put("e", 20);
+			System.out.println(map);
+	 
+	 
+			Comparator<String> comparator = new ValueComparator3<String, Integer>(map);
+			TreeMap<String, Integer> result = new TreeMap<String, Integer>(comparator);
+			result.putAll(map);
+	 
+			System.out.println(result);
+	 
+			// <Integer, Integer> Map
+	 
+			HashMap<Integer, Integer> map2 = new HashMap<Integer, Integer>();
+			map2.put(1, 10);
+			map2.put(2, 30);
+			map2.put(3, 50);
+			map2.put(4, 40);
+			map2.put(5, 20);
+			System.out.println(map2);
+	 
+			Comparator<Integer> comparator2 = new ValueComparator3<Integer, Integer>(map2);
+			TreeMap<Integer, Integer> result2 = new TreeMap<Integer, Integer>(comparator2);
+			result2.putAll(map2);
+	 
+			System.out.println(result2);
 		}
 	}
 	
+	private static class ValueComparator3<K, V extends Comparable<V>> implements Comparator<K> {
+		
+		Map<K, V> map = new HashMap<K, V>();
+		
+		public ValueComparator3(Map<K, V> map) {
+			this.map.putAll(map);
+		}
+
+		@Override
+		public int compare(K o1, K o2) {
+			return -this.map.get(o1).compareTo(this.map.get(o2));
+		}
+	}
+	
+	/**
+	 * 4. Another Way of Using Generic Types
+	 * 
+	 * Code Templates > Comments > Methods
+	 *
+	 * <PRE>
+	 *   -. ClassName  : SortInMap02TestMain
+	 *   -. MethodName : test04
+	 *   -. Comment    :
+	 *   -. Author     : taincokr
+	 *   -. First Date : 2016. 9. 1. {time}
+	 * </PRE>
+	 *
+	 * @param args
+	 * @throws Exception
+	 */
+	private static void test04(String[] args) throws Exception {
+		
+		if (flag) {
+			Map<String, Integer> map = new HashMap<String, Integer>();
+
+			map.put("a", 10);
+			map.put("b", 30);
+			map.put("c", 50);
+			map.put("d", 40);
+			map.put("e", 20);
+
+			Map<String, Integer> sortedMap = sortByValue2(map);
+			System.out.println(sortedMap);
+		}
+	}
+	
+	private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue2(Map<K, V> map) {
+		List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
+		Collections.sort(list, new Comparator<Map.Entry<K, V>>() {
+			@Override
+			public int compare(Map.Entry<K, V> e1, Map.Entry<K, V> e2) {
+				return (e1.getValue()).compareTo(e2.getValue());
+			}
+		});
+		
+		Map<K, V> result = new LinkedHashMap<>();
+		
+		for (Map.Entry<K, V> entry : list) {
+			result.put(entry.getKey(), entry.getValue());
+		}
+		
+		return result;
+	}
+
 	/**
 	 * main method
 	 * 
@@ -214,6 +312,8 @@ public class SortInMap02TestMain {
 		
 		if (!flag) test02(args);  // 2. More General Solution
 		
-		if (flag) test03(args);  // 3. Using Generic Type
+		if (!flag) test03(args);  // 3. Using Generic Type
+
+		if (flag) test04(args);  // 4. Another Way of Using Generic Types
 	}
 }
