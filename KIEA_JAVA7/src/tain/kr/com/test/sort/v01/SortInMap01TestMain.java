@@ -45,11 +45,11 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class SortInMapTestMain {
+public class SortInMap01TestMain {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(SortInMapTestMain.class);
+	private static final Logger log = Logger.getLogger(SortInMap01TestMain.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
