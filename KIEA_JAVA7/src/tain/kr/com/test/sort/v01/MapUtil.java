@@ -21,6 +21,7 @@ package tain.kr.com.test.sort.v01;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class MapUtil {
 
 			@Override
 			public int compare(Entry<K, V> o1, Entry<K, V> o2) {
-				return (o1.getValue()).compareTo(o2.getValue());
+				return (o1.getValue()).compareTo(o2.getValue()) * (-1);
 			}
 		});
 		
@@ -75,10 +76,37 @@ public class MapUtil {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	private static <K, V> void printMap(Map<K, V> map) {
+		for (Map.Entry<K, V> entry : map.entrySet()) {
+			System.out.println("printMap [" + entry.getKey() + "] => [" + entry.getValue() + "]");
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 	private static void test01(String[] args) throws Exception {
 		
 		if (flag) {
-			
+			Map<String, Integer> unsortMap = new HashMap<String, Integer>();
+			unsortMap.put("z", 10);
+			unsortMap.put("b", 5);
+			unsortMap.put("a", 6);
+			unsortMap.put("c", 20);
+			unsortMap.put("d", 1);
+			unsortMap.put("e", 7);
+			unsortMap.put("y", 8);
+			unsortMap.put("n", 99);
+			unsortMap.put("k", 7);
+			unsortMap.put("j", 50);
+			unsortMap.put("m", 2);
+			unsortMap.put("f", 9);
+
+			System.out.println("\nUnsort Map......");
+			printMap(unsortMap);
+
+			System.out.println("\nSorted Map......By Value");
+			Map<String, Integer> sortedMap = sortByValue(unsortMap);
+			printMap(sortedMap);
 		}
 	}
 	
