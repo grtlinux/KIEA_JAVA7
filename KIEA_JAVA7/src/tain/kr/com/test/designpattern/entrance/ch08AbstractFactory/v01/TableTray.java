@@ -19,17 +19,12 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch08AbstractFactory.v01;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Vector;
-
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : ItemPage.java
+ *   -. FileName   : TableTray.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch08AbstractFactory.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -39,61 +34,38 @@ import java.util.Vector;
  * @author taincokr
  *
  */
-public abstract class ItemPage {
+public class TableTray extends ItemTray {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	private final String title;
-	private final String author;
-	
-	private final Vector<Item> content;
-	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public ItemPage(String title, String author) {
-		this.title = title;
-		this.author = author;
-		this.content = new Vector<Item>();
+	public TableTray(String caption) {
+		super(caption);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public String getTitile() {
-		return this.title;
-	}
-	
-	public String getAuthor() {
-		return this.author;
-	}
-	
-	public Vector<Item> getContent() {
-		return this.content;
-	}
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public void add(Item item) {
-		this.content.add(item);
-	}
-	
-	public void output() {
-		output("???");
-	}
-	
-	public void output(String subTitle) {
-		try {
-			String fileName = "N:/" + title + "_" + subTitle + ".html";
-			Writer writer = new FileWriter(fileName);
-			writer.write(this.makeHtml());
-			writer.close();
-			
-			System.out.println(fileName + " 파일을 작성했습니다.");
-		} catch (IOException e) {
-			e.printStackTrace();
+	public String makeHtml() {
+		
+		StringBuffer buffer = new StringBuffer();
+		
+		buffer.append("<td>\n");
+		
+		buffer.append("<table width='100%' border='1'><tr>\n");
+		
+		buffer.append("<td bgcolor='#cccccc' align='center' colspan='" + this.getItems().size() + "'><b>" + this.getCaption() + "</b></td>\n");
+		buffer.append("</tr><tr>\n");
+		
+		for (Item item : this.getItems()) {
+			buffer.append(item.makeHtml());
 		}
+		
+		buffer.append("</tr></table>\n");
+		
+		buffer.append("</td>\n");
+		
+		return buffer.toString();
 	}
-	
-	public abstract String makeHtml();
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////

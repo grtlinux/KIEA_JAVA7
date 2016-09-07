@@ -19,17 +19,12 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch08AbstractFactory.v01;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Vector;
-
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : ItemPage.java
+ *   -. FileName   : TableFactory.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch08AbstractFactory.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -39,62 +34,24 @@ import java.util.Vector;
  * @author taincokr
  *
  */
-public abstract class ItemPage {
+public class TableFactory extends ItemFactory {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	private final String title;
-	private final String author;
-	
-	private final Vector<Item> content;
-	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public ItemPage(String title, String author) {
-		this.title = title;
-		this.author = author;
-		this.content = new Vector<Item>();
+	public ItemLink createLink(String caption, String url) {
+		return new TableLink(caption, url);
 	}
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public String getTitile() {
-		return this.title;
+	public ItemTray createTray(String caption) {
+		return new TableTray(caption);
 	}
 	
-	public String getAuthor() {
-		return this.author;
-	}
-	
-	public Vector<Item> getContent() {
-		return this.content;
+	public ItemPage createPage(String title, String author) {
+		return new TablePage(title, author);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public void add(Item item) {
-		this.content.add(item);
-	}
-	
-	public void output() {
-		output("???");
-	}
-	
-	public void output(String subTitle) {
-		try {
-			String fileName = "N:/" + title + "_" + subTitle + ".html";
-			Writer writer = new FileWriter(fileName);
-			writer.write(this.makeHtml());
-			writer.close();
-			
-			System.out.println(fileName + " 파일을 작성했습니다.");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public abstract String makeHtml();
-	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////

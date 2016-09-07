@@ -77,7 +77,7 @@ public class TestMain {
 			page.add(trayNews);
 			page.add(traySearch);
 
-			page.output();
+			page.output("list");
 		}
 		
 		if (flag) {
@@ -110,7 +110,7 @@ public class TestMain {
 			page.add(trayNews);
 			page.add(traySearch);
 
-			page.output();
+			page.output("table");
 		}
 	}
 	

@@ -19,17 +19,12 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch08AbstractFactory.v01;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Vector;
-
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : ItemPage.java
+ *   -. FileName   : TablePage.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch08AbstractFactory.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -39,61 +34,39 @@ import java.util.Vector;
  * @author taincokr
  *
  */
-public abstract class ItemPage {
+public class TablePage extends ItemPage {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	private final String title;
-	private final String author;
-	
-	private final Vector<Item> content;
-	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public ItemPage(String title, String author) {
-		this.title = title;
-		this.author = author;
-		this.content = new Vector<Item>();
+	public TablePage(String title, String author) {
+		super(title, author);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public String getTitile() {
-		return this.title;
-	}
-	
-	public String getAuthor() {
-		return this.author;
-	}
-	
-	public Vector<Item> getContent() {
-		return this.content;
-	}
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public void add(Item item) {
-		this.content.add(item);
-	}
-	
-	public void output() {
-		output("???");
-	}
-	
-	public void output(String subTitle) {
-		try {
-			String fileName = "N:/" + title + "_" + subTitle + ".html";
-			Writer writer = new FileWriter(fileName);
-			writer.write(this.makeHtml());
-			writer.close();
-			
-			System.out.println(fileName + " 파일을 작성했습니다.");
-		} catch (IOException e) {
-			e.printStackTrace();
+	public String makeHtml() {
+		
+		StringBuffer buffer = new StringBuffer();
+		
+		buffer.append("<html><head><title>" + this.getTitile() + "</title></head><body>\n");
+		
+		buffer.append("<h1>" + this.getTitile() + "</h1>");
+		
+		buffer.append("<table width='80%' border='3'>\n");
+		
+		for (Item item : this.getContent()) {
+			buffer.append("<tr>" + item.makeHtml() + "</tr>");
 		}
+		
+		buffer.append("</table>\n");
+		
+		buffer.append("<hr><address>" + this.getAuthor() + "</address>\n");
+		
+		buffer.append("</body></html>\n");
+		
+		return buffer.toString();
 	}
-	
-	public abstract String makeHtml();
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
