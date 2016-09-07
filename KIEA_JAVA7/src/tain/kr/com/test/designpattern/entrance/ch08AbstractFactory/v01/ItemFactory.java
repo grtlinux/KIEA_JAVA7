@@ -34,17 +34,17 @@ package tain.kr.com.test.designpattern.entrance.ch08AbstractFactory.v01;
  * @author taincokr
  *
  */
-public abstract class Factory {
+public abstract class ItemFactory {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public static Factory getFactory(String className) {
-		Factory factory = null;
+	public static ItemFactory getFactory(String className) {
+		ItemFactory factory = null;
 		
 		try {
-			factory = (Factory) Class.forName(className).newInstance();
+			factory = (ItemFactory) Class.forName(className).newInstance();
 		} catch (ClassNotFoundException e) {
 			System.out.println("클래스 " + className + "이 발견되지 않습니다.");
 		} catch (Exception e) {
