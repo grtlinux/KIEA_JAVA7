@@ -52,7 +52,7 @@ public class ProbStrategy implements Strategy {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public ProbStrategy(int seed) {
+	public ProbStrategy(long seed) {
 		this.random = new Random(seed);
 	}
 	

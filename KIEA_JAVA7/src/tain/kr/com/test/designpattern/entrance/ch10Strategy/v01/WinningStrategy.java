@@ -46,7 +46,7 @@ public class WinningStrategy implements Strategy {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public WinningStrategy(int seed) {
+	public WinningStrategy(long seed) {
 		this.random = new Random(seed);
 	}
 	
@@ -62,6 +62,10 @@ public class WinningStrategy implements Strategy {
 	
 	public void study(boolean win) {
 		this.won = win;
+	}
+	
+	public String toString() {
+		return "WinningStrategy";
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
