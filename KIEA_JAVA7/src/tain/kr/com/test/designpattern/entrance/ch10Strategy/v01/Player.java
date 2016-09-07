@@ -75,7 +75,7 @@ public class Player {
 	}
 	
 	public String toString() {
-		return String.format("[ %s : %d games, %d win, %d lose ]", this.name, this.gameCount, this.winCount, this.loseCount);
+		return String.format("[ %s : %d games, %d win, %d lose (%s) ]", this.name, this.gameCount, this.winCount, this.loseCount, this.strategy.getName());
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

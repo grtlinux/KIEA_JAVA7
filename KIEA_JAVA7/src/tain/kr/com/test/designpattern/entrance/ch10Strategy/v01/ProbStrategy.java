@@ -85,6 +85,10 @@ public class ProbStrategy implements Strategy {
 		}
 	}
 	
+	public String getName() {
+		return "ProbStrategy";
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private int getSum(int hv) {

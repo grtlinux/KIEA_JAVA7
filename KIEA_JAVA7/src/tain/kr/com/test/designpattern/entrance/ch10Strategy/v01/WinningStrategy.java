@@ -64,7 +64,7 @@ public class WinningStrategy implements Strategy {
 		this.won = win;
 	}
 	
-	public String toString() {
+	public String getName() {
 		return "WinningStrategy";
 	}
 	
