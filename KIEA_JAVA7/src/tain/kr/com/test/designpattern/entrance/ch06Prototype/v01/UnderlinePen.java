@@ -24,7 +24,7 @@ package tain.kr.com.test.designpattern.entrance.ch06Prototype.v01;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : MessageBox.java
+ *   -. FileName   : UnderlinePen.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch06Prototype.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -34,16 +34,16 @@ package tain.kr.com.test.designpattern.entrance.ch06Prototype.v01;
  * @author taincokr
  *
  */
-public class MessageBox implements Product {
+public class UnderlinePen implements Product {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private final char decoChar;
+	private final char lineChar;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public MessageBox(char decoChar) {
-		this.decoChar = decoChar;
+	public UnderlinePen(char lineChar) {
+		this.lineChar = lineChar;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,15 +52,11 @@ public class MessageBox implements Product {
 		
 		int length = string.getBytes().length;
 		
-		for (int i=0; i < length + 4; i++) {
-			System.out.print(this.decoChar);
-		}
-		System.out.println();
+		System.out.println("\"" + string + "\"");
 		
-		System.out.println(this.decoChar + " " + string + " " + this.decoChar);
-		
-		for (int i=0; i < length + 4; i++) {
-			System.out.print(this.decoChar);
+		System.out.print(" ");
+		for (int i=0; i < length; i++) {
+			System.out.print(this.lineChar);
 		}
 		System.out.println();
 	}
