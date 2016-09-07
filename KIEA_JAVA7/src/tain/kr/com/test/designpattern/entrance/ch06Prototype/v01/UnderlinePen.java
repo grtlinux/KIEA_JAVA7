@@ -44,6 +44,7 @@ public class UnderlinePen implements Product {
 	
 	public UnderlinePen(char lineChar) {
 		this.lineChar = lineChar;
+		System.out.println("constructor of UnderlinePen");
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

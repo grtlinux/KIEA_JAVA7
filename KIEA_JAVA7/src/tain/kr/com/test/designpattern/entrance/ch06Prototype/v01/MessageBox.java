@@ -44,6 +44,7 @@ public class MessageBox implements Product {
 	
 	public MessageBox(char decoChar) {
 		this.decoChar = decoChar;
+		System.out.println("constructor of MessageBox");
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
