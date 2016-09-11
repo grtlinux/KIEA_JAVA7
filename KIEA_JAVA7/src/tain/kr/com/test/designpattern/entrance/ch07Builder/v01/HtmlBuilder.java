@@ -61,7 +61,7 @@ public class HtmlBuilder extends Builder {
 	}
 	
 	public void makeString(String string) {
-		writer.println("<p>" + string + "</p");
+		writer.println("<p>" + string + "</p>");
 	}
 	
 	public void makeItems(String[] items) {
