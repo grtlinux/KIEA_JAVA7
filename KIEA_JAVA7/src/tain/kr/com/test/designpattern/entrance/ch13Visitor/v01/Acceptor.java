@@ -19,13 +19,12 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch13Visitor.v01;
 
-import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : TestMain.java
+ *   -. FileName   : Acceptor.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch13Visitor.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,64 +34,16 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class TestMain {
-
-	private static boolean flag = true;
-
-	private static final Logger log = Logger.getLogger(TestMain.class);
+public interface Acceptor {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	private static void test01(String[] args) throws Exception {
-		
-		if (flag) {
-			System.out.println("Making root entries...");
-			
-			Folder rootdir = new Folder("root");
-			Folder bindir = new Folder("bin");
-			Folder tmpdir = new Folder("tmp");
-			Folder usrdir = new Folder("usr");
-			
-			rootdir.add(bindir);
-			rootdir.add(tmpdir);
-			rootdir.add(usrdir);
-			
-			bindir.add(new File("vi", 10000));
-			bindir.add(new File("latex", 20000));
-			
-			rootdir.accept(new ListVisitor());
-			
-			System.out.println();
-			
-			System.out.println("Making user entries...");
-			
-			Folder kim = new Folder("kim");
-			Folder lee = new Folder("lee");
-			Folder kang = new Folder("kang");
-			
-			usrdir.add(kim);
-			usrdir.add(lee);
-			usrdir.add(kang);
-			
-			kim.add(new File("diary.html", 100));
-			kim.add(new File("Composite.java", 200));
-			lee.add(new File("memo.txt", 300));
-			kang.add(new File("game.doc", 400));
-			kang.add(new File("junk.mail", 500));
-			
-			rootdir.accept(new ListVisotor());
-		}
-	}
 	
-	public static void main(String[] args) throws Exception {
-		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
-	}
+	public abstract void accept(Visitor visitor);
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 }
