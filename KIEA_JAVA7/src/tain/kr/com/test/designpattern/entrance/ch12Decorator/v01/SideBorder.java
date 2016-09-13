@@ -49,14 +49,17 @@ public class SideBorder extends Border {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public int getColumns() {
 		return 1 + super.getDisplay().getColumns() + 1;
 	}
 	
+	@Override
 	public int getRows() {
 		return super.getDisplay().getRows();
 	}
 	
+	@Override
 	public String getRowText(int row) {
 		return borderChar + super.getDisplay().getRowText(row) + borderChar;
 	}

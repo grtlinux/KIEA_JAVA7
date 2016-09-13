@@ -49,25 +49,25 @@ public class TestMain {
 		
 		if (flag) {
 			Display d1 = new StringDisplay("Hello, world..");
-			Display d2 = new SideBorder(b1, '#');
-			Display d3 = new FullBorder(b2);
+			Display d2 = new SideBorder(d1, '#');
+			Display d3 = new FullBorder(d2);
 			
-			b1.show();
-			b2.show();
-			b3.show();
+			d1.show();
+			d2.show();
+			d3.show();
 			
 			Display d4 = new SideBorder(
 					new FullBorder(
 							new FullBorder(
 									new SideBorder(
 											new FullBorder(
-													new Stringdisplay("æ»≥Á«œººø‰")
+													new StringDisplay("æ»≥Á«œººø‰")
 													)
 											, '*')
 									)
 							)
 					, '/');
-			
+			d4.show();
 		}
 	}
 	
