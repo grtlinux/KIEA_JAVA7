@@ -51,7 +51,7 @@ public class TestMain {
 	private static void test01(String[] args) throws Exception {
 		
 		if (flag) {
-			PageMaker.makeWelcomePage("a1@youngjin.com", "welcome.html");
+			PageMaker.makeWelcomePage("a1@youngjin.com", "N:/welcome.html");
 		}
 	}
 	

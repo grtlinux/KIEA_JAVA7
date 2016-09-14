@@ -47,7 +47,7 @@ public class Database {
 	
 	public static Properties getProperties(String dbName) {
 		
-		String fileName = dbName + ".txt";
+		String fileName = "N:/" + dbName + ".txt";
 		
 		Properties prop = new Properties();
 		
