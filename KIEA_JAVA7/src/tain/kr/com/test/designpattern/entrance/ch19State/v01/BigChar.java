@@ -19,13 +19,16 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch19State.v01;
 
-import org.apache.log4j.Logger;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : TestMain.java
+ *   -. FileName   : BigChar.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch19State.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,31 +38,44 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class TestMain {
-
-	private static boolean flag = true;
-
-	private static final Logger log = Logger.getLogger(TestMain.class);
+public class BigChar {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final char charName;
+	private String fontData;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	private static void test01(String[] args) throws Exception {
+	
+	public BigChar(char charName) {
 		
-		if (flag) {
-			BigString bs = new BigString("-0123456789");
-			bs.print();
+		this.charName = charName;
+		
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader("N:/chars/" + "big" + this.charName + ".txt"));
+			
+			StringBuffer sb = new StringBuffer();
+			
+			String line;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line + "\n");
+			}
+			reader.close();
+			
+			this.fontData = sb.toString();
+			
+		} catch (IOException e) {
+			this.fontData = charName + "?";
 		}
 	}
 	
-	public static void main(String[] args) throws Exception {
-		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
+	public void print() {
+		System.out.print(this.fontData);
 	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 }

@@ -19,13 +19,12 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch19State.v01;
 
-import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : TestMain.java
+ *   -. FileName   : BigString.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch19State.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,31 +34,35 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class TestMain {
-
-	private static boolean flag = true;
-
-	private static final Logger log = Logger.getLogger(TestMain.class);
+public class BigString {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final BigChar[] bigChars;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	private static void test01(String[] args) throws Exception {
+	
+	public BigString(String string) {
+		this.bigChars = new BigChar[string.length()];
 		
-		if (flag) {
-			BigString bs = new BigString("-0123456789");
-			bs.print();
+		BigCharFactory factory = BigCharFactory.getInstance();
+		
+		for (int i=0; i < this.bigChars.length; i++) {
+			this.bigChars[i] = factory.getBigChar(string.charAt(i));
 		}
 	}
 	
-	public static void main(String[] args) throws Exception {
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void print() {
 		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
+		for (int i=0; i < this.bigChars.length; i++) {
+			this.bigChars[i].print();
+		}
 	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 }
