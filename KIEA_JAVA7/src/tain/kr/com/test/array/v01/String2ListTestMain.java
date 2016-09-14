@@ -22,6 +22,7 @@ package tain.kr.com.test.array.v01;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
@@ -67,6 +68,9 @@ public class String2ListTestMain {
 				log.debug("OK > " + list1);
 			}
 			
+			/*
+			 * use of toArray method
+			 */
 			String[] strArr = list1.toArray(new String[list1.size()]);
 			
 			if (flag) {
@@ -87,6 +91,48 @@ public class String2ListTestMain {
 
 				System.out.println("OK > " + list2);
 				log.debug("OK > " + list2);
+			}
+		}
+		
+		if (flag) {
+			Vector<String> vec = new Vector<String>();
+			
+			vec.add("Hello-1");
+			vec.add("Hello-2");
+			vec.add("Hello-3");
+			vec.add("Hello-4");
+			vec.add("Hello-5");
+			vec.add("Hello-6");
+			
+			if (flag) {
+				log.debug(">>>>> Vector");
+				for (String string : vec) {
+					log.debug(">>> " + string);
+				}
+			}
+			
+			/*
+			 * use of toArray method
+			 */
+			String[] arr = vec.toArray(new String[vec.size()]);
+			
+			if (flag) {
+				log.debug(">>>>> String[]");
+				for (String string : arr) {
+					log.debug(">>> " + string);
+				}
+			}
+			
+			/*
+			 * use of Arrays.asList and toArray methods
+			 */
+			List<String> lst = new ArrayList<String>(Arrays.asList(vec.toArray(new String[vec.size()])));
+			
+			if (flag) {
+				log.debug(">>>>> List[]");
+				for (String string : lst) {
+					log.debug(">>> " + string);
+				}
 			}
 		}
 	}
