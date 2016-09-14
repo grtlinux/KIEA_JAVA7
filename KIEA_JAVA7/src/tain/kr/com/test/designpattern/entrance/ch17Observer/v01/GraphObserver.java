@@ -19,13 +19,14 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch17Observer.v01;
 
-import org.apache.log4j.Logger;
+import java.util.Arrays;
+
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : TestMain.java
+ *   -. FileName   : GraphObserver.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch17Observer.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,35 +36,47 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class TestMain {
+public class GraphObserver implements Observer {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(TestMain.class);
-
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	private static void test01(String[] args) throws Exception {
+	
+	public void update(NumberGenerator generator) {
+		
+		if (!flag) {
+			
+			System.out.print("GraphObserver : ");
+			
+			int number = generator.getNumber();
+			
+			for (int i=0; i < number; i++) {
+				System.out.print("#");
+			}
+			
+			System.out.println();
+			
+			try { Thread.sleep(100); } catch (InterruptedException e) {}
+		}
 		
 		if (flag) {
-			NumberGenerator generator = new RandomNumberGenerator();
 			
-			generator.addObserver(new DigitObserver());
-			generator.addObserver(new GraphObserver());
+			int number = generator.getNumber();
 			
-			generator.execute();
+			byte[] bytGraph = new byte[number];
+			
+			Arrays.fill(bytGraph, (byte) '#');
+			
+			System.out.println("GraphObserver : " + new String(bytGraph));
+
+			try { Thread.sleep(100); } catch (InterruptedException e) {}
 		}
 	}
 	
-	public static void main(String[] args) throws Exception {
-		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
-	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 }
