@@ -44,10 +44,12 @@ public class ListVisitor extends Visitor {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void visit(File file) {
+		// print file info
 		System.out.println(this.currentFolder + "/" + file);
 	}
 	
 	public void visit(Folder folder) {
+		// print folder info
 		System.out.println(this.currentFolder + "/" + folder);
 		
 		String saveFolder = this.currentFolder;
