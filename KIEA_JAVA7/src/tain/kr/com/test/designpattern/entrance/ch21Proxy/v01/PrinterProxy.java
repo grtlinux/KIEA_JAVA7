@@ -19,13 +19,12 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch21Proxy.v01;
 
-import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : TestMain.java
+ *   -. FileName   : PrinterProxy.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch21Proxy.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,37 +34,52 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class TestMain {
-
-	private static boolean flag = true;
-
-	private static final Logger log = Logger.getLogger(TestMain.class);
+public class PrinterProxy implements Printable {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private String name;
+	private Printer real;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public PrinterProxy() {
+	}
+	
+	public PrinterProxy(String name) {
+		this.name = name;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public synchronized void setPrinterName(String name) {
+		if (real != null) {
+			real.setPrinterName(name);
+		}
+		this.name = name;
+	}
+	
+	@Override
+	public String getPrinterName() {
+		return this.name;
+	}
+	
+	@Override
+	public void print(String string) {
+		realize();
+		real.print(string);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	private static void test01(String[] args) throws Exception {
-		
-		if (flag) {
-			
-			Printable printable = new PrinterProxy("Alice");
-			System.out.println(" 이름은 현재 " + printable.getPrinterName() + " 입니다.");
-			printable.print("Hello, world");
-
-			printable.setPrinterName("Bob");
-			System.out.println(" 이름은 현재 " + printable.getPrinterName() + " 입니다.");
-			printable.print("Hello, world");
+	
+	private synchronized void realize() {
+		if (real == null) {
+			real = new Printer(name);
 		}
 	}
 	
-	public static void main(String[] args) throws Exception {
-		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
-	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 }

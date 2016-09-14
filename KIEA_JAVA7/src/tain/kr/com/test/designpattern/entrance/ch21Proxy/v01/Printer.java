@@ -19,13 +19,12 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch21Proxy.v01;
 
-import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : TestMain.java
+ *   -. FileName   : Printer.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch21Proxy.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,37 +34,54 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class TestMain {
-
-	private static boolean flag = true;
-
-	private static final Logger log = Logger.getLogger(TestMain.class);
+public class Printer implements Printable {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private String name;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	private static void test01(String[] args) throws Exception {
-		
-		if (flag) {
-			
-			Printable printable = new PrinterProxy("Alice");
-			System.out.println(" 이름은 현재 " + printable.getPrinterName() + " 입니다.");
-			printable.print("Hello, world");
-
-			printable.setPrinterName("Bob");
-			System.out.println(" 이름은 현재 " + printable.getPrinterName() + " 입니다.");
-			printable.print("Hello, world");
-		}
+	
+	public Printer() {
+		heavyJob("Printer의 인스턴스를 생성중");
 	}
 	
-	public static void main(String[] args) throws Exception {
-		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
+	public Printer(String name) {
+		this.name = name;
+		heavyJob("Printer의 인스턴스(" + this.name + ")를 생성중");
 	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void setPrinterName(String name) {
+		this.name = name;
+	}
+	
+	@Override
+	public String getPrinterName() {
+		return this.name;
+	}
+	
+	@Override
+	public void print(String string) {
+		System.out.println("=== " + this.name + " ===");
+		System.out.println(string);
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private void heavyJob(String msg) {
+		System.out.print(msg);
+		
+		for (int i=0; i < 5; i++) {
+			try { Thread.sleep(1000); } catch (InterruptedException e) {}
+			System.out.print(".");
+		}
+		
+		System.out.println("완료.");
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 }
