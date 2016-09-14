@@ -75,7 +75,7 @@ public class Printer implements Printable {
 		System.out.print(msg);
 		
 		for (int i=0; i < 5; i++) {
-			try { Thread.sleep(1000); } catch (InterruptedException e) {}
+			try { Thread.sleep(100); } catch (InterruptedException e) {}
 			System.out.print(".");
 		}
 		
