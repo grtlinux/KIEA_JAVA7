@@ -19,12 +19,13 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01;
 
+import java.util.StringTokenizer;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : ParseException.java
+ *   -. FileName   : Context.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -34,18 +35,59 @@ package tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01;
  * @author taincokr
  *
  */
-public class ParseException extends Exception {  // checked exception
-
-	private static final long serialVersionUID = 1L;
+public class Context {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	public ParseException(String message) {
-		super(message);
+	
+	private final StringTokenizer tokenizer;
+	private String currentToken;
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public Context(String text) {
+		
+		this.tokenizer = new StringTokenizer(text);
+		nextToken();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String nextToken() {
+		
+		if (this.tokenizer.hasMoreTokens()) {
+			this.currentToken = this.tokenizer.nextToken();
+		} else {
+			this.currentToken = null;
+		}
+		
+		return this.currentToken;
+	}
+	
+	public String currentToken() {
+		return this.currentToken;
+	}
+	
+	public void skipToken(String token) throws ParseException {
+		
+		if (!token.equals(currentToken)) {
+			throw new ParseException("Warning: " + token + " is expected, but " + this.currentToken + " is found.");
+		}
+		
+		nextToken();
+	}
+	
+	public int currentNumber() throws ParseException {
+		
+		int number = 0;
+		
+		try {
+			number = Integer.parseInt(this.currentToken);
+		} catch (NumberFormatException e) {
+			throw new ParseException("Warning: " + e);
+		}
+		
+		return number;
+	}
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
