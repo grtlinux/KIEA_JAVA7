@@ -78,10 +78,10 @@ public class TestMain extends JFrame implements ActionListener, MouseMotionListe
 		
 		// layout
 		Box buttonBox = new Box(BoxLayout.X_AXIS);
-		buttonBox.add(clearButton);
+		buttonBox.add(this.clearButton);
 		Box mainBox = new Box(BoxLayout.Y_AXIS);
 		mainBox.add(buttonBox);
-		mainBox.add(canvas);
+		mainBox.add(this.canvas);
 		getContentPane().add(mainBox);
 		
 		pack();
@@ -94,7 +94,7 @@ public class TestMain extends JFrame implements ActionListener, MouseMotionListe
 	 * ActionListener
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == clearButton) {
+		if (e.getSource() == this.clearButton) {
 			this.history.clear();
 			this.canvas.repaint();
 		}
