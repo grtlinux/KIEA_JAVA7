@@ -45,7 +45,7 @@ public class CanvasDraw extends Canvas implements DrawImpl {
 	
 	private final Color color = Color.RED;
 	
-	private final int radius = 6;
+	private final int radius = 3;
 	
 	private final MacroCommand history;
 	
