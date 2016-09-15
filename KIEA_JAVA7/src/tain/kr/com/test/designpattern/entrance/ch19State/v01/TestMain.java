@@ -47,6 +47,8 @@ import org.apache.log4j.Logger;
  */
 public class TestMain extends Frame implements ContextImpl {
 
+	private static final long serialVersionUID = 1L;
+
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(TestMain.class);
@@ -89,8 +91,10 @@ public class TestMain extends Frame implements ContextImpl {
 		add(panel, BorderLayout.SOUTH);
 		
 		// show
-		pack();
-		show();
+		//pack();
+		//show();
+		setSize(300, 200);
+		setVisible(true);
 		
 		// listener
 		buttonUse.addActionListener(new ActionListener() {
