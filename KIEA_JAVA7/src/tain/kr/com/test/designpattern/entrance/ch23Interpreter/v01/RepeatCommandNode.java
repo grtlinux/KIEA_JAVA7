@@ -19,13 +19,12 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01;
 
-import java.util.Vector;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : CommandListNode.java
+ *   -. FileName   : RepeatCommandNode.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,36 +34,30 @@ import java.util.Vector;
  * @author taincokr
  *
  */
-public class CommandListNode extends Node {
+public class RepeatCommandNode extends Node {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private Vector<Node> list = new Vector<Node>();
+	private int number;
+	private Node commandListNode;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void parse(Context context) throws ParseException {
 		
-		// loop
-		while (true) {
-			if (context.currentToken() == null) {
-				throw new ParseException("Missing 'END'");
-			} else if (context.currentToken().equalsIgnoreCase("END")) {
-				context.skipToken("END");
-				break;
-			} else {
-				Node commandNode = new CommandNode();
-				commandNode.parse(context);
-				
-				this.list.add(commandNode);
-			}
-		}
+		context.skipToken("REPEAT");
+		
+		this.number = context.currentNumber();
+		context.nextToken();
+		
+		this.commandListNode = new CommandListNode();
+		this.commandListNode.parse(context);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public String toString() {
-		return String.format("%s", this.list);
+		return String.format("[ repeat %d %s ]", this.number, this.commandListNode);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

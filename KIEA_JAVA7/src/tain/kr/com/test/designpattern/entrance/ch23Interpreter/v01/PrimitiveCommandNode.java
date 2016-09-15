@@ -19,13 +19,12 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01;
 
-import java.util.Vector;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : CommandListNode.java
+ *   -. FileName   : PrimitiveCommandNode.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,36 +34,30 @@ import java.util.Vector;
  * @author taincokr
  *
  */
-public class CommandListNode extends Node {
+public class PrimitiveCommandNode extends Node {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private Vector<Node> list = new Vector<Node>();
+	private String name;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void parse(Context context) throws ParseException {
 		
-		// loop
-		while (true) {
-			if (context.currentToken() == null) {
-				throw new ParseException("Missing 'END'");
-			} else if (context.currentToken().equalsIgnoreCase("END")) {
-				context.skipToken("END");
-				break;
-			} else {
-				Node commandNode = new CommandNode();
-				commandNode.parse(context);
-				
-				this.list.add(commandNode);
-			}
+		this.name = context.currentToken();
+		context.skipToken(this.name);
+		
+		if (!this.name.equalsIgnoreCase("GO")
+				&& !this.name.equalsIgnoreCase("RIGHT")
+				&& !this.name.equalsIgnoreCase("LEFT")) {
+			throw new ParseException(this.name + " is undefined.");
 		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public String toString() {
-		return String.format("%s", this.list);
+		return String.format("%s", this.name);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

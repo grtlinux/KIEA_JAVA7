@@ -19,13 +19,12 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01;
 
-import java.util.Vector;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : CommandListNode.java
+ *   -. FileName   : CommandNode.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,36 +34,29 @@ import java.util.Vector;
  * @author taincokr
  *
  */
-public class CommandListNode extends Node {
+public class CommandNode extends Node {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private Vector<Node> list = new Vector<Node>();
+	private Node node;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void parse(Context context) throws ParseException {
-		
-		// loop
-		while (true) {
-			if (context.currentToken() == null) {
-				throw new ParseException("Missing 'END'");
-			} else if (context.currentToken().equalsIgnoreCase("END")) {
-				context.skipToken("END");
-				break;
-			} else {
-				Node commandNode = new CommandNode();
-				commandNode.parse(context);
-				
-				this.list.add(commandNode);
-			}
+	
+		if (context.currentToken().equalsIgnoreCase("REPEAT")) {
+			node = new RepeatCommandNode();
+			node.parse(context);
+		} else {
+			node = new PrimitiveCommandNode();
+			node.parse(context);
 		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public String toString() {
-		return String.format("%s", this.list);
+		return String.format("%s", node);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

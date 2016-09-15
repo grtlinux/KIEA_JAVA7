@@ -45,6 +45,7 @@ public class ProgramNode extends Node {
 	public void parse(Context context) throws ParseException {
 		
 		context.skipToken("PROGRAM");
+		
 		this.commandListNode = new CommandListNode();
 		this.commandListNode.parse(context);
 	}
@@ -52,7 +53,7 @@ public class ProgramNode extends Node {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public String toString() {
-		return String.format("[program %s ]", this.commandListNode);
+		return String.format("[ program %s ]", this.commandListNode);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

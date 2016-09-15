@@ -63,10 +63,10 @@ public class TestMain {
 				
 				log.debug("TEXT >>> " + text);
 				
-				NodeImpl nodeImpl = new ProgramNode();
-				nodeImpl.parse(new Context(text));
+				Node node = new ProgramNode();
+				node.parse(new Context(text));
 				
-				log.debug("NODE >>> " + nodeImpl);
+				log.debug("NODE >>> " + node);
 				
 				System.out.println();
 			}
