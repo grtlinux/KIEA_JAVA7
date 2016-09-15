@@ -19,13 +19,13 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01;
 
-import java.util.StringTokenizer;
+import java.util.Vector;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : Context.java
+ *   -. FileName   : CommandListNode.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,59 +35,36 @@ import java.util.StringTokenizer;
  * @author taincokr
  *
  */
-public class Context {
+public class CommandListNode extends Node {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private final StringTokenizer tokenizer;
-	private String currentToken;
+	private final Vector<Node> list = new Vector<Node>();
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Context(String text) {
+	public void parse(Context context) throws ParseException {
 		
-		this.tokenizer = new StringTokenizer(text);
-		nextToken();
+		while (true) {
+			if (context.currentToken() == null) {
+				throw new ParseException("Missing 'END'");
+			} else if (context.currentToken().equalsIgnoreCase("END")) {
+				context.skipToken("END");
+				break;
+			} else {
+				Node commandNode = new CommandNode();
+				commandNode.parse(context);
+				list.add(commandNode);
+			}
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public String nextToken() {
-		
-		if (this.tokenizer.hasMoreTokens()) {
-			this.currentToken = this.tokenizer.nextToken();
-		} else {
-			this.currentToken = null;
-		}
-		
-		return this.currentToken;
+	public String toString() {
+		return String.format("%s", this.list);
 	}
 	
-	public String currentToken() {
-		return this.currentToken;
-	}
-	
-	public void skipToken(String token) throws ParseException {
-		
-		if (!token.equalsIgnoreCase(this.currentToken)) {
-			throw new ParseException("Warning: " + token + " is expected, but " + this.currentToken + " is found.");
-		}
-		
-		nextToken();
-	}
-	
-	public int currentNumber() throws ParseException {
-		
-		int number = 0;
-		
-		try {
-			number = Integer.parseInt(this.currentToken);
-		} catch (NumberFormatException e) {
-			throw new ParseException("Warning: " + e);
-		}
-		
-		return number;
-	}
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////

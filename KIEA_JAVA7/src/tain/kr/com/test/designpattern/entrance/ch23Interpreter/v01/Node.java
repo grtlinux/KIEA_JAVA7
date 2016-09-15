@@ -19,13 +19,12 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01;
 
-import java.util.StringTokenizer;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : Context.java
+ *   -. FileName   : NodeImpl.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch23Interpreter.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,59 +34,14 @@ import java.util.StringTokenizer;
  * @author taincokr
  *
  */
-public class Context {
+public abstract class Node {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private final StringTokenizer tokenizer;
-	private String currentToken;
+	public abstract void parse(Context context) throws ParseException;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public Context(String text) {
-		
-		this.tokenizer = new StringTokenizer(text);
-		nextToken();
-	}
-	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public String nextToken() {
-		
-		if (this.tokenizer.hasMoreTokens()) {
-			this.currentToken = this.tokenizer.nextToken();
-		} else {
-			this.currentToken = null;
-		}
-		
-		return this.currentToken;
-	}
-	
-	public String currentToken() {
-		return this.currentToken;
-	}
-	
-	public void skipToken(String token) throws ParseException {
-		
-		if (!token.equalsIgnoreCase(this.currentToken)) {
-			throw new ParseException("Warning: " + token + " is expected, but " + this.currentToken + " is found.");
-		}
-		
-		nextToken();
-	}
-	
-	public int currentNumber() throws ParseException {
-		
-		int number = 0;
-		
-		try {
-			number = Integer.parseInt(this.currentToken);
-		} catch (NumberFormatException e) {
-			throw new ParseException("Warning: " + e);
-		}
-		
-		return number;
-	}
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
