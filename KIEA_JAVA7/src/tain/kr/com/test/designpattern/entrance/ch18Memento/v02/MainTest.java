@@ -68,15 +68,15 @@ public class MainTest {
 				
 				gamer.bet();
 				
-				System.out.format("돈은 %d 원이 되었습니다.", gamer.getMoney());
+				System.out.format("돈은 %d 원이 되었습니다.\n", gamer.getMoney());
 				
 				if (gamer.getMoney() > memento.getMoney()) {
 					memento = gamer.createMemento();
-					System.out.println("    (많이 증가했으니 현재의 상태를 보존해두자)");
+					System.out.println("    (많이 증가했으니 현재의 상태를 보존해두자) " + memento);
 					
 				} else if (gamer.getMoney() < memento.getMoney() / 2) {
 					gamer.restoreMemento(memento);
-					System.out.println("    (많이 줄었으니 이전의 상태로 복귀하자)");
+					System.out.println("    (많이 줄었으니 이전의 상태로 복귀하자) " + memento);
 				}
 				
 				try { Thread.sleep(1000); } catch (InterruptedException e) {}

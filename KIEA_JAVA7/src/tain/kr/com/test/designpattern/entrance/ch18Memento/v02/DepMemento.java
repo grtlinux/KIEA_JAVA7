@@ -52,7 +52,7 @@ public class DepMemento {
 	
 	public DepMemento(int money) {
 		
-		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		if (!flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
 		
 		this.money = money;
 		this.fruites = new Vector<String>();
@@ -73,6 +73,11 @@ public class DepMemento {
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public String toString() {
+		return String.format("Memento ##### [money = %d, fruits = %s]", this.money, this.fruites);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 

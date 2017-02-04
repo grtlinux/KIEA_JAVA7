@@ -80,7 +80,7 @@ public class DepGamer {
 		String prefix = "";
 		
 		if (this.random.nextBoolean()) {
-			prefix = "∏¿¿÷¥Ÿ. ";
+			prefix = "∏¿¿÷¥Ÿ ";
 		}
 		
 		return prefix + fruitsName[this.random.nextInt(fruitsName.length)];
