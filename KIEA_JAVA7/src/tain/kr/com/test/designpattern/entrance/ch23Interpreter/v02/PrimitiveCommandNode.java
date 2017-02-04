@@ -19,15 +19,13 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch23Interpreter.v02;
 
-import java.util.Vector;
-
 import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : CommandListNode.java
+ *   -. FileName   : PrimitiveCommandNode.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch23Interpreter.v02
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -37,15 +35,16 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class CommandListNode extends Node {
+public class PrimitiveCommandNode extends Node {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(CommandListNode.class);
+	private static final Logger log = Logger
+			.getLogger(PrimitiveCommandNode.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private Vector<Node> listCommandNode = new Vector<Node>();
+	private String name;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -53,26 +52,20 @@ public class CommandListNode extends Node {
 		
 		if (!flag) log.debug(">>> in class " + this.getClass().getName());
 		
-		// LOOP
-		while (true) {
-			if (context.currentToken() == null) {
-				throw new ParseException("missing 'END'");
-			} else if (context.currentToken().equalsIgnoreCase("END")) {
-				context.skipToken("END");
-				break;
-			} else {
-				Node commandNode = new CommandNode();
-				commandNode.parse(context);
-				
-				this.listCommandNode.add(commandNode);
-			}
+		this.name = context.currentToken();
+		context.skipToken(this.name);
+		
+		if (!this.name.equalsIgnoreCase("GO")
+				&& !this.name.equalsIgnoreCase("RIGHT")
+				&& !this.name.equalsIgnoreCase("LEFT")) {
+			throw new ParseException(this.name + " is undefined..");
 		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public String toString() {
-		return String.format("%s", this.listCommandNode);
+		return String.format("%s", this.name);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

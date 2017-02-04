@@ -49,12 +49,14 @@ public class CommandNode extends Node {
 	
 	public void parse(Context context) throws ParseException {
 		
-		if (flag) log.debug(">>> in class " + this.getClass().getName());
+		if (!flag) log.debug(">>> in class " + this.getClass().getName());
 		
-		if (context.currentToken().equalsIgnoreCase("")) {
-			
+		if (context.currentToken().equalsIgnoreCase("REPEAT")) {
+			node = new RepeatCommandNode();
+			node.parse(context);
 		} else {
-			
+			node = new PrimitiveCommandNode();
+			node.parse(context);
 		}
 	}
 	
