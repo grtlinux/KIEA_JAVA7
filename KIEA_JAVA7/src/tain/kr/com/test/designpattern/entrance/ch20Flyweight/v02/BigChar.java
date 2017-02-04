@@ -19,13 +19,17 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch20Flyweight.v02;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : BigString.java
+ *   -. FileName   : BigChar.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch20Flyweight.v02
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,38 +39,46 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class BigString {
+public class BigChar {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(BigString.class);
+	private static final Logger log = Logger.getLogger(BigChar.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private final BigChar[] bigChars;
+	private final char charName;
+	private String fontData;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public BigString(String string) {
+	public BigChar(char charName) {
 		
 		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
 		
-		this.bigChars = new BigChar[string.length()];
+		this.charName = charName;
 		
-		BigCharFactory factory = BigCharFactory.getInstance();
-		
-		for (int i=0; i < this.bigChars.length; i++) {
-			this.bigChars[i] = factory.getBigChar(string.charAt(i));
+		try {
+			StringBuffer sb = new StringBuffer();
+			
+			BufferedReader reader = new BufferedReader(new FileReader("chars/big" + this.charName + ".txt"));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line + "\n");
+			}
+			reader.close();
+			
+			this.fontData = sb.toString();
+			
+		} catch (IOException e) {
+			this.fontData = charName + "?";
 		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void print() {
-		
-		for (int i=0; i < this.bigChars.length; i++) {
-			this.bigChars[i].print();
-		}
+		System.out.print(this.fontData);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

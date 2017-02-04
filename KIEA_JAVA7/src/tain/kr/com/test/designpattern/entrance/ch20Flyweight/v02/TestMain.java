@@ -59,7 +59,8 @@ public class TestMain {
 		if (flag) new TestMain();
 		
 		if (flag) {
-			
+			BigString bigString = new BigString("-0123456789");
+			bigString.print();
 		}
 	}
 	

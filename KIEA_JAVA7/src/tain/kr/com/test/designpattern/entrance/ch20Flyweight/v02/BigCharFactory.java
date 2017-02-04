@@ -23,8 +23,6 @@ import java.util.Hashtable;
 
 import org.apache.log4j.Logger;
 
-import tain.kr.com.test.designpattern.entrance.ch20Flyweight.v01.BigChar;
-
 /**
  * Code Templates > Comments > Types
  *
