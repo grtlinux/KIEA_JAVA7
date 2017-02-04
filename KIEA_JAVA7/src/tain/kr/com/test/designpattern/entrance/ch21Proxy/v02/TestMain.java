@@ -64,7 +64,9 @@ public class TestMain {
 			
 			printer.setPrinterName("Alice");
 			System.out.println(" 이름은 현재 " + printer.getPrinterName() + " 입니다.");
-			printer.print("Hello, world");
+			printer.print("Hello, world");  // <- execute main
+			
+			try { Thread.sleep(3000); } catch (InterruptedException e) {}
 			
 			printer.setPrinterName("Bob");
 			System.out.println(" 이름은 현재 " + printer.getPrinterName() + " 입니다.");
