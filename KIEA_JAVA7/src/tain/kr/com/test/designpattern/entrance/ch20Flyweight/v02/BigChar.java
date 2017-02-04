@@ -54,14 +54,19 @@ public class BigChar {
 	
 	public BigChar(char charName) {
 		
-		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName() + " (" + charName + ")");
 		
 		this.charName = charName;
 		
 		try {
 			StringBuffer sb = new StringBuffer();
 			
-			BufferedReader reader = new BufferedReader(new FileReader("chars/big" + this.charName + ".txt"));
+			String path = "N:/chars";
+			// String path = this.getClass().getEnclosingClass().getName().replace('.', '/') + "/chars";
+			//String path = "tain.kr.com.test.designpattern.entrance.ch20Flyweight.v02".replace('.', '/') + "/chars";
+			//if (flag) log.debug(">>>>> " + path);
+			
+			BufferedReader reader = new BufferedReader(new FileReader(path + "/big" + this.charName + ".txt"));
 			String line;
 			while ((line = reader.readLine()) != null) {
 				sb.append(line + "\n");
@@ -71,7 +76,7 @@ public class BigChar {
 			this.fontData = sb.toString();
 			
 		} catch (IOException e) {
-			this.fontData = charName + "?";
+			this.fontData = charName + "?\n";
 		}
 	}
 	
