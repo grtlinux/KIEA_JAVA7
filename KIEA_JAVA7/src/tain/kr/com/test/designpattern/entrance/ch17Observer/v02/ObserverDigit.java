@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : MainTest.java
+ *   -. FileName   : ObserverDigit.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch17Observer.v02
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,43 +35,31 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MainTest {
+public class ObserverDigit implements ImplObserver {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(MainTest.class);
+	private static final Logger log = Logger.getLogger(ObserverDigit.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public MainTest() {
+	public ObserverDigit() {
 		
 		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void update(AbstNumberGenerator generator) {
+		
+		System.out.format("%s : %d\n", this.getClass().getSimpleName(), generator.getNumber());
+		
+		try { Thread.sleep(100); } catch (InterruptedException e) {}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static void test01(String[] args) throws Exception {
-		
-		if (flag) new MainTest();
-		
-		if (flag) {
-			AbstNumberGenerator generator = new NumberGeneratorRandom();
-			
-			generator.addObserver(new ObserverDigit());
-			generator.addObserver(new ObserverGraph());
-			
-			generator.execute();
-		}
-	}
-	
-	public static void main(String[] args) throws Exception {
-		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
-	}
 }

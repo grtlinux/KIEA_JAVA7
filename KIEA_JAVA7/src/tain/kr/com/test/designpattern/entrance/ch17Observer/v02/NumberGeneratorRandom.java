@@ -19,13 +19,16 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch17Observer.v02;
 
+import java.util.Date;
+import java.util.Random;
+
 import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : MainTest.java
+ *   -. FileName   : NumberGeneratorRandom.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch17Observer.v02
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,43 +38,46 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MainTest {
+public class NumberGeneratorRandom extends AbstNumberGenerator {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(MainTest.class);
+	private static final Logger log = Logger
+			.getLogger(NumberGeneratorRandom.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final Random random;
+	
+	private int number;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public MainTest() {
+	public NumberGeneratorRandom() {
 		
 		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		this.random = new Random(new Date().getTime());
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	private static void test01(String[] args) throws Exception {
+	
+	@Override
+	public int getNumber() {
+		return this.number;
+	}
+	
+	@Override
+	public void execute() {
 		
-		if (flag) new MainTest();
-		
-		if (flag) {
-			AbstNumberGenerator generator = new NumberGeneratorRandom();
-			
-			generator.addObserver(new ObserverDigit());
-			generator.addObserver(new ObserverGraph());
-			
-			generator.execute();
+		for (int i=0; i < 20; i++) {
+			this.number = this.random.nextInt(50);
+			notifyObserver();
 		}
 	}
 	
-	public static void main(String[] args) throws Exception {
-		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
-	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 }
