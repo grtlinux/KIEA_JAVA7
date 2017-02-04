@@ -53,16 +53,21 @@ public class TestMain {
 		if (flag) {
 			String[] programs = new String[] {
 					"program end",
-					"program go end",
-					"program go right go right go right go right end",
-					"program repeat 4 go right end end",
-					"program repeat 4 repeat 3 go right go left end right end end",
+					//"program go end",
+					//"program go right go right go right go right end",
+					//"program repeat 4 go right end end",
+					//"program repeat 4 repeat 3 go right go left end right end end",
 			};
 			
 			for (String program : programs) {
-				log.debug("PROGRAM >>> " + program);
+				if (flag) log.debug("PROGRAM >>> " + program);
 				
-				System.out.println();
+				Node node = new ProgramNode();
+				node.parse(new Context(program));
+				
+				if (flag) log.debug("NODE >>> " + node);
+				
+				if (flag) System.out.println();
 			}
 		}
 	}

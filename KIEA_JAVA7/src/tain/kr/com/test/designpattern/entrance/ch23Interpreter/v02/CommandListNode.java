@@ -19,7 +19,7 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch23Interpreter.v02;
 
-import java.util.StringTokenizer;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : Context.java
+ *   -. FileName   : CommandListNode.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch23Interpreter.v02
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -37,67 +37,44 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Context {
+public class CommandListNode extends Node {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(Context.class);
+	private static final Logger log = Logger.getLogger(CommandListNode.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private final StringTokenizer tokenizer;
-	private String currentToken;
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	public Context(String text) {
-		
-		if (!flag) log.debug("-> " + text);
-		
-		this.tokenizer = new StringTokenizer(text);
-		nextToken();
-	}
+	private Vector<Node> list = new Vector<Node>();
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public String nextToken() {
+	public void parse(Context context) throws ParseException {
 		
-		if (this.tokenizer.hasMoreTokens()) {
-			this.currentToken = this.tokenizer.nextToken();
-		} else {
-			this.currentToken = null;
+		if (flag) log.debug(">>> in class " + this.getClass().getName());
+		
+		// LOOP
+		while (true) {
+			if (context.currentToken() == null) {
+				throw new ParseException("missing 'END'");
+			} else if (context.currentToken().equalsIgnoreCase("END")) {
+				context.skipToken("END");
+				break;
+			} else {
+				Node commandNode = new CommandNode();
+				commandNode.parse(context);
+				
+				this.list.add(commandNode);
+			}
 		}
-		
-		return this.currentToken;
-	}
-	
-	public String currentToken() {
-		return this.currentToken;
-	}
-	
-	public void skipToken(String token) throws ParseException {
-		
-		if (!token.equalsIgnoreCase(this.currentToken)) {
-			throw new ParseException("Warning: " + token + " is expected, but " + this.currentToken + " is found.");
-		}
-		
-		nextToken();
-	}
-	
-	public int currentNumber() throws ParseException {
-		
-		int number = 0;
-		
-		try {
-			number = Integer.parseInt(this.currentToken);
-		} catch (NumberFormatException e) {
-			throw new ParseException("Warning: " + e);
-		}
-		
-		return number;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String toString() {
+		return String.format("%s", this.list);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////

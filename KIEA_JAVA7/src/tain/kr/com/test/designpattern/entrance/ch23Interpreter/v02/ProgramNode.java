@@ -19,15 +19,13 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch23Interpreter.v02;
 
-import java.util.StringTokenizer;
-
 import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : Context.java
+ *   -. FileName   : ProgramNode.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch23Interpreter.v02
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -37,67 +35,34 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Context {
+public class ProgramNode extends Node {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(Context.class);
+	private static final Logger log = Logger.getLogger(ProgramNode.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private final StringTokenizer tokenizer;
-	private String currentToken;
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	public Context(String text) {
-		
-		if (!flag) log.debug("-> " + text);
-		
-		this.tokenizer = new StringTokenizer(text);
-		nextToken();
-	}
+	private Node commandListNode;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public String nextToken() {
+	public void parse(Context context) throws ParseException {
 		
-		if (this.tokenizer.hasMoreTokens()) {
-			this.currentToken = this.tokenizer.nextToken();
-		} else {
-			this.currentToken = null;
-		}
+		if (flag) log.debug(">>> in class " + this.getClass().getSimpleName());
 		
-		return this.currentToken;
-	}
+		context.skipToken("PROGRAM");
 	
-	public String currentToken() {
-		return this.currentToken;
-	}
-	
-	public void skipToken(String token) throws ParseException {
-		
-		if (!token.equalsIgnoreCase(this.currentToken)) {
-			throw new ParseException("Warning: " + token + " is expected, but " + this.currentToken + " is found.");
-		}
-		
-		nextToken();
-	}
-	
-	public int currentNumber() throws ParseException {
-		
-		int number = 0;
-		
-		try {
-			number = Integer.parseInt(this.currentToken);
-		} catch (NumberFormatException e) {
-			throw new ParseException("Warning: " + e);
-		}
-		
-		return number;
+		this.commandListNode = new CommandListNode();
+		this.commandListNode.parse(context);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String toString() {
+		return String.format("[ program %s ]", this.commandListNode);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
