@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : TestMain.java
+ *   -. FileName   : MainTest.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch19State.v03
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,17 +35,50 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class TestMain {
+public class MainTest {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(TestMain.class);
+	private static final Logger log = Logger.getLogger(MainTest.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public MainTest() {
+		
+		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	private static void test01(String[] args) throws Exception {
+		
+		if (flag) new MainTest();
+		
+		if (flag) {
+			/*
+			 * main process
+			 */
+			ContextFrame frame = new ContextFrame("State Sample");
+			
+			while (true) {
+				
+				for (int hour = 0; hour < 24; hour ++) {
+					frame.setClock(hour);
+					
+					try { Thread.sleep(2000); } catch (InterruptedException e) {}
+				}
+			}
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
+		
+		if (flag) test01(args);
+	}
 }

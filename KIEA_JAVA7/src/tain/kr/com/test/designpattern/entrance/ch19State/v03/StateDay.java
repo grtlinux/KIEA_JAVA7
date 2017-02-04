@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class StateDay {
+public class StateDay implements ImplState {
 
 	private static boolean flag = true;
 
@@ -43,9 +43,53 @@ public class StateDay {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private StateDay() {
+		
+		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void doClock(ImplContext context, int hour) {
+		if (hour < 9 || 17 <= hour) {
+			context.changeState(StateNight.getInstance());
+		}
+	}
+	
+	@Override
+	public void doUse(ImplContext context) {
+		context.recordLog("금고사용(주간)");
+	}
+	
+	@Override
+	public void doAlarm(ImplContext context) {
+		context.callSecurityCenter("비상벨(주간)");
+	}
+	
+	@Override
+	public void doPhone(ImplContext context) {
+		context.callSecurityCenter("일반통화(주간)");
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String toString() {
+		return "[주간]";
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	private static StateDay instance = null;
+	
+	public synchronized static StateDay getInstance() {
+		
+		if (instance == null) {
+			instance = new StateDay();
+		}
+		
+		return instance;
+	}
 }

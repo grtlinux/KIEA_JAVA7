@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class StateNight {
+public class StateNight implements ImplState {
 
 	private static boolean flag = true;
 
@@ -43,9 +43,53 @@ public class StateNight {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private StateNight() {
+		
+		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void doClock(ImplContext context, int hour) {
+		if (9 <= hour && hour < 17) {
+			context.changeState(StateDay.getInstance());
+		}
+	}
+	
+	@Override
+	public void doUse(ImplContext context) {
+		context.recordLog("비상:야간의 금고사용");
+	}
+	
+	@Override
+	public void doAlarm(ImplContext context) {
+		context.callSecurityCenter("비상벨(야간)");
+	}
+	
+	@Override
+	public void doPhone(ImplContext context) {
+		context.callSecurityCenter("야간의 통화 녹음");
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String toString() {
+		return "[야간]";
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	private static StateNight instance = null;
+	
+	public synchronized static StateNight getInstance() {
+		
+		if (instance == null) {
+			instance = new StateNight();
+		}
+		
+		return instance;
+	}
 }
