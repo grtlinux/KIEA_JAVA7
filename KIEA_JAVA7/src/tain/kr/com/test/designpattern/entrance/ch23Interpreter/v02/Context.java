@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : TestMain.java
+ *   -. FileName   : Context.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch23Interpreter.v02
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,11 +35,11 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class TestMain {
+public class Context {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(TestMain.class);
+	private static final Logger log = Logger.getLogger(Context.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,29 +48,4 @@ public class TestMain {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static void test01(String[] args) throws Exception {
-		
-		if (flag) {
-			String[] programs = new String[] {
-					"program end",
-					"program go end",
-					"program go right go right go right go right end",
-					"program repeat 4 go right end end",
-					"program repeat 4 repeat 3 go right go left end right end end",
-			};
-			
-			for (String program : programs) {
-				log.debug("PROGRAM >>> " + program);
-				
-				System.out.println();
-			}
-		}
-	}
-	
-	public static void main(String[] args) throws Exception {
-		
-		if (flag) log.debug(">>>>>  " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
-	}
 }
