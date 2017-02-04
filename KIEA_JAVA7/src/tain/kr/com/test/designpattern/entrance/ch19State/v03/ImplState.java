@@ -19,7 +19,6 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch19State.v03;
 
-import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
@@ -37,4 +36,8 @@ import org.apache.log4j.Logger;
  */
 public interface ImplState {
 
+	public abstract void doClock(ImplContext context, int hour);
+	public abstract void doUse(ImplContext context);
+	public abstract void doAlarm(ImplContext context);
+	public abstract void doPhone(ImplContext context);
 }
