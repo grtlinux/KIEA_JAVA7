@@ -49,7 +49,7 @@ public class ProgramNode extends Node {
 	
 	public void parse(Context context) throws ParseException {
 		
-		if (flag) log.debug(">>> in class " + this.getClass().getSimpleName());
+		if (!flag) log.debug(">>> in class " + this.getClass().getSimpleName());
 		
 		context.skipToken("PROGRAM");
 	

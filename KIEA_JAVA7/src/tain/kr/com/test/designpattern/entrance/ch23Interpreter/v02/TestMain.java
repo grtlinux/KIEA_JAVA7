@@ -63,10 +63,10 @@ public class TestMain {
 		if (flag) {
 			String[] programs = new String[] {
 					"program end",
-					//"program go end",
-					//"program go right go right go right go right end",
-					//"program repeat 4 go right end end",
-					//"program repeat 4 repeat 3 go right go left end right end end",
+					"program go end",
+					"program go right go right go right go right end",
+					"program repeat 4 go right end end",
+					"program repeat 4 repeat 3 go right go left end right end end",
 			};
 			
 			for (String program : programs) {
