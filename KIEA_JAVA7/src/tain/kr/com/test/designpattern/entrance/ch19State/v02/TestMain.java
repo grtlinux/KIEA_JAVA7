@@ -19,6 +19,16 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch19State.v02;
 
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Frame;
+import java.awt.Panel;
+import java.awt.TextArea;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,31 +45,151 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class TestMain {
+public class TestMain extends Frame implements ContextImpl {
 
+	private static final long serialVersionUID = 1L;
+	
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(TestMain.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private TextField textClock = new TextField(60);
+	private TextArea textScreen = new TextArea(10, 60);
+	private Button buttonUse = new Button("USE");
+	private Button buttonAlarm = new Button("ALARM");
+	private Button buttonPhone = new Button("PHONE");
+	private Button buttonExit = new Button("EXIT");
+	
+	private StateImpl state = DayState.getInstance();
+	
+	private ContextImpl context = this;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public TestMain() {
 		
-		if (flag) log.debug(">>>>> " + this.getClass().getSimpleName());
+		this("Default State Sample");
+	}
+	
+	public TestMain(String title) {
+		
+		super(title);
+
+		if (flag) log.debug(">>>>> " + this.getClass().getSimpleName() + " - " + title);
+
+		setBackground(Color.LIGHT_GRAY);
+		setLayout(new BorderLayout());
+		
+		// textClock
+		add(this.textClock, BorderLayout.NORTH);
+		this.textClock.setEditable(false);
+		
+		// textScreen
+		add(this.textScreen, BorderLayout.CENTER);
+		this.textScreen.setEditable(false);
+		
+		// button in pane
+		Panel panel = new Panel();
+		panel.add(this.buttonUse);
+		panel.add(this.buttonAlarm);
+		panel.add(this.buttonPhone);
+		panel.add(this.buttonExit);
+		add(panel, BorderLayout.SOUTH);
+		
+		// show
+		//pack();
+		//show();
+		setSize(300, 200);
+		setVisible(true);
+		
+		// listener
+		this.buttonUse.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(e);
+				state.doUse(context);
+			}
+		});
+		
+		this.buttonAlarm.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(e);
+				state.doAlarm(context);
+			}
+		});
+		
+		this.buttonPhone.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(e);
+				state.doPhone(context);
+			}
+		});
+		
+		this.buttonExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(e);
+				System.exit(0);
+			}
+		});
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public void setClock(int hour) {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(String.format("현재시각은 %02d:00", hour));
+		
+		System.out.println(sb.toString());
+		
+		this.textClock.setText(sb.toString());
+		this.state.doClock(context, hour);
+	}
+	
+	@Override
+	public void changeState(StateImpl state) {
+		
+		System.out.format("상태가 %s에서 %s로 상태가 변화했습니다.", this.state, state);
+		this.state = state;
+	}
+	
+	@Override
+	public void callSecurityCenter(String msg) {
+		
+		this.textScreen.append("call! " + msg + "\n");
+	}
+	
+	@Override
+	public void recordLog(String msg) {
+		this.textScreen.append("record ... " + msg + "\n");
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static void test01(String[] args) throws Exception {
 		
-		if (flag) new TestMain();
+		if (!flag) new TestMain();
 		
 		if (flag) {
+			TestMain frame = new TestMain("State Sample");
 			
+			while (true) {
+				
+				for (int hour = 0; hour < 24; hour++) {
+					frame.setClock(hour);
+					
+					try { Thread.sleep(1000); } catch (InterruptedException e) {}
+				}
+			}
 		}
 	}
 	

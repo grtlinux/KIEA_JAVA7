@@ -60,17 +60,17 @@ public class DayState implements StateImpl {
 	
 	@Override
 	public void doUse(ContextImpl context) {
-		
+		context.recordLog("금고사용(주간)");
 	}
 	
 	@Override
 	public void doAlarm(ContextImpl context) {
-		
+		context.callSecurityCenter("비상벨(주간)");
 	}
 	
 	@Override
 	public void doPhone(ContextImpl context) {
-		
+		context.callSecurityCenter("일반통화(주간)");
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////

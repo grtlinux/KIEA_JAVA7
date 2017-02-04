@@ -53,22 +53,24 @@ public class NightState implements StateImpl {
 	
 	@Override
 	public void doClock(ContextImpl context, int hour) {
-		
+		if (9 <= hour && hour < 17) {
+			context.changeState(DayState.getInstance());
+		}
 	}
 	
 	@Override
 	public void doUse(ContextImpl context) {
-		
+		context.recordLog("비상:야간의 금고사용");
 	}
 	
 	@Override
 	public void doAlarm(ContextImpl context) {
-		
+		context.callSecurityCenter("비상벨(야간)");
 	}
 	
 	@Override
 	public void doPhone(ContextImpl context) {
-		
+		context.callSecurityCenter("야간의 통화 녹음");
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
