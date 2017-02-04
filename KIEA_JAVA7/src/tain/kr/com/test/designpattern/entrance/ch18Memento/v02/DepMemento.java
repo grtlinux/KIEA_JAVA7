@@ -19,13 +19,15 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch18Memento.v02;
 
+import java.util.Vector;
+
 import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : MainTest.java
+ *   -. FileName   : DepMemento.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch18Memento.v02
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,61 +37,43 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MainTest {
+public class DepMemento {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(MainTest.class);
+	private static final Logger log = Logger.getLogger(DepMemento.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final int money;
+	private final Vector<String> fruites;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public MainTest() {
+	public DepMemento(int money) {
 		
 		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		this.money = money;
+		this.fruites = new Vector<String>();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public int getMoney() {
+		return this.money;
+	}
+	
+	public Vector<String> getFruits() {
+		return this.fruites;
+	}
+	
+	public void addFruit(String fruit) {
+		this.fruites.add(fruit);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static void test01(String[] args) throws Exception {
-		
-		if (flag) new MainTest();
-		
-		if (flag) {
-			DepGamer gamer = new DepGamer(100);
-			
-			DepMemento memento = gamer.createMemento();
-			
-			for (int i=0; i < 100; i++) {
-				System.out.format("==== %d ==== 상태 : %s\n", i, gamer);
-				
-				gamer.bet();
-				
-				System.out.format("돈은 %d 원이 되었습니다.", gamer.getMoney());
-				
-				if (gamer.getMoney() > memento.getMoney()) {
-					memento = gamer.createMemento();
-					System.out.println("    (많이 증가했으니 현재의 상태를 보존해두자)");
-					
-				} else if (gamer.getMoney() < memento.getMoney() / 2) {
-					gamer.restoreMemento(memento);
-					System.out.println("    (많이 줄었으니 이전의 상태로 복귀하자)");
-				}
-				
-				try { Thread.sleep(1000); } catch (InterruptedException e) {}
-				
-				System.out.println();
-			}
-		}
-	}
-	
-	public static void main(String[] args) throws Exception {
-		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
-	}
 }
