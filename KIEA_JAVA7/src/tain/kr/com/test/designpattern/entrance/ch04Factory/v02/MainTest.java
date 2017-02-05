@@ -59,7 +59,19 @@ public class MainTest {
 		if (flag) new MainTest();
 		
 		if (flag) {
-
+			AbstFactory factory = new FactoryCard();
+			
+			AbstProduct card1 = factory.create("홍길동");
+			AbstProduct card2 = factory.create("이순신");
+			AbstProduct card3 = factory.create("강감찬");
+			
+			card1.use();
+			card2.use();
+			card3.use();
+			
+			for (String owner : ((FactoryCard) factory).getOwners()) {
+				if (flag) System.out.println("> " + owner);
+			}
 		}
 	}
 	
