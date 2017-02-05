@@ -59,7 +59,15 @@ public class MainTest {
 		if (flag) new MainTest();
 		
 		if (flag) {
-
+			Dep1Director director = new Dep1Director(new BuilderText());
+			String result = (String) director.construct();
+			System.out.println(result);
+		}
+		
+		if (flag) {
+			Dep1Director director = new Dep1Director(new BuilderHtml());
+			String fileName = (String) director.construct();
+			System.out.println(fileName + " 파일이 작성되었습니다.");
 		}
 	}
 	
