@@ -19,13 +19,15 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch06Prototype.v02;
 
+import java.util.Hashtable;
+
 import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : MainTest.java
+ *   -. FileName   : Dep1Manager.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch06Prototype.v02
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,59 +37,38 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MainTest {
+public class Dep1Manager {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(MainTest.class);
+	private static final Logger log = Logger.getLogger(Dep1Manager.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public MainTest() {
+	private final Hashtable<String, ImplProduct> showCase;
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Dep1Manager() {
 		
 		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
-	}
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	private static void test01(String[] args) throws Exception {
 		
-		if (flag) new MainTest();
-		
-		if (flag) {
-			// ready
-			Dep1Manager manager = new Dep1Manager();
-			
-			manager.register("strong message", new ProductUnderlinePen('-'));
-			manager.register("warning box", new ProductMessageBox('*'));
-			manager.register("slash box", new ProductMessageBox('/'));
-			
-			// clone
-			ImplProduct p1 = manager.create("strong message");
-			ImplProduct p2 = manager.create("strong message");
-			ImplProduct p3 = manager.create("warning box");
-			ImplProduct p4 = manager.create("warning box");
-			ImplProduct p5 = manager.create("slash box");
-			ImplProduct p6 = manager.create("slash box");
-			
-			// use
-			p1.use("Hello, world 1");
-			p2.use("Hello, world 2");
-			p3.use("Hello, world 3");
-			p4.use("Hello, world 4");
-			p5.use("Hello, world 5");
-			p6.use("Hello, world 6");
-		}
+		this.showCase = new Hashtable<String, ImplProduct>();
 	}
 	
-	public static void main(String[] args) throws Exception {
-		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void register(String name, ImplProduct proto) {
+		this.showCase.put(name, proto);
 	}
+	
+	public ImplProduct create(String protoName) {
+		ImplProduct product = (ImplProduct) this.showCase.get(protoName);
+		return product.createClone();
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 }
