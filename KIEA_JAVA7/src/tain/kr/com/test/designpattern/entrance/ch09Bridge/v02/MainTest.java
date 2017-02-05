@@ -59,7 +59,15 @@ public class MainTest {
 		if (flag) new MainTest();
 		
 		if (flag) {
-
+			Sup1Disp d1 = new Sup1Disp(new DisplayString("Hello, Korea..."));
+			Sup1Disp d2 = new DispCount(new DisplayString("Hello, World...."));
+			DispCount d3 = new DispCount(new DisplayString("Hello, Universe......"));
+			
+			d1.display();
+			d2.display();
+			((DispCount)d2).multiDisplay(3);
+			d3.display();
+			d3.multiDisplay(5);
 		}
 	}
 	
