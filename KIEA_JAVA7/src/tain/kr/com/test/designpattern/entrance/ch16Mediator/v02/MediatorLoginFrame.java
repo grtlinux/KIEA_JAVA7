@@ -90,6 +90,8 @@ public class MediatorLoginFrame extends Frame implements ActionListener, ImplMed
 		show();
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 	@Override
 	public void createColleagues() {
 		
