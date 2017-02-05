@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch10Strategy.v02;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -59,7 +61,34 @@ public class MainTest {
 		if (flag) new MainTest();
 		
 		if (flag) {
-
+			long seed1 = new Date().getTime() + 123;
+			long seed2 = new Date().getTime();
+			
+			Dep1Player player1 = new Dep1Player("È«±æµ¿", new StrategyWinning(seed1));
+			Dep1Player player2 = new Dep1Player("ÀÓ²©Á¤", new StrategyProb(seed2));
+			
+			for (int i=0; i < 1000; i++) {
+				Dep1Hand nextHand1 = player1.nextHand();
+				Dep1Hand nextHand2 = player2.nextHand();
+				
+				if (nextHand1.isStrongerThan(nextHand2)) {
+					System.out.println("Winner:" + player1);
+					player1.win();
+					player2.lose();
+				} else if (nextHand2.isStrongerThan(nextHand1)) {
+					System.out.println("Winner:" + player2);
+					player2.win();
+					player1.lose();
+				} else {
+					System.out.println("Even...");
+					player1.even();
+					player2.even();
+				}
+			}
+			
+			System.out.println("Total result:");
+			System.out.println(player1);
+			System.out.println(player2);
 		}
 	}
 	
