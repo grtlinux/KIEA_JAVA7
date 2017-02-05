@@ -110,9 +110,11 @@ public class Dep1Database {
 			
 			resourceBundle = Dep1Database.getResourceBundle("database");
 			if (flag) System.out.format("[%s]\n", resourceBundle.getString("tain.kr.com.file.name"));
+			if (flag) System.out.format("[%s]\n", resourceBundle.getString("c1@youngjin.com"));
 
 			resourceBundle = Dep1Database.getResourceBundle("email");
 			if (flag) System.out.format("[%s]\n", resourceBundle.getString("tain.kr.com.file.name"));
+			if (flag) System.out.format("[%s]\n", resourceBundle.getString("c1@youngjin.com"));
 		}
 	}
 	
