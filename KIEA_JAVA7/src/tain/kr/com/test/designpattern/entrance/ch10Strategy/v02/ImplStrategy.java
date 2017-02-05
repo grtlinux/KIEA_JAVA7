@@ -38,6 +38,5 @@ public interface ImplStrategy {
 
 	public abstract Dep1Hand nextHand();
 	public abstract void study(boolean win);
-	
 	public abstract String getName();
 }
