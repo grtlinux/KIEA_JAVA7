@@ -158,7 +158,7 @@ public class MediatorLoginFrame extends Frame implements ActionListener, ImplMed
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e);
+		System.out.format("[%s, %s]\n", e.getActionCommand(), e.getClass().getName());
 		System.exit(0);
 	}
 	
