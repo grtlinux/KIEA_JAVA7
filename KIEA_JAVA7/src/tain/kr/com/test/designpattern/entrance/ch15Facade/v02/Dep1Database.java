@@ -19,6 +19,11 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch15Facade.v02;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.ResourceBundle;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -43,9 +48,78 @@ public class Dep1Database {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public Dep1Database() {
+		
+		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public static Properties getProperties(String dbName) {
+		
+		String fileName = "N:/" + dbName + ".txt";
+		
+		Properties properties = new Properties();
+		
+		try {
+			properties.load(new FileInputStream(fileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return properties;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public static ResourceBundle getResourceBundle(String dbName) {
+		
+		String className = new Object(){}.getClass().getEnclosingClass().getName().replace('.',  '/');
+		String baseName = String.format("%s/database/%s", className.substring(0, className.lastIndexOf('/')), dbName);
+		
+		ResourceBundle resourceBundle = ResourceBundle.getBundle(baseName);
+		
+		return resourceBundle;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	private static void test01(String[] args) throws Exception {
+		
+		if (flag) new Dep1Database();
+		
+		if (flag) {
+			
+			String className = new Object(){}.getClass().getEnclosingClass().getName();
+			if (flag) System.out.format("[%s]\n", className);
+			
+			String pathName = String.format("%s.database.%s", className.substring(0, className.lastIndexOf('.')), "email");
+			if (flag) System.out.format("[%s]\n", pathName);
+		}
+		
+		if (flag) {
+			ResourceBundle resourceBundle;
+			
+			resourceBundle = Dep1Database.getResourceBundle("database");
+			if (flag) System.out.format("[%s]\n", resourceBundle.getString("tain.kr.com.file.name"));
+
+			resourceBundle = Dep1Database.getResourceBundle("email");
+			if (flag) System.out.format("[%s]\n", resourceBundle.getString("tain.kr.com.file.name"));
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
+		
+		if (flag) test01(args);
+	}
 }
