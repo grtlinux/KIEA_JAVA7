@@ -19,6 +19,9 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch11Composite.v03;
 
+import java.util.Iterator;
+import java.util.Vector;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,8 +45,53 @@ public class EntryFolder extends AbstEntry {
 	private static final Logger log = Logger.getLogger(EntryFolder.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private final String name;
+	private final Vector<AbstEntry> folder;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public EntryFolder(String name) {
+		
+		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+
+		this.name = name;
+		this.folder = new Vector<AbstEntry>();
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public int getSize() {
+		int size = 0;
+		
+		Iterator<AbstEntry> it = this.folder.iterator();
+		while (it.hasNext()) {
+			AbstEntry entry = it.next();
+			size += entry.getSize();
+		}
+		
+		return size;
+	}
+	
+	public AbstEntry add(AbstEntry entry) {
+		folder.addElement(entry);
+		return this;
+	}
+
+	protected void printList(String prefix) {
+		System.out.println(prefix + "/" + this);
+		
+		Iterator<AbstEntry> it = folder.iterator();
+		while (it.hasNext()) {
+			AbstEntry entry = it.next();
+			entry.printList(prefix + "/" + name);
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////

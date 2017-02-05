@@ -59,7 +59,42 @@ public class MainTest {
 		if (flag) new MainTest();
 		
 		if (flag) {
-
+			
+			System.out.println("Making root entries...");
+			
+			AbstEntry rootdir = new EntryFolder("root");
+			AbstEntry bindir = new EntryFolder("bin");
+			AbstEntry tmpdir = new EntryFolder("tmp");
+			AbstEntry usrdir = new EntryFolder("usr");
+			
+			rootdir.add(bindir);
+			rootdir.add(tmpdir);
+			rootdir.add(usrdir);
+			
+			bindir.add(new EntryFile("vi", 10000));
+			bindir.add(new EntryFile("latex", 20000));
+			
+			rootdir.printList();
+			
+			System.out.println();
+			
+			System.out.println("Making user entries...");
+			
+			AbstEntry kim = new EntryFolder("kim");
+			AbstEntry lee = new EntryFolder("lee");
+			AbstEntry kang = new EntryFolder("kang");
+			
+			usrdir.add(kim);
+			usrdir.add(lee);
+			usrdir.add(kang);
+			
+			kim.add(new EntryFile("diary.html", 100));
+			kim.add(new EntryFile("Composite.java", 200));
+			lee.add(new EntryFile("memo.txt", 300));
+			kang.add(new EntryFile("game.doc", 400));
+			kang.add(new EntryFile("junk.mail", 500));
+			
+			rootdir.printList();
 		}
 	}
 	
