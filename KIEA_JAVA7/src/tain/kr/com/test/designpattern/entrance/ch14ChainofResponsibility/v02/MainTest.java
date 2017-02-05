@@ -59,7 +59,21 @@ public class MainTest {
 		if (flag) new MainTest();
 		
 		if (flag) {
+			// create AbstSupport class
+			AbstSupport alice = new SupportNo("Alice");
+			AbstSupport bob = new SupportLimit("Bob", 100);
+			AbstSupport charlie = new SupportSpecial("Charlie", 429);
+			AbstSupport diana = new SupportLimit("Diana", 200);
+			AbstSupport elmo = new SupportOdd("Elmo");
+			AbstSupport fred = new SupportLimit("Fred", 300);
 			
+			// make changes
+			alice.setNext(bob).setNext(charlie).setNext(diana).setNext(elmo).setNext(fred);
+			
+			// trouble event
+			for (int i=0; i < 500; i+=33) {
+				alice.support(new Dep1Trouble(i));
+			}
 		}
 	}
 	

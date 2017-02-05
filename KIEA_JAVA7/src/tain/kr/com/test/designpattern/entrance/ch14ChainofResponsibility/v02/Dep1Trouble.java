@@ -49,7 +49,7 @@ public class Dep1Trouble {
 	
 	public Dep1Trouble(int number) {
 		
-		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		if (!flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
 		
 		this.number = number;
 	}
