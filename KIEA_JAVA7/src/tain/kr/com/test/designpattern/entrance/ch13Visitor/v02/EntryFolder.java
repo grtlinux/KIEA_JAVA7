@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch13Visitor.v02;
 
+import java.util.Vector;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,14 +37,60 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class EntryFolder {
+public class EntryFolder extends AcceptorAbstEntry {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(EntryFolder.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private final String name;
+	private final Vector<AcceptorAbstEntry> folder;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public EntryFolder(String name) {
+		
+		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		this.name = name;
+		this.folder = new Vector<AcceptorAbstEntry>();
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public String getName() {
+		return this.name;
+	}
+	
+	@Override
+	public int getSize() {
+		int size = 0;
+		
+		for (AcceptorAbstEntry entry : folder) {
+			size += entry.getSize();
+		}
+		
+		return size;
+	}
+	
+	public void accept(AbstVisitor visitor) {
+		visitor.visit(this);
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public AcceptorAbstEntry add(AcceptorAbstEntry entry) {
+		this.folder.add(entry);
+		return this;
+	}
+	
+	public Vector<AcceptorAbstEntry> getVector() {
+		return this.folder;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////

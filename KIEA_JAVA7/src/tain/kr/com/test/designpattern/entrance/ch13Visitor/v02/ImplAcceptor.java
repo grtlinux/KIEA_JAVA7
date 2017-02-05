@@ -19,7 +19,6 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch13Visitor.v02;
 
-import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
@@ -37,4 +36,5 @@ import org.apache.log4j.Logger;
  */
 public interface ImplAcceptor {
 
+	public abstract void accept(AbstVisitor visitor);
 }

@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch13Visitor.v02;
 
+import java.util.Iterator;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,7 +37,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class AcceptorAbstEntry {
+public abstract class AcceptorAbstEntry implements ImplAcceptor {
 
 	private static boolean flag = true;
 
@@ -43,7 +45,31 @@ public class AcceptorAbstEntry {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public AcceptorAbstEntry() {
+		
+		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public AcceptorAbstEntry add(AcceptorAbstEntry entry) throws ExpFileTreatmentException {
+		throw new ExpFileTreatmentException();
+	}
+	
+	public Iterator<AcceptorAbstEntry> iterator() throws ExpFileTreatmentException {
+		throw new ExpFileTreatmentException();
+	}
+	
+	public String toString() {
+		return String.format("%s (%d)", this.getName(), this.getSize());
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public abstract String getName();
+	public abstract int getSize();
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
