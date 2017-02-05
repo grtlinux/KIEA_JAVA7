@@ -19,13 +19,15 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch16Mediator.v02;
 
+import java.awt.Button;
+
 import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : MainTest.java
+ *   -. FileName   : ColleagueButton.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch16Mediator.v02
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,38 +37,41 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MainTest {
+public class ColleagueButton extends Button implements ImplColleague {
 
+	private static final long serialVersionUID = 1L;
+	
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(MainTest.class);
+	private static final Logger log = Logger.getLogger(ColleagueButton.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@SuppressWarnings("unused")
+	private ImplMediator mediator;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public MainTest() {
+	public ColleagueButton(String caption) {
+		super(caption);
 		
 		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void setMediator(ImplMediator mediator) {
+		this.mediator = mediator;
+	}
+	
+	@Override
+	public void setColleagueEnabled(boolean enabled) {
+		setEnabled(enabled);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static void test01(String[] args) throws Exception {
-		
-		if (flag) new MainTest();
-		
-		if (flag) {
-			new MediatorLoginFrame("Mediator Sample");
-		}
-	}
-	
-	public static void main(String[] args) throws Exception {
-		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
-	}
 }
