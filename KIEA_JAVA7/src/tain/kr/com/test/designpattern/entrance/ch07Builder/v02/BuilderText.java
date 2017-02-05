@@ -42,14 +42,47 @@ public class BuilderText extends AbstBuilder {
 	private static final Logger log = Logger.getLogger(BuilderText.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final StringBuffer buffer;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public BuilderText() {
 		
 		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		this.buffer = new StringBuffer();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void makeTitle(String title) {
+		this.buffer.append("=========================================================\n");
+		this.buffer.append("<" + title + ">\n");
+		this.buffer.append("\n");
+	}
+	
+	@Override
+	public void makeString(String string) {
+		this.buffer.append("*" + string + "\n");
+		this.buffer.append("\n");
+	}
+	
+	@Override
+	public void makeItems(String[] items) {
+		for (int i=0; i < items.length; i++) {
+			this.buffer.append("-" + items[i] + "\n");
+		}
+		this.buffer.append("\n");
+	}
+	
+	@Override
+	public Object getResult() {
+		this.buffer.append("=========================================================\n");
+		return this.buffer.toString();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
