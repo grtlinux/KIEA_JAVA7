@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : MainTest.java
+ *   -. FileName   : Dep1Book.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch01Iterator.v03
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,54 +35,40 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MainTest {
+public class Dep1Book {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(MainTest.class);
+	private static final Logger log = Logger.getLogger(Dep1Book.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final String name;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public MainTest() {
+	public Dep1Book(String name) {
 		
 		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		this.name = name;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String getName() {
+		
+		return this.name;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String toString() {
+		
+		return String.format("Book('%s')", this.getName());
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static void test01(String[] args) throws Exception {
-		
-		if (flag) new MainTest();
-		
-		if (flag) {
-			ImplAggregate aggregate = new AggregateBookShelf();
-			
-			aggregate.add(new Dep1Book("Around the world in 80 days"));
-			aggregate.add(new Dep1Book("Bible"));
-			aggregate.add(new Dep1Book("Cinderella"));
-			aggregate.add(new Dep1Book("Daddy-long-legs"));
-			aggregate.add(new Dep1Book("East of Eden"));
-			aggregate.add(new Dep1Book("Frankestein"));
-			aggregate.add(new Dep1Book("Guliver's travels"));
-			aggregate.add(new Dep1Book("Hamlet"));
-			
-			ImplIterator iterator = aggregate.iterator();
-			while (iterator.hasNext()) {
-				Dep1Book book = (Dep1Book) iterator.next();
-				
-				if (flag) System.out.println(book);
-			}
-		}
-	}
-	
-	public static void main(String[] args) throws Exception {
-		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
-		
-		if (flag) test01(args);
-	}
 }
