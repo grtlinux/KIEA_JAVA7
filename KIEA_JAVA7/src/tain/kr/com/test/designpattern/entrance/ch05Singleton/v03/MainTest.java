@@ -59,7 +59,7 @@ public class MainTest {
 		if (flag) new MainTest();
 		
 		if (flag) {
-
+			StatSingleton.getInstance();
 		}
 	}
 	
