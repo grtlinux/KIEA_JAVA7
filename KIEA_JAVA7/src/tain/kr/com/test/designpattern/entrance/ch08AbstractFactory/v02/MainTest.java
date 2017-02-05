@@ -59,7 +59,69 @@ public class MainTest {
 		if (flag) new MainTest();
 		
 		if (flag) {
+			String className = "tain.kr.com.test.designpattern.entrance.ch08AbstractFactory.v02.FactoryList";
+			
+			AbstFactory factory = AbstFactory.getFactory(className);
+			
+			AbstItemLink joins = factory.createLink("중앙일보", "http://www.joins.com/");
+			AbstItemLink hani = factory.createLink("한겨레 신문", "http://www.hani.co.kr/");
 
+			AbstItemLink us_yahoo = factory.createLink("Yahoo!", "http://www.yahoo.com");
+			AbstItemLink kr_yahoo = factory.createLink("Yahoo!Korea", "http://www.yahoo.co.kr/");
+			AbstItemLink excite = factory.createLink("Excite", "http://www.excite.com/");
+			AbstItemLink google = factory.createLink("Google", "http://www.google.com/");
+			
+			AbstItemTray trayNews = factory.createTray("신문");
+			trayNews.add(joins);
+			trayNews.add(hani);
+			
+			AbstItemTray trayYahoo = factory.createTray("Yahoo!");
+			trayYahoo.add(us_yahoo);
+			trayYahoo.add(kr_yahoo);
+			
+			AbstItemTray traySearch = factory.createTray("서치엔진");
+			traySearch.add(trayYahoo);
+			traySearch.add(excite);
+			traySearch.add(google);
+			
+			AbstPage page = factory.createPage("LinkPage", "홍길동");
+			page.add(trayNews);
+			page.add(traySearch);
+
+			page.output("list");
+		}
+		
+		if (flag) {
+			String className = "tain.kr.com.test.designpattern.entrance.ch08AbstractFactory.v02.FactoryTable";
+			
+			AbstFactory factory = AbstFactory.getFactory(className);
+			
+			AbstItemLink joins = factory.createLink("중앙일보", "http://www.joins.com/");
+			AbstItemLink hani = factory.createLink("한겨레 신문", "http://www.hani.co.kr/");
+
+			AbstItemLink us_yahoo = factory.createLink("Yahoo!", "http://www.yahoo.com");
+			AbstItemLink kr_yahoo = factory.createLink("Yahoo!Korea", "http://www.yahoo.co.kr/");
+			AbstItemLink excite = factory.createLink("Excite", "http://www.excite.com/");
+			AbstItemLink google = factory.createLink("Google", "http://www.google.com/");
+			
+			AbstItemTray trayNews = factory.createTray("신문");
+			trayNews.add(joins);
+			trayNews.add(hani);
+			
+			AbstItemTray trayYahoo = factory.createTray("Yahoo!");
+			trayYahoo.add(us_yahoo);
+			trayYahoo.add(kr_yahoo);
+			
+			AbstItemTray traySearch = factory.createTray("서치엔진");
+			traySearch.add(trayYahoo);
+			traySearch.add(excite);
+			traySearch.add(google);
+			
+			AbstPage page = factory.createPage("LinkPage", "홍길동");
+			page.add(trayNews);
+			page.add(traySearch);
+
+			page.output("table");
 		}
 	}
 	

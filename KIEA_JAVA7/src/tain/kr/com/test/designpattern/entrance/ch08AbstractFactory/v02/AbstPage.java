@@ -19,6 +19,11 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch08AbstractFactory.v02;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Vector;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,22 +40,69 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class AbstPage {
+public abstract class AbstPage {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(AbstPage.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final String title;
+	private final String author;
+	
+	private final Vector<AbstItem> content;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public AbstPage() {
+	public AbstPage(String title, String author) {
 		
 		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		this.title = title;
+		this.author = author;
+		this.content = new Vector<AbstItem>();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String getTitle() {
+		return this.title;
+	}
+	
+	public String getAuthor() {
+		return this.author;
+	}
+	
+	public Vector<AbstItem> getContent() {
+		return this.content;
+	}
+	
+	public void add(AbstItem item) {
+		this.content.add(item);
+	}
+	
+	public void output() {
+		output("???");
+	}
+	
+	public void output(String subTitle) {
+		try {
+			String fileName = "N:/" + title + "_" + subTitle + ".html";
+			Writer writer = new FileWriter(fileName);
+			writer.write(this.makeHtml());
+			writer.close();
+			
+			System.out.println(fileName + " 파일을 작성했습니다.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public abstract String makeHtml();
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////

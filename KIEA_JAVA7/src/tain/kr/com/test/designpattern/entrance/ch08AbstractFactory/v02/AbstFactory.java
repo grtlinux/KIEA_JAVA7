@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class AbstFactory {
+public abstract class AbstFactory {
 
 	private static boolean flag = true;
 
@@ -50,7 +50,28 @@ public class AbstFactory {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public static AbstFactory getFactory(String className) {
+		
+		AbstFactory factory = null;
+		
+		try {
+			factory = (AbstFactory) Class.forName(className).newInstance();
+		} catch (ClassNotFoundException e) {
+			System.out.println("클래스 " + className + "이 발견되지 않습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return factory;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public abstract AbstItemLink createLink(String caption, String url);
+	public abstract AbstItemTray createTray(String caption);
+	public abstract AbstPage createPage(String title, String author);
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
