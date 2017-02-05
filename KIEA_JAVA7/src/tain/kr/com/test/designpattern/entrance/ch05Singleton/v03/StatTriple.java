@@ -19,6 +19,9 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch05Singleton.v03;
 
+import java.util.Date;
+import java.util.Random;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -49,7 +52,7 @@ public class StatTriple {
 	
 	private StatTriple(int id) {
 		
-		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName() + " - " + id);
 		
 		this.id = id;
 	}
@@ -68,4 +71,39 @@ public class StatTriple {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	private static final int STAT_CNT = 3;
+	private static StatTriple[] triple = null;
+	private static Random random = new Random(new Date().getTime());
+	
+	public static StatTriple getInstance() {
+		return getInstance(random.nextInt(STAT_CNT));
+	}
+	
+	public static synchronized StatTriple getInstance(int id) {
+		
+		if (triple == null) {
+			
+			if (flag) {
+				/*
+				 * method 1
+				 */
+				triple = new StatTriple[] {
+					new StatTriple(0),
+					new StatTriple(1),
+					new StatTriple(2),
+				};
+			} else {
+				/*
+				 * method 2
+				 */
+				triple = new StatTriple[STAT_CNT];
+				
+				for (int i=0; i < STAT_CNT; i++) {
+					triple[i] = new StatTriple(i);
+				}
+			}
+		}
+		
+		return triple[id];
+	}
 }
