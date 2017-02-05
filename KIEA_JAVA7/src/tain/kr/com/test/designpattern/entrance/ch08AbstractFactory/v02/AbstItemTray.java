@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch08AbstractFactory.v02;
 
+import java.util.Vector;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,21 +37,37 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class AbstItemTray extends AbstItem {
+public abstract class AbstItemTray extends AbstItem {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(AbstItemTray.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final Vector<AbstItem> tray;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public AbstItemTray() {
+	public AbstItemTray(String caption) {
+		
+		super(caption);
 		
 		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		this.tray = new Vector<AbstItem>();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public Vector<AbstItem> getItems() {
+		return this.tray;
+	}
+	
+	public void add(AbstItem item) {
+		this.tray.addElement(item);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
