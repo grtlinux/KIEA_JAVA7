@@ -19,6 +19,10 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch15Facade.v02;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ResourceBundle;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -43,7 +47,34 @@ public class Dep2PageMaker {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public Dep2PageMaker() {
+		
+		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public static void makeWelcomePage(String mailAddr, String fileName) {
+		
+		try {
+			ResourceBundle resourceBundle = Dep1Database.getResourceBundle("email");
+			
+			String userName = resourceBundle.getString(mailAddr);
+			
+			Dep1HtmlWriter writer = new Dep1HtmlWriter(new FileWriter(fileName));
+			
+			writer.title("Welcome to " + userName + "'s page!");
+			writer.paragraph(userName + "의 페이지에 오신걸 환영합니다.");
+			writer.paragraph("메일이 기다리고 있겠습니다.");
+			writer.mailTo(mailAddr, userName);
+			
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////

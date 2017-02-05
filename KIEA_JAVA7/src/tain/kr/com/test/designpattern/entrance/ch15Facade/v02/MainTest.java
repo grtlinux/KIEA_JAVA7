@@ -59,7 +59,7 @@ public class MainTest {
 		if (flag) new MainTest();
 		
 		if (flag) {
-			
+			Dep2PageMaker.makeWelcomePage("c1@youngjin.com", "N:/welcome.html");
 		}
 	}
 	
