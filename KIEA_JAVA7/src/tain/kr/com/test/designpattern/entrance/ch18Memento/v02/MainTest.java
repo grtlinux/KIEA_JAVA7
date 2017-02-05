@@ -59,9 +59,9 @@ public class MainTest {
 		if (flag) new MainTest();
 		
 		if (flag) {
-			DepGamer gamer = new DepGamer(100);
+			Dep2Gamer gamer = new Dep2Gamer(100);
 			
-			DepMemento memento = gamer.createMemento();
+			Dep1Memento memento = gamer.createMemento();
 			
 			for (int i=0; i < 100; i++) {
 				System.out.format("==== %d ==== ป๓ลย : %s\n", i, gamer);

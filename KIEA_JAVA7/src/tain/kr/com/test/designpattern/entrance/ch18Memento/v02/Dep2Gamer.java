@@ -19,6 +19,7 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch18Memento.v02;
 
+import java.util.Random;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -27,7 +28,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : DepMemento.java
+ *   -. FileName   : DepGamer.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch18Memento.v02
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -37,25 +38,29 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class DepMemento {
+public class Dep2Gamer {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(DepMemento.class);
+	private static final Logger log = Logger.getLogger(Dep2Gamer.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private final int money;
-	private final Vector<String> fruites;
+	private int money;
+	private Vector<String> fruits;
+	
+	private final Random random;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public DepMemento(int money) {
+	public Dep2Gamer(int money) {
 		
-		if (!flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
 		
 		this.money = money;
-		this.fruites = new Vector<String>();
+		this.fruits = new Vector<String>();
+		
+		this.random = new Random();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,21 +69,69 @@ public class DepMemento {
 		return this.money;
 	}
 	
-	public Vector<String> getFruits() {
-		return this.fruites;
+	private static String[] fruitsName = {
+		"사과",
+		"포도",
+		"바나나",
+		"귤",
+	};
+	
+	public String getFruit() {
+		String prefix = "";
+		
+		if (this.random.nextBoolean()) {
+			prefix = "맛있다 ";
+		}
+		
+		return prefix + fruitsName[this.random.nextInt(fruitsName.length)];
 	}
 	
-	public void addFruit(String fruit) {
-		this.fruites.add(fruit);
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void bet() {
+		
+		int dice = this.random.nextInt(6) + 1;
+		
+		if (dice == 1) {
+			this.money += 100;
+			System.out.println("돈이 증가했습니다.");
+			
+		} else if (dice == 2) {
+			this.money /= 2;
+			System.out.println("돈이 반으로 줄었습니다.");
+			
+		} else if (dice == 6) {
+			String f = getFruit();
+			this.fruits.add(f);
+			System.out.println("과일(" + f + ")을 받았습니다.");
+			
+		} else {
+			System.out.println("아무 일도 일어나지 않았습니다.");
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public Dep1Memento createMemento() {
+		Dep1Memento memento = new Dep1Memento(this.money);
+		
+		for (String string : this.fruits) {
+			if (string.startsWith("맛있다")) {
+				memento.addFruit(string);
+			}
+		}
+		
+		return memento;
+	}
+	
+	public void restoreMemento(Dep1Memento memento) {
+		this.money = memento.getMoney();
+		this.fruits = memento.getFruits();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	public String toString() {
-		return String.format("Memento ##### [money = %d, fruits = %s]", this.money, this.fruites);
+		return String.format("[money = %d, fruits = %s]", this.money, this.fruits);
 	}
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
 }
