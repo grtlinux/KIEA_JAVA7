@@ -19,6 +19,9 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch15Facade.v02;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,8 +45,61 @@ public class Dep1HtmlWriter {
 	private static final Logger log = Logger.getLogger(Dep1HtmlWriter.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final Writer writer;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public Dep1HtmlWriter(Writer writer) {
+		
+		if (flag) log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		this.writer = writer;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void title(String title) throws IOException {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("<html>\n");
+		sb.append("<head>\n");
+		sb.append("<title>" + title + "</title>\n");
+		sb.append("</head>\n");
+		sb.append("<body>\n");
+		sb.append("<h1>" + title + "</h1>\n");
+		
+		this.writer.write(sb.toString());
+	}
+	
+	public void paragraph(String msg) throws IOException {
+		
+		this.writer.write("<p>" + msg + "</p>\n");
+	}
+	
+	public void link(String href, String caption) throws IOException {
+		
+		paragraph("<a href='" + href + "'>" + caption + "</a>");
+	}
+	
+	public void mailTo(String mailAddr, String userName) throws IOException {
+		
+		link("mailto:" + mailAddr, userName);
+	}
+	
+	public void close() throws IOException {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("</body>\n");
+		sb.append("</html>\n");
+		
+		this.writer.write(sb.toString());
+		
+		this.writer.close();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
