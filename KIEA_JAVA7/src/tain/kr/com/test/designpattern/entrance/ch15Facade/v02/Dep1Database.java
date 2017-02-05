@@ -21,6 +21,10 @@ package tain.kr.com.test.designpattern.entrance.ch15Facade.v02;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -106,6 +110,7 @@ public class Dep1Database {
 		}
 		
 		if (flag) {
+
 			ResourceBundle resourceBundle;
 			
 			resourceBundle = Dep1Database.getResourceBundle("database");
@@ -115,6 +120,39 @@ public class Dep1Database {
 			resourceBundle = Dep1Database.getResourceBundle("email");
 			if (flag) System.out.format("[%s]\n", resourceBundle.getString("tain.kr.com.file.name"));
 			if (flag) System.out.format("[%s]\n", resourceBundle.getString("c1@youngjin.com"));
+		}
+		
+		if (!flag) {
+			
+			ResourceBundle resourceBundle = ResourceBundle.getBundle("java.text.resources.LocaleElements", Locale.getDefault());
+			// Exception : java.util.MissingResourceException: Can't find bundle for base name java.text.resources.LocalElements, local ko_KR
+			
+			String[] patterns = resourceBundle.getStringArray("NumberPatterns");
+			
+			for (String pattern : patterns) {
+				if (flag) System.out.format("> [%s]\n", pattern);
+			}
+		}
+		
+		if (flag) {
+			
+			ResourceBundle resourceBundle;
+			
+			resourceBundle = Dep1Database.getResourceBundle("database");
+			if (flag) System.out.format("[%s]\n", resourceBundle.getString("tain.kr.com.test.array.string"));
+			
+			// String[] values = resourceBundle.getString("tain.kr.com.test.array.string").split(";");
+			// String[] values = resourceBundle.getString("tain.kr.com.test.array.string").split("\\s*(;|\\s)\\s*");
+			String[] strValues = resourceBundle.getString("tain.kr.com.test.array.string").split("(\\s*;\\s*|\\s*$)");
+			for (String strValue : strValues) {
+				if (flag) System.out.format("strValue > [%s]\n", strValue);
+			}
+			
+			List<String>  lstValue = new ArrayList<String>();
+			lstValue.addAll(Arrays.asList(strValues));
+			for (String value : lstValue) {
+				if (flag) System.out.format("value > [%s]\n", value);
+			}
 		}
 	}
 	
