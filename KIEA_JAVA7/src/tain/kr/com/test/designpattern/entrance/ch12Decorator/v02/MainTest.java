@@ -59,7 +59,26 @@ public class MainTest {
 		if (flag) new MainTest();
 		
 		if (flag) {
-
+			AbstDisplay d1 = new DisplayString("Hello, world..");
+			AbstDisplay d2 = new BorderSide(d1, '#');
+			AbstDisplay d3 = new BorderFull(d2);
+			
+			d1.show();
+			d2.show();
+			d3.show();
+			
+			AbstDisplay d4 = new BorderSide(
+					new BorderFull(
+							new BorderFull(
+									new BorderSide(
+											new BorderFull(
+													new DisplayString("æ»≥Á«œººø‰")
+													)
+											, '*')
+									)
+							)
+					, '/');
+			d4.show();
 		}
 	}
 	
