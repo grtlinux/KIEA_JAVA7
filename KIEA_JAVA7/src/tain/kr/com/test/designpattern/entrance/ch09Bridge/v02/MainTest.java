@@ -64,8 +64,12 @@ public class MainTest {
 			DispCount d3 = new DispCount(new DisplayString("Hello, Universe......"));
 			
 			d1.display();
+			System.out.println();
+			
 			d2.display();
 			((DispCount)d2).multiDisplay(3);
+			System.out.println();
+			
 			d3.display();
 			d3.multiDisplay(5);
 		}
