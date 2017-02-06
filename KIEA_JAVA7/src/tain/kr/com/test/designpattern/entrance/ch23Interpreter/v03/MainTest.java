@@ -74,7 +74,24 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			String[] programs = new String[] {
+					"program end",
+					"program go end",
+					"program go right go right go right go right end",
+					"program repeat 4 go right end end",
+					"program repeat 4 repeat 3 go right go left end right end end",
+			};
+			
+			for (String program : programs) {
+				if (flag) log.debug("PROGRAM >>> " + program);
+				
+				AbstNode node = new NodeProgram();
+				node.parse(new Dep1Context(program));
+				
+				if (flag) log.debug("NODE >>> " + node);
+				
+				if (flag) System.out.println();
+			}
 		}
 	}
 

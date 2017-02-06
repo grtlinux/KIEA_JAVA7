@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch23Interpreter.v03;
 
+import java.util.StringTokenizer;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,17 +44,61 @@ public class Dep1Context {
 	private static final Logger log = Logger.getLogger(Dep1Context.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final StringTokenizer tokenizer;
+	private String currentToken;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Dep1Context() {
-		if (flag)
+	public Dep1Context(String text) {
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		this.tokenizer = new StringTokenizer(text);
+		nextToken();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String nextToken() {
+		
+		if (this.tokenizer.hasMoreTokens()) {
+			this.currentToken = this.tokenizer.nextToken();
+		} else {
+			this.currentToken = null;
+		}
+		
+		return this.currentToken;
+	}
+	
+	public void skipToken(String token) throws Exp1ParseException {
+		if (!token.equalsIgnoreCase(this.currentToken)) {
+			throw new Exp1ParseException(String.format("Warning: %s is expected, but %s is found..", token, this.currentToken));
+		}
+		
+		nextToken();
+	}
+	
+	public String currentToken() {
+		return this.currentToken;
+	}
+	
+	public int currentNumber() throws Exp1ParseException {
+		
+		int number = 0;
+		
+		try {
+			number = Integer.parseInt(this.currentToken);
+		} catch (NumberFormatException e) {
+			throw new Exp1ParseException("Warning: " + e);
+		}
+		
+		return number;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +116,15 @@ public class Dep1Context {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new Dep1Context();
-
 		if (flag) {
-
+			Dep1Context context = new Dep1Context("program    repeat   4   repeat 3 go right go left     end right end end");
+			
+			do {
+				System.out.format("> [%s]\n", context.currentToken());
+				
+				try { Thread.sleep(1000); } catch (InterruptedException e) {}
+				
+			} while (context.nextToken() != null);
 		}
 	}
 

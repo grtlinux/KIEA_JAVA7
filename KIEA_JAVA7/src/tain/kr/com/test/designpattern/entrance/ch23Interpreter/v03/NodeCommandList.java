@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch23Interpreter.v03;
 
+import java.util.Vector;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,20 +44,52 @@ public class NodeCommandList extends AbstNode {
 	private static final Logger log = Logger.getLogger(NodeCommandList.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private Vector<AbstNode> commandList = new Vector<AbstNode>();
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
 	public NodeCommandList() {
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch23Interpreter.v03.AbstNode#parse(tain.kr.com.test.designpattern.entrance.ch23Interpreter.v03.Dep1Context)
+	 */
+	@Override
+	public void parse(Dep1Context context) throws Exp1ParseException {
+		// TODO Auto-generated method stub
+		
+		// LOOP
+		while (true) {
+			if (context.currentToken() == null) {
+				throw new Exp1ParseException("missing 'END'");
+			} else if (context.currentToken().equalsIgnoreCase("END")) {
+				context.skipToken("END");
+				break;
+			} else {
+				AbstNode command = new NodeCommand();
+				command.parse(context);
+				
+				this.commandList.addElement(command);
+			}
+		}
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String toString() {
+		return String.format("%s", this.commandList);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
