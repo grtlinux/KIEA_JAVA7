@@ -74,7 +74,7 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			new ListenerFrame("Command Pattern Sample");
 		}
 	}
 

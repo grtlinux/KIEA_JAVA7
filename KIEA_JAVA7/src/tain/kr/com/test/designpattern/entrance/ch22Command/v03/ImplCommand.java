@@ -36,4 +36,5 @@ package tain.kr.com.test.designpattern.entrance.ch22Command.v03;
  */
 public interface ImplCommand {
 
+	public abstract void execute();
 }

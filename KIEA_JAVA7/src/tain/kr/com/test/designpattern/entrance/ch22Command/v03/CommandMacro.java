@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch22Command.v03;
 
+import java.util.Stack;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,6 +44,9 @@ public class CommandMacro implements ImplCommand {
 	private static final Logger log = Logger.getLogger(CommandMacro.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final Stack<ImplCommand> commands;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -50,11 +55,46 @@ public class CommandMacro implements ImplCommand {
 	public CommandMacro() {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		this.commands = new Stack<ImplCommand>();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void append(ImplCommand command) {
+	
+		if (command != null) {
+			this.commands.push(command);
+		}
+	}
+	
+	public void undo() {
+		
+		if (!this.commands.empty()) {
+			this.commands.pop();
+		}
+	}
+	
+	public void clear() {
+		
+		this.commands.clear();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch22Command.v03.ImplCommand#execute()
+	 */
+	@Override
+	public void execute() {
+		// TODO Auto-generated method stub
+		
+		for (ImplCommand command : this.commands) {
+			command.execute();
+		}
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////

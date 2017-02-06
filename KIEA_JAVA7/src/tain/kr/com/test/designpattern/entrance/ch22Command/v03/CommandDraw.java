@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch22Command.v03;
 
+import java.awt.Point;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,19 +44,36 @@ public class CommandDraw implements ImplCommand {
 	private static final Logger log = Logger.getLogger(CommandDraw.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final ImplDrawable drawable;
+	private final Point position;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public CommandDraw() {
+	public CommandDraw(ImplDrawable drawable, Point position) {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		this.drawable = drawable;
+		this.position = position;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch22Command.v03.ImplCommand#execute()
+	 */
+	@Override
+	public void execute() {
+		// TODO Auto-generated method stub
+		this.drawable.draw(this.position.x, this.position.y);
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +90,7 @@ public class CommandDraw implements ImplCommand {
 	private static void test01(String[] args) throws Exception {
 
 		if (flag)
-			new CommandDraw();
+			new CommandDraw(null, null);
 
 		if (flag) {
 
