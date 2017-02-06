@@ -67,7 +67,8 @@ public class MainTest {
 		if (flag) new MainTest();
 		
 		if (flag) {
-
+			Dep2BigString bigString = new Dep2BigString("-0123456789");
+			bigString.print();
 		}
 	}
 	
