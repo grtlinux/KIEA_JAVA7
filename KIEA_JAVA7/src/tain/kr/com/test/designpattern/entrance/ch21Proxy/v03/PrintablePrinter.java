@@ -35,25 +35,78 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class PrintablePrinter {
+public class PrintablePrinter implements ImplPrintable {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(PrintablePrinter.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private String name;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
 	public PrintablePrinter() {
+		this("null");
+	}
+	
+	public PrintablePrinter(String name) {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		this.name = name;
+		
+		heavyJob("Printer의 인스턴스(" + this.name + ")를 생성중");
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private void heavyJob(String msg) {
+		
+		System.out.print(msg);
+		
+		for (int i=0; i < 5; i++) {
+			try { Thread.sleep(1000); } catch (InterruptedException e) {}
+			System.out.print('.');
+		}
+		System.out.println("완료.");
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch21Proxy.v03.ImplPrintable#setPrinterName(java.lang.String)
+	 */
+	@Override
+	public void setPrinterName(String name) {
+		// TODO Auto-generated method stub
+		this.name = name;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch21Proxy.v03.ImplPrintable#getPrinterName()
+	 */
+	@Override
+	public String getPrinterName() {
+		// TODO Auto-generated method stub
+		return this.name;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch21Proxy.v03.ImplPrintable#print(java.lang.String)
+	 */
+	@Override
+	public void print(String string) {
+		// TODO Auto-generated method stub
+		System.out.println("=== " + this.name + " ===");
+		System.out.println(string);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,4 +143,5 @@ public class PrintablePrinter {
 		if (flag)
 			test01(args);
 	}
+
 }

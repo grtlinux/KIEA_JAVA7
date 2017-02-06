@@ -74,7 +74,18 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			
+			ImplPrintable printer = new PrintableProxy();
+			
+			printer.setPrinterName("Alica");
+			System.out.format(" 이름은 현재 %s 입니다.\n", printer.getPrinterName());
+			printer.print("Hello, world..");
+			
+			try { Thread.sleep(3000); } catch (InterruptedException e) {}
+			
+			printer.setPrinterName("Bob");
+			System.out.format(" 이름은 현재 %s 입니다.\n", printer.getPrinterName());
+			printer.print("Hello, world!!!");
 		}
 	}
 
