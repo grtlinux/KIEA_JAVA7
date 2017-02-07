@@ -69,7 +69,7 @@ public final class Thr1Saver extends Thread {
 		try {
 			while (true) {
 				
-				this.data.save();
+				this.data.save();  // implicit save
 				
 				Thread.sleep(1000);
 			}

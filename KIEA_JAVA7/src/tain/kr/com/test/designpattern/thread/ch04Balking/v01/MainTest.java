@@ -74,7 +74,11 @@ public final class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			
+			AbstData data = new DataContent("data.txt", "(empty)");
+			
+			new Thr1Changer("Thr1Changer", data).start();
+			new Thr1Saver("Thr1Saver", data).start();
 		}
 	}
 

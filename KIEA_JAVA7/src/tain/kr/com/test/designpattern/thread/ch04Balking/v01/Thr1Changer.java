@@ -76,7 +76,7 @@ public final class Thr1Changer extends Thread {
 				
 				Thread.sleep(this.random.nextInt(1000));
 				
-				this.data.save();
+				this.data.save();  // explicit save
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
