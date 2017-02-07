@@ -1,3 +1,36 @@
+#
+#
+#
+
+	
+	Impl-- : interface
+	
+	Abst-- : abstract class
+	
+	Sup#-- : super class
+	
+	
+	
+	Stat-- : singleton class
+	
+	Dep#-- : normal class
+	
+	Exp#-- : exception class
+	
+	
+	Main-- : main class for execution
+	
+	
+	
+	
+	class (1)(2)(3)(4) extends Abst(3) implements Impl(1), Impl(2)
+	
+
+
+
+
+
+
 public class MainTest {
 
 	private static boolean flag = true;
