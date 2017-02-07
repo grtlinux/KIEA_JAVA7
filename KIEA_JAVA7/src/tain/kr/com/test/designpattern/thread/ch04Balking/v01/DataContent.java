@@ -19,6 +19,10 @@
  */
 package tain.kr.com.test.designpattern.thread.ch04Balking.v01;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,18 +46,63 @@ public final class DataContent extends AbstData {
 	private static final Logger log = Logger.getLogger(DataContent.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final String fileName;
+	private String content;
+	private boolean changed;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public DataContent() {
+	public DataContent(String fileName, String content) {
+		
+		this.fileName = fileName;
+		this.content = content;
+		this.changed = true;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.thread.ch04Balking.v01.AbstData#change(java.lang.String)
+	 */
+	@Override
+	public synchronized void change(String content) {
+		// TODO Auto-generated method stub
+		this.content = content;
+		this.changed = true;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.thread.ch04Balking.v01.AbstData#save()
+	 */
+	@Override
+	public synchronized void save() throws IOException {
+		// TODO Auto-generated method stub
+		if (!this.changed) {
+			return;
+		}
+		
+		doSave();
+		
+		this.changed = false;
+	}
+
+	private void doSave() throws IOException {
+		
+		if (flag) System.out.printf("%s calls doSave(), content = %s\n", Thread.currentThread().getName(), this.content);
+		
+		Writer writer = new FileWriter(this.fileName);
+		writer.write(this.content);
+		writer.close();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +118,6 @@ public final class DataContent extends AbstData {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new DataContent();
 
 		if (flag) {
 
