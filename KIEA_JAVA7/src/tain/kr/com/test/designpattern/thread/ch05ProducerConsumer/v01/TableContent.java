@@ -77,14 +77,14 @@ public final class TableContent extends AbstTable {
 		if (flag) System.out.printf("%s puts %s.\n", Thread.currentThread().getName(), cake);
 		
 		while (this.count >= this.buffer.length) {
-			wait();
+			this.wait();
 		}
 		
 		this.buffer[this.tail] = cake;
 		this.tail = (this.tail + 1) % this.buffer.length;
 		this.count ++;
 		
-		notifyAll();
+		this.notifyAll();
 	}
 
 	/* (non-Javadoc)
@@ -95,14 +95,14 @@ public final class TableContent extends AbstTable {
 		// TODO Auto-generated method stub
 		
 		while (this.count <= 0) {
-			wait();
+			this.wait();
 		}
 		
 		String cake = this.buffer[this.head];
 		this.head = (this.head + 1) % this.buffer.length;
 		this.count --;
 		
-		notify();
+		this.notify();
 		
 		if (flag) System.out.printf("%s takes %s.\n", Thread.currentThread().getName(), cake);
 		
