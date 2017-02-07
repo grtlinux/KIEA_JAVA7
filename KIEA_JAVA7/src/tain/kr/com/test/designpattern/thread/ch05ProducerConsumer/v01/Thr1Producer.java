@@ -47,7 +47,6 @@ public final class Thr1Producer extends Thread {
 	
 	private final Random random;
 	private final AbstTable table;
-	private static int id = 0;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -84,6 +83,8 @@ public final class Thr1Producer extends Thread {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private static int id = 0;
+
 	private static synchronized int nextId() {
 		return id ++;
 	}
