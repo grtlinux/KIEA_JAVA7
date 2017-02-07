@@ -74,7 +74,17 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			FinlPerson person = new FinlPerson("Alice", "Alaska");
+			
+			new Thr1PrintPerson(person).start();
+			new Thr1PrintPerson(person).start();
+			new Thr1PrintPerson(person).start();
+			new Thr1PrintPerson(person).start();
+			new Thr1PrintPerson(person).start();
+			new Thr1PrintPerson(person).start();
+			new Thr1PrintPerson(person).start();
+			new Thr1PrintPerson(person).start();
+			new Thr1PrintPerson(person).start();
 		}
 	}
 

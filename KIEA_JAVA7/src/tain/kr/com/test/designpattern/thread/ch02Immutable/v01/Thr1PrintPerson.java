@@ -35,24 +35,40 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Thr1PrintPerson {
+public class Thr1PrintPerson extends Thread {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(Thr1PrintPerson.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private FinlPerson person;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Thr1PrintPerson() {
+	public Thr1PrintPerson(FinlPerson person) {
+		
+		this.person = person;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void run() {
+		
+		while (true) {
+			System.out.format("%s prints %s\n", Thread.currentThread().getName(), this.person);
+			
+			try { Thread.sleep(100); } catch (InterruptedException e) {}
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +85,6 @@ public class Thr1PrintPerson {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new Thr1PrintPerson();
 
 		if (flag) {
 

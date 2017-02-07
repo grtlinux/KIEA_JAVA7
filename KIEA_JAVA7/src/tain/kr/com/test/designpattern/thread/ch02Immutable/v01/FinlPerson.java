@@ -35,25 +35,47 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class FinlPerson {
+public final class FinlPerson {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(FinlPerson.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final String name;
+	private final String address;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public FinlPerson() {
+	public FinlPerson(String name, String address) {
+		
+		this.name = name;
+		this.address = address;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public String getAddress() {
+		return this.address;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String toString() {
+		return String.format("[ Person: name = %s, address = %s ]", this.name, this.address);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +91,6 @@ public class FinlPerson {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new FinlPerson();
 
 		if (flag) {
 
