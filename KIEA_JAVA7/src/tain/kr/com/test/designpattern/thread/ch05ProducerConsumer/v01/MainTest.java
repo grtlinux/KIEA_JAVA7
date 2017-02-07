@@ -74,7 +74,16 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			
+			AbstTable table = new TableContent(3);
+			
+			new Thr1Producer("Thr1Producer-1", table, 31415L).start();
+			new Thr1Producer("Thr1Producer-2", table, 92653L).start();
+			new Thr1Producer("Thr1Producer-3", table, 58979L).start();
+			
+			new Thr1Consumer("Thr1Consumer-1", table, 32384L).start();
+			new Thr1Consumer("Thr1Consumer-2", table, 62643L).start();
+			new Thr1Consumer("Thr1Consumer-3", table, 38327L).start();
 		}
 	}
 
