@@ -19,6 +19,10 @@
  */
 package tain.kr.com.test.designpattern.thread.ch04Balking.v01;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.Random;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,17 +46,44 @@ public final class Thr1Changer extends Thread {
 	private static final Logger log = Logger.getLogger(Thr1Changer.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private AbstData data;
+	private Random random = new Random(new Date().getTime());
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Thr1Changer() {
+	public Thr1Changer(String thrName, AbstData data) {
+		
+		super(thrName);
+		this.data = data;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void run() {
+		
+		try {
+			
+			for (int i=0; true; i++) {
+				this.data.change("No." + i);
+				
+				Thread.sleep(this.random.nextInt(1000));
+				
+				this.data.save();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +100,6 @@ public final class Thr1Changer extends Thread {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new Thr1Changer();
 
 		if (flag) {
 
