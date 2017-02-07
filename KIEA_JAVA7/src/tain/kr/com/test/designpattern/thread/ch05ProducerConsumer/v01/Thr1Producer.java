@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.thread.ch05ProducerConsumer.v01;
 
+import java.util.Random;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,12 +44,22 @@ public final class Thr1Producer extends Thread {
 	private static final Logger log = Logger.getLogger(Thr1Producer.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final Random random;
+	private final AbstTable table;
+	private static int id = 0;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Thr1Producer() {
+	public Thr1Producer(String thrName, AbstTable table, long seed) {
+		
+		super(thrName);
+		this.table = table;
+		this.random = new Random(seed);
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -57,9 +69,25 @@ public final class Thr1Producer extends Thread {
 	@Override
 	public void run() {
 		
+		try {
+			while (true) {
+				Thread.sleep(this.random.nextInt(1000));
+				
+				String cake = String.format("[ Cake No.%d by %s ]", nextId(), this.getName());
+				
+				this.table.put(cake);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static synchronized int nextId() {
+		return id ++;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
