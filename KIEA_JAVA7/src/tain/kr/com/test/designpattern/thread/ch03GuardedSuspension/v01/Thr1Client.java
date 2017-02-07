@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.thread.ch03GuardedSuspension.v01;
 
+import java.util.Random;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,24 +37,47 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Thr1Client {
+public final class Thr1Client extends Thread {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(Thr1Client.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private Random random;
+	private FinlQueue queue;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Thr1Client() {
+	public Thr1Client(FinlQueue queue, String nameThread, long seed) {
+		
+		super(nameThread);
+		this.queue = queue;
+		this.random = new Random(seed);
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void run() {
+		
+		for (int i=0; i < 1000; i++) {
+			AbstContent content = new ContentRequest("No." + i);
+			if (flag) System.out.printf("%s content %s\n", Thread.currentThread().getName(), content);
+			
+			this.queue.put(content);
+			
+			try { Thread.sleep(random.nextInt(1000)); } catch (InterruptedException e) {}
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +94,6 @@ public class Thr1Client {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new Thr1Client();
 
 		if (flag) {
 
