@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.thread.ch04Balking.v01;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,17 +44,42 @@ public final class Thr1Saver extends Thread {
 	private static final Logger log = Logger.getLogger(Thr1Saver.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private AbstData data;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Thr1Saver() {
+	public Thr1Saver(String thrName, AbstData data) {
+		
+		super(thrName);
+		this.data = data;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void run() {
+		
+		try {
+			while (true) {
+				
+				this.data.save();
+				
+				Thread.sleep(1000);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +96,6 @@ public final class Thr1Saver extends Thread {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new Thr1Saver();
 
 		if (flag) {
 
