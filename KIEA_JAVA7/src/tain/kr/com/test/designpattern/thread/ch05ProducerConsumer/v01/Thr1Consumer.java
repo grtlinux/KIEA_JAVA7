@@ -69,8 +69,9 @@ public final class Thr1Consumer extends Thread {
 	public void run() {
 		
 		try {
-			@SuppressWarnings("unused")
-			String cake = this.table.take();
+			// @SuppressWarnings("unused")
+			// String cake = this.table.take();
+			this.table.take();
 			
 			Thread.sleep(this.random.nextInt(1000));
 			
