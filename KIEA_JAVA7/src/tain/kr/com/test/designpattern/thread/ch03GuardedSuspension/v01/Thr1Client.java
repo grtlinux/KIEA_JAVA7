@@ -68,7 +68,7 @@ public final class Thr1Client extends Thread {
 	@Override
 	public void run() {
 		
-		for (int i=0; i < 1000; i++) {
+		for (int i=0; i < 100; i++) {
 			AbstContent content = new ContentRequest("No." + i);
 			if (flag) System.out.printf("%s content %s\n", Thread.currentThread().getName(), content);
 			
