@@ -75,9 +75,9 @@ public final class MainTest {
 		if (flag)
 			new MainTest();
 
-		if (flag) {
+		if (!flag) {
 			/*
-			 * ResourceBundle
+			 * ResourceBundle -> TODO ERROR
 			 */
 			ResourceBundle resourceBundle = ResourceBundle.getBundle("resources/test");
 			
