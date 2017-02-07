@@ -19,61 +19,42 @@
  */
 package tain.kr.com.test.designpattern.thread.ch03GuardedSuspension.v01;
 
-import java.util.LinkedList;
-
 import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : FinlQueue.java
+ *   -. FileName   : AbstContent.java
  *   -. Package    : tain.kr.com.test.designpattern.thread.ch03GuardedSuspension.v01
  *   -. Comment    :
  *   -. Author     : taincokr
- *   -. First Date : 2017. 2. 7. {time}
+ *   -. First Date : 2017. 2. 8. {time}
  * </PRE>
  *
  * @author taincokr
  *
  */
-public final class FinlQueue {
+public abstract class AbstContent {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(FinlQueue.class);
+	private static final Logger log = Logger.getLogger(AbstContent.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	private final LinkedList<AbstContent> queue = new LinkedList<AbstContent>();
-	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public FinlQueue() {
+	public AbstContent() {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public synchronized AbstContent get() {
-		
-		while (this.queue.size() <= 0) {
-			
-			try { wait(); } catch (InterruptedException e) {}
-		}
-		
-		return (AbstContent) this.queue.removeFirst();
-	}
-	
-	public synchronized void put(AbstContent content) {
-		
-		this.queue.addLast(content);
-		notifyAll();
-	}
+	public abstract String getName();
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,9 +72,6 @@ public final class FinlQueue {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new FinlQueue();
 
 		if (flag) {
 

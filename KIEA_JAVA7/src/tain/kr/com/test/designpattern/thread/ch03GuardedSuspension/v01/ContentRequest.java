@@ -25,21 +25,21 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : Dep1Content.java
+ *   -. FileName   : ContentRequest.java
  *   -. Package    : tain.kr.com.test.designpattern.thread.ch03GuardedSuspension.v01
  *   -. Comment    :
  *   -. Author     : taincokr
- *   -. First Date : 2017. 2. 7. {time}
+ *   -. First Date : 2017. 2. 8. {time}
  * </PRE>
  *
  * @author taincokr
  *
  */
-public class Dep1Content {
+public final class ContentRequest extends AbstContent {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(Dep1Content.class);
+	private static final Logger log = Logger.getLogger(ContentRequest.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -50,7 +50,7 @@ public class Dep1Content {
 	/*
 	 * constructor
 	 */
-	public Dep1Content(String name) {
+	public ContentRequest(String name) {
 		
 		this.name = name;
 		
@@ -60,6 +60,7 @@ public class Dep1Content {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String getName() {
 		return this.name;
 	}
@@ -69,6 +70,9 @@ public class Dep1Content {
 	public String toString() {
 		return String.format("[ Request %s ]", this.name);
 	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
