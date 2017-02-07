@@ -74,7 +74,10 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			FinlQueue queue = new FinlQueue();
+			
+			new Thr1Client(queue, "Alice", 3141592L).start();
+			new Thr1Server(queue, "Bobby", 6535897L).start();
 		}
 	}
 
