@@ -51,12 +51,27 @@ public class Thr1Thread extends Thread {
 	/*
 	 * constructor
 	 */
-	public Thr1Thread() {
+	public Thr1Thread(AbstGate gate, String myName, String myAddress) {
+
+		this.gate = gate;
+		this.myName = myName;
+		this.myAddress = myAddress;
+		
 		if (flag)
-			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+			log.debug(String.format(">>>>> in class %s [%s, %s, %s]\n"
+					, this.getClass().getSimpleName(), this.gate, this.myName, this.myAddress));
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void run() {
+		
+		System.out.println(this.myName + " BEGIN");
+		while (true) {
+			gate.pass(this.myName, this.myAddress);;
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,9 +88,6 @@ public class Thr1Thread extends Thread {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new Thr1Thread();
 
 		if (flag) {
 

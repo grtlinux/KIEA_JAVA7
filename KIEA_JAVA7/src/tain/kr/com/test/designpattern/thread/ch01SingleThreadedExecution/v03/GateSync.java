@@ -62,6 +62,7 @@ public class GateSync extends AbstGate {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public synchronized void pass(String name, String address) {
 		this.counter ++;
 		this.name = name;
@@ -77,6 +78,7 @@ public class GateSync extends AbstGate {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	@Override
 	public synchronized String toString() {
 		return String.format("No.%d:%s, %s;", this.counter, this.name, this, address);
 	}
