@@ -58,8 +58,8 @@ public class Thr1Thread extends Thread {
 		this.myAddress = myAddress;
 		
 		if (flag)
-			log.debug(String.format(">>>>> in class %s [%s, %s, %s]\n"
-					, this.getClass().getSimpleName(), this.gate, this.myName, this.myAddress));
+			log.debug(String.format(">>>>> in class %s [%s, %s]\n"
+					, this.getClass().getSimpleName(), this.myName, this.myAddress));
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////

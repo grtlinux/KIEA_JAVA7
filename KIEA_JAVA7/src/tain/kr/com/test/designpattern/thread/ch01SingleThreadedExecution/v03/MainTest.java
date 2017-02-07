@@ -73,8 +73,28 @@ public class MainTest {
 		if (flag)
 			new MainTest();
 
-		if (flag) {
-
+		if (!flag) {
+			/*
+			 * non synchronized method
+			 */
+			System.out.println("Testing Gate, hit Ctrl+C to Exit..");
+			
+			AbstGate gate = new GateNonSync("NON SYNC");
+			
+			new Thr1Thread(gate, "Alice", "Alaska").start();
+			new Thr1Thread(gate, "Bobby", "Brazil").start();
+			new Thr1Thread(gate, "Chris", "Canada").start();
+		} else {
+			/*
+			 * synchronized method
+			 */
+			System.out.println("Testing Gate, hit Ctrl+C to Exit..");
+			
+			AbstGate gate = new GateSync("SYNC");
+			
+			new Thr1Thread(gate, "Alice", "Alaska").start();
+			new Thr1Thread(gate, "Bobby", "Brazil").start();
+			new Thr1Thread(gate, "Chris", "Canada").start();
 		}
 	}
 
