@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.thread.ch04Balking.v01;
 
+import java.util.ResourceBundle;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -73,6 +75,15 @@ public final class MainTest {
 		if (flag)
 			new MainTest();
 
+		if (flag) {
+			/*
+			 * ResourceBundle
+			 */
+			ResourceBundle resourceBundle = ResourceBundle.getBundle("resources/test");
+			
+			if (flag) System.out.printf("[%s]\n", resourceBundle.getString("tain.co.kr.test.string"));
+		}
+		
 		if (flag) {
 			
 			AbstData data = new DataContent("data.txt", "(empty)");
