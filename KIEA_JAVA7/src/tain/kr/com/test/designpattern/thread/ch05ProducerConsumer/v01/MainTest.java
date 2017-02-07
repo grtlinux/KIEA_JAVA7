@@ -75,7 +75,7 @@ public class MainTest {
 
 		if (flag) {
 			
-			AbstTable table = new TableContent(3);   // dead lock event
+			AbstTable table = new TableContent(3);
 			
 			new Thr1Producer("Thr1Producer-1", table, 31415L).start();
 			new Thr1Producer("Thr1Producer-2", table, 92653L).start();
