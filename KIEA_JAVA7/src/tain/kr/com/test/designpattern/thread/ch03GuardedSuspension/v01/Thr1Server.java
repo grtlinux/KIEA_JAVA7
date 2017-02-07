@@ -68,9 +68,9 @@ public final class Thr1Server extends Thread {
 	@Override
 	public void run() {
 		
-		for (int i=0; i < 1000; i++) {
+		for (int i=0; i < 100; i++) {
 			AbstContent content = this.queue.get();
-			if (flag) System.out.printf("%s content %s\n", Thread.currentThread().getName(), content);
+			if (flag) System.out.printf("\t\t\t%s content %s\n", Thread.currentThread().getName(), content);
 			
 			try { Thread.sleep(random.nextInt(1000)); } catch (InterruptedException e) {}
 		}
