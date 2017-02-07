@@ -43,13 +43,23 @@ public final class TableContent extends AbstTable {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private final String[] buffer;    // circuler queue
+	private int head;
+	private int tail;
+	private int count;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public TableContent() {
+	public TableContent(int size) {
+		
+		this.buffer = new String[size];
+		this.head = 0;
+		this.tail = 0;
+		this.count = 0;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -64,6 +74,17 @@ public final class TableContent extends AbstTable {
 	public void put(String cake) throws InterruptedException {
 		// TODO Auto-generated method stub
 		
+		if (flag) System.out.printf("%s puts %s.\n", Thread.currentThread().getName(), cake);
+		
+		while (this.count >= this.buffer.length) {
+			this.wait();
+		}
+		
+		this.buffer[this.tail] = cake;
+		this.tail = (this.tail + 1) % this.buffer.length;
+		this.count ++;
+		
+		this.notifyAll();
 	}
 
 	/* (non-Javadoc)
@@ -72,7 +93,20 @@ public final class TableContent extends AbstTable {
 	@Override
 	public String take() throws InterruptedException {
 		// TODO Auto-generated method stub
-		return null;
+		
+		while (this.count <= 0) {
+			this.wait();
+		}
+		
+		String cake = this.buffer[head];
+		this.head = (this.head + 1) % this.buffer.length;
+		this.count --;
+		
+		this.notify();
+		
+		if (flag) System.out.printf("%s takes %s.\n", Thread.currentThread().getName(), cake);
+		
+		return cake;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
