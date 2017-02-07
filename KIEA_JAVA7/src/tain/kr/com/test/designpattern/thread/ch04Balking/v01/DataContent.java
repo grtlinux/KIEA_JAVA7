@@ -98,7 +98,7 @@ public final class DataContent extends AbstData {
 		
 		if (flag) System.out.printf("%s calls doSave(), content = %s\n", Thread.currentThread().getName(), this.content);
 		
-		Writer writer = new FileWriter(this.fileName);
+		Writer writer = new FileWriter("result/" + this.fileName);
 		writer.write(this.content);
 		writer.close();
 	}
