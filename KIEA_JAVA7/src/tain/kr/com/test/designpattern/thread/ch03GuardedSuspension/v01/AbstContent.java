@@ -48,7 +48,7 @@ public abstract class AbstContent {
 	 * constructor
 	 */
 	public AbstContent() {
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
