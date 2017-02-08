@@ -6,15 +6,16 @@ import java.util.Random;
 class MapThreadLocal extends ThreadLocal<Object> {
 	//Object 가 아니라 HashMap 를 값으로 갖는다. 
 	protected Object initialValue() {
-		return new HashMap();
+		return new HashMap<Object, Object>();
 	}
 
-	public HashMap getHashMap() {
-		return (HashMap) this.get();
+	@SuppressWarnings("unchecked")
+	public HashMap<Object, Object> getHashMap() {
+		return (HashMap<Object, Object>) this.get();
 	}
 }
 
-class GlobalMapThreadLocal extends ThreadLocal {
+class GlobalMapThreadLocal extends ThreadLocal<Object> {
 
 	// ThreadLocal 이  아니라 MapThreadLocal 을 저장소로 사용한다.  
 	private static MapThreadLocal globalHashMapThreadLocalRef = new MapThreadLocal();
@@ -27,7 +28,7 @@ class GlobalMapThreadLocal extends ThreadLocal {
 		globalHashMapThreadLocalRef.getHashMap().put(key, newValue);
 	}
 
-	public static HashMap getHashMap() {
+	public static HashMap<Object, Object> getHashMap() {
 		return globalHashMapThreadLocalRef.getHashMap();
 	}
 
