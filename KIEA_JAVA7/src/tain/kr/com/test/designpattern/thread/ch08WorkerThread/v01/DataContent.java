@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.thread.ch08WorkerThread.v01;
 
+import java.util.Random;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,18 +44,43 @@ public final class DataContent extends AbstData {
 	private static final Logger log = Logger.getLogger(DataContent.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final String name;
+	private final int number;
+	private static final Random random = new Random();
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public DataContent() {
+	public DataContent(String name, int number) {
+		
+		this.name = name;
+		this.number = number;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void execute() {
+		
+		if (flag) System.out.printf("%s executes %s.\n", Thread.currentThread().getName(), this);
+		
+		try {
+			Thread.sleep(random.nextInt(1000));
+		} catch (InterruptedException e) {
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String toString() {
+		return String.format("[ Request from %s No.%d ]", this.name, this.number);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +96,6 @@ public final class DataContent extends AbstData {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new DataContent();
 
 		if (flag) {
 
