@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : Dep2Help.java
+ *   -. FileName   : Dep2Host.java
  *   -. Package    : tain.kr.com.test.designpattern.thread.ch07ThreadPerMessage.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,24 +35,45 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Dep2Help {
+public class Dep2Host {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(Dep2Help.class);
+	private static final Logger log = Logger.getLogger(Dep2Host.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final Dep1Helper helper = new Dep1Helper();
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Dep2Help() {
+	public Dep2Host() {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void request(final int count, final char c) {
+		
+		if (flag) System.out.printf("request(%d, %c) BEGIN\n", count, c);
+		
+		/*
+		 * thread job process
+		 */
+		new Thread() {
+			@Override
+			public void run() {
+				helper.handle(count, c);
+			}
+		}.start();
+		
+		if (flag) System.out.printf("request(%d, %c) END\n", count, c);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +92,7 @@ public class Dep2Help {
 	private static void test01(String[] args) throws Exception {
 
 		if (flag)
-			new Dep2Help();
+			new Dep2Host();
 
 		if (flag) {
 

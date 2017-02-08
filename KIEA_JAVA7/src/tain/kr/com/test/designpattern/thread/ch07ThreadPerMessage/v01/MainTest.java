@@ -75,6 +75,15 @@ public class MainTest {
 
 		if (flag) {
 
+			if (flag) System.out.println("main BEGIN");
+
+			Dep2Host host = new Dep2Host();
+			
+			host.request(10, 'A');
+			host.request(20, 'B');
+			host.request(30, 'C');
+			
+			if (flag) System.out.println("main BEGIN");
 		}
 	}
 
