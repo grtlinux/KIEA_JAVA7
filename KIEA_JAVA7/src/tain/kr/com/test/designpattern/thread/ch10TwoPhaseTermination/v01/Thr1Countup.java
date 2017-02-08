@@ -93,6 +93,8 @@ public final class Thr1Countup extends Thread {
 	private void doShutdown() {
 		
 		if (flag) System.out.println("doShutdown: counter = " + this.counter);
+		
+		try { Thread.sleep(2000); } catch (InterruptedException e) {}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
