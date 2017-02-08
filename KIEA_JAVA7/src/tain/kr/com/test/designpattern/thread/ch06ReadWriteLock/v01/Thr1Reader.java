@@ -42,12 +42,18 @@ public final class Thr1Reader extends Thread {
 	private static final Logger log = Logger.getLogger(Thr1Reader.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final DataContent content;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Thr1Reader() {
+	public Thr1Reader(DataContent content) {
+		
+		this.content = content;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -57,6 +63,14 @@ public final class Thr1Reader extends Thread {
 	@Override
 	public void run() {
 		
+		try {
+			while (true) {
+				char[] readBuf = this.content.read();
+				
+				if (flag) System.out.printf("%s reads %s\n", Thread.currentThread().getName(), String.valueOf(readBuf));
+			}
+		} catch (InterruptedException e) {
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,9 +89,6 @@ public final class Thr1Reader extends Thread {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new Thr1Reader();
 
 		if (flag) {
 
