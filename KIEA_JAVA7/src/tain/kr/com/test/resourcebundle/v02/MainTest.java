@@ -19,6 +19,7 @@
  */
 package tain.kr.com.test.resourcebundle.v02;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
@@ -77,7 +78,7 @@ public class MainTest {
 
 		if (flag) {
 			
-			ResourceBundle resourceBundle = ResourceBundle.getBundle("resources/test");
+			ResourceBundle resourceBundle = ResourceBundle.getBundle("resources/test", Locale.getDefault());
 			
 			if (flag) System.out.printf("[%s]\n", resourceBundle.getString("tain.co.kr.test.string"));
 		}
