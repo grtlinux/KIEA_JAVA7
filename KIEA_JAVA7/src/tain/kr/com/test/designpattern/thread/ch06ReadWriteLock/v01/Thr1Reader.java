@@ -43,16 +43,16 @@ public final class Thr1Reader extends Thread {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private final DataContent content;
+	private final AbstData data;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Thr1Reader(DataContent content) {
+	public Thr1Reader(AbstData data) {
 		
-		this.content = content;
+		this.data = data;
 		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
@@ -65,7 +65,7 @@ public final class Thr1Reader extends Thread {
 		
 		try {
 			while (true) {
-				char[] readBuf = this.content.read();
+				char[] readBuf = this.data.read();
 				
 				if (flag) System.out.printf("%s reads %s\n", Thread.currentThread().getName(), String.valueOf(readBuf));
 			}
