@@ -36,4 +36,5 @@ package tain.kr.com.test.designpattern.thread.ch09Future.v01;
  */
 public interface ImplData {
 
+	public abstract String getContent();
 }

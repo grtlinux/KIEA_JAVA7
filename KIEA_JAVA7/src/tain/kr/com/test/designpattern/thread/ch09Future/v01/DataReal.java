@@ -42,18 +42,47 @@ public final class DataReal implements ImplData {
 	private static final Logger log = Logger.getLogger(DataReal.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final String content;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public DataReal() {
+	public DataReal(int count, char c) {
+		
+		if (flag) System.out.printf("making DataReal(%d, %c) BEGIN.\n", count, c);
+		
+		char[] buffer = new char[count];
+		for (int i=0; i < count; i++) {
+			buffer[i] = c;
+			
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {}
+		}
+		
+		if (flag) System.out.printf("making DataReal(%d, %c) END.\n", count, c);
+		
+		this.content = new String(buffer);
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.thread.ch09Future.v01.ImplData#getContent()
+	 */
+	@Override
+	public String getContent() {
+		// TODO Auto-generated method stub
+		return this.content;
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +98,6 @@ public final class DataReal implements ImplData {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new DataReal();
 
 		if (flag) {
 

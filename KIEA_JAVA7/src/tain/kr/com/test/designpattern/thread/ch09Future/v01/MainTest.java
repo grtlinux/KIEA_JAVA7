@@ -75,6 +75,27 @@ public class MainTest {
 
 		if (flag) {
 
+			if (flag) System.out.println("main BEGIN");
+			
+			Dep1Host host = new Dep1Host();
+			
+			ImplData data1 = host.request(10, 'A');
+			ImplData data2 = host.request(20, 'B');
+			ImplData data3 = host.request(30, 'C');
+			
+			if (flag) System.out.println("main objectJob BEGIN");
+			
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {}
+			
+			if (flag) System.out.println("main objectJob END");
+			
+			if (flag) System.out.println("data1 = " + data1.getContent());
+			if (flag) System.out.println("data2 = " + data2.getContent());
+			if (flag) System.out.println("data3 = " + data3.getContent());
+			
+			if (flag) System.out.println("main END");
 		}
 	}
 
