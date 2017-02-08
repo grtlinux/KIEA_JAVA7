@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Thr1Calculator {
+public final class Thr1Calculator extends AbstCalculator implements Runnable {
 
 	private static boolean flag = true;
 
@@ -54,6 +54,31 @@ public class Thr1Calculator {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+		for (int i=0; i < 30; i++) {
+			Integer param = new Integer(i % 5);
+			this.calculate(param);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.javaThreads.ch05.v01.example4.AbstCalculator#doLocalCalculate(java.lang.Object)
+	 */
+	@Override
+	protected Object doLocalCalculate(Object param) {
+		
+		if (flag) System.out.println("Doing calculation of " + param + " in thread " + Thread.currentThread());
+		
+		return param;
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
