@@ -56,7 +56,7 @@ public abstract class AbstRequest {
 		this.servant = servant;
 		this.future = future;
 		
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 

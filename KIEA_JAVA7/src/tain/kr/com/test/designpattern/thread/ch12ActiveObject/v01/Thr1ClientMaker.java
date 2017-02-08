@@ -75,7 +75,7 @@ public final class Thr1ClientMaker extends Thread {
 				
 				String value = (String) result.getResultValue();
 				
-				if (flag) System.out.printf("%s: value = \n", Thread.currentThread().getName(), value);
+				if (flag) System.out.printf("%s: value = %s.\n", Thread.currentThread().getName(), value);
 			}
 		} catch (InterruptedException e) {
 		}

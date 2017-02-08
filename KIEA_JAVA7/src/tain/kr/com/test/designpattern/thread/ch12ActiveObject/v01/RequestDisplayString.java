@@ -56,7 +56,7 @@ public final class RequestDisplayString extends AbstRequest {
 		super(servant, null);
 		this.string = string;
 		
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 

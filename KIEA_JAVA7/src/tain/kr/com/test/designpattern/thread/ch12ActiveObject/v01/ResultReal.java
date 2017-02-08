@@ -54,7 +54,7 @@ public final class ResultReal extends AbstResult {
 		
 		this.resultValue = resultValue;
 		
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 

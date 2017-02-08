@@ -57,7 +57,7 @@ public final class RequestMakeString extends AbstRequest {
 		this.count = count;
 		this.fillChar = fillChar;
 		
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 

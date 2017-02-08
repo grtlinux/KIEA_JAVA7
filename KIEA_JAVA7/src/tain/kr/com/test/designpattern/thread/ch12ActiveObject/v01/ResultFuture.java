@@ -43,7 +43,6 @@ public final class ResultFuture extends AbstResult {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	@SuppressWarnings("unused")
 	private AbstResult result;
 	private boolean ready = false;
 	
@@ -53,7 +52,7 @@ public final class ResultFuture extends AbstResult {
 	 * constructor
 	 */
 	public ResultFuture() {
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
@@ -72,7 +71,7 @@ public final class ResultFuture extends AbstResult {
 			}
 		}
 		
-		return null;
+		return result.getResultValue();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
