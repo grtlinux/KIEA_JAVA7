@@ -74,7 +74,12 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			int cntThreads = 10;
+			
+			for (int i=0; i < cntThreads; i++) {
+				Thread thread = new Thread(new Thr1Calculator());
+				thread.start();
+			}
 		}
 	}
 
