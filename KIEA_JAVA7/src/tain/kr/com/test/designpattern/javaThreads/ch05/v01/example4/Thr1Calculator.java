@@ -48,7 +48,7 @@ public final class Thr1Calculator extends AbstCalculator implements Runnable {
 	 * constructor
 	 */
 	public Thr1Calculator() {
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 

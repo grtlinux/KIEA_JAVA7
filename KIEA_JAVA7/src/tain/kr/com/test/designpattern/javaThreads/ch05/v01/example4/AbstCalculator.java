@@ -50,7 +50,7 @@ public abstract class AbstCalculator {
 	 * constructor
 	 */
 	public AbstCalculator() {
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
