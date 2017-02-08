@@ -75,6 +75,25 @@ public class MainTest {
 
 		if (flag) {
 
+			if (flag) System.out.println("main: BEGIN");
+			
+			try {
+				// execute of thread
+				Thr1Countup thread = new Thr1Countup();
+				thread.start();
+				
+				Thread.sleep(10000);
+				
+				if (flag) System.out.println("main: shutdownRequest");
+				thread.shutdownRequest();
+				
+				if (flag) System.out.println("main: join");
+				thread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			if (flag) System.out.println("main: END");
 		}
 	}
 
