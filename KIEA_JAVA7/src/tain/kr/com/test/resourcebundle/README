@@ -1,0 +1,20 @@
+#
+#
+#
+
+	1. this.getClass().getResourceAsStream("/resources/sample.properties");
+	
+	2. this.getClass().getClassLoader().getResourceAsStream("resources/sample.properties");
+	
+	3. prop1.load(new FileInputStream("src/main/resources/sample.properties");
+	
+	4. ResourceBundle resourceBundle = ResourceBundle.getBundle("resources.sample");
+	
+	->	ResourceBundle resourceBundle = ResourceBundle.getBundle("resources/sample");
+	
+	
+	
+	
+	
+	
+	
