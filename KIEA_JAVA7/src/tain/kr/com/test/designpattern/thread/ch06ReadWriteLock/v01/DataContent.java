@@ -42,18 +42,84 @@ public final class DataContent extends AbstData {
 	private static final Logger log = Logger.getLogger(DataContent.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final char[] buffer;
+	private final FinlReadWriteLock lock = new FinlReadWriteLock();
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public DataContent() {
+	public DataContent(int size) {
+		
+		this.buffer = new char[size];
+		
+		for (int i=0; i < buffer.length; i++) {
+			buffer[i] = '*';
+		}
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public char[] read() throws InterruptedException {
+		
+		lock.readLock();
+		
+		try {
+			return doRead();
+		} finally {
+			lock.readUnlock();
+		}
+	}
+	
+	@Override
+	public void write(char c) throws InterruptedException {
+		
+		lock.writeLock();
+		
+		try {
+			doWrite(c);
+		} finally {
+			lock.writeUnlock();
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private char[] doRead() {
+		
+		char[] newBuf = new char[this.buffer.length];
+		for (int i=0; i < this.buffer.length; i++) {
+			newBuf[i] = this.buffer[i];
+		}
+		
+		slowly();
+		
+		return newBuf;
+	}
+	
+	private void doWrite(char c) {
+		
+		for (int i=0; i < this.buffer.length; i++) {
+			this.buffer[i] = c;
+			
+			slowly();
+		}
+	}
+	
+	private void slowly() {
+		
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +135,6 @@ public final class DataContent extends AbstData {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new DataContent();
 
 		if (flag) {
 
