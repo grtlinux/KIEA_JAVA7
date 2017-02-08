@@ -1,3 +1,5 @@
+package tain.kr.com.test.threadLocal.v01;
+
 import java.util.Random;
 
 public class TestThreadLocal2 {
@@ -26,7 +28,7 @@ public class TestThreadLocal2 {
 
 		public void execute() throws InterruptedException {
 			// ThrealLocal 변수를 하나 생성한다. 
-			ThreadLocal myThreadLocal = new ThreadLocal();
+			ThreadLocal<Object> myThreadLocal = new ThreadLocal<Object>();
 			
 			// CMD_ThreadLocal 이란 String 값을 할당한다. 
 			myThreadLocal.set("CMD_ThreadLocal");
@@ -47,7 +49,7 @@ public class TestThreadLocal2 {
 		public void execute() throws InterruptedException {
 			
 			// ThrealLocal 변수를 하나 생성한다. 
-			ThreadLocal myThreadLocal = new ThreadLocal();
+			ThreadLocal<Object> myThreadLocal = new ThreadLocal<Object>();
 			
 			// ThrealLocal 변수내의 값을 출력한다.  	
 			Util.print_myThreadLocal(this, myThreadLocal);			
@@ -78,8 +80,7 @@ public class TestThreadLocal2 {
 		public static String getCaller(Object caller) {
 			return caller.getClass().getName();
 		}
-		public static void print_myThreadLocal(Object caller,
-				ThreadLocal myThreadLocal) {
+		public static void print_myThreadLocal(Object caller, ThreadLocal<Object> myThreadLocal) {
 			
 			Util.print("[" + Util.getCaller(caller) + "]-자체ThreadLocal:Reference["
 					+ myThreadLocal + "]Value["+myThreadLocal.get()+"]");
