@@ -46,7 +46,7 @@ public final class Thr1Writer extends Thread {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static final Random random = new Random();
-	private final DataContent content;
+	private final AbstData data;
 	private final String filler;
 	private int index = 0;
 	
@@ -55,9 +55,9 @@ public final class Thr1Writer extends Thread {
 	/*
 	 * constructor
 	 */
-	public Thr1Writer(DataContent content, String filler) {
+	public Thr1Writer(AbstData data, String filler) {
 		
-		this.content = content;
+		this.data = data;
 		this.filler = filler;
 		
 		if (flag)
@@ -72,7 +72,7 @@ public final class Thr1Writer extends Thread {
 		try {
 			while (true) {
 				char c = nextChar();
-				this.content.write(c);
+				this.data.write(c);
 				
 				Thread.sleep(random.nextInt(3000));
 			}
