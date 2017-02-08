@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.javaThreads.ch05.v01.example4;
 
+import java.util.HashMap;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,7 +37,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class AbstCalculator {
+public abstract class AbstCalculator {
 
 	private static boolean flag = true;
 
@@ -53,7 +55,32 @@ public class AbstCalculator {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static ThreadLocal<HashMap<Object, Object>> results = new ThreadLocal<HashMap<Object, Object>>() {
+		protected HashMap<Object, Object> initialValue() {
+			return new HashMap<Object, Object>();
+		}
+	};
+	
+	public Object calculate(Object param) {
+		
+		HashMap<Object, Object> map = results.get();
+		
+		Object val = map.get(param);
+		if (val != null) {
+			return val;
+		}
+		
+		val = doLocalCalculate(param);
+		map.put(param, val);
+		
+		return val;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	protected abstract Object doLocalCalculate(Object param);
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +96,6 @@ public class AbstCalculator {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new AbstCalculator();
 
 		if (flag) {
 
