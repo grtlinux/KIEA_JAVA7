@@ -75,6 +75,13 @@ public class MainTest {
 
 		if (flag) {
 
+			Dep1Channel channel = new Dep1Channel(5);
+			
+			channel.startWorkers();
+			
+			new Thr1Client("Alice", channel).start();
+			new Thr1Client("Bobby", channel).start();
+			new Thr1Client("Chris", channel).start();
 		}
 	}
 
