@@ -70,11 +70,19 @@ public class MainTest {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new MainTest();
-
 		if (flag) {
 
+			AbstData data = new DataContent(10);
+			
+			new Thr1Reader(data).start();
+			new Thr1Reader(data).start();
+			new Thr1Reader(data).start();
+			new Thr1Reader(data).start();
+			new Thr1Reader(data).start();
+			new Thr1Reader(data).start();
+			
+			new Thr1Writer(data, "ABCDEFGHIJKLMNOPQRSTUVWXYZ").start();
+			new Thr1Writer(data, "abcdefghijklmnopqrstuvwxyz").start();
 		}
 	}
 
