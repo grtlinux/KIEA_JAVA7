@@ -43,7 +43,7 @@ public final class FinlLog {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static final ThreadLocal<FinlTSLog> tsLogCollection = new ThreadLocal<FinlTSLog>();
+	private static final ThreadLocal<FinlTSLog> threadLocal = new ThreadLocal<FinlTSLog>();
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -68,12 +68,12 @@ public final class FinlLog {
 	
 	private static FinlTSLog getTSLog() {
 		
-		FinlTSLog tsLog = (FinlTSLog) tsLogCollection.get();
+		FinlTSLog tsLog = (FinlTSLog) threadLocal.get();
 		
 		if (tsLog == null) {
 			tsLog = new FinlTSLog("result/" + Thread.currentThread().getName() + "-log.txt");
 			
-			tsLogCollection.set(tsLog);
+			threadLocal.set(tsLog);
 		}
 		
 		return tsLog;
