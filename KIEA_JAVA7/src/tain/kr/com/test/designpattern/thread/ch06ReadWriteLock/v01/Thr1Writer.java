@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.thread.ch06ReadWriteLock.v01;
 
+import java.util.Random;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,12 +44,22 @@ public final class Thr1Writer extends Thread {
 	private static final Logger log = Logger.getLogger(Thr1Writer.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static final Random random = new Random();
+	private final DataContent content;
+	private final String filler;
+	private int index = 0;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Thr1Writer() {
+	public Thr1Writer(DataContent content, String filler) {
+		
+		this.content = content;
+		this.filler = filler;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -57,9 +69,31 @@ public final class Thr1Writer extends Thread {
 	@Override
 	public void run() {
 		
+		try {
+			while (true) {
+				char c = nextChar();
+				this.content.write(c);
+				
+				Thread.sleep(random.nextInt(3000));
+			}
+		} catch (InterruptedException e) {
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private char nextChar() {
+		
+		char c = this.filler.charAt(this.index);
+		
+		this.index ++;
+		if (this.index >= this.filler.length()) {
+			this.index = 0;
+		}
+		
+		return c;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,9 +109,6 @@ public final class Thr1Writer extends Thread {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new Thr1Writer();
 
 		if (flag) {
 
