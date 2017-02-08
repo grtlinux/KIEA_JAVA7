@@ -75,6 +75,9 @@ public class MainTest {
 
 		if (flag) {
 
+			new Thr1Client("Alice").start();
+			new Thr1Client("Bobby").start();
+			new Thr1Client("Chris").start();
 		}
 	}
 

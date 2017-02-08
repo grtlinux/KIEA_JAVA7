@@ -42,17 +42,43 @@ public final class FinlLog {
 	private static final Logger log = Logger.getLogger(FinlLog.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static final ThreadLocal<FinlTSLog> tsLogCollection = new ThreadLocal<FinlTSLog>();
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
 	public FinlLog() {
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public static void println(String s) {
+		getTSLog().println(s);
+	}
+	
+	public static void close() {
+		getTSLog().close();
+	}
+	
+	private static FinlTSLog getTSLog() {
+		
+		FinlTSLog tsLog = (FinlTSLog) tsLogCollection.get();
+		
+		if (tsLog == null) {
+			tsLog = new FinlTSLog("result/" + Thread.currentThread().getName() + "-log.txt");
+			
+			tsLogCollection.set(tsLog);
+		}
+		
+		return tsLog;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +95,6 @@ public final class FinlLog {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new FinlLog();
 
 		if (flag) {
 

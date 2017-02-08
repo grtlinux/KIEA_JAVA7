@@ -19,6 +19,10 @@
  */
 package tain.kr.com.test.designpattern.thread.ch11ThreadSpecificStorage.v02;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,17 +46,37 @@ public final class FinlTSLog {
 	private static final Logger log = Logger.getLogger(FinlTSLog.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private PrintWriter writer = null;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public FinlTSLog() {
+	public FinlTSLog(String fileName) {
+		
+		try {
+			this.writer = new PrintWriter(new FileWriter(fileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void println(String s) {
+		this.writer.println(s);
+	}
+	
+	public void close() {
+		this.writer.println("===== End of log =====");
+		this.writer.close();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +93,6 @@ public final class FinlTSLog {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new FinlTSLog();
 
 		if (flag) {
 

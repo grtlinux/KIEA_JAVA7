@@ -47,7 +47,10 @@ public final class Thr1Client extends Thread {
 	/*
 	 * constructor
 	 */
-	public Thr1Client() {
+	public Thr1Client(String thrName) {
+		
+		super(thrName);
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -57,6 +60,17 @@ public final class Thr1Client extends Thread {
 	@Override
 	public void run() {
 		
+		if (flag) System.out.printf("%s BEGIN.\n", getName());
+		
+		for (int i=0; i < 10; i++) {
+			FinlLog.println("i = " + i);
+			
+			try { Thread.sleep(100); } catch (InterruptedException e) {}
+		}
+		
+		FinlLog.close();
+		
+		if (flag) System.out.printf("%s END.\n", getName());
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,9 +89,6 @@ public final class Thr1Client extends Thread {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new Thr1Client();
 
 		if (flag) {
 
