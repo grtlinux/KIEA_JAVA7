@@ -1,7 +1,9 @@
+package tain.kr.com.test.threadLocal.v01;
+
 import java.util.Random;
 
 class GlobalThreadLocal {
-	private static ThreadLocal globalThreadLocalRef = new ThreadLocal();
+	private static ThreadLocal<Object> globalThreadLocalRef = new ThreadLocal<Object>();
 
 	public static Object get() {
 		return globalThreadLocalRef.get();
@@ -10,7 +12,7 @@ class GlobalThreadLocal {
 	public static void set(Object newValue) {
 		globalThreadLocalRef.set(newValue);
 	}
-	public static ThreadLocal getThreadLocal() {
+	public static ThreadLocal<Object> getThreadLocal() {
 		return globalThreadLocalRef;
 	}
 }
@@ -51,7 +53,8 @@ public class TestThreadLocal3 {
 			// 현재 Thread 내에서 GlobalThrealLocal 변수내의 값을 출력한다.
 			Util.printCurrentThreadLocalStatus(this);
 
-			ThreadLocal tl = GlobalThreadLocal.getThreadLocal();
+			ThreadLocal<Object> tl = GlobalThreadLocal.getThreadLocal();
+			@SuppressWarnings("unused")
 			Object val = tl.get();
 
 			// Multi-Thread 환경을 흉내내기 위해 일정기간(Random) 동안 대기한다.
