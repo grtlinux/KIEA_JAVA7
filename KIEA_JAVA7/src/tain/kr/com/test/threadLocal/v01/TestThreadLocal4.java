@@ -1,7 +1,9 @@
+package tain.kr.com.test.threadLocal.v01;
+
 import java.util.HashMap;
 import java.util.Random;
 
-class MapThreadLocal extends ThreadLocal {
+class MapThreadLocal extends ThreadLocal<Object> {
 	//Object 가 아니라 HashMap 를 값으로 갖는다. 
 	protected Object initialValue() {
 		return new HashMap();
