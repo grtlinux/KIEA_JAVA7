@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.thread.ch08WorkerThread.v01;
 
+import java.util.Random;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,12 +44,20 @@ public final class Thr1Client extends Thread {
 	private static final Logger log = Logger.getLogger(Thr1Client.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final Dep1Channel channel;
+	private static final Random random = new Random();
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Thr1Client() {
+	public Thr1Client(String thrName, Dep1Channel channel) {
+		
+		super(thrName);
+		this.channel = channel;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -57,6 +67,15 @@ public final class Thr1Client extends Thread {
 	@Override
 	public void run() {
 		
+		try {
+			for (int i=0; true; i++) {
+				AbstData data = new DataContent(this.getName(), i);
+				this.channel.put(data);
+				
+				Thread.sleep(random.nextInt(1000));
+			}
+		} catch (InterruptedException e) {
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,9 +94,6 @@ public final class Thr1Client extends Thread {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new Thr1Client();
 
 		if (flag) {
 

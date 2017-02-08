@@ -42,12 +42,19 @@ public final class Thr1Worker extends Thread {
 	private static final Logger log = Logger.getLogger(Thr1Worker.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final Dep1Channel channel;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Thr1Worker() {
+	public Thr1Worker(String thrName, Dep1Channel channel) {
+		
+		super(thrName);
+		this.channel = channel;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -57,6 +64,10 @@ public final class Thr1Worker extends Thread {
 	@Override
 	public void run() {
 		
+		while (true) {
+			AbstData data = this.channel.take();
+			data.execute();
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,9 +86,6 @@ public final class Thr1Worker extends Thread {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new Thr1Worker();
 
 		if (flag) {
 
