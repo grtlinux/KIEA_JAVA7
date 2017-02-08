@@ -42,6 +42,11 @@ public final class Thr1Countup extends Thread {
 	private static final Logger log = Logger.getLogger(Thr1Countup.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private long counter = 0;
+	
+	private volatile boolean shutdownRequested = false;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -54,12 +59,42 @@ public final class Thr1Countup extends Thread {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	public void shutdownRequest() {
+		this.shutdownRequested = true;
+		interrupt();
+	}
+	
+	public boolean isShutdownRequested() {
+		return this.shutdownRequested;
+	}
+	
 	@Override
 	public void run() {
 		
+		try {
+			while (!this.shutdownRequested) {
+				doWork();
+			}
+		} catch (InterruptedException e) {
+		} finally {
+			doShutdown();
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private void doWork() throws InterruptedException {
+		
+		this.counter++;
+		if (flag) System.out.println("doWork: counter = " + this.counter);
+		Thread.sleep(500);
+	}
+	
+	private void doShutdown() {
+		
+		if (flag) System.out.println("doShutdown: counter = " + this.counter);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
