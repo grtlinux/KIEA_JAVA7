@@ -1,3 +1,5 @@
+package tain.kr.com.test.threadLocal.v01;
+
 class TestObject {
 	public String testMember1;
 	public String testMember2;
@@ -12,7 +14,7 @@ public class TestThreadLocal1 {
 	public static void main(String[] args) {
 
 		// ThrealLocal 변수를 하나 생성한다. 
-		ThreadLocal myThreadLocal = new ThreadLocal();  
+		ThreadLocal<Object> myThreadLocal = new ThreadLocal<Object>();  
 		myThreadLocal.set("ThreadLocal변수");
 
 		System.out.println("자체ThreadLocal:Reference[" + myThreadLocal
@@ -28,7 +30,7 @@ public class TestThreadLocal1 {
 				+ "]Value[" + myThreadLocal.get() + "]");
 
 		// 새로운 ThrealLocal 변수를 하나 생성한다. 
-		myThreadLocal = new ThreadLocal();
+		myThreadLocal = new ThreadLocal<Object>();
 		myThreadLocal.set("NEW_ThreadLocal변수");
 		System.out.println("자체ThreadLocal:Reference[" + myThreadLocal
 				+ "]Value[" + myThreadLocal.get() + "]");
