@@ -17,7 +17,7 @@
  * Copyright 2014, 2015, 2016, 2017 TAIN, Inc.
  *
  */
-package tain.kr.com.test.designpattern.thread.ch11ThreadSpecificStorage.v02;
+package tain.kr.com.test.threadLocal.v01;
 
 import org.apache.log4j.Logger;
 
