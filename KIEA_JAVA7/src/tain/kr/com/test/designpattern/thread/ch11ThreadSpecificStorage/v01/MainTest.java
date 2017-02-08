@@ -75,6 +75,18 @@ public class MainTest {
 
 		if (flag) {
 
+			if (flag) System.out.println("BEGIN");
+
+			for (int i=0; i < 10; i++) {
+				FinlLog.println("main: i = " + i);;
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {}
+			}
+			
+			FinlLog.close();
+			
+			if (flag) System.out.println("END");
 		}
 	}
 
