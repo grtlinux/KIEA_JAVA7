@@ -35,11 +35,11 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MainFactorial {
+public class Factorial {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(MainFactorial.class);
+	private static final Logger log = Logger.getLogger(Factorial.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ public class MainFactorial {
 	/*
 	 * constructor
 	 */
-	public MainFactorial() {
+	public Factorial() {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -71,7 +71,7 @@ public class MainFactorial {
 	private static void test01(String[] args) throws Exception {
 
 		if (flag)
-			new MainFactorial();
+			new Factorial();
 
 		if (flag) {
 

@@ -34,7 +34,7 @@ package tain.kr.com.test.designpattern.javaThreads.ch02.v01;
  * @author taincokr
  *
  */
-public interface ImplCharacterSource {
+public interface CharacterSource {
 
 	public abstract void addCharacterListener(CharacterListener cl);
 	public abstract void removeCharacterListener(CharacterListener cl);
