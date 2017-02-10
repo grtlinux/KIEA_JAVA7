@@ -202,11 +202,8 @@ public class SwingTypeTester extends JFrame implements CharacterSource {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new SwingTypeTester();
-
 		if (flag) {
-
+			new SwingTypeTester().show();
 		}
 	}
 
