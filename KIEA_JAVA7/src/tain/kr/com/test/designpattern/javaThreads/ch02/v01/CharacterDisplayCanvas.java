@@ -82,7 +82,7 @@ public class CharacterDisplayCanvas extends JComponent implements CharacterListe
 		setCharacterSource(cs);
 	}
 	
-	private void setCharacterSource(CharacterSource cs) {
+	public void setCharacterSource(CharacterSource cs) {
 		cs.addCharacterListener(this);
 	}
 	
