@@ -47,6 +47,11 @@ import tain.kr.com.test.designpattern.javaThreads.ch03.v01.CharacterSource;
  */
 public class ScoreLabel extends JLabel implements CharacterListener {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(ScoreLabel.class);
