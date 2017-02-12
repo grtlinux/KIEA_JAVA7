@@ -39,5 +39,5 @@ public interface ImplAggregate {
 	public abstract void add(Dep1Book book);
 	public abstract Dep1Book get(int index);
 	public abstract int length();
-	public abstract ImplInterator iterator();
+	public abstract ImplIterator iterator();
 }
