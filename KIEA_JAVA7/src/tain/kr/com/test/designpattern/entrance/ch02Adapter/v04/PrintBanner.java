@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class PrintBanner {
+public final class PrintBanner extends Dep1Banner implements ImplPrint {
 
 	private static boolean flag = true;
 
@@ -47,13 +47,35 @@ public class PrintBanner {
 	/*
 	 * constructor
 	 */
-	public PrintBanner() {
+	public PrintBanner(String string) {
+		
+		super(string);
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch02Adapter.v04.ImplPrint#printWeak()
+	 */
+	@Override
+	public void printWeak() {
+		// TODO Auto-generated method stub
+		this.showWithParen();
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch02Adapter.v04.ImplPrint#printStrong()
+	 */
+	@Override
+	public void printStrong() {
+		// TODO Auto-generated method stub
+		this.showWithAster();
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +91,6 @@ public class PrintBanner {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new PrintBanner();
 
 		if (flag) {
 
