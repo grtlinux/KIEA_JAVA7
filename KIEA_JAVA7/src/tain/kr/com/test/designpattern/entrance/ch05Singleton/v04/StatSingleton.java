@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class StatSingleton {
+public final class StatSingleton {
 
 	private static boolean flag = true;
 
