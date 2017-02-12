@@ -100,7 +100,7 @@ public final class DisplayString extends AbstDisplay {
 		
 		sb.append("+-");
 		
-		for (int i=0; i < this.width + 2; i++) {
+		for (int i=0; i < this.width; i++) {
 			sb.append("-");
 		}
 		
