@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MainTest {
+public final class MainTest {
 
 	private static boolean flag = true;
 
@@ -74,7 +74,25 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			Dep1Manager manager = new Dep1Manager();
+			
+			manager.register("strong message", new ProductUnderlinePen('-'));
+			manager.register("warning box", new ProductMessageBox('*'));
+			manager.register("slash box", new ProductMessageBox('/'));
+			
+			ImplProduct p1 = manager.create("strong message");
+			ImplProduct p2 = manager.create("strong message");
+			ImplProduct p3 = manager.create("warning box");
+			ImplProduct p4 = manager.create("warning box");
+			ImplProduct p5 = manager.create("slash box");
+			ImplProduct p6 = manager.create("slash box");
+			
+			p1.use("Hello, world.1");
+			p2.use("Hello, world.2");
+			p3.use("Hello, world.3");
+			p4.use("Hello, world.4");
+			p5.use("Hello, world.5");
+			p6.use("Hello, world.6");
 		}
 	}
 
