@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class AbstFactory {
+public abstract class AbstFactory {
 
 	private static boolean flag = true;
 
@@ -53,7 +53,20 @@ public class AbstFactory {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public final AbstProduct create(String owner) {
+		
+		AbstProduct product = createProduct(owner);
+		registerProduct(product);
+		
+		return product;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	protected abstract AbstProduct createProduct(String owner);
+	protected abstract void registerProduct(AbstProduct product);
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +82,6 @@ public class AbstFactory {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new AbstFactory();
 
 		if (flag) {
 
