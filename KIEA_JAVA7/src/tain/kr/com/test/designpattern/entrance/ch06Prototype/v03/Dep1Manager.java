@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch06Prototype.v03;
 
+import java.util.Hashtable;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,17 +44,33 @@ public class Dep1Manager {
 	private static final Logger log = Logger.getLogger(Dep1Manager.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final Hashtable<String, ImplProduct> products;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
 	public Dep1Manager() {
+		
+		this.products = new Hashtable<String, ImplProduct>();
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void register(String name, ImplProduct prodoct) {
+		this.products.put(name, prodoct);
+	}
+	
+	public ImplProduct create(String name) {
+		ImplProduct product = (ImplProduct) this.products.get(name);
+		return product.createClone();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +87,6 @@ public class Dep1Manager {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new Dep1Manager();
 
 		if (flag) {
 
