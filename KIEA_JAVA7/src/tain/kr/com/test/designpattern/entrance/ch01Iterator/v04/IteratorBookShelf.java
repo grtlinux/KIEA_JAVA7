@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class IteratorBookShelf implements ImplIterator {
+public final class IteratorBookShelf implements ImplIterator {
 
 	private static boolean flag = true;
 
