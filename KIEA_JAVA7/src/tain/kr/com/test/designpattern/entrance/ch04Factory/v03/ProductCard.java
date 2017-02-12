@@ -35,26 +35,49 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ProductCard {
+public final class ProductCard extends AbstProduct {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(ProductCard.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final String owner;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public ProductCard() {
+	public ProductCard(String owner) {
+		
+		this.owner = owner;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		
+		if (flag) System.out.printf("%s의 카드를 만듭니다.\n", this.owner);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String getOwner() {
+		return this.owner;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch04Factory.v03.AbstProduct#use()
+	 */
+	@Override
+	public void use() {
+		// TODO Auto-generated method stub
+		if (flag) System.out.printf("%s의 카드를 사용합니다.\n", this.owner);
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +92,6 @@ public class ProductCard {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ProductCard();
 
 		if (flag) {
 
