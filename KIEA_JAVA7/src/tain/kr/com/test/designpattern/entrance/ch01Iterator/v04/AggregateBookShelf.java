@@ -37,7 +37,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class AggregateBookShelf implements ImplAggregate {
+public final class AggregateBookShelf implements ImplAggregate {
 
 	private static boolean flag = true;
 
