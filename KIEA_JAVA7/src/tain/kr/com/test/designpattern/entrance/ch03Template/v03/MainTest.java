@@ -70,11 +70,14 @@ public class MainTest {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new MainTest();
-
 		if (flag) {
-
+			AbstDisplay d1 = new DisplayChar('H');
+			AbstDisplay d2 = new DisplayString("Hello, world...");
+			AbstDisplay d3 = new DisplayString("æ»≥Á«œººø‰.");
+			
+			d1.display();
+			d2.display();
+			d3.display();
 		}
 	}
 
