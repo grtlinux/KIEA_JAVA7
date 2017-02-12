@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MainTest {
+public final class MainTest {
 
 	private static boolean flag = true;
 
@@ -70,11 +70,16 @@ public class MainTest {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new MainTest();
-
 		if (flag) {
+			AbstFactory factory = new FactoryCard();
+			
+			AbstProduct card1 = factory.create("홍길동");
+			AbstProduct card2 = factory.create("이순신");
+			AbstProduct card3 = factory.create("강감찬");
 
+			card1.use();
+			card2.use();
+			card3.use();
 		}
 	}
 
