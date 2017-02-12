@@ -70,11 +70,19 @@ public class MainTest {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new MainTest();
+		if (flag) new MainTest();
 
 		if (flag) {
-
+			StatSingleton.getInstance();
+			StatSingleton.getInstance();
+			StatSingleton.getInstance();
+			StatSingleton.getInstance();
+		}
+		
+		if (flag) {
+			for (int i=0; i < 20; i++) {
+				if (flag) System.out.printf("%s\n", StatTriple.getInstance());
+			}
 		}
 	}
 
