@@ -70,11 +70,11 @@ public class MainTest {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new MainTest();
-
 		if (flag) {
-
+			ImplPrint print = new PrintBanner("Hello");
+			
+			print.printWeak();
+			print.printStrong();
 		}
 	}
 
