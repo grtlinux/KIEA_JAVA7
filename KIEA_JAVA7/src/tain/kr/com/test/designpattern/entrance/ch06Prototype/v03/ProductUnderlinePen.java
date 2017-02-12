@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ProductUnderlinePen {
+public final class ProductUnderlinePen implements ImplProduct {
 
 	private static boolean flag = true;
 
@@ -43,12 +43,18 @@ public class ProductUnderlinePen {
 			.getLogger(ProductUnderlinePen.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final char lineChar;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public ProductUnderlinePen() {
+	public ProductUnderlinePen(char lineChar) {
+		
+		this.lineChar = lineChar;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -56,6 +62,43 @@ public class ProductUnderlinePen {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch06Prototype.v03.ImplProduct#use(java.lang.String)
+	 */
+	@Override
+	public void use(String string) {
+		// TODO Auto-generated method stub
+		
+		int length = string.getBytes().length;
+		
+		System.out.printf("\'%s\'%n", string);
+		
+		System.out.print(" ");
+		for (int i=0; i < length; i++) {
+			System.out.print(this.lineChar);
+		}
+		System.out.println();
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch06Prototype.v03.ImplProduct#createClone()
+	 */
+	@Override
+	public ImplProduct createClone() {
+		// TODO Auto-generated method stub
+		
+		ImplProduct product = null;
+		
+		try {
+			product = (ImplProduct) clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		
+		return product;
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,9 +113,6 @@ public class ProductUnderlinePen {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ProductUnderlinePen();
 
 		if (flag) {
 
