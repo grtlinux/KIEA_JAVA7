@@ -35,19 +35,25 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ProductMessageBox {
+public final class ProductMessageBox implements ImplProduct {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(ProductMessageBox.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final char decoChar;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public ProductMessageBox() {
+	public ProductMessageBox(char decoChar) {
+		
+		this.decoChar = decoChar;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -55,6 +61,47 @@ public class ProductMessageBox {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch06Prototype.v03.ImplProduct#use(java.lang.String)
+	 */
+	@Override
+	public void use(String string) {
+		// TODO Auto-generated method stub
+		
+		int length = string.getBytes().length + 4;
+		
+		for (int i=0; i < length; i++) {
+			System.out.print(this.decoChar);
+		}
+		System.out.println();
+
+		System.out.printf("%c %s %c\n", this.decoChar, string, this.decoChar);
+		
+		for (int i=0; i < length; i++) {
+			System.out.print(this.decoChar);
+		}
+		System.out.println();
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch06Prototype.v03.ImplProduct#createClone()
+	 */
+	@Override
+	public ImplProduct createClone() {
+		// TODO Auto-generated method stub
+		
+		ImplProduct product = null;
+		
+		try {
+			product = (ImplProduct) clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		
+		return product;
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +116,6 @@ public class ProductMessageBox {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ProductMessageBox();
 
 		if (flag) {
 
