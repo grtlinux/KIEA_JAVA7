@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch04Factory.v03;
 
+import java.util.Vector;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,26 +37,56 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class FactoryCard {
+public final class FactoryCard extends AbstFactory {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(FactoryCard.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final Vector<String> owners;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
 	public FactoryCard() {
+		
+		this.owners = new Vector<String>();
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public Vector<String> getOwners() {
+		return this.owners;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch04Factory.v03.AbstFactory#createProduct(java.lang.String)
+	 */
+	@Override
+	protected AbstProduct createProduct(String owner) {
+		// TODO Auto-generated method stub
+		return new ProductCard(owner);
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch04Factory.v03.AbstFactory#registerProduct(tain.kr.com.test.designpattern.entrance.ch04Factory.v03.AbstProduct)
+	 */
+	@Override
+	protected void registerProduct(AbstProduct product) {
+		// TODO Auto-generated method stub
+		this.owners.add(((ProductCard) product).getOwner());
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
