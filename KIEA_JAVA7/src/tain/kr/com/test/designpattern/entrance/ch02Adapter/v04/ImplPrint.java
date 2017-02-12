@@ -19,7 +19,6 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch02Adapter.v04;
 
-import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
@@ -37,4 +36,6 @@ import org.apache.log4j.Logger;
  */
 public interface ImplPrint {
 
+	public abstract void printWeak();
+	public abstract void printStrong();
 }
