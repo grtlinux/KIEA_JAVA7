@@ -35,19 +35,25 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class DisplayChar {
+public final class DisplayChar extends AbstDisplay {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(DisplayChar.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final char ch;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public DisplayChar() {
+	public DisplayChar(char ch) {
+		
+		this.ch = ch;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -55,6 +61,34 @@ public class DisplayChar {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch03Template.v03.AbstDisplay#open()
+	 */
+	@Override
+	public void open() {
+		// TODO Auto-generated method stub
+		if (flag) System.out.print("<<");
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch03Template.v03.AbstDisplay#print()
+	 */
+	@Override
+	public void print() {
+		// TODO Auto-generated method stub
+		if (flag) System.out.print(this.ch);
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch03Template.v03.AbstDisplay#close()
+	 */
+	@Override
+	public void close() {
+		// TODO Auto-generated method stub
+		if (flag) System.out.println(">>");
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +103,6 @@ public class DisplayChar {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new DisplayChar();
 
 		if (flag) {
 
