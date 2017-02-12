@@ -35,19 +35,27 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class DisplayString {
+public final class DisplayString extends AbstDisplay {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(DisplayString.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final String string;
+	private final int width;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public DisplayString() {
+	public DisplayString(String string) {
+		
+		this.string = string;
+		this.width = string.getBytes().length;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -55,7 +63,52 @@ public class DisplayString {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch03Template.v03.AbstDisplay#open()
+	 */
+	@Override
+	public void open() {
+		// TODO Auto-generated method stub
+		printLine();
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch03Template.v03.AbstDisplay#print()
+	 */
+	@Override
+	public void print() {
+		// TODO Auto-generated method stub
+		
+		if (flag) System.out.printf("| %s |\n", this.string);
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch03Template.v03.AbstDisplay#close()
+	 */
+	@Override
+	public void close() {
+		// TODO Auto-generated method stub
+		printLine();
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private void printLine() {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("+-");
+		
+		for (int i=0; i < this.width + 2; i++) {
+			sb.append("-");
+		}
+		
+		sb.append("-+");
+		
+		if (flag) System.out.println(sb.toString());
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +122,6 @@ public class DisplayString {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new DisplayString();
 
 		if (flag) {
 
