@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch11Composite.v04;
 
+import java.util.Vector;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,19 +37,27 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class EntryFolder {
+public final class EntryFolder extends AbstEntry {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(EntryFolder.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final String name;
+	private final Vector<AbstEntry> folder;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public EntryFolder() {
+	public EntryFolder(String name) {
+		
+		this.name = name;
+		this.folder = new Vector<AbstEntry>();
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -55,6 +65,46 @@ public class EntryFolder {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch11Composite.v04.AbstEntry#getName()
+	 */
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return this.name;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch11Composite.v04.AbstEntry#getSize()
+	 */
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		
+		int size = 0;
+		
+		for (AbstEntry entry : this.folder) {
+			size += entry.getSize();
+		}
+		
+		return size;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch11Composite.v04.AbstEntry#printList(java.lang.String)
+	 */
+	@Override
+	protected void printList(String prefix) {
+		// TODO Auto-generated method stub
+		
+		if (flag) System.out.printf("%s/%s\n", prefix, this);
+		
+		for (AbstEntry entry : this.folder) {
+			entry.printList(prefix + "/" + this.name);
+		}
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +119,6 @@ public class EntryFolder {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new EntryFolder();
 
 		if (flag) {
 
