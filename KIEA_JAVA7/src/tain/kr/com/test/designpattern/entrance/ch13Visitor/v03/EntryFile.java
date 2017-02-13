@@ -35,26 +35,62 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class EntryFile {
+public final class EntryFile extends AbstAcceptorEntry {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(EntryFile.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final String name;
+	private final int size;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public EntryFile() {
-		if (flag)
+	public EntryFile(String name, int size) {
+		
+		this.name = name;
+		this.size = size;
+		
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch13Visitor.v03.ImplAcceptor#accept(tain.kr.com.test.designpattern.entrance.ch13Visitor.v03.AbstVisitor)
+	 */
+	@Override
+	public void accept(AbstVisitor visitor) {
+		// TODO Auto-generated method stub
+		visitor.visit(this);
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch13Visitor.v03.AbstAcceptorEntry#getName()
+	 */
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return this.name;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch13Visitor.v03.AbstAcceptorEntry#getSize()
+	 */
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		return this.size;
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +105,6 @@ public class EntryFile {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new EntryFile();
 
 		if (flag) {
 

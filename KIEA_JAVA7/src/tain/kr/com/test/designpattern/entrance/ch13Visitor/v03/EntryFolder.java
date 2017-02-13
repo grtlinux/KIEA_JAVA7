@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch13Visitor.v03;
 
+import java.util.Vector;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,27 +37,80 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class EntryFolder {
+public final class EntryFolder extends AbstAcceptorEntry {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(EntryFolder.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final String name;
+	private final Vector<AbstAcceptorEntry> entries;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public EntryFolder() {
-		if (flag)
+	public EntryFolder(String name) {
+		
+		this.name = name;
+		this.entries = new Vector<AbstAcceptorEntry>();
+		
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch13Visitor.v03.ImplAcceptor#accept(tain.kr.com.test.designpattern.entrance.ch13Visitor.v03.AbstVisitor)
+	 */
+	@Override
+	public void accept(AbstVisitor visitor) {
+		// TODO Auto-generated method stub
+		visitor.visit(this);
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch13Visitor.v03.AbstAcceptorEntry#getName()
+	 */
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return this.name;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch13Visitor.v03.AbstAcceptorEntry#getSize()
+	 */
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		
+		int size = 0;
+		
+		for (AbstAcceptorEntry entry : entries) {
+			size += entry.getSize();
+		}
+		
+		return size;
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public AbstAcceptorEntry add(AbstAcceptorEntry entry) {
+		this.entries.add(entry);
+		return this;
+	}
+	
+	public Vector<AbstAcceptorEntry> getEntries() {
+		return this.entries;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +124,6 @@ public class EntryFolder {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new EntryFolder();
 
 		if (flag) {
 

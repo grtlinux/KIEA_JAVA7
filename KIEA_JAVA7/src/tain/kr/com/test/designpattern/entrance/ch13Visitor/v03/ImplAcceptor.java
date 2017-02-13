@@ -36,4 +36,5 @@ package tain.kr.com.test.designpattern.entrance.ch13Visitor.v03;
  */
 public interface ImplAcceptor {
 
+	public abstract void accept(AbstVisitor visitor);
 }

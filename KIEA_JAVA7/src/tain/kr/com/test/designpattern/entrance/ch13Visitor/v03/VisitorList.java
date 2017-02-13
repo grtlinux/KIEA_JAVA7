@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class VisitorList {
+public final class VisitorList extends AbstVisitor {
 
 	private static boolean flag = true;
 
@@ -48,13 +48,48 @@ public class VisitorList {
 	 * constructor
 	 */
 	public VisitorList() {
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private String currentFolder = "";
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch13Visitor.v03.AbstVisitor#visit(tain.kr.com.test.designpattern.entrance.ch13Visitor.v03.AbstAcceptorEntry)
+	 */
+	@Override
+	public void visit(AbstAcceptorEntry entry) {
+		// TODO Auto-generated method stub
+		
+		if (entry instanceof EntryFile) {
+			EntryFile entryFile = (EntryFile) entry;
+			
+			System.out.printf("%s/%s\n", this.currentFolder, entryFile);
+			
+		} else if (entry instanceof EntryFolder) {
+			EntryFolder entryFolder = (EntryFolder) entry;
+
+			System.out.printf("%s/%s\n", this.currentFolder, entryFolder);
+			
+			String saveFolder = this.currentFolder;
+			
+			this.currentFolder = this.currentFolder + "/" + entryFolder.getName();
+			
+			for (AbstAcceptorEntry ent : ((EntryFolder)entryFolder).getEntries()) {
+				ent.accept(this);
+			}
+			
+			this.currentFolder = saveFolder;
+		} else {
+			throw new ExpFileTreatmentException();
+		}
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +104,6 @@ public class VisitorList {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new VisitorList();
 
 		if (flag) {
 

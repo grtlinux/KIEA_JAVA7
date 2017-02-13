@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.designpattern.entrance.ch13Visitor.v03;
 
+import java.util.Iterator;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -48,13 +50,31 @@ public abstract class AbstAcceptorEntry implements ImplAcceptor {
 	 * constructor
 	 */
 	public AbstAcceptorEntry() {
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public abstract String getName();
+	public abstract int getSize();
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String toString() {
+		return String.format("%s (%d)", this.getName(), this.getSize());
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public AbstAcceptorEntry add(AbstAcceptorEntry entry) throws ExpFileTreatmentException {
+		throw new ExpFileTreatmentException();
+	}
+	
+	public Iterator<AbstAcceptorEntry> iterator() throws ExpFileTreatmentException {
+		throw new ExpFileTreatmentException();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////

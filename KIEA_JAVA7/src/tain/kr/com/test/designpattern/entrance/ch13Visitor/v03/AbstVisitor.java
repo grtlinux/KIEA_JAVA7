@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class AbstVisitor {
+public abstract class AbstVisitor {
 
 	private static boolean flag = true;
 
@@ -48,11 +48,14 @@ public class AbstVisitor {
 	 * constructor
 	 */
 	public AbstVisitor() {
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public abstract void visit(AbstAcceptorEntry entry);
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +72,6 @@ public class AbstVisitor {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new AbstVisitor();
 
 		if (flag) {
 
