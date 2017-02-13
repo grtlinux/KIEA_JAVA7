@@ -35,24 +35,35 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class AbstDisplayBorder {
+public abstract class AbstDisplayBorder extends AbstDisplay {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(AbstDisplayBorder.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final AbstDisplay display;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public AbstDisplayBorder() {
+	public AbstDisplayBorder(AbstDisplay display) {
+		
+		this.display = display;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public AbstDisplay getDisplay() {
+		return this.display;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +80,6 @@ public class AbstDisplayBorder {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new AbstDisplayBorder();
 
 		if (flag) {
 
