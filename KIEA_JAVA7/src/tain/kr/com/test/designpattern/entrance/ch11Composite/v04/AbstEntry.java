@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class AbstEntry {
+public abstract class AbstEntry {
 
 	private static boolean flag = true;
 
@@ -53,7 +53,26 @@ public class AbstEntry {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public abstract String getName();
+	public abstract int getSize();
+	
+	protected abstract void printList(String prefix);
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String toString() {
+		return String.format("%s (%d)", this.getName(), this.getSize());
+	}
+	
+	public void printList() {
+		printList("");
+	}
+	
+	public AbstEntry add(AbstEntry entry) throws ExpFileTreatmentException {
+		throw new ExpFileTreatmentException();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +88,6 @@ public class AbstEntry {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new AbstEntry();
 
 		if (flag) {
 
