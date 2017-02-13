@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Sup2DispCount {
+public final class Sup2DispCount extends Sup1Disp {
 
 	private static boolean flag = true;
 
@@ -47,12 +47,23 @@ public class Sup2DispCount {
 	/*
 	 * constructor
 	 */
-	public Sup2DispCount() {
+	public Sup2DispCount(AbstDisplay display) {
+		
+		super(display);
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void displayCount(int count) {
+		
+		for (int i=0; i < count; i++) {
+			display();
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +81,9 @@ public class Sup2DispCount {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new Sup2DispCount();
-
 		if (flag) {
-
+			Sup2DispCount display = new Sup2DispCount(new DisplayString("Hello, world..."));
+			display.displayCount(10);
 		}
 	}
 
