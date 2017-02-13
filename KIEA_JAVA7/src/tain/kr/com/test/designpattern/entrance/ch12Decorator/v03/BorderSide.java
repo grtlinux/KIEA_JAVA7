@@ -35,19 +35,27 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class BorderSide {
+public final class BorderSide extends AbstDisplayBorder {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(BorderSide.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final char charBorder;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public BorderSide() {
+	public BorderSide(AbstDisplay display, char charBorder) {
+		
+		super(display);
+		
+		this.charBorder = charBorder;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -55,6 +63,41 @@ public class BorderSide {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch12Decorator.v03.AbstDisplay#getColumns()
+	 */
+	@Override
+	public int getColumns() {
+		// TODO Auto-generated method stub
+		return 1 + super.getDisplay().getColumns() + 1;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch12Decorator.v03.AbstDisplay#getRows()
+	 */
+	@Override
+	public int getRows() {
+		// TODO Auto-generated method stub
+		return super.getDisplay().getRows();
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch12Decorator.v03.AbstDisplay#getRowTest(int)
+	 */
+	@Override
+	public String getRowTest(int row) {
+		// TODO Auto-generated method stub
+		
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(this.charBorder);
+		sb.append(super.getDisplay().getRowTest(row));
+		sb.append(this.charBorder);
+		
+		return sb.toString();
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +112,6 @@ public class BorderSide {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new BorderSide();
 
 		if (flag) {
 
