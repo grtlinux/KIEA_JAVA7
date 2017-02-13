@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : AbstAcceptorEntry.java
+ *   -. FileName   : AbstVisitor.java
  *   -. Package    : tain.kr.com.test.designpattern.entrance.ch13Visitor.v03
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,11 +35,11 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public abstract class AbstAcceptorEntry implements ImplAcceptor {
+public class AbstVisitor {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(AbstAcceptorEntry.class);
+	private static final Logger log = Logger.getLogger(AbstVisitor.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ public abstract class AbstAcceptorEntry implements ImplAcceptor {
 	/*
 	 * constructor
 	 */
-	public AbstAcceptorEntry() {
+	public AbstVisitor() {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -69,6 +69,9 @@ public abstract class AbstAcceptorEntry implements ImplAcceptor {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
+
+		if (flag)
+			new AbstVisitor();
 
 		if (flag) {
 
