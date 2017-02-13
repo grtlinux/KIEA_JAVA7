@@ -35,19 +35,25 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class DisplayString {
+public final class DisplayString extends AbstDisplay {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(DisplayString.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final String string;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public DisplayString() {
+	public DisplayString(String string) {
+		
+		this.string = string;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -55,6 +61,39 @@ public class DisplayString {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch12Decorator.v03.AbstDisplay#getColumns()
+	 */
+	@Override
+	public int getColumns() {
+		// TODO Auto-generated method stub
+		return this.string.getBytes().length;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch12Decorator.v03.AbstDisplay#getRows()
+	 */
+	@Override
+	public int getRows() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch12Decorator.v03.AbstDisplay#getRowTest(int)
+	 */
+	@Override
+	public String getRowTest(int row) {
+		// TODO Auto-generated method stub
+		
+		if (row == 0) {
+			return this.string;
+		}
+		
+		return null;
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +108,6 @@ public class DisplayString {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new DisplayString();
 
 		if (flag) {
 
