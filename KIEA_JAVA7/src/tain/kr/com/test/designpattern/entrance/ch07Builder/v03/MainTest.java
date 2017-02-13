@@ -74,7 +74,11 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			Dep1Director d1 = new Dep1Director(new BuilderAlpha());
+			Dep1Director d2 = new Dep1Director(new BuilderBeta());
+			
+			d1.direct();
+			d2.direct();
 		}
 	}
 
