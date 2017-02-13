@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class BorderFull {
+public final class BorderFull extends AbstDisplayBorder {
 
 	private static boolean flag = true;
 
@@ -47,7 +47,10 @@ public class BorderFull {
 	/*
 	 * constructor
 	 */
-	public BorderFull() {
+	public BorderFull(AbstDisplay display) {
+		
+		super(display);
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -55,7 +58,51 @@ public class BorderFull {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch12Decorator.v03.AbstDisplay#getColumns()
+	 */
+	@Override
+	public int getColumns() {
+		// TODO Auto-generated method stub
+		return 1 + super.getDisplay().getColumns() + 1;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch12Decorator.v03.AbstDisplay#getRows()
+	 */
+	@Override
+	public int getRows() {
+		// TODO Auto-generated method stub
+		return 1 + super.getDisplay().getRows() + 1;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.designpattern.entrance.ch12Decorator.v03.AbstDisplay#getRowTest(int)
+	 */
+	@Override
+	public String getRowTest(int row) {
+		// TODO Auto-generated method stub
+		
+		if (row == 0 || row == super.getDisplay().getRows() + 1) {
+			return String.format("+%s+", makeLine('-', super.getDisplay().getColumns()));
+		}
+		
+		return String.format("|%s|", super.getDisplay().getRowTest(row - 1));
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private String makeLine(char ch, int count) {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		for (int i=0; i < count; i++) {
+			sb.append(ch);
+		}
+		
+		return sb.toString();
+	}
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +116,6 @@ public class BorderFull {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new BorderFull();
 
 		if (flag) {
 
