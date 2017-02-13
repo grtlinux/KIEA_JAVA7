@@ -35,7 +35,12 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ExpFileTreatmentException {
+public final class ExpFileTreatmentException extends RuntimeException {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private static boolean flag = true;
 
@@ -48,11 +53,18 @@ public class ExpFileTreatmentException {
 	/*
 	 * constructor
 	 */
-	public ExpFileTreatmentException() {
+	public ExpFileTreatmentException(String string) {
+		
+		super(string);
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public ExpFileTreatmentException() {
+		this(null);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,9 +82,6 @@ public class ExpFileTreatmentException {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ExpFileTreatmentException();
 
 		if (flag) {
 
