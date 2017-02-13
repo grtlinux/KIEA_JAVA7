@@ -74,7 +74,20 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			
+			Sup1Disp d1 = new Sup1Disp(new DisplayString("Hello, Korea..."));
+			Sup1Disp d2 = new Sup2DispCount(new DisplayString("Hello, World...."));
+			Sup2DispCount d3 = new Sup2DispCount(new DisplayString("Hello, Universe......"));
+			
+			d1.display();
+			System.out.println();
+			
+			d2.display();
+			((Sup2DispCount) d2).displayCount(5);
+			System.out.println();
+			
+			d3.display();
+			d3.displayCount(5);
 		}
 	}
 
