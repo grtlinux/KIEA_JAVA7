@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : TestLoopSleep.java
+ *   -. FileName   : LoopSleep.java
  *   -. Package    : tain.kr.com.test.loopSleep.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,24 +35,76 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class TestLoopSleep {
+public final class LoopSleep {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(TestLoopSleep.class);
+	private static final Logger log = Logger.getLogger(LoopSleep.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final int[] defInfo = {
+			10,   10,   10,   10,   10, 
+			10,   10,   10,   10,   10,    // 10 * 10
+			50,   50,   50,   50,   50,
+			50,   50,   50,   50,   50,    // 10 * 50
+			100,  100,  100,  100,  100, 
+			100,  100,  100,  100,  100,   // 10 * 100
+			500,  500,  500,  500,  500,
+			500,  500,  500,  500,  500,   // 10 * 500
+			1000, 1000, 1000, 1000, 1000, 
+			1000, 1000, 1000, 1000, 1000,  // 10 * 100
+			
+			2000,                          // last
+	};
+	
+	private final int[] info;
+
+	private final int lastIndex;
+	private int index;
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public TestLoopSleep() {
+	public LoopSleep() {
+		
+		this(null);
+		
+	}
+
+	public LoopSleep(int[] info) {
+		
+		if (info == null)
+			this.info = defInfo;
+		else
+			this.info = info;
+		
+		this.lastIndex = this.info.length - 1;
+		this.index = 0;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
-
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void reset() {
+		this.index = 0;
+	}
+	
+	public void sleep() {
+		
+		try {
+			Thread.sleep(this.info[this.index]);
+		} catch (InterruptedException e) {
+			// TODO: handle exception
+		}
+		
+		if (this.index < this.lastIndex)
+			this.index ++;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,10 +123,10 @@ public class TestLoopSleep {
 	private static void test01(String[] args) throws Exception {
 
 		if (flag)
-			new TestLoopSleep();
+			new LoopSleep();
 
 		if (flag) {
-			
+
 		}
 	}
 
