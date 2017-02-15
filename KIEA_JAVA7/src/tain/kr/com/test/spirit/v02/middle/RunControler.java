@@ -19,7 +19,6 @@
  */
 package tain.kr.com.test.spirit.v02.middle;
 
-import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.apache.log4j.Logger;
@@ -28,7 +27,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : MainRunMiddle.java
+ *   -. FileName   : RunControl.java
  *   -. Package    : tain.kr.com.test.spirit.v02.middle
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -38,24 +37,39 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public final class MainRunMiddle {
+public final class RunControler implements Runnable {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(MainRunMiddle.class);
+	private static final Logger log = Logger.getLogger(RunControler.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final int idxThr;
+	private final Socket socket;
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public MainRunMiddle() {
+	public RunControler(int idxThr, Socket socket) {
+		
+		this.idxThr = idxThr;
+		this.socket = socket;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void run() {
+		
+		
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,9 +80,6 @@ public final class MainRunMiddle {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	private static final String PORT = "7412";
-
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -76,30 +87,8 @@ public final class MainRunMiddle {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new MainRunMiddle();
-
 		if (flag) {
-			/*
-			 * Runnable thread
-			 */
-			ThreadGroup threadGroup = new ThreadGroup("SERVER_GROUP");
-			
-			@SuppressWarnings("resource")
-			ServerSocket serverSocket = new ServerSocket(Integer.parseInt(PORT));
-			if (flag) log.debug(String.format("SERVER : listening by port %s [%s]", PORT, serverSocket.toString()));
-			
-			for (int idxThr=0;; idxThr++) {
-				if (idxThr > 10000000)
-					idxThr = 0;
-				
-				Socket socket = serverSocket.accept();
-				if (flag) log.debug(String.format("SERVER : accept the connection(idxThr=%d)", idxThr));
-				
-				Thread thread = new Thread(threadGroup, new RunControler(idxThr, socket), String.format("SERVER_RUNNABLE_%05d", idxThr));
-				
-				thread.start();
-			}
+
 		}
 	}
 

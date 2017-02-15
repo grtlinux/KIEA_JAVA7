@@ -19,16 +19,13 @@
  */
 package tain.kr.com.test.spirit.v02.middle;
 
-import java.net.ServerSocket;
-import java.net.Socket;
-
 import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : MainRunMiddle.java
+ *   -. FileName   : ThrResRecver.java
  *   -. Package    : tain.kr.com.test.spirit.v02.middle
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -38,11 +35,11 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public final class MainRunMiddle {
+public final class ThrResRecver extends Thread {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(MainRunMiddle.class);
+	private static final Logger log = Logger.getLogger(ThrResRecver.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +47,7 @@ public final class MainRunMiddle {
 	/*
 	 * constructor
 	 */
-	public MainRunMiddle() {
+	public ThrResRecver() {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -66,9 +63,6 @@ public final class MainRunMiddle {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	private static final String PORT = "7412";
-
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -77,29 +71,10 @@ public final class MainRunMiddle {
 	private static void test01(String[] args) throws Exception {
 
 		if (flag)
-			new MainRunMiddle();
+			new ThrResRecver();
 
 		if (flag) {
-			/*
-			 * Runnable thread
-			 */
-			ThreadGroup threadGroup = new ThreadGroup("SERVER_GROUP");
-			
-			@SuppressWarnings("resource")
-			ServerSocket serverSocket = new ServerSocket(Integer.parseInt(PORT));
-			if (flag) log.debug(String.format("SERVER : listening by port %s [%s]", PORT, serverSocket.toString()));
-			
-			for (int idxThr=0;; idxThr++) {
-				if (idxThr > 10000000)
-					idxThr = 0;
-				
-				Socket socket = serverSocket.accept();
-				if (flag) log.debug(String.format("SERVER : accept the connection(idxThr=%d)", idxThr));
-				
-				Thread thread = new Thread(threadGroup, new RunControler(idxThr, socket), String.format("SERVER_RUNNABLE_%05d", idxThr));
-				
-				thread.start();
-			}
+
 		}
 	}
 
