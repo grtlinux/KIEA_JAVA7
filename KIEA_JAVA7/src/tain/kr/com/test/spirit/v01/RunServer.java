@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : ThrServer.java
+ *   -. FileName   : RunServer.java
  *   -. Package    : tain.kr.com.test.spirit.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,11 +35,11 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ThrServer implements Runnable {
+public class RunServer {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(ThrServer.class);
+	private static final Logger log = Logger.getLogger(RunServer.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,18 +47,12 @@ public class ThrServer implements Runnable {
 	/*
 	 * constructor
 	 */
-	public ThrServer() {
+	public RunServer() {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	@Override
-	public void run() {
-		
-	}
-	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,7 +71,7 @@ public class ThrServer implements Runnable {
 	private static void test01(String[] args) throws Exception {
 
 		if (flag)
-			new ThrServer();
+			new RunServer();
 
 		if (flag) {
 

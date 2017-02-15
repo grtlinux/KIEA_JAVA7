@@ -74,7 +74,9 @@ public class MainClient {
 			new MainClient();
 
 		if (flag) {
-
+			ThreadGroup threadGroup = new ThreadGroup("CLIENT");
+			
+			Thread thread = new Thread(threadGroup, new ThrClient("CONNECTION"));
 		}
 	}
 
