@@ -93,14 +93,14 @@ public final class RunClient implements Runnable {
 				 * send data to server
 				 */
 				this.dos.write(bytSend, 0, bytSend.length);
-				if (flag) log.debug(String.format("SEND : %s\n", strSend));
+				if (flag) log.debug(String.format("SEND : %s", strSend));
 				
 				/*
 				 * recv data from server
 				 */
 				len = this.dis.read(bytRecv);
 				strRecv = new String(bytRecv, 0, len, Charset.forName("euc-kr"));
-				if (flag) log.debug(String.format("RECV : %s\n", strRecv));
+				if (flag) log.debug(String.format("RECV : %s", strRecv));
 				
 			} catch (IOException e) {
 				e.printStackTrace();

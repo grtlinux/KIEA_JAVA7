@@ -100,13 +100,13 @@ public final class RunServer implements Runnable {
 				 */
 				len = this.dis.read(bytRecv);
 				strRecv = new String(bytRecv, 0, len, Charset.forName("euc-kr"));
-				if (flag) log.debug(String.format("RECV : %s\n", strRecv));
+				if (flag) log.debug(String.format("RECV : %s", strRecv));
 				
 				/*
 				 * send data to server
 				 */
 				this.dos.write(bytSend, 0, bytSend.length);
-				if (flag) log.debug(String.format("SEND : %s\n", strSend));
+				if (flag) log.debug(String.format("SEND : %s", strSend));
 				
 			} catch (IOException e) {
 				e.printStackTrace();
