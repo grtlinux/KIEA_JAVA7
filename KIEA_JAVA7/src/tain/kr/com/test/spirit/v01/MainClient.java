@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MainClient {
+public final class MainClient {
 
 	private static boolean flag = true;
 
@@ -74,9 +74,29 @@ public class MainClient {
 			new MainClient();
 
 		if (flag) {
+			/*
+			 * Runnable thread
+			 */
+			ThreadGroup threadGroup = new ThreadGroup("CLIENT_GROUP");
+			
+			Thread thread = new Thread(threadGroup, new RunClient(), "CLIENT_RUNNABLE");
+			
+			thread.start();
+			
+			thread.join();
+		}
+		
+		if (!flag) {
+			/*
+			 * Thread thread
+			 */
 			ThreadGroup threadGroup = new ThreadGroup("CLIENT");
 			
-			Thread thread = new Thread(threadGroup, new ThrClient("CONNECTION"));
+			Thread thread = new ThrClient(threadGroup, "CLIENT_THREAD");
+			
+			thread.start();
+			
+			thread.join();
 		}
 	}
 
