@@ -23,6 +23,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.nio.charset.Charset;
 
 import org.apache.log4j.Logger;
 
@@ -82,7 +83,14 @@ public final class RunServer implements Runnable {
 					, Thread.currentThread().getName(), this.idxThr);
 		}
 		
-		byte[] bytData = new byte[1024];
+		/*
+		 * data
+		 */
+		String strSend = "SERVER : Hello, world!!!!!";
+		byte[] bytSend = strSend.getBytes(Charset.forName("euc-kr"));
+
+		byte[] bytRecv = new byte[1024];
+		String strRecv = null;
 		int len = 0;
 		
 		if (flag) {
@@ -90,12 +98,15 @@ public final class RunServer implements Runnable {
 				/*
 				 * recv data from server
 				 */
-				len = this.dis.read(bytData);
+				len = this.dis.read(bytRecv);
+				strRecv = new String(bytRecv, 0, len, Charset.forName("euc-kr"));
+				if (flag) log.debug(String.format("RECV : %s\n", strRecv));
 				
 				/*
 				 * send data to server
 				 */
-				this.dos.write(bytData, 0, len);
+				this.dos.write(bytSend, 0, bytSend.length);
+				if (flag) log.debug(String.format("SEND : %s\n", strSend));
 				
 			} catch (IOException e) {
 				e.printStackTrace();

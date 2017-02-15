@@ -80,7 +80,7 @@ public final class RunClient implements Runnable {
 		/*
 		 * data
 		 */
-		String strSend = "Hello, world!!!!!";
+		String strSend = "CLIENT : Hello, world!!!!!";
 		byte[] bytSend = strSend.getBytes(Charset.forName("euc-kr"));
 
 		byte[] bytRecv = new byte[1024];
