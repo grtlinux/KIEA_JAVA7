@@ -74,7 +74,14 @@ public class MainRunClient {
 			new MainRunClient();
 
 		if (flag) {
-
+			
+			ThreadGroup threadGroup = new ThreadGroup("CLIENT_GROUP");
+			
+			Thread thread = new Thread(threadGroup, new RunClient(), "CLIENT_RUNNABLE");
+			
+			thread.start();
+			
+			thread.join();
 		}
 	}
 
