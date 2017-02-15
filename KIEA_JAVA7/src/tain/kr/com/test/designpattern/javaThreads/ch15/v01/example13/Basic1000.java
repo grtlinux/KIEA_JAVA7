@@ -1,10 +1,13 @@
-package javathreads.examples.ch15.example13;
+package tain.kr.com.test.designpattern.javaThreads.ch15.v01.example13;
 
-import javathreads.examples.ch15.*;
-import java.text.*;
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.text.NumberFormat;
 
-public class Basic implements ScaleTester {
+import tain.kr.com.test.designpattern.javaThreads.ch15.v01.ScaleTester;
+
+public class Basic1000 implements ScaleTester {
     private float lookupValues[][];
     int nCols, nRows;
     PrintStream devnull;
