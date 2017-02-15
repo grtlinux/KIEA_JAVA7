@@ -119,6 +119,8 @@ public final class RunServer implements Runnable {
 				} catch (Exception e) {}
 			}
 		}
+		
+		if (flag) Thread.currentThread().getThreadGroup().list();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
