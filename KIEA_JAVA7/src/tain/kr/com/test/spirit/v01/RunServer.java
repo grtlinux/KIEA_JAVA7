@@ -77,11 +77,9 @@ public final class RunServer implements Runnable {
 	@Override
 	public void run() {
 
-		if (flag) {
-			if (flag) System.out.printf("%s %s Connection .....(idxThr=%d)\n"
-					, Thread.currentThread().getThreadGroup().getName()
-					, Thread.currentThread().getName(), this.idxThr);
-		}
+		if (flag) System.out.printf("%s %s Connection .....(idxThr=%d)\n"
+				, Thread.currentThread().getThreadGroup().getName()
+				, Thread.currentThread().getName(), this.idxThr);
 		
 		/*
 		 * data
