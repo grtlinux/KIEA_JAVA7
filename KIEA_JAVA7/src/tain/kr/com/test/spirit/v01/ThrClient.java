@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ThrClient implements Runnable {
+public final class ThrClient extends Thread {
 
 	private static boolean flag = true;
 
@@ -47,7 +47,10 @@ public class ThrClient implements Runnable {
 	/*
 	 * constructor
 	 */
-	public ThrClient() {
+	public ThrClient(ThreadGroup threadGroup, String threadName) {
+		
+		super(threadGroup, threadName);
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -75,9 +78,6 @@ public class ThrClient implements Runnable {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ThrClient();
 
 		if (flag) {
 
