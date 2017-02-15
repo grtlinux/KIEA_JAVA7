@@ -19,6 +19,7 @@
  */
 package tain.kr.com.test.charset.v05;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.charset.Charset;
 
@@ -58,41 +59,85 @@ public final class CharsetTest {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	// unicode
-	private static String string = "가나다라마바사 string ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	//private final static String strMsg = "가나다라마바사 string ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private final static String strMsg = "가나다라마바사아자차";
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static void saveFileEuckr() throws Exception {
+	private static void saveToFileEuckr() throws Exception {
 		
 		String fileName = "N:/FILE_EUCKR.txt";
 		//String fileName = "result/FILE_EUCKR.txt";
 		
 		FileOutputStream outStream = new FileOutputStream(fileName);
 		
-		byte[] bytString = string.getBytes(Charset.forName("euc-kr"));
+		byte[] bytString = strMsg.getBytes(Charset.forName("euc-kr"));
 		
 		outStream.write(bytString);
 		
 		outStream.close();
+		
+		if (flag) System.out.printf("saveFileEuckr() size = %d%n", bytString.length);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static void saveFileUtf8() throws Exception {
+	private static void saveToFileUtf8() throws Exception {
 		
 		String fileName = "N:/FILE_UTF8.txt";
 		//String fileName = "result/FILE_UTF8.txt";
 		
 		FileOutputStream outStream = new FileOutputStream(fileName);
 		
-		byte[] bytString = string.getBytes(Charset.forName("utf-8"));
+		byte[] bytString = strMsg.getBytes(Charset.forName("utf-8"));
 		
 		outStream.write(bytString);
 		
 		outStream.close();
+		
+		if (flag) System.out.printf("saveFileUtf8() size = %d%n", bytString.length);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static void readFromFileEuckr() throws Exception {
+		
+		String fileName = "N:/FILE_EUCKR.txt";
+		//String fileName = "result/FILE_EUCKR.txt";
+		
+		FileInputStream inStream = new FileInputStream(fileName);
+		
+		byte[] bytString = new byte[1024];
+		
+		int length = inStream.read(bytString);
+		
+		inStream.close();
+
+		String strRet = new String(bytString, 0, length, Charset.forName("euc-kr"));
+		
+		if (flag) System.out.printf("readFromFileEuckr() string = %s%n", strRet);
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static void readFromFileUtf8() throws Exception {
+		
+		String fileName = "N:/FILE_UTF8.txt";
+		//String fileName = "result/FILE_UTF8.txt";
+		
+		FileInputStream inStream = new FileInputStream(fileName);
+		
+		byte[] bytString = new byte[1024];
+		
+		int length = inStream.read(bytString);
+		
+		inStream.close();
+
+		String strRet = new String(bytString, 0, length, Charset.forName("utf-8"));
+		
+		if (flag) System.out.printf("readFromFileUtf8() string = %s%n", strRet);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,10 +157,18 @@ public final class CharsetTest {
 
 		if (flag) {
 			// save file euc-kr
-			saveFileEuckr();
+			saveToFileEuckr();
 			
 			// save file utf-8
-			saveFileUtf8();
+			saveToFileUtf8();
+		}
+		
+		if (flag) {
+			// save file euc-kr
+			readFromFileEuckr();
+			
+			// save file utf-8
+			readFromFileUtf8();
 		}
 	}
 
