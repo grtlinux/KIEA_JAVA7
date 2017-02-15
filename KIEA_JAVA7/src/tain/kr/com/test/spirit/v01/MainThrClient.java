@@ -74,7 +74,16 @@ public final class MainThrClient {
 			new MainThrClient();
 
 		if (flag) {
-
+			/*
+			 * Runnable thread
+			 */
+			ThreadGroup threadGroup = new ThreadGroup("CLIENT_GROUP");
+			
+			Thread thread = new ThrClient(threadGroup, "CLIENT_THREAD");
+			
+			thread.start();
+			
+			thread.join();
 		}
 	}
 

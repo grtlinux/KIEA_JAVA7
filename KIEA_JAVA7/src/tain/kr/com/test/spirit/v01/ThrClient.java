@@ -19,6 +19,12 @@
  */
 package tain.kr.com.test.spirit.v01;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.nio.charset.Charset;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,6 +48,14 @@ public final class ThrClient extends Thread {
 	private static final Logger log = Logger.getLogger(ThrClient.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private String host = "127.0.0.1";
+	private String port = "7412";
+	
+	private Socket socket = null;
+	private DataInputStream dis = null;
+	private DataOutputStream dos = null;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -60,6 +74,73 @@ public final class ThrClient extends Thread {
 	@Override
 	public void run() {
 		
+		/*
+		 * connection
+		 */
+		if (!connect())
+			return;
+		
+		/*
+		 * data
+		 */
+		String strSend = "CLIENT : Hello, world!!!!!";
+		byte[] bytSend = strSend.getBytes(Charset.forName("euc-kr"));
+
+		byte[] bytRecv = new byte[1024];
+		String strRecv = null;
+		int len = 0;
+		
+		if (flag) {
+			try {
+				/*
+				 * send data to server
+				 */
+				this.dos.write(bytSend, 0, bytSend.length);
+				if (flag) log.debug(String.format("SEND : %s", strSend));
+				
+				/*
+				 * recv data from server
+				 */
+				len = this.dis.read(bytRecv);
+				strRecv = new String(bytRecv, 0, len, Charset.forName("euc-kr"));
+				if (flag) log.debug(String.format("RECV : %s", strRecv));
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				/*
+				 * close
+				 */
+				try {
+					this.dos.close();
+					this.dis.close();
+					this.socket.close();
+				} catch (Exception e) {}
+			}
+		}
+		
+		if (flag) Thread.currentThread().getThreadGroup().list();
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private boolean connect() {
+	
+		try {
+			this.socket = new Socket(this.host, Integer.parseInt(this.port));
+			this.dis = new DataInputStream(this.socket.getInputStream());
+			this.dos = new DataOutputStream(this.socket.getOutputStream());
+			
+			if (flag) System.out.printf("%s %s Connection (%s:%s)\n"
+					, Thread.currentThread().getThreadGroup().getName()
+					, Thread.currentThread().getName()
+					, this.host, this.port);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
