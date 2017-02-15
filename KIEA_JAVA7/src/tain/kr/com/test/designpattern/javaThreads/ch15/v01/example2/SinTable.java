@@ -1,4 +1,4 @@
-package javathreads.examples.ch15.example2;
+package tain.kr.com.test.designpattern.javaThreads.ch15.v01.example2;
 
 public class SinTable implements Runnable {
     private class SinTableRange {
