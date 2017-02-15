@@ -75,6 +75,15 @@ public class TestLoopSleep {
 
 		if (flag) {
 			
+			LoopSleep loopSleep = new LoopSleep();
+			loopSleep.reset();
+			
+			for (int i=0; ; i++) {
+				
+				if (flag) System.out.printf("%04d ##############################\n", i);
+				
+				loopSleep.sleep();
+			}
 		}
 	}
 
