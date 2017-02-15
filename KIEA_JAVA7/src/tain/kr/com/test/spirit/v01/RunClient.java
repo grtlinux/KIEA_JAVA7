@@ -80,10 +80,11 @@ public final class RunClient implements Runnable {
 		/*
 		 * data
 		 */
-		String strData = "Hello, world!!!!!";
-		byte[] bytData = strData.getBytes(Charset.forName("euc-kr"));
-		byte[] bytRead = new byte[1024];
-		@SuppressWarnings("unused")
+		String strSend = "Hello, world!!!!!";
+		byte[] bytSend = strSend.getBytes(Charset.forName("euc-kr"));
+
+		byte[] bytRecv = new byte[1024];
+		String strRecv = null;
 		int len = 0;
 		
 		if (flag) {
@@ -91,12 +92,15 @@ public final class RunClient implements Runnable {
 				/*
 				 * send data to server
 				 */
-				this.dos.write(bytData, 0, bytData.length);
+				this.dos.write(bytSend, 0, bytSend.length);
+				if (flag) log.debug(String.format("SEND : %s\n", strSend));
 				
 				/*
 				 * recv data from server
 				 */
-				len = this.dis.read(bytRead);
+				len = this.dis.read(bytRecv);
+				strRecv = new String(bytRecv, 0, len, Charset.forName("euc-kr"));
+				if (flag) log.debug(String.format("RECV : %s\n", strRecv));
 				
 			} catch (IOException e) {
 				e.printStackTrace();
