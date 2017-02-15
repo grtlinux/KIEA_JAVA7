@@ -19,6 +19,11 @@
  */
 package tain.kr.com.test.spirit.v01;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,12 +47,26 @@ public final class RunServer implements Runnable {
 	private static final Logger log = Logger.getLogger(RunServer.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final int idxThr;
+	private final Socket socket;
+	
+	private final DataInputStream dis;
+	private final DataOutputStream dos;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public RunServer() {
+	public RunServer(int idxThr, Socket socket) throws Exception {
+		
+		this.idxThr = idxThr;
+		this.socket = socket;
+		
+		this.dis = new DataInputStream(this.socket.getInputStream());
+		this.dos = new DataOutputStream(this.socket.getOutputStream());
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -56,7 +75,41 @@ public final class RunServer implements Runnable {
 	
 	@Override
 	public void run() {
+
+		if (flag) {
+			if (flag) System.out.printf("%s %s Connection .....(idxThr=%d)\n"
+					, Thread.currentThread().getThreadGroup().getName()
+					, Thread.currentThread().getName(), this.idxThr);
+		}
 		
+		byte[] bytData = new byte[1024];
+		int len = 0;
+		
+		if (flag) {
+			try {
+				/*
+				 * recv data from server
+				 */
+				len = this.dis.read(bytData);
+				
+				/*
+				 * send data to server
+				 */
+				this.dos.write(bytData, 0, len);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				/*
+				 * close
+				 */
+				try {
+					this.dos.close();
+					this.dis.close();
+					this.socket.close();
+				} catch (Exception e) {}
+			}
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,9 +128,6 @@ public final class RunServer implements Runnable {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new RunServer();
 
 		if (flag) {
 
