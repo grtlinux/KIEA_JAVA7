@@ -83,6 +83,8 @@ public final class RunClient implements Runnable {
 		String strData = "Hello, world!!!!!";
 		byte[] bytData = strData.getBytes(Charset.forName("euc-kr"));
 		byte[] bytRead = new byte[1024];
+		@SuppressWarnings("unused")
+		int len = 0;
 		
 		if (flag) {
 			try {
@@ -94,7 +96,7 @@ public final class RunClient implements Runnable {
 				/*
 				 * recv data from server
 				 */
-				this.dis.read(bytRead);
+				len = this.dis.read(bytRead);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
