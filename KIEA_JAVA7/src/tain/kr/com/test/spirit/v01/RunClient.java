@@ -19,6 +19,12 @@
  */
 package tain.kr.com.test.spirit.v01;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.nio.charset.Charset;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,6 +48,14 @@ public final class RunClient implements Runnable {
 	private static final Logger log = Logger.getLogger(RunClient.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private String host = "127.0.0.1";
+	private String port = "7412";
+	
+	private Socket socket = null;
+	private DataInputStream dis = null;
+	private DataOutputStream dos = null;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -57,9 +71,64 @@ public final class RunClient implements Runnable {
 	@Override
 	public void run() {
 		
+		/*
+		 * connection
+		 */
+		if (!connect())
+			return;
+		
+		/*
+		 * data
+		 */
+		String strData = "Hello, world!!!!!";
+		byte[] bytData = strData.getBytes(Charset.forName("euc-kr"));
+		byte[] bytRead = new byte[1024];
+		
+		if (flag) {
+			try {
+				/*
+				 * send data to server
+				 */
+				this.dos.write(bytData, 0, bytData.length);
+				
+				/*
+				 * recv data from server
+				 */
+				this.dis.read(bytRead);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				/*
+				 * close
+				 */
+				try {
+					this.dos.close();
+					this.dis.close();
+					this.socket.close();
+				} catch (Exception e) {}
+			}
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private boolean connect() {
+	
+		try {
+			this.socket = new Socket(this.host, Integer.parseInt(this.port));
+			this.dis = new DataInputStream(this.socket.getInputStream());
+			this.dos = new DataOutputStream(this.socket.getOutputStream());
+			
+			if (flag) System.out.printf("Connection (%s:%s)\n", this.host, this.port);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
