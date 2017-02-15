@@ -23,6 +23,8 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
+import tain.kr.com.test.spirit.v02.queue.QueueContent;
+
 /**
  * Code Templates > Comments > Types
  *
@@ -45,19 +47,25 @@ public final class RunControler implements Runnable {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private String host = "127.0.0.1";
+	private String port = "7412";
+
 	private final int idxThr;
-	private final Socket socket;
+	private final Socket socket1;
+	private final Socket socket2;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public RunControler(int idxThr, Socket socket) {
+	public RunControler(int idxThr, Socket socket1) throws Exception {
 		
 		this.idxThr = idxThr;
-		this.socket = socket;
+		this.socket1 = socket1;
 		
+		this.socket2 = new Socket(this.host, Integer.parseInt(this.port));
+
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -67,7 +75,7 @@ public final class RunControler implements Runnable {
 	@Override
 	public void run() {
 		
-		
+		QueueContent
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
