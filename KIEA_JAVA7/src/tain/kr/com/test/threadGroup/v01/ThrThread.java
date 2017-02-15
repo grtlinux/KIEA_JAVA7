@@ -131,7 +131,7 @@ public class ThrThread {
 			//
 			//
 			
-			if (flag) System.out.printf("\t[%s] [%s]\n", thrGroup, thrGroup.getName());
+			if (flag) System.out.printf("\t%s. [%s]\n", thrGroup, thrGroup.getName());
 			
 			int sizeThread = thrGroup.activeCount();
 			Thread[] listThread = new Thread[sizeThread];
@@ -139,7 +139,7 @@ public class ThrThread {
 			int count = thrGroup.enumerate(listThread);
 			
 			for (int i=0; i < count; i++) {
-				if (flag) System.out.printf("\t[%s]\n", listThread[i].getName());
+				if (flag) System.out.printf("\t\t%s. [%s]\n", listThread[i], listThread[i].getName());
 			}
 		}
 	}
