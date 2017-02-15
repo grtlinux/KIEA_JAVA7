@@ -90,7 +90,7 @@ public final class MainClient {
 			/*
 			 * Thread thread
 			 */
-			ThreadGroup threadGroup = new ThreadGroup("CLIENT");
+			ThreadGroup threadGroup = new ThreadGroup("CLIENT_GROUP");
 			
 			Thread thread = new ThrClient(threadGroup, "CLIENT_THREAD");
 			
