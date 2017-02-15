@@ -1,6 +1,7 @@
-package javathreads.examples.ch15.example12;
+package tain.kr.com.test.designpattern.javaThreads.ch15.v01.example12;
 
-import javathreads.examples.ch15.*;
+import tain.kr.com.test.designpattern.javaThreads.ch15.v01.GuidedLoopHandler;
+import tain.kr.com.test.designpattern.javaThreads.ch15.v01.ScaleTester;
 
 public class GuidedLoopInterchanged implements ScaleTester {
     private float lookupValues[][];
