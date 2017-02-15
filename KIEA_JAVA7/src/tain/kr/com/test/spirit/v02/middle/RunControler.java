@@ -50,6 +50,7 @@ public final class RunControler implements Runnable {
 	private String host = "127.0.0.1";
 	private String port = "20002";
 
+	@SuppressWarnings("unused")
 	private final int idxThr;
 	private final Socket socket1;
 	private final Socket socket2;
@@ -67,7 +68,7 @@ public final class RunControler implements Runnable {
 		this.idxThr = idxThr;
 		this.socket1 = socket1;
 		
-		this.socket2 = new Socket(this.host, Integer.parseInt(this.port));
+		this.socket2 = new Socket(this.host, Integer.parseInt(this.port)); // connection
 
 		this.reqQueue = new QueueContent();
 		this.resQueue = new QueueContent();
