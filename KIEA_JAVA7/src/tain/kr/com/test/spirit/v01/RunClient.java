@@ -120,7 +120,10 @@ public final class RunClient implements Runnable {
 			this.dis = new DataInputStream(this.socket.getInputStream());
 			this.dos = new DataOutputStream(this.socket.getOutputStream());
 			
-			if (flag) System.out.printf("Connection (%s:%s)\n", this.host, this.port);
+			if (flag) System.out.printf("%s %s Connection (%s:%s)\n"
+					, Thread.currentThread().getThreadGroup().getName()
+					, Thread.currentThread().getName()
+					, this.host, this.port);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
