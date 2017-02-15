@@ -1,4 +1,4 @@
-package javathreads.examples.ch15.example1;
+package tain.kr.com.test.designpattern.javaThreads.ch15.v01.example1;
 
 public class SinTable {
     private float lookupValues[] = null;
