@@ -73,19 +73,6 @@ public class TestLoopSleep {
 		if (flag)
 			new TestLoopSleep();
 
-		if (!flag) {
-			
-			LoopSleep loopSleep = new LoopSleep();
-			loopSleep.reset();
-			
-			for (int i=0; ; i++) {
-				
-				if (flag) System.out.printf("%04d ##############################\n", i);
-				
-				loopSleep.sleep();
-			}
-		}
-		
 		if (flag) {
 			
 			LoopSleep loopSleep = new LoopSleep();
@@ -95,7 +82,26 @@ public class TestLoopSleep {
 				
 				if (flag) System.out.printf("%04d ##############################\n", i);
 				
+				loopSleep.sleep();
+				
+				if (i % 30 == 29)
+					loopSleep.reset();
+			}
+		}
+		
+		if (!flag) {
+			
+			LoopSleep loopSleep = new LoopSleep();
+			loopSleep.reset();
+			
+			for (int i=0; ; i++) {
+				
+				if (flag) System.out.printf("%04d ##############################\n", i);
+				
 				loopSleep.sleep2();
+				
+				if (i % 60 == 59)
+					loopSleep.reset();
 			}
 		}
 	}
