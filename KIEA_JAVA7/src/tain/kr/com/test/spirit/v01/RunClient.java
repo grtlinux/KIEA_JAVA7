@@ -115,6 +115,8 @@ public final class RunClient implements Runnable {
 				} catch (Exception e) {}
 			}
 		}
+		
+		if (flag) Thread.currentThread().getThreadGroup().list();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

@@ -84,8 +84,6 @@ public final class MainRunClient {
 			thread.start();
 			
 			thread.join();
-			
-			threadGroup.list();
 		}
 	}
 
