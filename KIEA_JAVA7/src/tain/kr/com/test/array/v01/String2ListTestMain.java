@@ -19,6 +19,7 @@
  */
 package tain.kr.com.test.array.v01;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -134,6 +135,19 @@ public class String2ListTestMain {
 					log.debug(">>> " + string);
 				}
 			}
+		}
+		
+		if (flag) {
+			String strSrc = "ABCDEFG";
+			byte[] bytSrc = strSrc.getBytes(Charset.forName("euc-kr"));
+			byte[] bytTgt = new byte[1024];
+			String strTgt = null;
+			
+			System.arraycopy(bytSrc, 0, bytTgt, 0, bytSrc.length);
+			
+			strTgt = new String(bytTgt, 0, bytSrc.length, Charset.forName("euc-kr"));
+			
+			if (flag) System.out.printf("[%s]\n", strTgt);
 		}
 	}
 	
