@@ -35,7 +35,6 @@ package tain.kr.com.test.queue.v02;
  *
  */
 public interface ImplQueue {
-
 	public abstract int put(Object object) throws Exception;
 	public abstract Object get() throws Exception;
 	public abstract Object get(long timeout) throws Exception;
