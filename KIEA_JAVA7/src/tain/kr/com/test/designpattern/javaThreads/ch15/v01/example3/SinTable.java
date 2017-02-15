@@ -1,6 +1,6 @@
-package javathreads.examples.ch15.example3;
+package tain.kr.com.test.designpattern.javaThreads.ch15.v01.example3;
 
-import javathreads.examples.ch15.*;
+import tain.kr.com.test.designpattern.javaThreads.ch15.v01.LoopHandler;
 
 public class SinTable extends LoopHandler {
     private float lookupValues[];
