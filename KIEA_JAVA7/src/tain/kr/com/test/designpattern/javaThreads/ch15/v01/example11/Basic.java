@@ -1,6 +1,6 @@
-package javathreads.examples.ch15.example11;
+package tain.kr.com.test.designpattern.javaThreads.ch15.v01.example11;
 
-import javathreads.examples.ch15.*;
+import tain.kr.com.test.designpattern.javaThreads.ch15.v01.ScaleTester;
 
 public class Basic implements ScaleTester {
     private float lookupValues[][];
