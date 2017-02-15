@@ -96,7 +96,7 @@ public final class LoopSleep {
 	public void sleep() {
 		
 		try {
-			Thread.sleep(this.info[this.index]);
+			Thread.sleep((long) this.info[this.index]);
 		} catch (InterruptedException e) {
 			// TODO: handle exception
 		}
@@ -106,6 +106,21 @@ public final class LoopSleep {
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void sleep2() {
+		
+		long msec = (this.index / 10 + 1) * 100;
+		
+		try {
+			Thread.sleep((long) msec);
+		} catch (InterruptedException e) {
+			// TODO: handle exception
+		}
+		
+		if (this.index < 100)
+			this.index ++;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +141,7 @@ public final class LoopSleep {
 			new LoopSleep();
 
 		if (flag) {
-
+			if (flag) System.out.println(5 / 10);
 		}
 	}
 
