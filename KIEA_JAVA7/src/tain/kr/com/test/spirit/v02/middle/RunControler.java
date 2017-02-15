@@ -48,11 +48,14 @@ public final class RunControler implements Runnable {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private String host = "127.0.0.1";
-	private String port = "7412";
+	private String port = "20002";
 
 	private final int idxThr;
 	private final Socket socket1;
 	private final Socket socket2;
+	
+	private final QueueContent reqQueue;
+	private final QueueContent resQueue;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,6 +69,9 @@ public final class RunControler implements Runnable {
 		
 		this.socket2 = new Socket(this.host, Integer.parseInt(this.port));
 
+		this.reqQueue = new QueueContent();
+		this.resQueue = new QueueContent();
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -75,7 +81,33 @@ public final class RunControler implements Runnable {
 	@Override
 	public void run() {
 		
-		QueueContent
+		if (flag) {
+			/*
+			 * ThrResSender
+			 */
+			new ThrResSender(this.socket1, this.resQueue).start();
+		}
+
+		if (flag) {
+			/*
+			 * ThrResRecver
+			 */
+			new ThrResRecver(this.socket2, this.resQueue).start();
+		}
+		
+		if (flag) {
+			/*
+			 * ThrReqSender
+			 */
+			new ThrReqSender(this.socket2, this.reqQueue).start();
+		}
+
+		if (flag) {
+			/*
+			 * ThrReqRecver
+			 */
+			new ThrReqRecver(this.socket1, this.reqQueue).start();
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

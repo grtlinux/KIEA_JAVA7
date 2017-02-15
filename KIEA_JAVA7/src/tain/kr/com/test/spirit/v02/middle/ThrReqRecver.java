@@ -19,7 +19,11 @@
  */
 package tain.kr.com.test.spirit.v02.middle;
 
+import java.net.Socket;
+
 import org.apache.log4j.Logger;
+
+import tain.kr.com.test.spirit.v02.queue.QueueContent;
 
 /**
  * Code Templates > Comments > Types
@@ -42,17 +46,31 @@ public final class ThrReqRecver extends Thread {
 	private static final Logger log = Logger.getLogger(ThrReqRecver.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final Socket socket1;
+	private final QueueContent reqQueue;
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public ThrReqRecver() {
+	public ThrReqRecver(Socket socket1, QueueContent reqQueue) {
+		
+		this.socket1 = socket1;
+		this.reqQueue = reqQueue;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void run() {
+		
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +87,6 @@ public final class ThrReqRecver extends Thread {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ThrReqRecver();
 
 		if (flag) {
 
