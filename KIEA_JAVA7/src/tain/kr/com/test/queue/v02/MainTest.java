@@ -63,6 +63,9 @@ public class MainTest {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static QueueVector queue = null;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -74,7 +77,47 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			/*
+			 * queue
+			 */
+			queue = new QueueVector();
+		}
+		
+		if (flag) {
+			/*
+			 * get thread
+			 */
+			new Thread() {
+				@Override
+				public void run() {
+					try {
+						String msg = (String) queue.get();
+						if (flag) System.out.printf("GET[%s]\n", msg);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}.start();
+		}
+		
+		try { Thread.sleep(2000); } catch (InterruptedException e) {}
+		
+		if (flag) {
+			/*
+			 * put thread
+			 */
+			new Thread() {
+				@Override
+				public void run() {
+					try {
+						String msg = "Hello, world!!!!";
+						int size = queue.put(msg);
+						if (flag) System.out.printf("PUT[%d:%s]\n", size, msg);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}.start();
 		}
 	}
 
