@@ -21,8 +21,6 @@ package tain.kr.com.test.spirit.v02.queue;
 
 import org.apache.log4j.Logger;
 
-import tain.kr.com.test.queue.v02.QueueVector;
-
 /**
  * Code Templates > Comments > Types
  *
