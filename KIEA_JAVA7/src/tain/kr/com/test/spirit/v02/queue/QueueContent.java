@@ -37,11 +37,11 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public final class QueueMsg implements ImplQueue {
+public final class QueueContent implements ImplQueue {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(QueueMsg.class);
+	private static final Logger log = Logger.getLogger(QueueContent.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -53,7 +53,7 @@ public final class QueueMsg implements ImplQueue {
 	/*
 	 * constructor
 	 */
-	public QueueMsg() {
+	public QueueContent() {
 		
 		this.queue = new Vector<Object>(5, 5);
 		this.size = 0;
@@ -157,7 +157,7 @@ public final class QueueMsg implements ImplQueue {
 	private static void test01(String[] args) throws Exception {
 
 		if (flag)
-			new QueueMsg();
+			new QueueContent();
 
 		if (flag) {
 
