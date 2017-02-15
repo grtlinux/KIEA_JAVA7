@@ -141,6 +141,8 @@ public class ThrThread {
 			for (int i=0; i < count; i++) {
 				if (flag) System.out.printf("\t\t%s. [%s]\n", listThread[i], listThread[i].getName());
 			}
+			
+			thrGroup.list();
 		}
 	}
 
