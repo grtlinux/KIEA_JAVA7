@@ -19,6 +19,12 @@
  */
 package tain.kr.com.test.spirit.v02.server;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.nio.charset.Charset;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,23 +41,88 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class RunServer {
+public final class RunServer implements Runnable {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(RunServer.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final int idxThr;
+	private final Socket socket;
+	
+	private final DataInputStream dis;
+	private final DataOutputStream dos;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public RunServer() {
+	public RunServer(int idxThr, Socket socket) throws Exception {
+		
+		this.idxThr = idxThr;
+		this.socket = socket;
+		
+		this.dis = new DataInputStream(this.socket.getInputStream());
+		this.dos = new DataOutputStream(this.socket.getOutputStream());
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void run() {
+
+		if (flag) System.out.printf("%s %s Connection .....(idxThr=%d)\n"
+				, Thread.currentThread().getThreadGroup().getName()
+				, Thread.currentThread().getName(), this.idxThr);
+		
+		/*
+		 * data
+		 */
+		String strSend = "SERVER : Hello, world!!!!!";
+		byte[] bytSend = strSend.getBytes(Charset.forName("euc-kr"));
+
+		byte[] bytRecv = new byte[1024];
+		String strRecv = null;
+		int len = 0;
+		
+		if (flag) {
+			try {
+				/*
+				 * recv data from server
+				 */
+				len = this.dis.read(bytRecv);
+				strRecv = new String(bytRecv, 0, len, Charset.forName("euc-kr"));
+				if (flag) log.debug(String.format("RECV : %s", strRecv));
+				
+				/*
+				 * send data to server
+				 */
+				this.dos.write(bytSend, 0, bytSend.length);
+				if (flag) log.debug(String.format("SEND : %s", strSend));
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				/*
+				 * close
+				 */
+				try {
+					this.dos.close();
+					this.dis.close();
+					this.socket.close();
+				} catch (Exception e) {}
+			}
+		}
+		
+		if (flag) Thread.currentThread().getThreadGroup().list();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +140,6 @@ public class RunServer {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new RunServer();
 
 		if (flag) {
 

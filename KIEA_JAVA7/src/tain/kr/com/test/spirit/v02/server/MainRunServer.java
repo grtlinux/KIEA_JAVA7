@@ -19,6 +19,9 @@
  */
 package tain.kr.com.test.spirit.v02.server;
 
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,7 +38,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MainRunServer {
+public final class MainRunServer {
 
 	private static boolean flag = true;
 
@@ -63,6 +66,9 @@ public class MainRunServer {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String PORT = "7412";
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -74,7 +80,26 @@ public class MainRunServer {
 			new MainRunServer();
 
 		if (flag) {
-
+			/*
+			 * Runnable thread
+			 */
+			ThreadGroup threadGroup = new ThreadGroup("SERVER_GROUP");
+			
+			@SuppressWarnings("resource")
+			ServerSocket serverSocket = new ServerSocket(Integer.parseInt(PORT));
+			if (flag) log.debug(String.format("SERVER : listening by port %s [%s]", PORT, serverSocket.toString()));
+			
+			for (int idxThr=0;; idxThr++) {
+				if (idxThr > 10000000)
+					idxThr = 0;
+				
+				Socket socket = serverSocket.accept();
+				if (flag) log.debug(String.format("SERVER : accept the connection(idxThr=%d)", idxThr));
+				
+				Thread thread = new Thread(threadGroup, new RunServer(idxThr, socket), String.format("SERVER_RUNNABLE_%05d", idxThr));
+				
+				thread.start();
+			}
 		}
 	}
 
