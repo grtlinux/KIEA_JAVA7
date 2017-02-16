@@ -50,7 +50,7 @@ public final class RunClient implements Runnable {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private String host = "127.0.0.1";
-	private String port = "7412";
+	private String port = "20001";
 	
 	private Socket socket = null;
 	private DataInputStream dis = null;
