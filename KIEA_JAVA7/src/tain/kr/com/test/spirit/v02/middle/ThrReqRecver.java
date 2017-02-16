@@ -19,6 +19,7 @@
  */
 package tain.kr.com.test.spirit.v02.middle;
 
+import java.io.DataInputStream;
 import java.net.Socket;
 
 import org.apache.log4j.Logger;
@@ -49,16 +50,18 @@ public final class ThrReqRecver extends Thread {
 	
 	private final Socket socket1;
 	private final QueueContent reqQueue;
+	private final DataInputStream dis;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public ThrReqRecver(Socket socket1, QueueContent reqQueue) {
+	public ThrReqRecver(Socket socket1, QueueContent reqQueue) throws Exception {
 		
 		this.socket1 = socket1;
 		this.reqQueue = reqQueue;
+		this.dis = new DataInputStream(this.socket1.getInputStream());
 		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
@@ -69,6 +72,11 @@ public final class ThrReqRecver extends Thread {
 	@Override
 	public void run() {
 		
+		while (true) {
+			/*
+			 * socket1 -> dis -> reqQueue
+			 */
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

@@ -82,32 +82,36 @@ public final class RunControler implements Runnable {
 	@Override
 	public void run() {
 		
-		if (flag) {
-			/*
-			 * ThrResSender
-			 */
-			new ThrResSender(this.socket1, this.resQueue).start();
-		}
+		try {
+			if (flag) {
+				/*
+				 * ThrResSender
+				 */
+				new ThrResSender(this.socket1, this.resQueue).start();
+			}
 
-		if (flag) {
-			/*
-			 * ThrResRecver
-			 */
-			new ThrResRecver(this.socket2, this.resQueue).start();
-		}
-		
-		if (flag) {
-			/*
-			 * ThrReqSender
-			 */
-			new ThrReqSender(this.socket2, this.reqQueue).start();
-		}
+			if (flag) {
+				/*
+				 * ThrResRecver
+				 */
+				new ThrResRecver(this.socket2, this.resQueue).start();
+			}
+			
+			if (flag) {
+				/*
+				 * ThrReqSender
+				 */
+				new ThrReqSender(this.socket2, this.reqQueue).start();
+			}
 
-		if (flag) {
-			/*
-			 * ThrReqRecver
-			 */
-			new ThrReqRecver(this.socket1, this.reqQueue).start();
+			if (flag) {
+				/*
+				 * ThrReqRecver
+				 */
+				new ThrReqRecver(this.socket1, this.reqQueue).start();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
