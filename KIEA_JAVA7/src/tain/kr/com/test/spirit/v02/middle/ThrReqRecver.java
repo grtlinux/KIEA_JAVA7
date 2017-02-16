@@ -25,6 +25,7 @@ import java.net.Socket;
 import org.apache.log4j.Logger;
 
 import tain.kr.com.test.spirit.v02.data.DataContent;
+import tain.kr.com.test.spirit.v02.loop.LoopSleep;
 import tain.kr.com.test.spirit.v02.queue.QueueContent;
 
 /**
@@ -77,6 +78,7 @@ public final class ThrReqRecver extends Thread {
 		byte[] bytData = content.getBytData();
 		int len;
 		
+		LoopSleep loopSleep = new LoopSleep();
 		
 		while (true) {
 			/*
@@ -90,8 +92,20 @@ public final class ThrReqRecver extends Thread {
 				len = -1;
 			}
 			
+			/*
+			 * sleep
+			 */
 			if (len <= 0) {
+				loopSleep.sleep2();
+			} else {
 				
+				try {
+					this.reqQueue.put(content);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				loopSleep.reset();
 			}
 		}
 	}
