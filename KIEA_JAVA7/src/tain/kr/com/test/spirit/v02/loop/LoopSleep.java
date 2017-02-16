@@ -17,7 +17,7 @@
  * Copyright 2014, 2015, 2016, 2017 TAIN, Inc.
  *
  */
-package tain.kr.com.test.loopSleep.v01;
+package tain.kr.com.test.spirit.v02.loop;
 
 import org.apache.log4j.Logger;
 
@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
  *
  * <PRE>
  *   -. FileName   : LoopSleep.java
- *   -. Package    : tain.kr.com.test.loopSleep.v01
+ *   -. Package    : tain.kr.com.test.spirit.v02.loop
  *   -. Comment    :
  *   -. Author     : taincokr
  *   -. First Date : 2017. 2. 16. {time}
@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public final class LoopSleep {
+public final class LoopSleep implements ImplLoop {
 
 	private static boolean flag = true;
 
@@ -87,7 +87,7 @@ public final class LoopSleep {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void reset() {
@@ -132,17 +132,16 @@ public final class LoopSleep {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new LoopSleep();
-
 		if (flag) {
-			if (flag) System.out.println(5 / 10);
+
 		}
 	}
 

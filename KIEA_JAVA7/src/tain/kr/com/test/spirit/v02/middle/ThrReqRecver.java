@@ -24,6 +24,7 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
+import tain.kr.com.test.spirit.v02.data.DataContent;
 import tain.kr.com.test.spirit.v02.queue.QueueContent;
 
 /**
@@ -72,10 +73,26 @@ public final class ThrReqRecver extends Thread {
 	@Override
 	public void run() {
 		
+		DataContent content = new DataContent();
+		byte[] bytData = content.getBytData();
+		int len;
+		
+		
 		while (true) {
 			/*
 			 * socket1 -> dis -> reqQueue
 			 */
+			try {
+				len = 0;
+				len = this.dis.read(bytData);
+			} catch (Exception e) {
+				e.printStackTrace();
+				len = -1;
+			}
+			
+			if (len <= 0) {
+				
+			}
 		}
 	}
 	
