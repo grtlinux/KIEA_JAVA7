@@ -100,6 +100,7 @@ public final class ThrReqRecver extends Thread {
 			} else {
 				
 				try {
+					content.setSize(len);
 					this.reqQueue.put(content);
 				} catch (Exception e) {
 					e.printStackTrace();
