@@ -45,8 +45,8 @@ public abstract class AbstData {
 	
 	private static final int SIZ_BYTDATA = 2048;
 	
-	private final byte[] bytData;
-	private int size = 0;
+	protected final byte[] bytData;
+	protected int size = 0;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -63,16 +63,16 @@ public abstract class AbstData {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	protected byte[] getBytData() {
+	public byte[] getBytData() {
 		return this.bytData;
 	}
 	
-	protected void setSize(int size) {
-		this.size = size;
+	public int getSize() {
+		return this.size;
 	}
 	
-	protected int getSize() {
-		return this.size;
+	public void setSize(int size) {
+		this.size = size;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
