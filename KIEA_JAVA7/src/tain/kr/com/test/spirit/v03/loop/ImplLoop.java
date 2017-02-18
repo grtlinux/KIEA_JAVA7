@@ -38,4 +38,5 @@ public interface ImplLoop {
 
 	public abstract void reset();
 	public abstract void sleep();
+	public abstract long getMSec();
 }
