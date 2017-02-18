@@ -35,23 +35,91 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class AbstData {
+public abstract class AbstData {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(AbstData.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	protected final int[] defInfo = {
+			10,   10,   10,   10,   10, 
+			10,   10,   10,   10,   10,    // 10 * 10
+			50,   50,   50,   50,   50,
+			50,   50,   50,   50,   50,    // 10 * 50
+			100,  100,  100,  100,  100, 
+			100,  100,  100,  100,  100,   // 10 * 100
+			500,  500,  500,  500,  500,
+			500,  500,  500,  500,  500,   // 10 * 500
+			1000, 1000, 1000, 1000, 1000, 
+			1000, 1000, 1000, 1000, 1000,  // 10 * 100
+			
+			2000,                          // last
+	};
+	
+	protected final int[] info;
+
+	protected final int lastIndex;
+	protected int index;
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public AbstData() {
+	protected AbstData(int[] info) {
+
+		if (info == null)
+			this.info = defInfo;
+		else
+			this.info = info;
+		
+		this.lastIndex = this.info.length - 1;
+		this.index = 0;
+
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
+	
+	protected AbstData() {
+		this(null);
+	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void reset() {
+		this.index = 0;
+	}
+	
+	public void sleep() {
+		
+		try {
+			Thread.sleep((long) this.info[this.index]);
+		} catch (InterruptedException e) {
+			// TODO: handle exception
+		}
+		
+		if (this.index < this.lastIndex)
+			this.index ++;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void sleep2() {
+		
+		long msec = (this.index / 10 + 1) * 100;
+		
+		try {
+			Thread.sleep((long) msec);
+		} catch (InterruptedException e) {
+			// TODO: handle exception
+		}
+		
+		if (this.index < 100)
+			this.index ++;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +137,6 @@ public class AbstData {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new AbstData();
 
 		if (flag) {
 
