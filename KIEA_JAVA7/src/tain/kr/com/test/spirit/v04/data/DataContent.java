@@ -19,7 +19,13 @@
  */
 package tain.kr.com.test.spirit.v04.data;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
+
 import org.apache.log4j.Logger;
+
+import tain.kr.com.test.spirit.v04.exception.ExpException;
 
 /**
  * Code Templates > Comments > Types
@@ -35,21 +41,77 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class DataContent {
+public final class DataContent extends AbsData {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(DataContent.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String TYP_CHARSET = "euc-kr";
+
+	private String strData;
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
 	public DataContent() {
+
+		super();
+
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+
+	public DataContent(String strData) {
+		this();
+
+		setStrData(strData);
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void setStrData(String strData) {
+		this.strData = strData;
+
+		byte[] bytSrc = this.strData.getBytes(Charset.forName(TYP_CHARSET));
+		this.size = bytSrc.length;
+
+		System.arraycopy(bytSrc, 0, this.bytData, 0, this.size);
+	}
+
+	public String getStrData() {
+		return this.strData;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public int readFromInputStream(InputStream is) throws ExpException {
+
+		try {
+			this.size = is.read(this.bytData);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ExpException();
+		}
+
+		return this.size;
+	}
+
+	@Override
+	public void writeToOutputStream(OutputStream os) throws ExpException {
+
+		try {
+			os.write(this.bytData, 0, this.size);
+			os.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ExpException();
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +131,6 @@ public class DataContent {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new DataContent();
 
 		if (flag) {
 
