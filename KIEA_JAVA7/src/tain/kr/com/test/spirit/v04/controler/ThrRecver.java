@@ -19,11 +19,13 @@
  */
 package tain.kr.com.test.spirit.v04.controler;
 
+import java.io.DataInputStream;
+
 import org.apache.log4j.Logger;
 
 import tain.kr.com.test.spirit.v04.data.DataContent;
 import tain.kr.com.test.spirit.v04.exception.ExpException;
-import tain.kr.com.test.spirit.v04.exception.ExpNullPointException;
+import tain.kr.com.test.spirit.v04.exception.ExpNullPointerException;
 import tain.kr.com.test.spirit.v04.loop.LoopSleep;
 import tain.kr.com.test.spirit.v04.queue.QueueContent;
 
@@ -58,6 +60,8 @@ public final class ThrRecver extends Thread {
 	private QueueContent recvQueue;
 	private LoopSleep loopSleep;
 	private DataContent content;
+	
+	private DataInputStream dis;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -82,12 +86,14 @@ public final class ThrRecver extends Thread {
 	public void run() {
 		
 		this.recvQueue = this.thrControler.getRecvQueue();
+		this.dis = this.thrControler.getDataInputStream();
 		
 		/*
 		 * validation
 		 */
 		try {
 			validateQueue();    // validate queue
+			validateIO();       // validate IO
 		} catch (ExpException e) {
 			e.printStackTrace();
 			return;
@@ -99,8 +105,15 @@ public final class ThrRecver extends Thread {
 			 */
 			while (!this.thrControler.isFlagStop()) {
 				/*
-				 * InputStream, BufferedInputStream
+				 * InputStream, DataInputStream
 				 */
+				try {
+					this.content.readFromInputStream(this.dis);
+				} catch (ExpException e) {
+					e.printStackTrace();
+					this.loopSleep.sleep();
+					continue;
+				}
 				
 				/*
 				 * recvQueue
@@ -123,7 +136,16 @@ public final class ThrRecver extends Thread {
 		 * validate queue
 		 */
 		if (this.recvQueue == null) {
-			throw new ExpNullPointException("null point queue : recvQueue.");
+			throw new ExpNullPointerException("null point queue : recvQueue.");
+		}
+	}
+	
+	private void validateIO() throws ExpException {
+		/*
+		 * validate IO
+		 */
+		if (this.dis == null) {
+			throw new ExpNullPointerException("null point DataInputStream.");
 		}
 	}
 	
