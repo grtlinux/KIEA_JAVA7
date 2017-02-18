@@ -56,6 +56,7 @@ public final class ThrControler extends Thread implements ImplControler {
 	
 	private QueueContent recvQueue;
 	private QueueContent sendQueue;
+	private QueueContent testQueue;
 	
 	private volatile boolean flagStop = false;
 	
@@ -75,6 +76,8 @@ public final class ThrControler extends Thread implements ImplControler {
 		
 		this.sendQueue = new QueueContent();
 		this.recvQueue = null;
+		
+		this.testQueue = new QueueContent();
 		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
@@ -114,6 +117,10 @@ public final class ThrControler extends Thread implements ImplControler {
 	
 	protected QueueContent getSendQueue() {
 		return this.sendQueue;
+	}
+	
+	protected QueueContent getTestQueue() {
+		return this.testQueue;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
