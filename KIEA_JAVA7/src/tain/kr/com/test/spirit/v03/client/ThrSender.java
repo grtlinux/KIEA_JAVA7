@@ -53,9 +53,9 @@ public final class ThrSender extends Thread {
 	private QueueContent sendQueue;
 	private DataContent content;
 	private LoopSleep loopSleep;
-	
+
 	private QueueContent testQueue;
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -67,20 +67,20 @@ public final class ThrSender extends Thread {
 
 		this.thrControler = thrControler;
 		this.loopSleep = new LoopSleep();
-		
+
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	@Override
 	public void run() {
-		
+
 		this.sendQueue = this.thrControler.getSendQueue();
 		this.testQueue = this.thrControler.getTestQueue();
-		
+
 		if (flag) {
 			/*
 			 * TEST  using test queue
@@ -97,19 +97,19 @@ public final class ThrSender extends Thread {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+
 				try {
 					this.testQueue.put(this.content);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+
 				if (flag) log.debug(String.format("SEND(%3d): %s.", this.content.getSize(), this.content.getStrData()));
 
 				this.loopSleep.reset();
 			}
 		}
-		
+
 		if (!flag) {
 			/*
 			 * REAL using socket
@@ -132,7 +132,7 @@ public final class ThrSender extends Thread {
 
 		if (flag) log.debug(String.format("[%s] END", Thread.currentThread().getName()));
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////

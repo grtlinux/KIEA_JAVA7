@@ -46,67 +46,67 @@ public final class ThrControler extends Thread implements ImplControler {
 	private static final Logger log = Logger.getLogger(ThrControler.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	private static final String THR_NAME = "CNTL";
-	
+
 	private final ThreadGroup threadGroup;
 
 	private final ThrSender thrSender;
 	private final ThrRecver thrRecver;
-	
+
 	private QueueContent recvQueue;
 	private QueueContent sendQueue;
 	private QueueContent testQueue;
-	
+
 	private volatile boolean flagStop = false;
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
 	public ThrControler(ThreadGroup threadGroup) {
-		
+
 		super(threadGroup, String.format("%s_%s", threadGroup.getName(), THR_NAME));
-		
+
 		this.threadGroup = threadGroup;
-		
+
 		this.thrSender = new ThrSender(this.threadGroup, this);
 		this.thrRecver = new ThrRecver(this.threadGroup, this);
-		
+
 		this.sendQueue = new QueueContent();
 		this.recvQueue = null;
-		
+
 		this.testQueue = new QueueContent();
-		
+
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	@Override
 	public void run() {
-		
+
 		this.thrSender.start();
 		this.thrRecver.start();
-		
+
 		// try { Thread.sleep(10 * 1000); } catch (InterruptedException e) {}
 		if (flag) this.threadGroup.getParent().list();
-		
+
 		try {
 			this.thrSender.join();
 			this.thrRecver.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		if (flag) log.debug(String.format("[%s] END", Thread.currentThread().getName()));
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	protected boolean isFlagStop() {
 		return this.flagStop;
 	}
@@ -114,15 +114,15 @@ public final class ThrControler extends Thread implements ImplControler {
 	protected QueueContent getRecvQueue() {
 		return this.recvQueue;
 	}
-	
+
 	protected QueueContent getSendQueue() {
 		return this.sendQueue;
 	}
-	
+
 	protected QueueContent getTestQueue() {
 		return this.testQueue;
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,7 +132,7 @@ public final class ThrControler extends Thread implements ImplControler {
 	 */
 	@Override
 	public boolean sendContent(DataContent content) throws ExpDefaultException {
-		
+
 		if (content != null) {
 			try {
 				this.sendQueue.put(content);
@@ -151,12 +151,12 @@ public final class ThrControler extends Thread implements ImplControler {
 	 */
 	@Override
 	public boolean setRecvQueue(QueueContent recvQueue) throws ExpDefaultException {
-		
+
 		if (recvQueue != null) {
 			this.recvQueue = recvQueue;
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -173,16 +173,16 @@ public final class ThrControler extends Thread implements ImplControler {
 	 */
 	@Override
 	public DataContent getContent() throws ExpDefaultException {
-		
+
 		DataContent content = null;
-		
+
 		try {
 			content = (DataContent) this.recvQueue.get();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ExpDefaultException();
 		}
-		
+
 		return content;
 	}
 
