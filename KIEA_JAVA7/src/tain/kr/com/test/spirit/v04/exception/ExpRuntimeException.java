@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public final class ExpRuntimeException extends RuntimeException {
+public class ExpRuntimeException extends RuntimeException {
 
 	/**
 	 *
