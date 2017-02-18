@@ -80,11 +80,11 @@ public final class MainClient {
 		if (flag) {
 
 			/*
-			 * THREAD_CLIENT_MAIN
-			 *     THREAD_0000
-			 *         THREAD_0000_CNTL
-			 *         THREAD_0000_SEND
-			 *         THREAD_0000_RECV
+			 * THREAD_SERVER_MAIN
+			 *     THREAD_SERVER_0000
+			 *         THREAD_SERVER_0000_CNTL
+			 *         THREAD_SERVER_0000_SEND
+			 *         THREAD_SERVER_0000_RECV
 			 * 
 			 */
 			ThreadGroup threadGroup = new ThreadGroup("THREAD_CLIENT_MAIN");
