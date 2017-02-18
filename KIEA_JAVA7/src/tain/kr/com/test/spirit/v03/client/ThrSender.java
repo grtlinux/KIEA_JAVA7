@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 
 import tain.kr.com.test.spirit.v03.data.DataContent;
 import tain.kr.com.test.spirit.v03.loop.LoopSleep;
-import tain.kr.com.test.spirit.v03.queue.ImplQueue;
+import tain.kr.com.test.spirit.v03.queue.QueueContent;
 
 /**
  * Code Templates > Comments > Types
@@ -47,11 +47,14 @@ public final class ThrSender extends Thread {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	private static final String THR_NAME = "SEND";
+
 	private ThrControler thrControler;
-	private ImplQueue queue;
+	private QueueContent sendQueue;
 	private DataContent content;
-	
 	private LoopSleep loopSleep;
+	
+	private QueueContent testQueue;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -60,10 +63,9 @@ public final class ThrSender extends Thread {
 	 */
 	public ThrSender(ThreadGroup threadGroup, ThrControler thrControler) {
 
-		super(threadGroup, String.format("%s_SEND", threadGroup.getName()));
+		super(threadGroup, String.format("%s_%s", threadGroup.getName(), THR_NAME));
 
 		this.thrControler = thrControler;
-
 		this.loopSleep = new LoopSleep();
 		
 		if (flag)
@@ -76,20 +78,56 @@ public final class ThrSender extends Thread {
 	@Override
 	public void run() {
 		
-		while (!this.thrControler.isStop()) {
+		this.sendQueue = this.thrControler.getSendQueue();
+		this.testQueue = this.thrControler.getTestQueue();
+		
+		if (flag) {
 			/*
-			 * sendQueue -> get -> dos
+			 * TEST  using test queue
+			 * sendQueue -> get -> testQueue
 			 */
-			try {
-				this.content = (DataContent) this.queue.get(this.loopSleep.getMSec());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			while (!this.thrControler.isFlagStop()) {
+				/*
+				 * sendQueue -> get
+				 */
+				try {
+					this.content = (DataContent) this.sendQueue.get(this.loopSleep.getMSec());
+					if (this.content == null)
+						continue;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					this.testQueue.put(this.content);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				if (flag) log.debug(String.format("SEND(%3d): %s.", this.content.getSize(), this.content.getStrData()));
 
-			if (this.content == null)
-				continue;
-			
-			if (flag) log.debug(String.format("SEND(%3d): %s.", this.content.getSize(), this.content.getStrData()));
+				this.loopSleep.reset();
+			}
+		}
+		
+		if (!flag) {
+			/*
+			 * REAL using socket
+			 */
+			while (!this.thrControler.isFlagStop()) {
+				/*
+				 * sendQueue -> get -> dos
+				 */
+				try {
+					this.content = (DataContent) this.sendQueue.get(this.loopSleep.getMSec());
+					if (this.content == null)
+						continue;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				if (flag) log.debug(String.format("SEND(%3d): %s.", this.content.getSize(), this.content.getStrData()));
+			}
 		}
 
 		if (flag) System.out.printf("[%s] END", Thread.currentThread().getName());
@@ -98,15 +136,6 @@ public final class ThrSender extends Thread {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public void setQueue(ImplQueue queue) {
-		this.queue = queue;
-	}
-	
-	public ImplQueue getQueue() {
-		return this.queue;
-	}
-	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
