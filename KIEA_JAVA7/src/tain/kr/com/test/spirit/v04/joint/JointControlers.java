@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class JointControlers {
+public final class JointControlers implements ImpJoint {
 
 	private static boolean flag = true;
 
