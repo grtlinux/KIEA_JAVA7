@@ -74,7 +74,17 @@ public final class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			
+			Thread thread = null;
+			
+			for (int i=0; i < 10; i++) {
+				thread = new ThrVolatile(String.format("ThrVolatile-%d", i));
+				thread.start();
+			}
+			
+			try { Thread.sleep(10 * 1000); } catch (InterruptedException e) {}
+			
+			((ThrVolatile) thread).requestStop();
 		}
 	}
 
