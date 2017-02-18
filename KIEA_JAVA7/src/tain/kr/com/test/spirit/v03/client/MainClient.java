@@ -113,7 +113,7 @@ public final class MainClient {
 				/*
 				 * do the job of processing
 				 */
-				final int CNT_IDX = 1;
+				final int CNT_IDX = 2;
 				
 				/*
 				 * send data
