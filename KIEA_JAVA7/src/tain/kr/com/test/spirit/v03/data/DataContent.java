@@ -46,43 +46,43 @@ public final class DataContent extends AbstData {
 	private static final Logger log = Logger.getLogger(DataContent.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	private static final String TYP_CHARSET = "euc-kr";
-	
+
 	private String strData;
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
 	public DataContent() {
-		
+
 		super();
-		
+
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	public DataContent(String strData) {
 		this();
-		
+
 		setStrData(strData);
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	public void setStrData(String strData) {
 		this.strData = strData;
-		
+
 		byte[] bytSrc = this.strData.getBytes(Charset.forName(TYP_CHARSET));
 		this.size = bytSrc.length;
-		
+
 		System.arraycopy(bytSrc, 0, this.bytData, 0, this.size);
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	public String getStrData() {
 		return this.strData;
 	}
@@ -91,20 +91,20 @@ public final class DataContent extends AbstData {
 
 	@Override
 	public int readFromInputStream(InputStream is) throws Exception {
-		
+
 		this.size = is.read(this.bytData);
-		
+
 		return this.size;
 	}
-	
+
 	@Override
 	public void writeToOutputStream(OutputStream os) throws Exception {
-		
+
 		os.write(this.bytData, 0, this.size);
-		
+
 		os.flush();
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
