@@ -102,7 +102,7 @@ public final class ThrControler extends Thread implements ImplControler {
 			e.printStackTrace();
 		}
 		
-		if (flag) System.out.printf("[%s] END", Thread.currentThread().getName());
+		if (flag) log.debug(String.format("[%s] END", Thread.currentThread().getName()));
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

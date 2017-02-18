@@ -118,24 +118,30 @@ public final class MainClient {
 					
 					thrControler.sendContent(content);    // send
 					
-					if (flag) System.out.printf("SEND(%3d): %s.\n", content.getSize(), content.getStrData());
+					if (flag) log.debug(String.format("SEND(%3d): %s.", content.getSize(), content.getStrData()));
 				}
 				
 				/*
 				 * recv data
 				 */
 				for (int idx=0; flag && idx < CNT_IDX; idx++) {
-					DataContent content = (DataContent) recvQueue.get(1000);    // recv
+					DataContent content = (DataContent) recvQueue.get(10);    // recv
 					
-					if (flag) System.out.printf("RECV(%3d): %s.\n", content.getSize(), content.getStrData());
+					if (flag) log.debug(String.format("RECV(%3d): %s.", content.getSize(), content.getStrData()));
 				}
+				
+				/*
+				 * sleep and stop thread
+				 */
+				try { Thread.sleep(10 * 1000); } catch (InterruptedException e) {}
+				thrControler.stopThread();
 				
 				/*
 				 * join thread
 				 */
 				thrControler.join();
 				
-				if (flag) System.out.printf("[%s] END", threadGroup.getName());
+				if (flag) log.debug(String.format("[%s] END", threadGroup.getName()));
 			}
 		}
 	}

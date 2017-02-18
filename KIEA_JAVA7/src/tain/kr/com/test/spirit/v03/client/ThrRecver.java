@@ -131,7 +131,7 @@ public final class ThrRecver extends Thread {
 			}
 		}
 
-		if (flag) System.out.printf("[%s] END", Thread.currentThread().getName());
+		if (flag) log.debug(String.format("[%s] END", Thread.currentThread().getName()));
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
