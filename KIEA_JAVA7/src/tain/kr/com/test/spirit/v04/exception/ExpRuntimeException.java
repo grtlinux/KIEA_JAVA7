@@ -37,6 +37,11 @@ import org.apache.log4j.Logger;
  */
 public final class ExpRuntimeException extends RuntimeException {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static boolean flag = true;
 
 	private static final Logger log = Logger
@@ -48,11 +53,18 @@ public final class ExpRuntimeException extends RuntimeException {
 	/*
 	 * constructor
 	 */
-	public ExpRuntimeException() {
+	public ExpRuntimeException(String msg) {
+		
+		super(msg);
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public ExpRuntimeException() {
+		this("NO_MESSAGE(tain.co.kr)");
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
