@@ -19,6 +19,10 @@
  */
 package tain.kr.com.test.spirit.v03.client;
 
+import tain.kr.com.test.spirit.v03.data.DataContent;
+import tain.kr.com.test.spirit.v03.exception.ExpDefaultException;
+import tain.kr.com.test.spirit.v03.queue.QueueContent;
+
 
 /**
  * Code Templates > Comments > Types
@@ -35,5 +39,6 @@ package tain.kr.com.test.spirit.v03.client;
  *
  */
 public interface ImplControler {
-
+	public abstract boolean sendContent(DataContent content) throws ExpDefaultException;
+	public abstract boolean setRecvQueue(QueueContent recvQueue) throws ExpDefaultException;
 }
