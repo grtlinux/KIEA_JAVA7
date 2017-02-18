@@ -60,7 +60,7 @@ public abstract class AbstData {
 
 		this.bytData = new byte[SIZ_BYTDATA];
 		
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
