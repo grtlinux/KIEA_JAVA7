@@ -78,11 +78,7 @@ public final class DataContent extends AbstData {
 	public String getStrData() {
 		return this.strData;
 	}
-	
-	public byte[] getBytData() {
-		return this.bytData;
-	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,9 +94,6 @@ public final class DataContent extends AbstData {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new DataContent();
 
 		if (flag) {
 
