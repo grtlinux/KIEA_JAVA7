@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ThrRecver {
+public final class ThrRecver extends Thread {
 
 	private static boolean flag = true;
 
@@ -47,12 +47,21 @@ public class ThrRecver {
 	/*
 	 * constructor
 	 */
-	public ThrRecver() {
+	public ThrRecver(ThreadGroup threadGroup) {
+
+		super(threadGroup, String.format("%s_RECV", threadGroup.getName()));
+
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void run() {
+		
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +78,6 @@ public class ThrRecver {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ThrRecver();
 
 		if (flag) {
 
