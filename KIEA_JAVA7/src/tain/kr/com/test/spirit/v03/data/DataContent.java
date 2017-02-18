@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class DataContent {
+public final class DataContent extends AbstData {
 
 	private static boolean flag = true;
 
@@ -48,6 +48,9 @@ public class DataContent {
 	 * constructor
 	 */
 	public DataContent() {
+		
+		super();
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
