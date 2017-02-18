@@ -22,6 +22,7 @@ package tain.kr.com.test.spirit.v03.client;
 import org.apache.log4j.Logger;
 
 import tain.kr.com.test.spirit.v03.data.DataContent;
+import tain.kr.com.test.spirit.v03.loop.LoopSleep;
 import tain.kr.com.test.spirit.v03.queue.QueueContent;
 
 /**
@@ -108,32 +109,38 @@ public final class MainClient {
 				/*
 				 * do the job of processing
 				 */
-				final int CNT_IDX = 2;
-				
-				/*
-				 * send data
-				 */
-				for (int idx=0; flag && idx < CNT_IDX; idx++) {
-					DataContent content = new DataContent(String.format("Hello, world....(%04d)", idx));   // content
+				if (flag) {
+					/*
+					 * send data
+					 */
+					for (int idx=0; flag && idx < 10; idx++) {
+						DataContent content = new DataContent(String.format("Hello, world....(%04d)", idx));   // content
+						
+						thrControler.sendContent(content);    // send
+						
+						if (flag) log.debug(String.format("SEND(%3d): %s.", content.getSize(), content.getStrData()));
+					}
 					
-					thrControler.sendContent(content);    // send
+					/*
+					 * recv data
+					 */
+					LoopSleep loopSleep = new LoopSleep();
 					
-					if (flag) log.debug(String.format("SEND(%3d): %s.", content.getSize(), content.getStrData()));
-				}
-				
-				/*
-				 * recv data
-				 */
-				for (int idx=0; flag && idx < CNT_IDX; idx++) {
-					DataContent content = (DataContent) recvQueue.get(10);    // recv
-					
-					if (flag) log.debug(String.format("RECV(%3d): %s.", content.getSize(), content.getStrData()));
+					for (int idx=0; flag && idx < 50; idx++) {
+						DataContent content = (DataContent) recvQueue.get(loopSleep.getMSec());    // recv
+						if (content == null)
+							continue;
+						
+						if (flag) log.debug(String.format("RECV(%3d): %s.", content.getSize(), content.getStrData()));
+						
+						loopSleep.reset();
+					}
 				}
 				
 				/*
 				 * sleep and stop thread
 				 */
-				try { Thread.sleep(10 * 1000); } catch (InterruptedException e) {}
+				// try { Thread.sleep(10 * 1000); } catch (InterruptedException e) {}
 				thrControler.stopThread();
 				
 				/*
