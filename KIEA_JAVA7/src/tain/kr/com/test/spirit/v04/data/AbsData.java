@@ -48,7 +48,8 @@ public abstract class AbsData {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final int SIZ_BYTDATA = 4096;
+	// private static final int SIZ_BYTDATA = 4096;
+	private static final int SIZ_BYTDATA = 20;
 	
 	protected final byte[] bytData;
 	protected int size = 0;
