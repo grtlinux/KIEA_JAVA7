@@ -19,6 +19,11 @@
  */
 package tain.kr.com.test.spirit.v04.test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -74,7 +79,58 @@ public class Test01_IOStream {
 			new Test01_IOStream();
 
 		if (flag) {
+			/*
+			 * ByteArrayInputStream Thread
+			 */
+			String strData = "ABCDEFGHIJ0000000000"
+					+ "ABCDEFGHIJ0000000001"
+					+ "ABCDEFGHIJ0000000002"
+					+ "ABCDEFGHIJ0000000003"
+					+ "ABCDEFGHIJ0000000004"
+					+ "ABCDEFGHIJ0000000005"
+					+ "ABCDEFGHIJ0000000006"
+					+ "ABCDEFGHIJ0000000007"
+					+ "ABCDEFGHIJ0000000008"
+					+ "ABCDEFGHIJ0000000009"
+					+ "ABCDEFGHIJ0000000010"
+					+ "ABCDEFGHIJ0000000011"
+					+ "ABCDEFGHIJ0000000012"
+					+ "ABCDEFGHIJ0000000013"
+					+ "ABCDEFGHIJ0000000014"
+					+ "ABCDEFGHIJ0000000015"
+					+ "ABCDEFGHIJ0000000016"
+					+ "ABCDEFGHIJ0000000017"
+					+ "ABCDEFGHIJ0000000018"
+					+ "ABCDEFGHIJ0000000019"
+					+ "ABCDEFGHIJ0000000020";
+			byte[] bytData = strData.getBytes(Charset.forName("euc-kr"));
+			
+			ByteArrayInputStream is = new ByteArrayInputStream(bytData);
+			PrintWriter pw = new PrintWriter(System.out);
+			
+			byte[] bytRead = new byte[20];
+			int nRead = 0;
+			String strRead;
+			
+			while (true) {
+				nRead = is.read(bytRead);
+				if (nRead <= 0)
+					break;
+				
+				strRead = new String(bytRead, 0, nRead, Charset.forName("euc-kr"));
+				
+				if (flag) pw.printf("> [%s]\n", strRead);
+				//if (flag) System.out.printf("<[%s]\n", strRead);
+			}
+			
+			is.close();
+			pw.close();
+		}
 
+		if (flag) {
+			/*
+			 * ByteArrayOutputStream Thread
+			 */
 		}
 	}
 

@@ -1,0 +1,237 @@
+
+
+
+https://github.com/EntryPointKR/Bytecode-Instrumentation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Bytecode Instrumentation & Agent
+
+가끔 프로그래밍을 하다 이미 정의된 클래스를 재정의 할 순 없을까? 라는 생각을 하곤 했습니다. 이유는 자바 클래스라면 뭐든지 내 입맛대로 수정해버릴 수 있으니까요. 프로젝트를 진행하다 보면 리플렉션으로 불가능한 일이 필요할 때가 있습니다. 예로 내가 수정할 수 없는 공개 라이브러리의 객체 생성을 추적하는 일이 있습니다. 외에도 클래스 파일을 재정의가 가능하다면 Exception 클래스의 생성자를 변조해 모든 예외를 모니터링 할 수도 있습니다.
+
+그렇다면 정말 클래스 재정의가 가능할까요? 비슷한 일로 변조할 클래스보다 변조된 클래스를 먼저 로드시켜버리면 같은 효과가 있으나 Exception 과 같은 자바 기본 클래스는 먼저 로드할 수 없습니다(자바 옵션 사용 필요) 또 먼저 로드할 수 없는 상황일 경우 런타임에 행해야 할 필요가 있습니다.
+
+소개
+
+위와 같은 상황에 딱 맞는 기술이 있습니다. 바로 BCI, Byte Code Instrumentation
+BCI 란 런타임이나 로드 때 클래스의 바이트 코드에 변경을 가하는 기법입니다.
+
+위 기술은 소스 수정없이 클래스에 원하는 코드를 삽입할 수 있어 자바 기술 중 가장 활용 분야가 넓다해도 과언이 아닙니다. 본 글에서는 런타임에 클래스의 바이트코드에 변경을 가하기 위해 Attach 라이브러리와 Agent, ASM 이 사용된 간단한 Exception 생성 모니터링 예제를 소개할 것입니다.
+
+본 글은 읽는 대상이 Java 와 Bytecode, ASM 에 대한 지식이 있다는 전제로 설명합니다.
+
+코드
+
+오픈 소스: https://github.com/EntryPointKR/Bytecode-Instrumentation
+
+(티스토리에 썼던 글인데 네이버 카페는 gist script 가 안먹혀서 gist 주소로 대체합니다
+https://gist.github.com/EntryPointKR/152f089f6f3884047abcd19d39297c9e
+
+설명
+
+public static void main(String[] args) {
+    try {
+        String jvm = ManagementFactory.getRuntimeMXBean().getName();
+        String pid = jvm.substring(0, jvm.indexOf('@'));
+        VirtualMachine vm = VirtualMachine.attach(pid);
+        vm.loadAgent(generateJar(Agent.class, Utils.class, ClassTransformer.class, TransformClassVisitor.class, TransformMethodVisitor.class).getAbsolutePath());
+        throw new Exception();
+    } catch (Exception ex) {
+        // Ignore
+    }
+}
+
+프로그램 진입점인 main 메서드
+
+VirtualMachine 클래스는 JDK 의 tools.jar 에 있는 Attach 라이브러리입니다.
+
+ManagermentFactory.getRuntimeMXBean().getName() 로 부터 현재 pid 를 가져와 VM 을 attach 시킵니다.
+그 후 generatorJar() 메서드를 사용해 에이전트 jar 를 생성 후 경로를 loadAgent 의 인자로 넘겨줍니다.
+
+밑의 throw new Exception() 은 변조 여부를 확인하기 위한 테스트 코드입니다.
+
+이로 핵심 코드는 벌써 끝입니다. 이어서 부가 코드에 대해 설명합니다.
+
+public static File generateJar(Class agent, Class... resources) throws IOException {
+    File jar = new File("agent.jar");
+    jar.deleteOnExit();
+
+    Manifest manifest = new Manifest();
+    Attributes attr = manifest.getMainAttributes();
+
+    attr.put(Attributes.Name.MANIFEST_VERSION, "1.0");
+    attr.put(new Attributes.Name("Agent-Class"), "kr.rvs.instrumentation.Agent");
+    attr.put(new Attributes.Name("Can-Retransform-Classes"), "true");
+    attr.put(new Attributes.Name("Can-Redefine-Classes"), "true");
+
+    JarOutputStream out = new JarOutputStream(new FileOutputStream(jar), manifest);
+    out.putNextEntry(new JarEntry(Utils.getClassName(Agent.class)));
+    out.write(Utils.getBytesAsClass(agent));
+    out.closeEntry();
+
+    for (Class cls : resources) {
+        String name = Utils.getClassName(cls);
+        out.putNextEntry(new JarEntry(name));
+        out.write(Utils.getBytesAsClass(cls));
+        out.closeEntry();
+    }
+
+    out.close();
+    return jar;
+}
+
+위 코드는 VM 에 Attach 시킬 클래스 변조를 수행하는 에이전트를 생성합니다.
+
+Manifest-Version: MANIFEST 의 버전
+Agent-Class: 에이전트의 메인 클래스가 들어갑니다. 에이전트에는 agentmain, premain 등이 있으며 런타임에 실행되는 에이전트는 진입점이 agentmain 입니다.
+Can-Retransform-Classes: 에이전트가 클래스를 다시 변환할 수 있는지의 여부입니다. 기본값: false
+Can-Redefine-Class: 에이전트가 클래스를 재정의할 수 있는지의 여부입니다. 기본값: false
+
+MANIFEST 옵션에 대한 상세 설명은 여기서 확인 가능합니다.
+
+위와 같이 MANIFEST 를 정의 후 클래스들을 넣어 파일을 쓰고 인스턴스를 반환합니다.
+
+public static void agentmain(String agentArg, Instrumentation inst) throws Exception {
+    inst.addTransformer(new ClassTransformer());
+
+    InputStream inStream = ClassLoader.getSystemResourceAsStream("java/lang/Exception.class");
+    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+    int read;
+    byte[] data = new byte[65536];
+    while ((read = inStream.read(data, 0, data.length)) != -1) {
+        outStream.write(data, 0, read);
+    }
+
+    inst.redefineClasses(new ClassDefinition(Exception.class, outStream.toByteArray()));
+}
+
+위는 File 을 썼던 클래스 변환을 수행하는 에이전트의 진입점입니다. 위 메서드는 MANIFEST 옵션의 Agent-Class 에 있어야 합니다.
+
+인자로 받는 inst 에서 변환 클래스와 클래스의 정의를 넘겨줍니다.
+
+addTransformer(): 변환기 클래스의 인스턴스를 인자로 넘겨줌
+redefineClasses(): 재정의할 클래스와 바이트코드를 인자로 넘겨줌
+
+public class ClassTransformer implements ClassFileTransformer {
+    public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+        byte[] ret = classfileBuffer;
+        if (className.equals("java/lang/Exception")) {
+            try {
+                ClassReader reader = new ClassReader("java.lang.Exception");
+                ClassWriter writer = new ClassWriter(0);
+                ClassVisitor visitor = new TransformClassVisitor(ASM5, writer);
+
+                reader.accept(visitor, 0);
+                ret = writer.toByteArray();
+
+                FileOutputStream out = new FileOutputStream("Exception.class");
+                out.write(ret);
+                out.close();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return ret;
+    }
+}
+
+위 클래스가 addTransformer() 로 넘겨줄 변환 클래스입니다.
+클래스 명이 java/lang/Exception 일 경우 바이트코드 라이브러리인 ASM 를 사용해 변조된 클래스의 바이트코드를 받아 반환하며 Exception 클래스가 아닐경우 받았던 인자를 그대로 반환합니다.
+
+public class TransformClassVisitor extends ClassVisitor {
+    public TransformClassVisitor(int i, ClassVisitor classVisitor) {
+        super(i, classVisitor);
+    }
+
+    @Override
+    public MethodVisitor visitMethod(int i, String s, String s1, String s2, String[] strings) {
+        MethodVisitor visitor = super.visitMethod(i, s, s1, s2, strings);
+        if (s.equals("<init>")) {
+            visitor = new TransformMethodVisitor(api, visitor);
+        }
+        return visitor;
+    }
+}
+
+위가 바이트코드 변환 클래스입니다. ASM 은 클래스의 바이트코드를 읽어 종류에 맞게 메서드가 호출되는 구조이며 메서드 명이 <init>(생성자) 일 경우 메서드 변환 Visitor 클래스를 반환합니다.
+
+public class TransformMethodVisitor extends MethodVisitor {
+    public TransformMethodVisitor(int i, MethodVisitor methodVisitor) {
+        super(i, methodVisitor);
+    }
+
+    @Override
+    public void visitInsn(int var1) {
+        switch (var1) {
+            case ARETURN:
+            case DRETURN:
+            case FRETURN:
+            case IRETURN:
+            case LRETURN:
+            case RETURN:
+            case ATHROW:
+                visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+                visitLdcInsn("Exception detected");
+                visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+            default:
+                break;
+        }
+        super.visitInsn(var1);
+    }
+}
+
+위가 메서드 변환 Visitor 클래스입니다.
+visitInsn 은 return 이나 throw, synchronized 같은 statement 를 만나면 호출됩니다..
+위와 같은 statement 들을 찾다가 코드를 끝내는 return, throw 등을 만나면
+그 위에 System.out.println("Exception detected") 라는 코드를 삽입합니다.
+
+public static void agentmain(String agentArg, Instrumentation inst) throws Exception {
+    inst.addTransformer(new ClassTransformer());
+
+    InputStream inStream = ClassLoader.getSystemResourceAsStream("java/lang/Exception.class");
+    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+    int read;
+    byte[] data = new byte[65536];
+    while ((read = inStream.read(data, 0, data.length)) != -1) {
+        outStream.write(data, 0, read);
+    }
+
+    inst.redefineClasses(new ClassDefinition(Exception.class, outStream.toByteArray()));
+}
+
+다시 에이전트 메인으로 돌아가보면 addTransformer() 로 클래스 변환기가 들어가고 redefineClass() 로 변환할 클래스와 바이트코드의 정보가 들어갑니다. 그 후 로드된 에이전트는 클래스 변환을 수행하게 돼 변조된 Exception 클래스를 사용하게 됩니다.
+
+public static void main(String[] args) {
+    try {
+        String jvm = ManagementFactory.getRuntimeMXBean().getName();
+        String pid = jvm.substring(0, jvm.indexOf('@'));
+        VirtualMachine vm = VirtualMachine.attach(pid);
+        vm.loadAgent(generateJar(Agent.class, Utils.class, ClassTransformer.class, TransformClassVisitor.class, TransformMethodVisitor.class).getAbsolutePath());
+        throw new Exception();
+    } catch (Exception ex) {
+        // Ignore
+    }
+}
+
+따라서 위 코드의 throw new Exception() 가 Exception detected 를 출력하게 됩니다.
+[출처] Java Byte Code Instrumentation 클래스 변조 (김태룡) |작성자 EntryPoint
+
+
