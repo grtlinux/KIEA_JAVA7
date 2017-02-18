@@ -81,7 +81,7 @@ public final class ThrSender extends Thread {
 			 * sendQueue -> get -> dos
 			 */
 			try {
-				this.content = (DataContent) this.queue.get(loopSleep.getMSec());
+				this.content = (DataContent) this.queue.get(this.loopSleep.getMSec());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -89,7 +89,7 @@ public final class ThrSender extends Thread {
 			if (this.content == null)
 				continue;
 			
-			if (flag) log.debug(String.format("SEND(%3d): %s.\n", this.content.getSize(), this.content.getStrData()));
+			if (flag) log.debug(String.format("SEND(%3d): %s.", this.content.getSize(), this.content.getStrData()));
 		}
 
 		if (flag) System.out.printf("[%s] END", Thread.currentThread().getName());
