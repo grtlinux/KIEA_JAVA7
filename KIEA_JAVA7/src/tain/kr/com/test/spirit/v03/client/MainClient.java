@@ -22,7 +22,6 @@ package tain.kr.com.test.spirit.v03.client;
 import org.apache.log4j.Logger;
 
 import tain.kr.com.test.spirit.v03.data.DataContent;
-import tain.kr.com.test.spirit.v03.queue.ImplQueue;
 import tain.kr.com.test.spirit.v03.queue.QueueContent;
 
 /**
@@ -96,19 +95,15 @@ public final class MainClient {
 				/*
 				 * thread controller
 				 */
-				ThrControler thread = new ThrControler(subThreadGroup);
-
-				// send queue
-				ImplQueue sendQueue = thread.getSendQueue();
-
-				// recv queue
-				QueueContent recvQueue = new QueueContent();
-				thread.setRecvQueue(recvQueue);
+				ThrControler thrControler = new ThrControler(subThreadGroup);
+				
+				QueueContent recvQueue = new QueueContent();  // recv queue
+				thrControler.setRecvQueue(recvQueue);
 				
 				/*
 				 * run thread
 				 */
-				thread.start();
+				thrControler.start();
 				
 				/*
 				 * do the job of processing
@@ -119,12 +114,9 @@ public final class MainClient {
 				 * send data
 				 */
 				for (int idx=0; flag && idx < CNT_IDX; idx++) {
-					String msgData = String.format("Hello, world....(%04d)", idx);
+					DataContent content = new DataContent(String.format("Hello, world....(%04d)", idx));   // content
 					
-					DataContent content = new DataContent();
-					content.setStrData(msgData);
-					
-					sendQueue.put(content);
+					thrControler.sendContent(content);    // send
 					
 					if (flag) System.out.printf("SEND(%3d): %s.\n", content.getSize(), content.getStrData());
 				}
@@ -132,8 +124,8 @@ public final class MainClient {
 				/*
 				 * recv data
 				 */
-				for (int idx=0; !flag && idx < CNT_IDX; idx++) {
-					DataContent content = (DataContent) recvQueue.get();
+				for (int idx=0; flag && idx < CNT_IDX; idx++) {
+					DataContent content = (DataContent) recvQueue.get();    // recv
 					
 					if (flag) System.out.printf("RECV(%3d): %s.\n", content.getSize(), content.getStrData());
 				}
@@ -141,7 +133,7 @@ public final class MainClient {
 				/*
 				 * join thread
 				 */
-				thread.join();
+				thrControler.join();
 				
 				if (flag) System.out.printf("[%s] END", threadGroup.getName());
 			}
