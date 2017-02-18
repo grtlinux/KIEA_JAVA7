@@ -125,7 +125,7 @@ public final class MainClient {
 				 * recv data
 				 */
 				for (int idx=0; flag && idx < CNT_IDX; idx++) {
-					DataContent content = (DataContent) recvQueue.get();    // recv
+					DataContent content = (DataContent) recvQueue.get(1000);    // recv
 					
 					if (flag) System.out.printf("RECV(%3d): %s.\n", content.getSize(), content.getStrData());
 				}
