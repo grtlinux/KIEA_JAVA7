@@ -19,7 +19,12 @@
  */
 package tain.kr.com.test.spirit.v04.data;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import org.apache.log4j.Logger;
+
+import tain.kr.com.test.spirit.v04.exception.ExpException;
 
 /**
  * Code Templates > Comments > Types
@@ -35,22 +40,50 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class AbsData {
+public abstract class AbsData {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(AbsData.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final int SIZ_BYTDATA = 4096;
+	
+	protected final byte[] bytData;
+	protected int size = 0;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
 	public AbsData() {
-		if (flag)
+		
+		this.bytData = new byte[SIZ_BYTDATA];
+		
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public byte[] getBytData() {
+		return this.bytData;
+	}
+
+	public int getSize() {
+		return this.size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public abstract int readFromInputStream(InputStream is) throws ExpException;
+	public abstract void writeToOutputStream(OutputStream os) throws ExpException;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +102,6 @@ public class AbsData {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new AbsData();
 
 		if (flag) {
 
