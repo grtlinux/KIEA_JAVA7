@@ -21,6 +21,7 @@ package tain.kr.com.test.spirit.v04.controler;
 
 import org.apache.log4j.Logger;
 
+import tain.kr.com.test.spirit.v04.data.DataContent;
 import tain.kr.com.test.spirit.v04.exception.ExpException;
 import tain.kr.com.test.spirit.v04.exception.ExpNullPointException;
 import tain.kr.com.test.spirit.v04.loop.LoopSleep;
@@ -56,6 +57,7 @@ public final class ThrRecver extends Thread {
 	private ThrControler thrControler;
 	private QueueContent recvQueue;
 	private LoopSleep loopSleep;
+	private DataContent content;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -97,8 +99,21 @@ public final class ThrRecver extends Thread {
 			 */
 			while (!this.thrControler.isFlagStop()) {
 				/*
+				 * InputStream, BufferedInputStream
+				 */
+				
+				/*
 				 * recvQueue
 				 */
+				try {
+					this.recvQueue.put(this.content);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				if (flag) log.debug(String.format("RECV(%3d): %s.", this.content.getSize(), this.content.getStrData()));
+
+				this.loopSleep.reset();
 			}
 		}
 	}

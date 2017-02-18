@@ -21,6 +21,7 @@ package tain.kr.com.test.spirit.v04.controler;
 
 import org.apache.log4j.Logger;
 
+import tain.kr.com.test.spirit.v04.data.DataContent;
 import tain.kr.com.test.spirit.v04.exception.ExpException;
 import tain.kr.com.test.spirit.v04.exception.ExpNullPointException;
 import tain.kr.com.test.spirit.v04.loop.LoopSleep;
@@ -56,6 +57,7 @@ public final class ThrSender extends Thread {
 	private ThrControler thrControler;
 	private QueueContent sendQueue;
 	private LoopSleep loopSleep;
+	private DataContent content;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -67,6 +69,8 @@ public final class ThrSender extends Thread {
 		super(threadGroup, String.format("%s_%s", threadGroup.getName(), THR_NAME));
 		
 		this.threadGroup = threadGroup;
+		this.thrControler = thrControler;
+		this.loopSleep = new LoopSleep();
 
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
@@ -77,6 +81,8 @@ public final class ThrSender extends Thread {
 	@Override
 	public void run() {
 		
+		this.sendQueue = this.thrControler.getSendQueue();
+
 		/*
 		 * validation
 		 */
@@ -85,6 +91,33 @@ public final class ThrSender extends Thread {
 		} catch (ExpException e) {
 			e.printStackTrace();
 			return;
+		}
+		
+		if (flag) {
+			/*
+			 * loop job start
+			 */
+			while (!this.thrControler.isFlagStop()) {
+				/*
+				 * sendQueue
+				 */
+				try {
+					this.content = (DataContent) this.sendQueue.get(this.loopSleep.getMSec());
+					if (this.content == null)
+						continue;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				/*
+				 * OutputStream, BufferedOutputStream
+				 */
+				
+				
+				if (flag) log.debug(String.format("RECV(%3d): %s.", this.content.getSize(), this.content.getStrData()));
+
+				this.loopSleep.reset();
+			}
 		}
 	}
 	
