@@ -21,6 +21,11 @@ package tain.kr.com.test.spirit.v03.client;
 
 import org.apache.log4j.Logger;
 
+import tain.kr.com.test.spirit.v03.data.AbstData;
+import tain.kr.com.test.spirit.v03.data.DataContent;
+import tain.kr.com.test.spirit.v03.queue.ImplQueue;
+import tain.kr.com.test.spirit.v03.queue.QueueContent;
+
 /**
  * Code Templates > Comments > Types
  *
@@ -75,17 +80,50 @@ public final class MainClient {
 
 		if (flag) {
 
+			/*
+			 * THREAD_CLIENT_MAIN
+			 *     THREAD_0000
+			 *         THREAD_0000_CNTL
+			 *         THREAD_0000_SEND
+			 *         THREAD_0000_RECV
+			 * 
+			 */
 			ThreadGroup threadGroup = new ThreadGroup("THREAD_CLIENT_MAIN");
 			
 			for (int i=0; i < 1; i++) {
 				
-				String subThreadGroupName = String.format("THREAD_%04d", i);
-				
-				ThreadGroup subThreadGroup = new ThreadGroup(threadGroup, subThreadGroupName);
-				
+				ThreadGroup subThreadGroup = new ThreadGroup(threadGroup, String.format("THREAD_%04d", i));
+
+				/*
+				 * thread controller
+				 */
 				Thread thread = new ThrControler(subThreadGroup);
+				
+				((ThrControler) thread).setRecvQueue(new QueueContent());
+				ImplQueue recvQueue = ((ThrControler) thread).getRecvQueue();
+				ImplQueue sendQueue = ((ThrControler) thread).getSendQueue();
+				
+				/*
+				 * run thread
+				 */
 				thread.start();
+				
+				/*
+				 * do the job of processing
+				 */
+				for (int idx=0; idx < 1; idx++) {
+					AbstData content = new DataContent();
+					
+					((DataContent) content).setStrData(String.format("Hello, world....(%04d)", idx));
+				}
+				
+				
+				/*
+				 * join thread
+				 */
 				thread.join();
+				
+				if (flag) System.out.println("END");
 			}
 		}
 	}
