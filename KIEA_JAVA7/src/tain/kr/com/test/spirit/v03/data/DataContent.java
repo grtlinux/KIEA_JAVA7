@@ -64,6 +64,12 @@ public final class DataContent extends AbstData {
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public DataContent(String strData) {
+		this();
+		
+		setStrData(strData);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void setStrData(String strData) {
