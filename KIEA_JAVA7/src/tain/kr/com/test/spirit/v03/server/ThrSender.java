@@ -21,6 +21,10 @@ package tain.kr.com.test.spirit.v03.server;
 
 import org.apache.log4j.Logger;
 
+import tain.kr.com.test.spirit.v03.data.DataContent;
+import tain.kr.com.test.spirit.v03.loop.LoopSleep;
+import tain.kr.com.test.spirit.v03.queue.QueueContent;
+
 /**
  * Code Templates > Comments > Types
  *
@@ -35,21 +39,98 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ThrSender {
+public final class ThrSender extends Thread {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(ThrSender.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String THR_NAME = "SEND";
+
+	private ThrControler thrControler;
+	private QueueContent sendQueue;
+	private DataContent content;
+	private LoopSleep loopSleep;
+
+	private QueueContent testQueue;
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public ThrSender() {
+	public ThrSender(ThreadGroup threadGroup, ThrControler thrControler) {
+
+		super(threadGroup, String.format("%s_%s", threadGroup.getName(), THR_NAME));
+
+		this.thrControler = thrControler;
+		this.loopSleep = new LoopSleep();
+
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public void run() {
+
+		this.sendQueue = this.thrControler.getSendQueue();
+		this.testQueue = this.thrControler.getTestQueue();
+
+		if (flag) {
+			/*
+			 * TEST  using test queue
+			 * sendQueue -> get -> testQueue
+			 */
+			while (!this.thrControler.isFlagStop()) {
+				/*
+				 * sendQueue -> get
+				 */
+				try {
+					this.content = (DataContent) this.sendQueue.get(this.loopSleep.getMSec());
+					if (this.content == null)
+						continue;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				try {
+					this.testQueue.put(this.content);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				if (flag) log.debug(String.format("SEND(%3d): %s.", this.content.getSize(), this.content.getStrData()));
+
+				this.loopSleep.reset();
+			}
+		}
+
+		if (!flag) {
+			/*
+			 * REAL using socket
+			 */
+			while (!this.thrControler.isFlagStop()) {
+				/*
+				 * sendQueue -> get -> dos
+				 */
+				try {
+					this.content = (DataContent) this.sendQueue.get(this.loopSleep.getMSec());
+					if (this.content == null)
+						continue;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				if (flag) log.debug(String.format("SEND(%3d): %s.", this.content.getSize(), this.content.getStrData()));
+			}
+		}
+
+		if (flag) log.debug(String.format("[%s] END", Thread.currentThread().getName()));
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +150,6 @@ public class ThrSender {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ThrSender();
 
 		if (flag) {
 
