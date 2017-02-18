@@ -19,10 +19,18 @@
  */
 package tain.kr.com.test.spirit.v04.controler;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+
 import org.apache.log4j.Logger;
 
 import tain.kr.com.test.spirit.v04.exception.ExpException;
-import tain.kr.com.test.spirit.v04.exception.ExpNullPointException;
+import tain.kr.com.test.spirit.v04.exception.ExpIOException;
+import tain.kr.com.test.spirit.v04.exception.ExpNullPointerException;
 import tain.kr.com.test.spirit.v04.queue.QueueContent;
 
 /**
@@ -51,13 +59,17 @@ public final class ThrControler extends Thread implements ImpControler {
 	
 	private final ThreadGroup threadGroup;
 	
-	private final ThrSender thrSender;
-	private final ThrRecver thrRecver;
+	private ThrSender thrSender = null;
+	private ThrRecver thrRecver = null;
 
-	private QueueContent sendQueue;
-	private QueueContent recvQueue;
+	private QueueContent sendQueue = null;
+	private QueueContent recvQueue = null;
 	
 	private volatile boolean flagStop = false;
+	
+	private Socket socket = null;
+	private DataInputStream dis = null;
+	private DataOutputStream dos = null;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -91,6 +103,7 @@ public final class ThrControler extends Thread implements ImpControler {
 		try {
 			validateThread();   // validate thread
 			validateQueue();    // validate queue
+			validateIO();       // validate IO
 		} catch (ExpException e) {
 			e.printStackTrace();
 			return;
@@ -119,9 +132,9 @@ public final class ThrControler extends Thread implements ImpControler {
 		 * validate thread
 		 */
 		if (this.thrSender == null) {
-			throw new ExpNullPointException("null point thread : ThrSender.");
+			throw new ExpNullPointerException("null point thread : ThrSender.");
 		} else if (this.thrRecver == null) {
-			throw new ExpNullPointException("null point thread : ThrRecver.");
+			throw new ExpNullPointerException("null point thread : ThrRecver.");
 		}
 	}
 	
@@ -130,9 +143,20 @@ public final class ThrControler extends Thread implements ImpControler {
 		 * validate queue
 		 */
 		if (this.sendQueue == null) {
-			throw new ExpNullPointException("null point queue : sendQueue.");
+			throw new ExpNullPointerException("null point queue : sendQueue.");
 		} else if (this.recvQueue == null) {
-			throw new ExpNullPointException("null point queue : recvQueue.");
+			throw new ExpNullPointerException("null point queue : recvQueue.");
+		}
+	}
+	
+	private void validateIO() throws ExpException {
+		/*
+		 * validate queue
+		 */
+		if (this.dis == null) {
+			throw new ExpNullPointerException("null point DataInputStream.");
+		} else if (this.dos == null) {
+			throw new ExpNullPointerException("null point DataOutputStream.");
 		}
 	}
 	
@@ -167,7 +191,38 @@ public final class ThrControler extends Thread implements ImpControler {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void setDataInputStream(InputStream is) {
+		this.dis = (DataInputStream) is;
+	}
+	
+	public void setDataOutputStream(OutputStream os) {
+		this.dos = (DataOutputStream) os;
+	}
+	
+	public DataInputStream getDataInputStream() {
+		return this.dis;
+	}
+	
+	public DataOutputStream getDataOutputStream() {
+		return this.dos;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void setSocket(Socket socket) throws ExpIOException {
+		this.socket = socket;
+		
+		try {
+			this.dis = new DataInputStream(this.socket.getInputStream());
+			this.dos = new DataOutputStream(this.socket.getOutputStream());
+		} catch (IOException e) {
+			//
+			e.printStackTrace();
+			throw new ExpIOException();
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
