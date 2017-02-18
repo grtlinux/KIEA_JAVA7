@@ -53,6 +53,7 @@ public final class ThrControler extends Thread implements ImplControler {
 	
 	private final ThreadGroup threadGroup;
 
+	@SuppressWarnings("unused")
 	private final Socket socket;
 	
 	private final ThrSender thrSender;
