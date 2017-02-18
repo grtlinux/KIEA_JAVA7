@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : ThrClient.java
+ *   -. FileName   : ThrSender.java
  *   -. Package    : tain.kr.com.test.spirit.v03.client
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,11 +35,11 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ThrClient {
+public class ThrSender {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(ThrClient.class);
+	private static final Logger log = Logger.getLogger(ThrSender.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ public class ThrClient {
 	/*
 	 * constructor
 	 */
-	public ThrClient() {
+	public ThrSender() {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -71,7 +71,7 @@ public class ThrClient {
 	private static void test01(String[] args) throws Exception {
 
 		if (flag)
-			new ThrClient();
+			new ThrSender();
 
 		if (flag) {
 
