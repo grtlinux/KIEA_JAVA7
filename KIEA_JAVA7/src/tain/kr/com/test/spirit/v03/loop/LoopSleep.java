@@ -35,24 +35,60 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class LoopSleep {
+public final class LoopSleep implements ImplLoop {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(LoopSleep.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final int indexLimit;
+	private int index = 0;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public LoopSleep() {
+	public LoopSleep(int indexLimit) {
+		
+		this.indexLimit = indexLimit;
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public LoopSleep() {
+		this(100);   // default
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.spirit.v03.loop.ImplLoop#reset()
+	 */
+	@Override
+	public void reset() {
+		this.index = 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.spirit.v03.loop.ImplLoop#sleep()
+	 */
+	@Override
+	public void sleep() {
+
+		long msec = (this.index / 10 + 1) * 100;
+		
+		try {
+			Thread.sleep(msec);
+		} catch (InterruptedException e) {}
+		
+		if (this.index < this.indexLimit)
+			this.index ++;
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
