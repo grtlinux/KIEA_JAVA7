@@ -19,6 +19,9 @@
  */
 package tain.kr.com.test.spirit.v03.server;
 
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,13 +38,16 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MainServer {
+public final class MainServer {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(MainServer.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static final String SERVER_PORT = "7412";
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -74,7 +80,37 @@ public class MainServer {
 			new MainServer();
 
 		if (flag) {
-
+			/*
+			 * THREAD_SERVER_MAIN
+			 *     THREAD_SERVER_0000
+			 *         THREAD_SERVER_0000_CNTL
+			 *         THREAD_SERVER_0000_SEND
+			 *         THREAD_SERVER_0000_RECV
+			 * 
+			 */
+			ThreadGroup threadGroup = new ThreadGroup("THREAD_SERVER_GROUP");
+			
+			@SuppressWarnings("resource")
+			ServerSocket serverSocket = new ServerSocket(Integer.parseInt(SERVER_PORT));
+			if (flag) log.debug(String.format("SERVER : listening by port %s [%s]", SERVER_PORT, serverSocket.toString()));
+			
+			for (int idxThr=0; ;idxThr = ++idxThr % 10000) {
+				/*
+				 * connection socket
+				 */
+				Socket socket = serverSocket.accept();
+				if (flag) log.debug(String.format("SERVER : accept the connection(idxThr=%d)", idxThr));
+				
+				ThreadGroup subThreadGroup = new ThreadGroup(threadGroup, String.format("THREAD_SERVER_%04d", idxThr));
+				
+				/*
+				 * thread controler
+				 */
+				Thread thread = new ThrControler(subThreadGroup, socket);
+				thread.start();
+				
+				thread.join();
+			}
 		}
 	}
 
