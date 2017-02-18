@@ -21,6 +21,9 @@ package tain.kr.com.test.spirit.v03.client;
 
 import org.apache.log4j.Logger;
 
+import tain.kr.com.test.spirit.v03.queue.ImplQueue;
+import tain.kr.com.test.spirit.v03.queue.QueueContent;
+
 /**
  * Code Templates > Comments > Types
  *
@@ -42,6 +45,15 @@ public final class ThrControler extends Thread {
 	private static final Logger log = Logger.getLogger(ThrControler.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private final ThreadGroup threadGroup;
+
+	private final Thread thrSender;
+	private final Thread thrRecver;
+	
+	private ImplQueue recvQueue;
+	private ImplQueue sendQueue;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -50,6 +62,11 @@ public final class ThrControler extends Thread {
 	public ThrControler(ThreadGroup threadGroup) {
 		
 		super(threadGroup, String.format("%s_CNTL", threadGroup.getName()));
+		
+		this.threadGroup = threadGroup;
+		
+		this.thrSender = new ThrSender(this.threadGroup);
+		this.thrRecver = new ThrRecver(this.threadGroup);
 		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
@@ -60,10 +77,51 @@ public final class ThrControler extends Thread {
 	@Override
 	public void run() {
 		
+		this.thrSender.start();
+		this.thrRecver.start();
+		
+		// try { Thread.sleep(10 * 1000); } catch (InterruptedException e) {}
+		
+		threadGroup.getParent().list();
+		
+		try {
+			this.thrSender.join();
+			this.thrRecver.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void setRecvQueue(ImplQueue queue) {
+		this.recvQueue = queue;
+		((ThrRecver) this.thrRecver).setQueue(queue);
+	}
+
+	public void setRecvQueue() {
+		setRecvQueue(new QueueContent());
+	}
+	
+	public void setSendQueue(ImplQueue queue) {
+		this.sendQueue = queue;
+		((ThrSender) this.thrSender).setQueue(queue);
+	}
+	
+	public void setSendQueue() {
+		setSendQueue(new QueueContent());
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public ImplQueue getRecvQueue() {
+		return this.recvQueue;
+	}
+	
+	public ImplQueue getSendQueue() {
+		return this.sendQueue;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
