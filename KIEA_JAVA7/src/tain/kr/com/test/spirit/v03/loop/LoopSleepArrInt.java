@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : LoopSleep.java
+ *   -. FileName   : LoopSleepArrInt.java
  *   -. Package    : tain.kr.com.test.spirit.v03.loop
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,35 +35,58 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public final class LoopSleep implements ImplLoop {
+public final class LoopSleepArrInt implements ImplLoop {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(LoopSleep.class);
+	private static final Logger log = Logger.getLogger(LoopSleepArrInt.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private final int[] defInfo = {
+			10,   10,   10,   10,   10, 
+			10,   10,   10,   10,   10,    // 10 * 10
+			50,   50,   50,   50,   50,
+			50,   50,   50,   50,   50,    // 10 * 50
+			100,  100,  100,  100,  100, 
+			100,  100,  100,  100,  100,   // 10 * 100
+			500,  500,  500,  500,  500,
+			500,  500,  500,  500,  500,   // 10 * 500
+			1000, 1000, 1000, 1000, 1000, 
+			1000, 1000, 1000, 1000, 1000,  // 10 * 100
+			
+			2000,                          // last
+	};
+	
+	private final int[] info;
+
 	private final int indexLimit;
-	private int index = 0;
+	private int index;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public LoopSleep(int indexLimit) {
+	public LoopSleepArrInt(int[] info) {
 		
-		this.indexLimit = indexLimit;
+		if (info == null) {
+			this.info = defInfo;
+		} else {
+			this.info = info;
+		}
+		
+		this.indexLimit = this.info.length - 1;
+		this.index = 0;
 		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
-	public LoopSleep() {
-		this(100);   // default
+	public LoopSleepArrInt() {
+		this(null);
 	}
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -80,11 +103,9 @@ public final class LoopSleep implements ImplLoop {
 	 */
 	@Override
 	public void sleep() {
-
-		long msec = (this.index / 10 + 1) * 100;
 		
 		try {
-			Thread.sleep(msec);
+			Thread.sleep((long) this.info[this.index]);
 		} catch (InterruptedException e) {}
 		
 		if (this.index < this.indexLimit)
@@ -101,15 +122,11 @@ public final class LoopSleep implements ImplLoop {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new LoopSleep();
 
 		if (flag) {
 
