@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.spirit.v03.data;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 
 import org.apache.log4j.Logger;
@@ -80,6 +82,23 @@ public final class DataContent extends AbstData {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public int readFromInputStream(InputStream is) throws Exception {
+		
+		this.size = is.read(this.bytData);
+		
+		return this.size;
+	}
+	
+	@Override
+	public void writeToOutputStream(OutputStream os) throws Exception {
+		
+		os.write(this.bytData, 0, this.size);
+		
+		os.flush();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
