@@ -21,7 +21,6 @@ package tain.kr.com.test.spirit.v03.client;
 
 import org.apache.log4j.Logger;
 
-import tain.kr.com.test.spirit.v03.data.AbstData;
 import tain.kr.com.test.spirit.v03.data.DataContent;
 import tain.kr.com.test.spirit.v03.queue.ImplQueue;
 import tain.kr.com.test.spirit.v03.queue.QueueContent;
@@ -97,11 +96,14 @@ public final class MainClient {
 				/*
 				 * thread controller
 				 */
-				Thread thread = new ThrControler(subThreadGroup);
-				
-				((ThrControler) thread).setRecvQueue(new QueueContent());
-				ImplQueue recvQueue = ((ThrControler) thread).getRecvQueue();
-				ImplQueue sendQueue = ((ThrControler) thread).getSendQueue();
+				ThrControler thread = new ThrControler(subThreadGroup);
+
+				// send queue
+				ImplQueue sendQueue = thread.getSendQueue();
+
+				// recv queue
+				QueueContent recvQueue = new QueueContent();
+				thread.setRecvQueue(recvQueue);
 				
 				/*
 				 * run thread
@@ -119,21 +121,21 @@ public final class MainClient {
 				for (int idx=0; flag && idx < CNT_IDX; idx++) {
 					String msgData = String.format("Hello, world....(%04d)", idx);
 					
-					AbstData content = new DataContent();
-					((DataContent) content).setStrData(msgData);
+					DataContent content = new DataContent();
+					content.setStrData(msgData);
 					
 					sendQueue.put(content);
 					
-					if (flag) System.out.printf("SEND: %s.\n", msgData);
+					if (flag) System.out.printf("SEND(%3d): %s.\n", content.getSize(), content.getStrData());
 				}
 				
 				/*
 				 * recv data
 				 */
 				for (int idx=0; !flag && idx < CNT_IDX; idx++) {
-					AbstData content = (AbstData) recvQueue.get();
+					DataContent content = (DataContent) recvQueue.get();
 					
-					if (flag) System.out.printf("RECV: %s\n", ((DataContent) content).getStrData());
+					if (flag) System.out.printf("RECV(%3d): %s.\n", content.getSize(), content.getStrData());
 				}
 				
 				/*
@@ -141,7 +143,7 @@ public final class MainClient {
 				 */
 				thread.join();
 				
-				if (flag) System.out.println("END");
+				if (flag) System.out.printf("[%s] END", threadGroup.getName());
 			}
 		}
 	}
