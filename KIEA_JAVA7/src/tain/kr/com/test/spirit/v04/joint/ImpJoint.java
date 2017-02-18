@@ -19,7 +19,7 @@
  */
 package tain.kr.com.test.spirit.v04.joint;
 
-import org.apache.log4j.Logger;
+
 
 /**
  * Code Templates > Comments > Types
