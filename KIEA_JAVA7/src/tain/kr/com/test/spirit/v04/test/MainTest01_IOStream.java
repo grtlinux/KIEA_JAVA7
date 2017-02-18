@@ -41,11 +41,11 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Test01_IOStream {
+public class MainTest01_IOStream {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(Test01_IOStream.class);
+	private static final Logger log = Logger.getLogger(MainTest01_IOStream.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ public class Test01_IOStream {
 	/*
 	 * constructor
 	 */
-	public Test01_IOStream() {
+	public MainTest01_IOStream() {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -77,7 +77,7 @@ public class Test01_IOStream {
 	private static void test01(String[] args) throws Exception {
 
 		if (flag)
-			new Test01_IOStream();
+			new MainTest01_IOStream();
 
 		if (!flag) {
 			/*
