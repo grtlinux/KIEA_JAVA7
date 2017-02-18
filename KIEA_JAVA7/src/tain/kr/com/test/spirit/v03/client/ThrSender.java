@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ThrSender {
+public final class ThrSender extends Thread {
 
 	private static boolean flag = true;
 
@@ -47,12 +47,21 @@ public class ThrSender {
 	/*
 	 * constructor
 	 */
-	public ThrSender() {
+	public ThrSender(ThreadGroup threadGroup) {
+
+		super(threadGroup, String.format("%s_SEND", threadGroup.getName()));
+
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void run() {
+		
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +78,6 @@ public class ThrSender {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ThrSender();
 
 		if (flag) {
 
