@@ -43,81 +43,36 @@ public abstract class AbstData {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	protected final int[] defInfo = {
-			10,   10,   10,   10,   10, 
-			10,   10,   10,   10,   10,    // 10 * 10
-			50,   50,   50,   50,   50,
-			50,   50,   50,   50,   50,    // 10 * 50
-			100,  100,  100,  100,  100, 
-			100,  100,  100,  100,  100,   // 10 * 100
-			500,  500,  500,  500,  500,
-			500,  500,  500,  500,  500,   // 10 * 500
-			1000, 1000, 1000, 1000, 1000, 
-			1000, 1000, 1000, 1000, 1000,  // 10 * 100
-			
-			2000,                          // last
-	};
+	private static final int SIZ_BYTDATA = 2048;
 	
-	protected final int[] info;
-
-	protected final int lastIndex;
-	protected int index;
-
+	private final byte[] bytData;
+	private int size = 0;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	protected AbstData(int[] info) {
+	protected AbstData() {
 
-		if (info == null)
-			this.info = defInfo;
-		else
-			this.info = info;
+		this.bytData = new byte[SIZ_BYTDATA];
 		
-		this.lastIndex = this.info.length - 1;
-		this.index = 0;
-
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
-	
-	protected AbstData() {
-		this(null);
-	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public void reset() {
-		this.index = 0;
+	protected byte[] getBytData() {
+		return this.bytData;
 	}
 	
-	public void sleep() {
-		
-		try {
-			Thread.sleep((long) this.info[this.index]);
-		} catch (InterruptedException e) {
-			// TODO: handle exception
-		}
-		
-		if (this.index < this.lastIndex)
-			this.index ++;
+	protected void setSize(int size) {
+		this.size = size;
 	}
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public void sleep2() {
-		
-		long msec = (this.index / 10 + 1) * 100;
-		
-		try {
-			Thread.sleep((long) msec);
-		} catch (InterruptedException e) {
-			// TODO: handle exception
-		}
-		
-		if (this.index < 100)
-			this.index ++;
+	protected int getSize() {
+		return this.size;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
