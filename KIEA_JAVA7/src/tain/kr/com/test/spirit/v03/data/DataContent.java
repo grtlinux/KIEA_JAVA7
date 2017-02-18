@@ -66,7 +66,7 @@ public final class DataContent extends AbstData {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public void setData(String strData) {
+	public void setStrData(String strData) {
 		this.strData = strData;
 		
 		byte[] bytSrc = this.strData.getBytes(Charset.forName(TYP_CHARSET));
