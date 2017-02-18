@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ThrControler {
+public final class ThrControler extends Thread {
 
 	private static boolean flag = true;
 
@@ -47,12 +47,21 @@ public class ThrControler {
 	/*
 	 * constructor
 	 */
-	public ThrControler() {
+	public ThrControler(ThreadGroup threadGroup) {
+		
+		super(threadGroup, String.format("%s_CNTL", threadGroup.getName()));
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void run() {
+		
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +78,6 @@ public class ThrControler {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ThrControler();
 
 		if (flag) {
 
