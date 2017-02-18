@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public final class ExpException extends Exception {
+public class ExpException extends Exception {
 
 	/**
 	 *
