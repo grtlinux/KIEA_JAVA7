@@ -21,6 +21,11 @@ package tain.kr.com.test.spirit.v04.controler;
 
 import org.apache.log4j.Logger;
 
+import tain.kr.com.test.spirit.v04.exception.ExpException;
+import tain.kr.com.test.spirit.v04.exception.ExpNullPointException;
+import tain.kr.com.test.spirit.v04.loop.LoopSleep;
+import tain.kr.com.test.spirit.v04.queue.QueueContent;
+
 /**
  * Code Templates > Comments > Types
  *
@@ -35,23 +40,63 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ThrSender {
+public final class ThrSender extends Thread {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(ThrSender.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String THR_NAME = "SEND";
+	
+	@SuppressWarnings("unused")
+	private final ThreadGroup threadGroup;
+
+	private ThrControler thrControler;
+	private QueueContent sendQueue;
+	private LoopSleep loopSleep;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public ThrSender() {
+	public ThrSender(ThreadGroup threadGroup, ThrControler thrControler) {
+
+		super(threadGroup, String.format("%s_%s", threadGroup.getName(), THR_NAME));
+		
+		this.threadGroup = threadGroup;
+
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void run() {
+		
+		/*
+		 * validation
+		 */
+		try {
+			validateQueue();    // validate queue
+		} catch (ExpException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+	
+	private void validateQueue() throws ExpException {
+		/*
+		 * validate queue
+		 */
+		if (this.sendQueue == null) {
+			throw new ExpNullPointException("null point queue : sendQueue.");
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +114,6 @@ public class ThrSender {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ThrSender();
 
 		if (flag) {
 

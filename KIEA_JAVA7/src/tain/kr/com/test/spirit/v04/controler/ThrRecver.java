@@ -21,6 +21,11 @@ package tain.kr.com.test.spirit.v04.controler;
 
 import org.apache.log4j.Logger;
 
+import tain.kr.com.test.spirit.v04.exception.ExpException;
+import tain.kr.com.test.spirit.v04.exception.ExpNullPointException;
+import tain.kr.com.test.spirit.v04.loop.LoopSleep;
+import tain.kr.com.test.spirit.v04.queue.QueueContent;
+
 /**
  * Code Templates > Comments > Types
  *
@@ -35,24 +40,78 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ThrRecver {
+public final class ThrRecver extends Thread {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(ThrRecver.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String THR_NAME = "RECV";
+	
+	@SuppressWarnings("unused")
+	private final ThreadGroup threadGroup;
+	
+	private ThrControler thrControler;
+	private QueueContent recvQueue;
+	private LoopSleep loopSleep;
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public ThrRecver() {
+	public ThrRecver(ThreadGroup threadGroup, ThrControler thrControler) {
+		
+		super(threadGroup, String.format("%s_%s", threadGroup.getName(), THR_NAME));
+		
+		this.threadGroup = threadGroup;
+		this.thrControler = thrControler;
+		this.loopSleep = new LoopSleep();
+
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void run() {
+		
+		this.recvQueue = this.thrControler.getRecvQueue();
+		
+		/*
+		 * validation
+		 */
+		try {
+			validateQueue();    // validate queue
+		} catch (ExpException e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		if (flag) {
+			/*
+			 * loop job start
+			 */
+			while (!this.thrControler.isFlagStop()) {
+				/*
+				 * recvQueue
+				 */
+			}
+		}
+	}
+	
+	private void validateQueue() throws ExpException {
+		/*
+		 * validate queue
+		 */
+		if (this.recvQueue == null) {
+			throw new ExpNullPointException("null point queue : recvQueue.");
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +128,6 @@ public class ThrRecver {
 	 * static test method
 	 */
 	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ThrRecver();
 
 		if (flag) {
 
