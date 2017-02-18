@@ -19,11 +19,13 @@
  */
 package tain.kr.com.test.spirit.v04.controler;
 
+import java.io.DataOutputStream;
+
 import org.apache.log4j.Logger;
 
 import tain.kr.com.test.spirit.v04.data.DataContent;
 import tain.kr.com.test.spirit.v04.exception.ExpException;
-import tain.kr.com.test.spirit.v04.exception.ExpNullPointException;
+import tain.kr.com.test.spirit.v04.exception.ExpNullPointerException;
 import tain.kr.com.test.spirit.v04.loop.LoopSleep;
 import tain.kr.com.test.spirit.v04.queue.QueueContent;
 
@@ -59,6 +61,8 @@ public final class ThrSender extends Thread {
 	private LoopSleep loopSleep;
 	private DataContent content;
 	
+	private DataOutputStream dos;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -82,12 +86,14 @@ public final class ThrSender extends Thread {
 	public void run() {
 		
 		this.sendQueue = this.thrControler.getSendQueue();
+		this.dos = this.thrControler.getDataOutputStream();
 
 		/*
 		 * validation
 		 */
 		try {
 			validateQueue();    // validate queue
+			validateIO();       // validate IO
 		} catch (ExpException e) {
 			e.printStackTrace();
 			return;
@@ -110,9 +116,13 @@ public final class ThrSender extends Thread {
 				}
 
 				/*
-				 * OutputStream, BufferedOutputStream
+				 * OutputStream, DataOutputStream
 				 */
-				
+				try {
+					this.content.writeToOutputStream(this.dos);
+				} catch (ExpException e) {
+					e.printStackTrace();
+				}
 				
 				if (flag) log.debug(String.format("RECV(%3d): %s.", this.content.getSize(), this.content.getStrData()));
 
@@ -126,7 +136,16 @@ public final class ThrSender extends Thread {
 		 * validate queue
 		 */
 		if (this.sendQueue == null) {
-			throw new ExpNullPointException("null point queue : sendQueue.");
+			throw new ExpNullPointerException("null point queue : sendQueue.");
+		}
+	}
+	
+	private void validateIO() throws ExpException {
+		/*
+		 * validate IO
+		 */
+		if (this.dos == null) {
+			throw new ExpNullPointerException("null point DataOutputStream.");
 		}
 	}
 	
