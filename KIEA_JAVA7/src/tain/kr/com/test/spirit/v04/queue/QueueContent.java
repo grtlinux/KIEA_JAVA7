@@ -24,7 +24,7 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 
 import tain.kr.com.test.spirit.v04.exception.ExpException;
-import tain.kr.com.test.spirit.v04.exception.ExpNullPointException;
+import tain.kr.com.test.spirit.v04.exception.ExpNullPointerException;
 
 /**
  * Code Templates > Comments > Types
@@ -76,7 +76,7 @@ public final class QueueContent implements ImpQueue {
 	public synchronized int put(Object object) throws ExpException {
 
 		if (object == null) {
-			throw new ExpNullPointException();
+			throw new ExpNullPointerException();
 		}
 		
 		this.queue.addElement(object);
@@ -98,7 +98,7 @@ public final class QueueContent implements ImpQueue {
 		} catch (InterruptedException e) {}
 		
 		if (this.size <= 0) {
-			throw new ExpNullPointException();
+			throw new ExpNullPointerException();
 		}
 		
 		Object object = this.queue.elementAt(0);
@@ -119,7 +119,7 @@ public final class QueueContent implements ImpQueue {
 		} catch (InterruptedException e) {}
 		
 		if (this.size <= 0) {
-			throw new ExpNullPointException();
+			throw new ExpNullPointerException();
 		}
 		
 		Object object = this.queue.elementAt(0);
