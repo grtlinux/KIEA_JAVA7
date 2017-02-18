@@ -21,6 +21,7 @@ package tain.kr.com.test.spirit.v04.test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 
@@ -78,7 +79,7 @@ public class Test01_IOStream {
 		if (flag)
 			new Test01_IOStream();
 
-		if (flag) {
+		if (!flag) {
 			/*
 			 * ByteArrayInputStream Thread
 			 */
@@ -127,10 +128,40 @@ public class Test01_IOStream {
 			pw.close();
 		}
 
-		if (flag) {
+		if (!flag) {
 			/*
 			 * ByteArrayOutputStream Thread
 			 */
+			ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
+			DataOutputStream dos = new DataOutputStream(bos);
+			
+			for (int i=0; i < 2; i++)
+				dos.writeDouble(Math.random());
+				
+			byte[] ba = bos.toByteArray();
+			
+			System.out.println();
+			
+			for (int i=0; i < ba.length; i++) {
+				System.out.print(" " + (ba[i] & 0xff));
+			}
+		}
+		
+		if (flag) {
+			byte[] arr = { (byte)'j', (byte)'a', (byte)'v', (byte)'a', (byte)'O', (byte)'K' };
+			
+			ByteArrayInputStream bais = new ByteArrayInputStream(arr);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			
+			int n;
+			while ((n = bais.read()) != -1) {
+				baos.write(n);
+			}
+			
+			System.out.println(baos.toString());
+			
+			bais.close();
+			baos.close();
 		}
 	}
 
