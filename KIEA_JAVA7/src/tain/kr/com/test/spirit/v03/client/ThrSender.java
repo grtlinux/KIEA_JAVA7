@@ -21,6 +21,8 @@ package tain.kr.com.test.spirit.v03.client;
 
 import org.apache.log4j.Logger;
 
+import tain.kr.com.test.spirit.v03.data.DataContent;
+import tain.kr.com.test.spirit.v03.loop.LoopSleep;
 import tain.kr.com.test.spirit.v03.queue.ImplQueue;
 
 /**
@@ -45,29 +47,56 @@ public final class ThrSender extends Thread {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	private ThrControler thrControler;
 	private ImplQueue queue;
+	private DataContent content;
+	
+	private LoopSleep loopSleep;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public ThrSender(ThreadGroup threadGroup) {
+	public ThrSender(ThreadGroup threadGroup, ThrControler thrControler) {
 
 		super(threadGroup, String.format("%s_SEND", threadGroup.getName()));
 
+		this.thrControler = thrControler;
+
+		this.loopSleep = new LoopSleep();
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Override
 	public void run() {
 		
-		try { Thread.sleep(10 * 1000); } catch (InterruptedException e) {}
+		while (!this.thrControler.isStop()) {
+			/*
+			 * sendQueue -> get -> dos
+			 */
+			try {
+				this.content = (DataContent) this.queue.get(loopSleep.getMSec());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			if (this.content == null)
+				continue;
+			
+			if (flag) log.debug(String.format("SEND(%3d): %s.\n", this.content.getSize(), this.content.getStrData()));
+		}
+
+		if (flag) System.out.printf("[%s] END", Thread.currentThread().getName());
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void setQueue(ImplQueue queue) {
