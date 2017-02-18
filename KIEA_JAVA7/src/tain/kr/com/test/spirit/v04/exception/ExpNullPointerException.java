@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ExpNullPointException extends ExpException {
+public class ExpNullPointerException extends NullPointerException {
 
 	/**
 	 *
@@ -45,7 +45,7 @@ public class ExpNullPointException extends ExpException {
 	private static boolean flag = true;
 
 	private static final Logger log = Logger
-			.getLogger(ExpNullPointException.class);
+			.getLogger(ExpNullPointerException.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ public class ExpNullPointException extends ExpException {
 	/*
 	 * constructor
 	 */
-	public ExpNullPointException(String msg) {
+	public ExpNullPointerException(String msg) {
 		
 		super(msg);
 		
@@ -61,7 +61,7 @@ public class ExpNullPointException extends ExpException {
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
-	public ExpNullPointException() {
+	public ExpNullPointerException() {
 		this("NO_MESSAGE(tain.co.kr)");
 	}
 	

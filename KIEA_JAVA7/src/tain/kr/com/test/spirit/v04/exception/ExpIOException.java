@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.spirit.v04.exception;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,7 +37,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ExpIOException extends Exception {
+public class ExpIOException extends IOException {
 
 	/**
 	 *
