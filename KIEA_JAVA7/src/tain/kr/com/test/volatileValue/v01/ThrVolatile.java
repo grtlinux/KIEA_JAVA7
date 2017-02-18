@@ -78,7 +78,7 @@ public final class ThrVolatile extends Thread {
 			try { Thread.sleep(timeSleep); } catch (InterruptedException e) {}
 		}
 		
-		if (flag) System.out.println(this);
+		if (flag) System.out.printf("%s - END\n", this);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
