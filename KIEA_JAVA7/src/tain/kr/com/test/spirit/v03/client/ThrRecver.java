@@ -21,7 +21,9 @@ package tain.kr.com.test.spirit.v03.client;
 
 import org.apache.log4j.Logger;
 
-import tain.kr.com.test.spirit.v03.queue.ImplQueue;
+import tain.kr.com.test.spirit.v03.data.DataContent;
+import tain.kr.com.test.spirit.v03.loop.LoopSleep;
+import tain.kr.com.test.spirit.v03.queue.QueueContent;
 
 /**
  * Code Templates > Comments > Types
@@ -45,37 +47,91 @@ public final class ThrRecver extends Thread {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private ImplQueue queue;
+	private static final String THR_NAME = "RECV";
+
+	private ThrControler thrControler;
+	private QueueContent recvQueue;
+	private DataContent content;
+	private LoopSleep loopSleep;
+	
+	private QueueContent testQueue;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public ThrRecver(ThreadGroup threadGroup) {
+	public ThrRecver(ThreadGroup threadGroup, ThrControler thrControler) {
 
-		super(threadGroup, String.format("%s_RECV", threadGroup.getName()));
+		super(threadGroup, String.format("%s_%s", threadGroup.getName(), THR_NAME));
 
+		this.thrControler = thrControler;
+		this.loopSleep = new LoopSleep();
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Override
 	public void run() {
 		
-		try { Thread.sleep(10 * 1000); } catch (InterruptedException e) {}
-	}
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public void setQueue(ImplQueue queue) {
-		this.queue = queue;
-	}
-	
-	public ImplQueue getQueue() {
-		return this.queue;
+		this.recvQueue = this.thrControler.getRecvQueue();
+		this.testQueue = this.thrControler.getTestQueue();
+		
+		if (flag) {
+			/*
+			 * TEST  using test queue
+			 * testQueue -> get -> recvQueue
+			 */
+			while (!this.thrControler.isFlagStop()) {
+				/*
+				 * sendQueue -> get
+				 */
+				try {
+					this.content = (DataContent) this.testQueue.get(this.loopSleep.getMSec());
+					if (this.content == null)
+						continue;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					this.recvQueue.put(this.content);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				if (flag) log.debug(String.format("RECV(%3d): %s.", this.content.getSize(), this.content.getStrData()));
+
+				this.loopSleep.reset();
+			}
+		}
+		
+		if (!flag) {
+			/*
+			 * REAL using socket
+			 */
+			while (!this.thrControler.isFlagStop()) {
+				/*
+				 * sendQueue -> get -> dos
+				 */
+				try {
+					this.content = (DataContent) this.recvQueue.get(this.loopSleep.getMSec());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				if (this.content == null)
+					continue;
+				
+				if (flag) log.debug(String.format("SEND(%3d): %s.", this.content.getSize(), this.content.getStrData()));
+			}
+		}
+
+		if (flag) System.out.printf("[%s] END", Thread.currentThread().getName());
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
