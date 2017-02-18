@@ -41,4 +41,6 @@ import tain.kr.com.test.spirit.v03.queue.QueueContent;
 public interface ImplControler {
 	public abstract boolean sendContent(DataContent content) throws ExpDefaultException;
 	public abstract boolean setRecvQueue(QueueContent recvQueue) throws ExpDefaultException;
+	public abstract void stopThread();
+	public abstract DataContent getContent() throws ExpDefaultException;
 }
