@@ -111,12 +111,30 @@ public final class MainClient {
 				/*
 				 * do the job of processing
 				 */
-				for (int idx=0; idx < 1; idx++) {
-					AbstData content = new DataContent();
+				final int CNT_IDX = 1;
+				
+				/*
+				 * send data
+				 */
+				for (int idx=0; flag && idx < CNT_IDX; idx++) {
+					String msgData = String.format("Hello, world....(%04d)", idx);
 					
-					((DataContent) content).setStrData(String.format("Hello, world....(%04d)", idx));
+					AbstData content = new DataContent();
+					((DataContent) content).setStrData(msgData);
+					
+					sendQueue.put(content);
+					
+					if (flag) System.out.printf("SEND: %s.\n", msgData);
 				}
 				
+				/*
+				 * recv data
+				 */
+				for (int idx=0; !flag && idx < CNT_IDX; idx++) {
+					AbstData content = (AbstData) recvQueue.get();
+					
+					if (flag) System.out.printf("RECV: %s\n", ((DataContent) content).getStrData());
+				}
 				
 				/*
 				 * join thread
