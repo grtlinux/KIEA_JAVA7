@@ -19,10 +19,10 @@
  */
 package tain.kr.com.test.spirit.v03.server;
 
+import java.net.Socket;
+
 import org.apache.log4j.Logger;
 
-import tain.kr.com.test.spirit.v03.server.ThrRecver;
-import tain.kr.com.test.spirit.v03.server.ThrSender;
 import tain.kr.com.test.spirit.v03.data.DataContent;
 import tain.kr.com.test.spirit.v03.exception.ExpDefaultException;
 import tain.kr.com.test.spirit.v03.queue.QueueContent;
@@ -53,6 +53,8 @@ public final class ThrControler extends Thread implements ImplControler {
 	
 	private final ThreadGroup threadGroup;
 
+	private final Socket socket;
+	
 	private final ThrSender thrSender;
 	private final ThrRecver thrRecver;
 	
@@ -66,11 +68,13 @@ public final class ThrControler extends Thread implements ImplControler {
 	/*
 	 * constructor
 	 */
-	public ThrControler(ThreadGroup threadGroup) {
+	public ThrControler(ThreadGroup threadGroup, Socket socket) {
 
 		super(threadGroup, String.format("%s_%s", threadGroup.getName(), THR_NAME));
 
 		this.threadGroup = threadGroup;
+		
+		this.socket = socket;
 
 		this.thrSender = new ThrSender(this.threadGroup, this);
 		this.thrRecver = new ThrRecver(this.threadGroup, this);
