@@ -54,6 +54,8 @@ public final class ThrControler extends Thread {
 	private ImplQueue recvQueue;
 	private ImplQueue sendQueue;
 	
+	private volatile boolean flagStop = false;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -65,13 +67,18 @@ public final class ThrControler extends Thread {
 		
 		this.threadGroup = threadGroup;
 		
-		this.thrSender = new ThrSender(this.threadGroup);
-		this.thrRecver = new ThrRecver(this.threadGroup);
+		this.thrSender = new ThrSender(this.threadGroup, this);
+		this.thrRecver = new ThrRecver(this.threadGroup, this);
 		
+		setSendQueue();
+		
+		//this.threadGroup.getParent().list();
+
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Override
@@ -82,7 +89,7 @@ public final class ThrControler extends Thread {
 		
 		// try { Thread.sleep(10 * 1000); } catch (InterruptedException e) {}
 		
-		threadGroup.getParent().list();
+		this.threadGroup.getParent().list();
 		
 		try {
 			this.thrSender.join();
@@ -90,8 +97,12 @@ public final class ThrControler extends Thread {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+		if (flag) System.out.printf("[%s] END", Thread.currentThread().getName());
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void setRecvQueue(ImplQueue queue) {
@@ -123,6 +134,16 @@ public final class ThrControler extends Thread {
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public boolean isStop() {
+		return this.flagStop;
+	}
+	
+	public boolean setStop() {
+		this.flagStop = true;
+		return this.flagStop;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
