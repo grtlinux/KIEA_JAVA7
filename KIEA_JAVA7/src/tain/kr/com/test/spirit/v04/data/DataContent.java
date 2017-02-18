@@ -83,6 +83,10 @@ public final class DataContent extends AbsData {
 		System.arraycopy(bytSrc, 0, this.bytData, 0, this.size);
 	}
 
+	public void setStrData() {
+		this.strData = new String(this.bytData, 0, this.size, Charset.forName(TYP_CHARSET));
+	}
+	
 	public String getStrData() {
 		return this.strData;
 	}
@@ -99,6 +103,8 @@ public final class DataContent extends AbsData {
 			throw new ExpException();
 		}
 
+		setStrData();
+		
 		return this.size;
 	}
 
