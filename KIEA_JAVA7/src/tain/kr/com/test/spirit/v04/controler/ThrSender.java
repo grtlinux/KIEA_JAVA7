@@ -74,7 +74,6 @@ public final class ThrSender extends Thread {
 		
 		this.threadGroup = threadGroup;
 		this.thrControler = thrControler;
-		this.loopSleep = new LoopSleep();
 
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
@@ -85,18 +84,27 @@ public final class ThrSender extends Thread {
 	@Override
 	public void run() {
 		
-		this.sendQueue = this.thrControler.getSendQueue();
-		this.dos = this.thrControler.getDataOutputStream();
+		if (flag) {
+			/*
+			 * base initialize
+			 */
+			this.sendQueue = this.thrControler.getSendQueue();
+			this.loopSleep = new LoopSleep();
+			this.content = new DataContent();
+			this.dos = this.thrControler.getDataOutputStream();
+		}
 
-		/*
-		 * validation
-		 */
-		try {
-			validateQueue();    // validate queue
-			validateIO();       // validate IO
-		} catch (ExpException e) {
-			e.printStackTrace();
-			return;
+		if (flag) {
+			/*
+			 * validation
+			 */
+			try {
+				validateQueue();    // validate queue
+				validateIO();       // validate IO
+			} catch (ExpException e) {
+				e.printStackTrace();
+				return;
+			}
 		}
 		
 		if (flag) {
@@ -104,30 +112,50 @@ public final class ThrSender extends Thread {
 			 * loop job start
 			 */
 			while (!this.thrControler.isFlagStop()) {
-				/*
-				 * sendQueue
-				 */
-				try {
-					this.content = (DataContent) this.sendQueue.get(this.loopSleep.getMSec());
-					if (this.content == null)
-						continue;
-				} catch (Exception e) {
-					e.printStackTrace();
+				
+				if (flag) {
+					/*
+					 * sendQueue
+					 */
+					try {
+						this.content = (DataContent) this.sendQueue.get(this.loopSleep.getMSec());
+						if (this.content == null)
+							continue;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 
-				/*
-				 * OutputStream, DataOutputStream
-				 */
-				try {
-					this.content.writeToOutputStream(this.dos);
-				} catch (ExpException e) {
-					e.printStackTrace();
+				if (flag) {
+					/*
+					 * clone
+					 */
+				}
+				
+				if (flag) {
+					/*
+					 * OutputStream, DataOutputStream
+					 */
+					try {
+						this.content.writeToOutputStream(this.dos);
+					} catch (ExpException e) {
+						e.printStackTrace();
+					}
 				}
 				
 				if (flag) log.debug(String.format("RECV(%3d): %s.", this.content.getSize(), this.content.getStrData()));
 
 				this.loopSleep.reset();
 			}
+		}
+
+		if (flag) {
+			/*
+			 * end job
+			 */
+			if (flag) log.debug(String.format("[%s] END", Thread.currentThread().getName()));
+			
+			if (!flag) this.thrControler.stopThread();
 		}
 	}
 	
@@ -149,7 +177,6 @@ public final class ThrSender extends Thread {
 		}
 	}
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
