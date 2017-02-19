@@ -97,7 +97,7 @@ public class MainTest02_Req {
 				 */
 				if (flag) {
 					/*
-					 * set the recvQueue
+					 * set the recvQueue -> Joint logic
 					 */
 					thrControler0.setRecvQueue(thrControler1.getSendQueue());   // 0_R ( 1_S )
 					thrControler1.setRecvQueue(thrControler0.getSendQueue());   // 1_R ( 0_S )
@@ -145,23 +145,6 @@ public class MainTest02_Req {
 					String strData = ""
 							+ "ABCDEFGHIJ0000777000"
 							+ "ABCDEFGHIJ0000777001"
-							+ "ABCDEFGHIJ0000777002"
-							+ "ABCDEFGHIJ0000777003"
-							+ "ABCDEFGHIJ0000777004"
-							+ "ABCDEFGHIJ0000777005"
-							+ "ABCDEFGHIJ0000777006"
-							+ "ABCDEFGHIJ0000777007"
-							+ "ABCDEFGHIJ0000777008"
-							+ "ABCDEFGHIJ0000777009"
-							+ "ABCDEFGHIJ0000777010"
-							+ "ABCDEFGHIJ0000777011"
-							+ "ABCDEFGHIJ0000777012"
-							+ "ABCDEFGHIJ0000777013"
-							+ "ABCDEFGHIJ0000777014"
-							+ "ABCDEFGHIJ0000777015"
-							+ "ABCDEFGHIJ0000777016"
-							+ "ABCDEFGHIJ0000777017"
-							+ "ABCDEFGHIJ0000777018"
 							+ "ABCDEFGHIJ0000777019"
 							+ "ABCDEFGHIJ0000777020";
 					byte[] bytData = strData.getBytes(Charset.forName("euc-kr"));
