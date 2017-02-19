@@ -97,31 +97,40 @@ public final class ThrControler extends Thread implements ImpControler {
 	@Override
 	public void run() {
 		
-		/*
-		 * validation
-		 */
-		try {
-			validateThread();   // validate thread
-			validateQueue();    // validate queue
-			validateIO();       // validate IO
-		} catch (ExpException e) {
-			e.printStackTrace();
-			return;
+		if (flag) {
+			/*
+			 * validation
+			 */
+			try {
+				validateThread();   // validate thread
+				validateQueue();    // validate queue
+				validateIO();       // validate IO
+			} catch (ExpException e) {
+				e.printStackTrace();
+				return;
+			}
 		}
 		
-		/*
-		 * start thread
-		 */
-		this.thrSender.start();
-		this.thrRecver.start();
+		if (flag) {
+			/*
+			 * start thread
+			 */
+			this.thrSender.start();
+			this.thrRecver.start();
+		}
 		
 		if (flag) this.threadGroup.getParent().list();
 		
-		try {
-			this.thrSender.join();
-			this.thrRecver.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (flag) {
+			/*
+			 * thread join
+			 */
+			try {
+				this.thrSender.join();
+				this.thrRecver.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		if (flag) log.debug(String.format("[%s] END.", Thread.currentThread().getName()));
@@ -182,11 +191,11 @@ public final class ThrControler extends Thread implements ImpControler {
 		return false;
 	}
 
-	protected QueueContent getRecvQueue() {
+	public QueueContent getRecvQueue() {
 		return this.recvQueue;
 	}
 
-	protected QueueContent getSendQueue() {
+	public QueueContent getSendQueue() {
 		return this.sendQueue;
 	}
 
