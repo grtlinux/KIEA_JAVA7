@@ -98,7 +98,8 @@ public final class QueueContent implements ImpQueue {
 		} catch (InterruptedException e) {}
 		
 		if (this.size <= 0) {
-			throw new ExpNullPointerException();
+			// throw new ExpNullPointerException();
+			return null;
 		}
 		
 		Object object = this.queue.elementAt(0);
@@ -119,7 +120,8 @@ public final class QueueContent implements ImpQueue {
 		} catch (InterruptedException e) {}
 		
 		if (this.size <= 0) {
-			throw new ExpNullPointerException();
+			// throw new ExpNullPointerException();
+			return null;
 		}
 		
 		Object object = this.queue.elementAt(0);
