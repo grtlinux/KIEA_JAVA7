@@ -127,10 +127,12 @@ public final class ThrRecver extends Thread {
 					}
 				}
 				
+				DataContent content = null;
 				if (flag) {
 					/*
 					 * clone
 					 */
+					content = this.content.createClone();
 				}
 				
 				if (flag) {
@@ -138,7 +140,7 @@ public final class ThrRecver extends Thread {
 					 * recvQueue
 					 */
 					try {
-						this.recvQueue.put(this.content);
+						this.recvQueue.put(content);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
