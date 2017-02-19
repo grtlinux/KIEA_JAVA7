@@ -122,30 +122,23 @@ public final class ThrSender extends Thread {
 						if (this.content == null)
 							continue;
 					} catch (Exception e) {
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 				}
 
-				DataContent content = null;
-				if (flag) {
-					/*
-					 * clone
-					 */
-					content = this.content.createClone();
-				}
-				
 				if (flag) {
 					/*
 					 * OutputStream, DataOutputStream
 					 */
 					try {
-						content.writeToOutputStream(this.dos);
+						this.content.writeToOutputStream(this.dos);
 					} catch (ExpException e) {
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 				}
 				
-				if (flag) log.debug(String.format("RECV(%3d): %s.", this.content.getSize(), this.content.getStrData()));
+				if (flag) log.debug(String.format("%s SEND(%3d): %s."
+						, Thread.currentThread().getName(), this.content.getSize(), this.content.getStrData()));
 
 				this.loopSleep.reset();
 			}
@@ -157,7 +150,7 @@ public final class ThrSender extends Thread {
 			 */
 			if (flag) log.debug(String.format("[%s] END", Thread.currentThread().getName()));
 			
-			if (!flag) this.thrControler.stopThread();
+			if (flag) this.thrControler.stopThread();
 		}
 	}
 	
