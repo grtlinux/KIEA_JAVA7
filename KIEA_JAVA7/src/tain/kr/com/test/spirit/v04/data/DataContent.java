@@ -19,6 +19,7 @@
  */
 package tain.kr.com.test.spirit.v04.data;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -26,6 +27,7 @@ import java.nio.charset.Charset;
 import org.apache.log4j.Logger;
 
 import tain.kr.com.test.spirit.v04.exception.ExpException;
+import tain.kr.com.test.spirit.v04.exception.ExpIOException;
 
 /**
  * Code Templates > Comments > Types
@@ -94,13 +96,17 @@ public final class DataContent extends AbsData {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public int readFromInputStream(InputStream is) throws ExpException {
+	public int readFromInputStream(InputStream is) throws ExpIOException {
 
 		try {
 			this.size = is.read(this.bytData);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-			throw new ExpException();
+			throw new ExpIOException();
+		}
+
+		if (this.size < 0) {
+			throw new ExpIOException();
 		}
 
 		setStrData();
