@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import org.apache.log4j.Logger;
 
 import tain.kr.com.test.spirit.v04.exception.ExpException;
+import tain.kr.com.test.spirit.v04.exception.ExpIOException;
 
 /**
  * Code Templates > Comments > Types
@@ -83,7 +84,7 @@ public abstract class AbsData {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	public abstract int readFromInputStream(InputStream is) throws ExpException;
+	public abstract int readFromInputStream(InputStream is) throws ExpIOException;
 	public abstract void writeToOutputStream(OutputStream os) throws ExpException;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
