@@ -107,7 +107,27 @@ public class MainTest02_Req {
 					/*
 					 * 0 : DataInputStream / DataOutputStream
 					 */
-					String strData = "" //+ "ABCDEFGHIJ0000000000"
+					String strData = ""
+							+ "ABCDEFGHIJ0000000000"
+							+ "ABCDEFGHIJ0000000001"
+							+ "ABCDEFGHIJ0000000002"
+							+ "ABCDEFGHIJ0000000003"
+							+ "ABCDEFGHIJ0000000004"
+							+ "ABCDEFGHIJ0000000005"
+							+ "ABCDEFGHIJ0000000006"
+							+ "ABCDEFGHIJ0000000007"
+							+ "ABCDEFGHIJ0000000008"
+							+ "ABCDEFGHIJ0000000009"
+							+ "ABCDEFGHIJ0000000010"
+							+ "ABCDEFGHIJ0000000011"
+							+ "ABCDEFGHIJ0000000012"
+							+ "ABCDEFGHIJ0000000013"
+							+ "ABCDEFGHIJ0000000014"
+							+ "ABCDEFGHIJ0000000015"
+							+ "ABCDEFGHIJ0000000016"
+							+ "ABCDEFGHIJ0000000017"
+							+ "ABCDEFGHIJ0000000018"
+							+ "ABCDEFGHIJ0000000019"
 							+ "ABCDEFGHIJ0000000020";
 					byte[] bytData = strData.getBytes(Charset.forName("euc-kr"));
 					
@@ -122,8 +142,28 @@ public class MainTest02_Req {
 					/*
 					 * 1 : DataInputStream / DataOutputStream
 					 */
-					String strData = "" //+"ABCDEFGHIJ0000000000"
-							+ "ABCDEFGHIJ0000000020";
+					String strData = ""
+							+ "ABCDEFGHIJ0000777000"
+							+ "ABCDEFGHIJ0000777001"
+							+ "ABCDEFGHIJ0000777002"
+							+ "ABCDEFGHIJ0000777003"
+							+ "ABCDEFGHIJ0000777004"
+							+ "ABCDEFGHIJ0000777005"
+							+ "ABCDEFGHIJ0000777006"
+							+ "ABCDEFGHIJ0000777007"
+							+ "ABCDEFGHIJ0000777008"
+							+ "ABCDEFGHIJ0000777009"
+							+ "ABCDEFGHIJ0000777010"
+							+ "ABCDEFGHIJ0000777011"
+							+ "ABCDEFGHIJ0000777012"
+							+ "ABCDEFGHIJ0000777013"
+							+ "ABCDEFGHIJ0000777014"
+							+ "ABCDEFGHIJ0000777015"
+							+ "ABCDEFGHIJ0000777016"
+							+ "ABCDEFGHIJ0000777017"
+							+ "ABCDEFGHIJ0000777018"
+							+ "ABCDEFGHIJ0000777019"
+							+ "ABCDEFGHIJ0000777020";
 					byte[] bytData = strData.getBytes(Charset.forName("euc-kr"));
 					
 					DataInputStream dis1 = new DataInputStream(new ByteArrayInputStream(bytData));
