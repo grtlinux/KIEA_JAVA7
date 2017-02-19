@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 
 import tain.kr.com.test.spirit.v04.data.DataContent;
 import tain.kr.com.test.spirit.v04.exception.ExpException;
+import tain.kr.com.test.spirit.v04.exception.ExpIOException;
 import tain.kr.com.test.spirit.v04.exception.ExpNullPointerException;
 import tain.kr.com.test.spirit.v04.loop.LoopSleep;
 import tain.kr.com.test.spirit.v04.queue.QueueContent;
@@ -74,7 +75,6 @@ public final class ThrRecver extends Thread {
 		
 		this.threadGroup = threadGroup;
 		this.thrControler = thrControler;
-		this.loopSleep = new LoopSleep();
 
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
@@ -85,18 +85,27 @@ public final class ThrRecver extends Thread {
 	@Override
 	public void run() {
 		
-		this.recvQueue = this.thrControler.getRecvQueue();
-		this.dis = this.thrControler.getDataInputStream();
+		if (flag) {
+			/*
+			 * base initialize
+			 */
+			this.recvQueue = this.thrControler.getRecvQueue();
+			this.loopSleep = new LoopSleep();
+			this.content = new DataContent();
+			this.dis = this.thrControler.getDataInputStream();
+		}
 		
-		/*
-		 * validation
-		 */
-		try {
-			validateQueue();    // validate queue
-			validateIO();       // validate IO
-		} catch (ExpException e) {
-			e.printStackTrace();
-			return;
+		if (flag) {
+			/*
+			 * validation
+			 */
+			try {
+				validateQueue();    // validate queue
+				validateIO();       // validate IO
+			} catch (ExpException e) {
+				e.printStackTrace();
+				return;
+			}
 		}
 		
 		if (flag) {
@@ -104,30 +113,50 @@ public final class ThrRecver extends Thread {
 			 * loop job start
 			 */
 			while (!this.thrControler.isFlagStop()) {
-				/*
-				 * InputStream, DataInputStream
-				 */
-				try {
-					this.content.readFromInputStream(this.dis);
-				} catch (ExpException e) {
-					e.printStackTrace();
-					this.loopSleep.sleep();
-					continue;
+				
+				if (flag) {
+					/*
+					 * InputStream, DataInputStream
+					 */
+					try {
+						this.content.readFromInputStream(this.dis);
+					} catch (ExpIOException e) {
+						e.printStackTrace();
+						this.loopSleep.sleep();
+						break;
+					}
 				}
 				
-				/*
-				 * recvQueue
-				 */
-				try {
-					this.recvQueue.put(this.content);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (flag) {
+					/*
+					 * clone
+					 */
+				}
+				
+				if (flag) {
+					/*
+					 * recvQueue
+					 */
+					try {
+						this.recvQueue.put(this.content);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				
 				if (flag) log.debug(String.format("RECV(%3d): %s.", this.content.getSize(), this.content.getStrData()));
 
 				this.loopSleep.reset();
 			}
+		}
+		
+		if (flag) {
+			/*
+			 * end job
+			 */
+			if (flag) log.debug(String.format("[%s] END", Thread.currentThread().getName()));
+			
+			if (!flag) this.thrControler.stopThread();
 		}
 	}
 	
