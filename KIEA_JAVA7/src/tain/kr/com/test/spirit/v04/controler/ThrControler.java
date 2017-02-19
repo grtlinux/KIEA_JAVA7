@@ -176,6 +176,11 @@ public final class ThrControler extends Thread implements ImpControler {
 	}
 	
 	public void stopThread() {
+		
+		try { Thread.sleep(2000); } catch (InterruptedException e) {}
+		
+		if (flag) System.out.printf("######  %s stopThread() ########\n", Thread.currentThread().getName());
+		
 		this.flagStop = true;
 	}
 	
