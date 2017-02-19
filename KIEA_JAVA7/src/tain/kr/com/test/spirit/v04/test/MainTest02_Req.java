@@ -19,7 +19,15 @@
  */
 package tain.kr.com.test.spirit.v04.test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.nio.charset.Charset;
+
 import org.apache.log4j.Logger;
+
+import tain.kr.com.test.spirit.v04.controler.ThrControler;
 
 /**
  * Code Templates > Comments > Types
@@ -74,7 +82,95 @@ public class MainTest02_Req {
 			new MainTest02_Req();
 
 		if (flag) {
+			/*
+			 * ThreadGroup > ThrControler
+			 */
+			final ThreadGroup threadGroup0 = new ThreadGroup("TEST_0000");
+			final ThrControler thrControler0 = new ThrControler(threadGroup0);
+			
+			final ThreadGroup threadGroup1 = new ThreadGroup("TEST_0001");
+			final ThrControler thrControler1 = new ThrControler(threadGroup1);
 
+			if (flag) {
+				/*
+				 * initialize
+				 */
+				if (flag) {
+					/*
+					 * set the recvQueue
+					 */
+					thrControler0.setRecvQueue(thrControler1.getSendQueue());   // 0_R ( 1_S )
+					thrControler1.setRecvQueue(thrControler0.getSendQueue());   // 1_R ( 0_S )
+				}
+				
+				if (flag) {
+					/*
+					 * 0 : DataInputStream / DataOutputStream
+					 */
+					String strData = "" //+ "ABCDEFGHIJ0000000000"
+							+ "ABCDEFGHIJ0000000020";
+					byte[] bytData = strData.getBytes(Charset.forName("euc-kr"));
+					
+					DataInputStream dis0 = new DataInputStream(new ByteArrayInputStream(bytData));
+					DataOutputStream dos0 = new DataOutputStream(new ByteArrayOutputStream(1024));
+					
+					thrControler0.setDataInputStream(dis0);
+					thrControler0.setDataOutputStream(dos0);
+				}
+				
+				if (flag) {
+					/*
+					 * 1 : DataInputStream / DataOutputStream
+					 */
+					String strData = "" //+"ABCDEFGHIJ0000000000"
+							+ "ABCDEFGHIJ0000000020";
+					byte[] bytData = strData.getBytes(Charset.forName("euc-kr"));
+					
+					DataInputStream dis1 = new DataInputStream(new ByteArrayInputStream(bytData));
+					DataOutputStream dos1 = new DataOutputStream(new ByteArrayOutputStream(1024));
+
+					thrControler1.setDataInputStream(dis1);
+					thrControler1.setDataOutputStream(dos1);
+				}
+			}
+			
+			thrControler1.start();
+			thrControler0.start();
+
+			
+			/*
+			 * response thread
+			 */
+//			Thread resThread = new Thread() {
+//				@Override
+//				public void run() {
+//					
+//					ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);
+//					
+//					byte[] bytRead = new byte[20];
+//					int nRead = 0;
+//					
+//					try {
+//						while ((nRead = bais.read(bytRead)) != -1) {
+//							baos.write(bytRead, 0, nRead);
+//							
+//							System.out.println(new String(baos.toByteArray()));
+//						}
+//						
+//						bais.close();
+//						baos.close();
+//						
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			};
+//			
+//			resThread.start();
+//			reqThread.start();
+			
+			thrControler1.join();
+			thrControler0.join();
 		}
 	}
 
