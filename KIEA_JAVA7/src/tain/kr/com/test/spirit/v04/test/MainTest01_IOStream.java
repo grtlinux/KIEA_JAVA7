@@ -147,7 +147,7 @@ public class MainTest01_IOStream {
 			}
 		}
 		
-		if (flag) {
+		if (!flag) {
 			byte[] arr = { (byte)'j', (byte)'a', (byte)'v', (byte)'a', (byte)'O', (byte)'K' };
 			
 			ByteArrayInputStream bais = new ByteArrayInputStream(arr);
@@ -162,6 +162,63 @@ public class MainTest01_IOStream {
 			
 			bais.close();
 			baos.close();
+		}
+		
+		if (flag) {
+			/*
+			 * request thread
+			 */
+			Thread thread = new Thread() {
+				@Override
+				public void run() {
+					
+					String strData = "ABCDEFGHIJ0000000000"
+							+ "ABCDEFGHIJ0000000001"
+							+ "ABCDEFGHIJ0000000002"
+							+ "ABCDEFGHIJ0000000003"
+							+ "ABCDEFGHIJ0000000004"
+							+ "ABCDEFGHIJ0000000005"
+//							+ "ABCDEFGHIJ0000000006"
+//							+ "ABCDEFGHIJ0000000007"
+//							+ "ABCDEFGHIJ0000000008"
+//							+ "ABCDEFGHIJ0000000009"
+//							+ "ABCDEFGHIJ0000000010"
+//							+ "ABCDEFGHIJ0000000011"
+//							+ "ABCDEFGHIJ0000000012"
+//							+ "ABCDEFGHIJ0000000013"
+//							+ "ABCDEFGHIJ0000000014"
+//							+ "ABCDEFGHIJ0000000015"
+//							+ "ABCDEFGHIJ0000000016"
+//							+ "ABCDEFGHIJ0000000017"
+//							+ "ABCDEFGHIJ0000000018"
+//							+ "ABCDEFGHIJ0000000019"
+							+ "ABCDEFGHIJ0000000020";
+					byte[] bytData = strData.getBytes(Charset.forName("euc-kr"));
+					
+					ByteArrayInputStream bais = new ByteArrayInputStream(bytData);
+					ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);
+					
+					byte[] bytRead = new byte[20];
+					int nRead = 0;
+					
+					try {
+						while ((nRead = bais.read(bytRead)) != -1) {
+							baos.write(bytRead, 0, nRead);
+							
+							System.out.println(new String(baos.toByteArray()));
+						}
+						
+						bais.close();
+						baos.close();
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			};
+			
+			thread.start();
+			thread.join();
 		}
 	}
 
