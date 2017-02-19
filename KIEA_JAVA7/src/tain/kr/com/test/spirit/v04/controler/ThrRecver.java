@@ -121,7 +121,7 @@ public final class ThrRecver extends Thread {
 					try {
 						this.content.readFromInputStream(this.dis);
 					} catch (ExpIOException e) {
-						e.printStackTrace();
+						// e.printStackTrace();
 						this.loopSleep.sleep();
 						break;
 					}
@@ -142,11 +142,12 @@ public final class ThrRecver extends Thread {
 					try {
 						this.recvQueue.put(content);
 					} catch (Exception e) {
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 				}
 				
-				if (flag) log.debug(String.format("RECV(%3d): %s.", this.content.getSize(), this.content.getStrData()));
+				if (flag) log.debug(String.format("%s RECV(%3d): %s."
+						, Thread.currentThread().getName(), this.content.getSize(), this.content.getStrData()));
 
 				this.loopSleep.reset();
 			}
@@ -158,7 +159,7 @@ public final class ThrRecver extends Thread {
 			 */
 			if (flag) log.debug(String.format("[%s] END", Thread.currentThread().getName()));
 			
-			if (!flag) this.thrControler.stopThread();
+			if (flag) this.thrControler.stopThread();
 		}
 	}
 	
