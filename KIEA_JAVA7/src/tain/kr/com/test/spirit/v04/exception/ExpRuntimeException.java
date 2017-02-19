@@ -57,7 +57,7 @@ public class ExpRuntimeException extends RuntimeException {
 		
 		super(msg);
 		
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 

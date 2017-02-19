@@ -56,7 +56,7 @@ public class ExpException extends Exception {
 		
 		super(msg);
 		
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 

@@ -58,7 +58,7 @@ public class ExpIOException extends IOException {
 		
 		super(msg);
 		
-		if (flag)
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
