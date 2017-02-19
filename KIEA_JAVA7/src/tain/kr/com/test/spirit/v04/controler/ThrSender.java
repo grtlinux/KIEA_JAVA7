@@ -126,10 +126,12 @@ public final class ThrSender extends Thread {
 					}
 				}
 
+				DataContent content = null;
 				if (flag) {
 					/*
 					 * clone
 					 */
+					content = this.content.createClone();
 				}
 				
 				if (flag) {
@@ -137,7 +139,7 @@ public final class ThrSender extends Thread {
 					 * OutputStream, DataOutputStream
 					 */
 					try {
-						this.content.writeToOutputStream(this.dos);
+						content.writeToOutputStream(this.dos);
 					} catch (ExpException e) {
 						e.printStackTrace();
 					}
