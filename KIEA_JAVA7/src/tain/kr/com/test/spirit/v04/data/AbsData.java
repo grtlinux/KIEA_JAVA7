@@ -41,7 +41,7 @@ import tain.kr.com.test.spirit.v04.exception.ExpIOException;
  * @author taincokr
  *
  */
-public abstract class AbsData implements Cloneable {
+public abstract class AbsData  implements Cloneable {
 
 	private static boolean flag = true;
 
@@ -86,6 +86,7 @@ public abstract class AbsData implements Cloneable {
 
 	public abstract int readFromInputStream(InputStream is) throws ExpIOException;
 	public abstract void writeToOutputStream(OutputStream os) throws ExpException;
+	public abstract DataContent createClone();
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
