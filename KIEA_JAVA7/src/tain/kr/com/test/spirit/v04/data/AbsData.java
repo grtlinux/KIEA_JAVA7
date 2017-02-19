@@ -41,7 +41,7 @@ import tain.kr.com.test.spirit.v04.exception.ExpIOException;
  * @author taincokr
  *
  */
-public abstract class AbsData {
+public abstract class AbsData implements Cloneable {
 
 	private static boolean flag = true;
 
