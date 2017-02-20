@@ -19,6 +19,7 @@
  */
 package tain.kr.com.test.byteArrayStream.v01;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.nio.charset.Charset;
@@ -77,7 +78,7 @@ public class MainTest01 {
 		if (flag)
 			new MainTest01();
 
-		if (flag) {
+		if (!flag) {
 			/*
 			 * new DataInputStream(new ByteArrayInputStream(...))
 			 */
@@ -126,7 +127,7 @@ public class MainTest01 {
 				 * make byte array
 				 */
 				for (int i=0; i < 100; i++) {
-					sb.append(String.format("ABCDEFGHIJ%010d", i));
+					sb.append(String.format("ABCDEFGHIJ%010d", i)).append("\n");
 				}
 				
 				if (flag) sb.append("abcdefghij");
@@ -134,6 +135,21 @@ public class MainTest01 {
 				bytStream = sb.toString().getBytes(Charset.forName("euc-kr"));
 			}
 			
+			if (flag) {
+				/*
+				 * read
+				 */
+				BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(bytStream));
+				byte[] bytRead = new byte[1024];
+				int nRead = -1;
+				
+				while ((nRead = bis.read(bytRead)) != -1) {
+					if (flag) System.out.printf("(%02d) [%s]\n"
+							, nRead, new String(bytRead, 0, nRead, Charset.forName("euc-kr")));
+				}
+				
+				bis.close();
+			}
 		}
 	}
 
