@@ -20,8 +20,10 @@
 package tain.kr.com.test.byteArrayStream.v01;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 import org.apache.log4j.Logger;
@@ -115,7 +117,7 @@ public class MainTest01 {
 			}
 		}
 		
-		if (flag) {
+		if (!flag) {
 			/*
 			 * new BufferedInputStream(new ByteArrayInputStream(...))
 			 */
@@ -149,6 +151,43 @@ public class MainTest01 {
 				}
 				
 				bis.close();
+			}
+		}
+		
+		if (flag) {
+			/*
+			 * new BufferedReader(new InputStreamReader(new ByteArrayInputStream(bytStream)));
+			 */
+			StringBuffer sb = new StringBuffer();
+			byte[] bytStream = null;
+			
+			if (flag) {
+				/*
+				 * make byte array
+				 */
+				for (int i=0; i < 100; i++) {
+					sb.append(String.format("ABCDEFGHIJ%010d", i)).append("\n");
+				}
+				
+				if (flag) sb.append("abcdefghij");
+				
+				bytStream = sb.toString().getBytes(Charset.forName("euc-kr"));
+			}
+			
+			if (flag) {
+				/*
+				 * read
+				 */
+				BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(bytStream)));
+				String strLine = null;
+				
+				while ((strLine = br.readLine()) != null) {
+					int nLine = strLine.length();
+					
+					if (flag) System.out.printf("(%02d) [%s]\n", nLine, strLine);
+				}
+				
+				br.close();
 			}
 		}
 	}
