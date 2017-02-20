@@ -19,6 +19,10 @@
  */
 package tain.kr.com.test.byteArrayStream.v01;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.nio.charset.Charset;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -74,7 +78,62 @@ public class MainTest01 {
 			new MainTest01();
 
 		if (flag) {
-
+			/*
+			 * new DataInputStream(new ByteArrayInputStream(...))
+			 */
+			StringBuffer sb = new StringBuffer();
+			byte[] bytStream = null;
+			
+			if (flag) {
+				/*
+				 * make byte array
+				 */
+				for (int i=0; i < 100; i++) {
+					sb.append(String.format("ABCDEFGHIJ%010d", i));
+				}
+				
+				if (flag) sb.append("abcdefghij");
+				
+				bytStream = sb.toString().getBytes(Charset.forName("euc-kr"));
+			}
+			
+			if (flag) {
+				/*
+				 * read
+				 */
+				DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytStream));
+				byte[] bytRead = new byte[20];
+				int nRead = -1;
+				
+				while ((nRead = dis.read(bytRead)) != -1) {
+					if (flag) System.out.printf("(%02d) [%s]\n"
+							, nRead, new String(bytRead, 0, nRead, Charset.forName("euc-kr")));
+				}
+				
+				dis.close();
+			}
+		}
+		
+		if (flag) {
+			/*
+			 * new BufferedInputStream(new ByteArrayInputStream(...))
+			 */
+			StringBuffer sb = new StringBuffer();
+			byte[] bytStream = null;
+			
+			if (flag) {
+				/*
+				 * make byte array
+				 */
+				for (int i=0; i < 100; i++) {
+					sb.append(String.format("ABCDEFGHIJ%010d", i));
+				}
+				
+				if (flag) sb.append("abcdefghij");
+				
+				bytStream = sb.toString().getBytes(Charset.forName("euc-kr"));
+			}
+			
 		}
 	}
 
