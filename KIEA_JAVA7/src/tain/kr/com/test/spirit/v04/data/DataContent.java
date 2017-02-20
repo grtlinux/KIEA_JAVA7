@@ -60,14 +60,18 @@ public final class DataContent extends AbsData {
 	/*
 	 * constructor
 	 */
-	public DataContent() {
+	public DataContent(int size) {
 
-		super();
+		super(size);
 
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public DataContent() {
+		this(AbsData.SIZ_BYTDATA);
+	}
+	
 	public DataContent(String strData) {
 		this();
 
