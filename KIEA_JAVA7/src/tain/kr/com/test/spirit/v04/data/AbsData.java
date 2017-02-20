@@ -49,8 +49,8 @@ public abstract class AbsData  implements Cloneable {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	// private static final int SIZ_BYTDATA = 4096;
-	private static final int SIZ_BYTDATA = 20;
+	protected static final int SIZ_BYTDATA = 4096;
+	// private static final int SIZ_BYTDATA = 20;
 	
 	protected final byte[] bytData;
 	protected int size = 0;
@@ -60,14 +60,18 @@ public abstract class AbsData  implements Cloneable {
 	/*
 	 * constructor
 	 */
-	public AbsData() {
+	public AbsData(int size) {
 		
-		this.bytData = new byte[SIZ_BYTDATA];
+		this.bytData = new byte[size];
 		
 		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public AbsData() {
+		this(SIZ_BYTDATA);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	public byte[] getBytData() {
