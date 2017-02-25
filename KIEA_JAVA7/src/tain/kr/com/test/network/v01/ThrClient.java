@@ -205,7 +205,7 @@ public final class ThrClient extends Thread {
 		
 		if (flag) {
 			/*
-			 * start thread process
+			 * start thread process in client
 			 */
 			this.bytRecv = new byte[SIZ_RECV];
 
@@ -280,7 +280,7 @@ public final class ThrClient extends Thread {
 					
 					if (flag) {
 						/*
-						 * sleep
+						 * sleep in client
 						 */
 						try { Thread.sleep(5 * 1000); } catch (InterruptedException e) {}
 					}
