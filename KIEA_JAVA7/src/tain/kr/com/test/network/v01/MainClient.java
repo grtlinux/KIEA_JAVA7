@@ -74,7 +74,36 @@ public final class MainClient {
 			new MainClient();
 
 		if (flag) {
-
+			/*
+			 * single thread job
+			 */
+			Thread thread = new ThrClient();
+			thread.start();
+			thread.join();
+		}
+		
+		if (!flag) {
+			/*
+			 * sequence thread job
+			 */
+			for (int i=0; i < 10; i++) {
+				
+				if (flag) {
+					/*
+					 * client thread
+					 */
+					Thread thread = new ThrClient();
+					thread.start();
+					if (flag) thread.join();
+				}
+				
+				if (flag) {
+					/*
+					 * sleep
+					 */
+					try { Thread.sleep(1 * 1000); } catch (InterruptedException e) {}
+				}
+			}
 		}
 	}
 
@@ -89,5 +118,7 @@ public final class MainClient {
 
 		if (flag)
 			test01(args);
+		
+		System.exit(0);
 	}
 }
