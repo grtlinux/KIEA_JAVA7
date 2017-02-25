@@ -95,6 +95,7 @@ public final class ThrClient extends Thread {
 			if (flag) System.out.printf("\tLocal) getAddress()    = %s\n", socketInfo.getAddress());
 			if (flag) System.out.printf("\tLocal) getPort()       = %d\n", socketInfo.getPort());
 			if (flag) System.out.printf("\tLocal) toString()      = %s\n", socketInfo.toString());
+			if (flag) System.out.println();
 		}
 		
 		if (flag) {
@@ -107,6 +108,7 @@ public final class ThrClient extends Thread {
 			if (flag) System.out.printf("\tRemote) getAddress()    = %s\n", socketInfo.getAddress());
 			if (flag) System.out.printf("\tRemote) getPort()       = %d\n", socketInfo.getPort());
 			if (flag) System.out.printf("\tRemote) toString()      = %s\n", socketInfo.toString());
+			if (flag) System.out.println();
 		}
 	}
 	
@@ -123,6 +125,7 @@ public final class ThrClient extends Thread {
 			if (flag) System.out.printf("\tBefore) getSendBufferSize()    = %d\n", this.socket.getSendBufferSize());
 			if (flag) System.out.printf("\tBefore) getKeepAlive()         = %s\n", this.socket.getKeepAlive());
 			if (flag) System.out.printf("\tBefore) getReuseAddress()      = %s\n", this.socket.getReuseAddress());
+			if (flag) System.out.println();
 		}
 		
 		if (flag) {
@@ -170,6 +173,7 @@ public final class ThrClient extends Thread {
 			if (flag) System.out.printf("\tAfter) getSendBufferSize()    = %d\n", this.socket.getSendBufferSize());
 			if (flag) System.out.printf("\tAfter) getKeepAlive()         = %s\n", this.socket.getKeepAlive());
 			if (flag) System.out.printf("\tAfter) getReuseAddress()      = %s\n", this.socket.getReuseAddress());
+			if (flag) System.out.println();
 		}
 	}
 	
