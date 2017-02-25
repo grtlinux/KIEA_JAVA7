@@ -210,7 +210,7 @@ public final class ThrClient extends Thread {
 			this.bytRecv = new byte[SIZ_RECV];
 
 			try {
-				while (true) {
+				for (int i=0; i < 1; i++) {
 					if (flag) {
 						/*
 						 * send
@@ -282,7 +282,7 @@ public final class ThrClient extends Thread {
 						/*
 						 * sleep
 						 */
-						try { Thread.sleep(1 * 1000); } catch (InterruptedException e) {}
+						try { Thread.sleep(5 * 1000); } catch (InterruptedException e) {}
 					}
 				} // while
 			} catch (Exception e) {
