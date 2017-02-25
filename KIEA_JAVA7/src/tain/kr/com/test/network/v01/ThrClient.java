@@ -93,6 +93,9 @@ public final class ThrClient extends Thread {
 			if (flag) System.out.printf("\tLocal) getHostName()   = %s\n", socketInfo.getHostName());
 			if (flag) System.out.printf("\tLocal) getHostString() = %s\n", socketInfo.getHostString());
 			if (flag) System.out.printf("\tLocal) getAddress()    = %s\n", socketInfo.getAddress());
+			if (flag) System.out.printf("\tLocal) getAddress().getCanonicalHostName() = %s\n", socketInfo.getAddress().getCanonicalHostName());
+			if (flag) System.out.printf("\tLocal) getAddress().getHostName()          = %s\n", socketInfo.getAddress().getHostName());
+			if (flag) System.out.printf("\tLocal) getAddress().getHostAddress()       = %s\n", socketInfo.getAddress().getHostAddress());
 			if (flag) System.out.printf("\tLocal) getPort()       = %d\n", socketInfo.getPort());
 			if (flag) System.out.printf("\tLocal) toString()      = %s\n", socketInfo.toString());
 			if (flag) System.out.println();
@@ -106,6 +109,9 @@ public final class ThrClient extends Thread {
 			if (flag) System.out.printf("\tRemote) getHostName()   = %s\n", socketInfo.getHostName());
 			if (flag) System.out.printf("\tRemote) getHostString() = %s\n", socketInfo.getHostString());
 			if (flag) System.out.printf("\tRemote) getAddress()    = %s\n", socketInfo.getAddress());
+			if (flag) System.out.printf("\tRemote) getAddress().getCanonicalHostName() = %s\n", socketInfo.getAddress().getCanonicalHostName());
+			if (flag) System.out.printf("\tRemote) getAddress().getHostName()          = %s\n", socketInfo.getAddress().getHostName());
+			if (flag) System.out.printf("\tRemote) getAddress().getHostAddress()       = %s\n", socketInfo.getAddress().getHostAddress());
 			if (flag) System.out.printf("\tRemote) getPort()       = %d\n", socketInfo.getPort());
 			if (flag) System.out.printf("\tRemote) toString()      = %s\n", socketInfo.toString());
 			if (flag) System.out.println();
@@ -285,11 +291,11 @@ public final class ThrClient extends Thread {
 		 * print connection informations
 		 */
 		if (flag) {
-			if (flag) System.out.printf("isBound()          = %s\n", this.socket.isBound());
-			if (flag) System.out.printf("isClosed()         = %s\n", this.socket.isClosed());
-			if (flag) System.out.printf("isConnected()      = %s\n", this.socket.isConnected());
-			if (flag) System.out.printf("isInputShutdown()  = %s\n", this.socket.isInputShutdown());
-			if (flag) System.out.printf("isOutputShutdown() = %s\n", this.socket.isOutputShutdown());
+			if (flag) System.out.printf("\tisBound()          = %s\n", this.socket.isBound());
+			if (flag) System.out.printf("\tisClosed()         = %s\n", this.socket.isClosed());
+			if (flag) System.out.printf("\tisConnected()      = %s\n", this.socket.isConnected());
+			if (flag) System.out.printf("\tisInputShutdown()  = %s\n", this.socket.isInputShutdown());
+			if (flag) System.out.printf("\tisOutputShutdown() = %s\n", this.socket.isOutputShutdown());
 		}
 	}
 	
