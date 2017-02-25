@@ -83,6 +83,7 @@ public final class MainServer {
 			 * begin
 			 */
 			ServerSocket serverSocket = new ServerSocket(Integer.parseInt(LISTEN_PORT));
+			if (flag) log.debug(String.format(">> listening port = %s..", LISTEN_PORT));
 			
 			while (true) {
 				if (flag) {
