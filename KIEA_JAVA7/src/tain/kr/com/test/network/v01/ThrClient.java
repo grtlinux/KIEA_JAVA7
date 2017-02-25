@@ -255,7 +255,7 @@ public final class ThrClient extends Thread {
 									 * EOF(End Of File) : end of stream -> end of process 
 									 */
 									if (flag) System.out.printf("%s [STATUS] read data of EOF...\n", Thread.currentThread().getName());
-									if (flag) printInfo();
+									if (!flag) printInfo();
 									throw new Exception("EOF: end of process because return value of read is -1.");
 								}
 							} catch (SocketTimeoutException e) {
@@ -270,7 +270,7 @@ public final class ThrClient extends Thread {
 								 * SocketException -> end of process
 								 */
 								if (flag) System.out.printf("%s [STATUS] SocketException...\n", Thread.currentThread().getName());
-								if (flag) e.printStackTrace();
+								if (!flag) printInfo();
 								throw e;
 							} catch (Exception e) {
 								/*
