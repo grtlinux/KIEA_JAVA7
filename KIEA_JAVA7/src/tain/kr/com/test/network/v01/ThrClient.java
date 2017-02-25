@@ -66,7 +66,7 @@ public final class ThrClient extends Thread {
 	 */
 	public ThrClient() throws Exception {
 		
-		super("THREAD_CLIENT");
+		super("THREAD_NETWORK_CLIENT");
 		
 		this.socket = new Socket(CONNECT_HOST, Integer.parseInt(CONNECT_PORT));
 		if (this.socket == null) {
