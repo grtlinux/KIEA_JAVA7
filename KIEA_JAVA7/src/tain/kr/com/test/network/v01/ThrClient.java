@@ -184,13 +184,7 @@ public final class ThrClient extends Thread {
 							 * EOF
 							 */
 							if (flag) System.out.printf("%s [STATUS] read data of EOF...\n", Thread.currentThread().getName());
-							if (flag) {
-								if (flag) System.out.printf("isBound()          = %s\n", this.socket.isBound());
-								if (flag) System.out.printf("isClosed()         = %s\n", this.socket.isClosed());
-								if (flag) System.out.printf("isConnected()      = %s\n", this.socket.isConnected());
-								if (flag) System.out.printf("isInputShutdown()  = %s\n", this.socket.isInputShutdown());
-								if (flag) System.out.printf("isOutputShutdown() = %s\n", this.socket.isOutputShutdown());
-							}
+							if (flag) printInfo();
 							break;
 						}
 					} catch (SocketTimeoutException e) {
@@ -198,19 +192,14 @@ public final class ThrClient extends Thread {
 						 * SocketTimeoutException
 						 */
 						if (flag) System.out.printf("%s [STATUS] SocketTimeoutException...\n", Thread.currentThread().getName());
-						if (flag) {
-							if (flag) System.out.printf("isBound()          = %s\n", this.socket.isBound());
-							if (flag) System.out.printf("isClosed()         = %s\n", this.socket.isClosed());
-							if (flag) System.out.printf("isConnected()      = %s\n", this.socket.isConnected());
-							if (flag) System.out.printf("isInputShutdown()  = %s\n", this.socket.isInputShutdown());
-							if (flag) System.out.printf("isOutputShutdown() = %s\n", this.socket.isOutputShutdown());
-						}
+						if (flag) printInfo();
 						continue;
 					} catch (Exception e) {
 						/*
 						 * Exception
 						 */
 						if (flag) e.printStackTrace();
+						if (flag) printInfo();
 						break;
 					}
 					
@@ -257,7 +246,20 @@ public final class ThrClient extends Thread {
 			}
 		}
 	}
-		
+	
+	private void printInfo() {
+		/*
+		 * print connection informations
+		 */
+		if (flag) {
+			if (flag) System.out.printf("isBound()          = %s\n", this.socket.isBound());
+			if (flag) System.out.printf("isClosed()         = %s\n", this.socket.isClosed());
+			if (flag) System.out.printf("isConnected()      = %s\n", this.socket.isConnected());
+			if (flag) System.out.printf("isInputShutdown()  = %s\n", this.socket.isInputShutdown());
+			if (flag) System.out.printf("isOutputShutdown() = %s\n", this.socket.isOutputShutdown());
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
