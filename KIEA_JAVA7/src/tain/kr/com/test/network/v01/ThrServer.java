@@ -91,7 +91,7 @@ public final class ThrServer extends Thread {
 			if (flag) System.out.printf("\tLocal) getHostName()   = %s\n", socketInfo.getHostName());
 			if (flag) System.out.printf("\tLocal) getHostString() = %s\n", socketInfo.getHostString());
 			if (flag) System.out.printf("\tLocal) getAddress()    = %s\n", socketInfo.getAddress());
-			if (flag) System.out.printf("\tLocal) getPort()       = %s\n", socketInfo.getPort());
+			if (flag) System.out.printf("\tLocal) getPort()       = %d\n", socketInfo.getPort());
 			if (flag) System.out.printf("\tLocal) toString()      = %s\n", socketInfo.toString());
 		}
 		
@@ -103,7 +103,7 @@ public final class ThrServer extends Thread {
 			if (flag) System.out.printf("\tRemote) getHostName()   = %s\n", socketInfo.getHostName());
 			if (flag) System.out.printf("\tRemote) getHostString() = %s\n", socketInfo.getHostString());
 			if (flag) System.out.printf("\tRemote) getAddress()    = %s\n", socketInfo.getAddress());
-			if (flag) System.out.printf("\tRemote) getPort()       = %s\n", socketInfo.getPort());
+			if (flag) System.out.printf("\tRemote) getPort()       = %d\n", socketInfo.getPort());
 			if (flag) System.out.printf("\tRemote) toString()      = %s\n", socketInfo.toString());
 		}
 	}
