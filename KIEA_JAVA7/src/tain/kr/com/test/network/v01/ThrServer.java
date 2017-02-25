@@ -204,7 +204,7 @@ public final class ThrServer extends Thread {
 		
 		if (flag) {
 			/*
-			 * start thread process
+			 * start thread process in server
 			 */
 			this.bytRecv = new byte[SIZ_RECV];
 
@@ -279,7 +279,7 @@ public final class ThrServer extends Thread {
 					
 					if (flag) {
 						/*
-						 * sleep
+						 * sleep in server
 						 */
 						try { Thread.sleep(1 * 500); } catch (InterruptedException e) {}
 					}
