@@ -230,7 +230,7 @@ public final class ThrServer extends Thread {
 									 */
 									if (flag) System.out.printf("%s [STATUS] read data of EOF...\n", Thread.currentThread().getName());
 									if (!flag) printInfo();
-									throw new Exception("EOF: end of process because return value of read is -1.");
+									throw new Exception("EOF: end of process because return value of read is " + this.nRecv);
 								}
 							} catch (SocketTimeoutException e) {
 								/*
@@ -281,7 +281,7 @@ public final class ThrServer extends Thread {
 						/*
 						 * sleep
 						 */
-						try { Thread.sleep(1 * 1000); } catch (InterruptedException e) {}
+						try { Thread.sleep(1 * 500); } catch (InterruptedException e) {}
 					}
 				}
 			} catch (Exception e) {
