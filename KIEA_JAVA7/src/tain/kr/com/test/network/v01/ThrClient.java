@@ -24,6 +24,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 
@@ -254,7 +255,7 @@ public final class ThrClient extends Thread {
 									 * EOF(End Of File) : end of stream -> end of process 
 									 */
 									if (flag) System.out.printf("%s [STATUS] read data of EOF...\n", Thread.currentThread().getName());
-									if (!flag) printInfo();
+									if (flag) printInfo();
 									throw new Exception("EOF: end of process because return value of read is -1.");
 								}
 							} catch (SocketTimeoutException e) {
@@ -264,6 +265,13 @@ public final class ThrClient extends Thread {
 								if (flag) System.out.printf("%s [STATUS] SocketTimeoutException...\n", Thread.currentThread().getName());
 								if (!flag) printInfo();
 								continue;
+							} catch (SocketException e) {
+								/*
+								 * SocketException -> end of process
+								 */
+								if (flag) System.out.printf("%s [STATUS] SocketException...\n", Thread.currentThread().getName());
+								if (flag) e.printStackTrace();
+								throw e;
 							} catch (Exception e) {
 								/*
 								 * Exception -> end of process
