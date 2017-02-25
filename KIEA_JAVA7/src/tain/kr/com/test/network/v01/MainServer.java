@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.network.v01;
 
+import java.net.ServerSocket;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -63,6 +65,9 @@ public final class MainServer {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static final String LISTEN_PORT = "20025";
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -74,7 +79,28 @@ public final class MainServer {
 			new MainServer();
 
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			ServerSocket serverSocket = new ServerSocket(Integer.parseInt(LISTEN_PORT));
+			
+			while (true) {
+				if (flag) {
+					/*
+					 * server thread
+					 */
+					Thread thread = new ThrServer(serverSocket);
+					thread.start();
+					if (flag) thread.join();
+				}
+				
+				if (flag) {
+					/*
+					 * sleep
+					 */
+					try { Thread.sleep(1 * 500); } catch (InterruptedException e) {}
+				}
+			}
 		}
 	}
 
