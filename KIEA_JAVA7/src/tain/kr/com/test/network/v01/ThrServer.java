@@ -218,7 +218,12 @@ public final class ThrServer extends Thread {
 							try {
 								this.nRecv = this.dis.read(this.bytRecv, 0, SIZ_RECV);  // READ
 								
-								if (this.nRecv == 0) {
+								if (this.nRecv > 0) {
+									/*
+									 * read data have the size of nRecv
+									 */
+									break;
+								} else if (this.nRecv == 0) {
 									/*
 									 * read data of 0 size
 									 */
