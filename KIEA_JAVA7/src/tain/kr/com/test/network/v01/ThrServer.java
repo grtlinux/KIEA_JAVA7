@@ -193,8 +193,12 @@ public final class ThrServer extends Thread {
 	private byte[] bytRecv;
 	private int nRecv;
 	
+	private static final int CNT_RECV = 10;
+	private int idx;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	// @SuppressWarnings("unused")
 	@Override
 	public void run() {
 		
@@ -204,81 +208,93 @@ public final class ThrServer extends Thread {
 			 */
 			this.bytRecv = new byte[SIZ_RECV];
 
-			while (true) {
-				if (flag) {
-					/*
-					 * recv
-					 */
-					try {
-						this.nRecv = this.dis.read(this.bytRecv, 0, SIZ_RECV);
-						if (this.nRecv == 0) {
-							/*
-							 * read data of 0 size
-							 */
-							if (flag) System.out.printf("%s [STATUS] read data of 0 size..\n", Thread.currentThread().getName());
-						} else if (this.nRecv < 0) {
-							/*
-							 * EOF
-							 */
-							if (flag) System.out.printf("%s [STATUS] read data of EOF...\n", Thread.currentThread().getName());
-							if (flag) printInfo();
-							break;
+			try {
+				while (true) {
+					if (flag) {
+						/*
+						 * recv
+						 */
+						for (idx = 0; idx < CNT_RECV; idx++) {
+							try {
+								this.nRecv = this.dis.read(this.bytRecv, 0, SIZ_RECV);  // READ
+								
+								if (this.nRecv == 0) {
+									/*
+									 * read data of 0 size
+									 */
+									if (flag) System.out.printf("%s [STATUS] read data of 0 size..\n", Thread.currentThread().getName());
+									continue;
+								} else if (this.nRecv < 0) {
+									/*
+									 * EOF(End Of File) : end of stream -> end of process 
+									 */
+									if (flag) System.out.printf("%s [STATUS] read data of EOF...\n", Thread.currentThread().getName());
+									if (!flag) printInfo();
+									throw new Exception("EOF: end of process because return value of read is -1.");
+								}
+							} catch (SocketTimeoutException e) {
+								/*
+								 * SocketTimeoutException -> read again
+								 */
+								if (flag) System.out.printf("%s [STATUS] SocketTimeoutException...\n", Thread.currentThread().getName());
+								if (!flag) printInfo();
+								continue;
+							} catch (Exception e) {
+								/*
+								 * Exception -> end of process
+								 */
+								if (!flag) e.printStackTrace();
+								throw e;
+							}
 						}
-					} catch (SocketTimeoutException e) {
+						
+						if (idx >= CNT_RECV) {
+							throw new Exception("read count is over the number CNT_RECV. " + CNT_RECV);
+						}
+						
+						this.strRecv = new String(this.bytRecv, 0, this.nRecv, Charset.forName(TYP_CHARSET));
+						
+						if (flag) System.out.printf("%s [STATUS] RECV [%d:%s]\n"
+								, Thread.currentThread().getName(), this.nRecv, this.strRecv);
+					} // end of recv
+					
+					if (flag) {
 						/*
-						 * SocketTimeoutException
+						 * send
 						 */
-						if (flag) System.out.printf("%s [STATUS] SocketTimeoutException...\n", Thread.currentThread().getName());
-						if (flag) printInfo();
-						continue;
-					} catch (Exception e) {
+						this.strSend = "OK!! How are you doing these days?~~";
+						this.bytSend = this.strSend.getBytes(Charset.forName(TYP_CHARSET));
+						this.nSend = this.bytSend.length;
+						
+						try {
+							this.dos.write(this.bytSend, 0, this.nSend);
+						} catch (IOException e) {
+							// e.printStackTrace();
+							throw e;
+						}
+						
+						if (flag) System.out.printf("%s [STATUS] SEND [%d:%s]\n"
+								, Thread.currentThread().getName(), this.nSend, this.strSend);
+					} // end of send
+					
+					if (flag) {
 						/*
-						 * Exception
+						 * sleep
 						 */
-						if (flag) e.printStackTrace();
-						break;
+						try { Thread.sleep(1 * 1000); } catch (InterruptedException e) {}
 					}
-					
-					this.strRecv = new String(this.bytRecv, 0, this.nRecv, Charset.forName(TYP_CHARSET));
-					
-					if (flag) System.out.printf("%s [STATUS] RECV [%d:%s]\n"
-							, Thread.currentThread().getName(), this.nRecv, this.strRecv);
 				}
-				
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
 				if (flag) {
 					/*
-					 * send
+					 * close
 					 */
-					this.strSend = "OK!! How are you doing these days?~~";
-					this.bytSend = this.strSend.getBytes(Charset.forName(TYP_CHARSET));
-					this.nSend = this.bytSend.length;
-					
-					try {
-						this.dos.write(this.bytSend, 0, this.nSend);
-					} catch (IOException e) {
-						e.printStackTrace();
-						break;
-					}
-					
-					if (flag) System.out.printf("%s [STATUS] SEND [%d:%s]\n"
-							, Thread.currentThread().getName(), this.nSend, this.strSend);
+					if (this.dos != null) try { this.dos.close(); } catch (IOException e) {}
+					if (this.dis != null) try { this.dis.close(); } catch (IOException e) {}
+					if (this.socket != null) try { this.socket.close(); } catch (IOException e) {}
 				}
-				
-				if (flag) {
-					/*
-					 * sleep
-					 */
-					try { Thread.sleep(1 * 1000); } catch (InterruptedException e) {}
-				}
-			}
-			
-			if (flag) {
-				/*
-				 * close
-				 */
-				if (this.dos != null) try { this.dos.close(); } catch (IOException e) {}
-				if (this.dis != null) try { this.dis.close(); } catch (IOException e) {}
-				if (this.socket != null) try { this.socket.close(); } catch (IOException e) {}
 			}
 		}
 	}
