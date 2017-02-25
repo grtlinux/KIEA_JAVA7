@@ -22,6 +22,7 @@ package tain.kr.com.test.network.v01;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
@@ -72,6 +73,8 @@ public final class ThrClient extends Thread {
 		if (this.socket == null) {
 			throw new IOException("socket is null pointer...(tain.co.kr)");
 		}
+		
+		printSocketInfo();
 		setSocketOptions();
 		
 		this.dis = new DataInputStream(this.socket.getInputStream());
@@ -81,6 +84,32 @@ public final class ThrClient extends Thread {
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	private void printSocketInfo() throws Exception {
+		if (flag) {
+			/*
+			 * local socket address informations
+			 */
+			InetSocketAddress socketInfo = (InetSocketAddress) this.socket.getLocalSocketAddress();
+			if (flag) System.out.printf("\tLocal) getHostName()   = %s\n", socketInfo.getHostName());
+			if (flag) System.out.printf("\tLocal) getHostString() = %s\n", socketInfo.getHostString());
+			if (flag) System.out.printf("\tLocal) getAddress()    = %s\n", socketInfo.getAddress());
+			if (flag) System.out.printf("\tLocal) getPort()       = %s\n", socketInfo.getPort());
+			if (flag) System.out.printf("\tLocal) toString()      = %s\n", socketInfo.toString());
+		}
+		
+		if (flag) {
+			/*
+			 * remote socket address informations
+			 */
+			InetSocketAddress socketInfo = (InetSocketAddress) this.socket.getRemoteSocketAddress();
+			if (flag) System.out.printf("\tRemote) getHostName()   = %s\n", socketInfo.getHostName());
+			if (flag) System.out.printf("\tRemote) getHostString() = %s\n", socketInfo.getHostString());
+			if (flag) System.out.printf("\tRemote) getAddress()    = %s\n", socketInfo.getAddress());
+			if (flag) System.out.printf("\tRemote) getPort()       = %s\n", socketInfo.getPort());
+			if (flag) System.out.printf("\tRemote) toString()      = %s\n", socketInfo.toString());
+		}
+	}
+	
 	private void setSocketOptions() throws Exception {
 		
 		if (flag) {
