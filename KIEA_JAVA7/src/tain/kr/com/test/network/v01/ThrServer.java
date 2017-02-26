@@ -130,6 +130,7 @@ public final class ThrServer extends Thread {
 			if (flag) System.out.printf("\tBefore) getSendBufferSize()    = %d\n", this.socket.getSendBufferSize());
 			if (flag) System.out.printf("\tBefore) getKeepAlive()         = %s\n", this.socket.getKeepAlive());
 			if (flag) System.out.printf("\tBefore) getReuseAddress()      = %s\n", this.socket.getReuseAddress());
+			if (flag) System.out.printf("\tBefore) getOOBInline()         = %s\n", this.socket.getOOBInline());
 			if (flag) System.out.println();
 		}
 		
@@ -165,6 +166,10 @@ public final class ThrServer extends Thread {
 			if (flag && this.socket.getReuseAddress() == false) {      // SO_REUSEADDR
 				this.socket.setReuseAddress(true);
 			}
+			
+			if (flag && this.socket.getOOBInline() == false) {         // OOBINLINE   -> related method -> void sendUrgentData(int data)
+				this.socket.setOOBInline(true);
+			}
 		}
 		
 		if (flag) {
@@ -178,6 +183,7 @@ public final class ThrServer extends Thread {
 			if (flag) System.out.printf("\tAfter) getSendBufferSize()    = %d\n", this.socket.getSendBufferSize());
 			if (flag) System.out.printf("\tAfter) getKeepAlive()         = %s\n", this.socket.getKeepAlive());
 			if (flag) System.out.printf("\tAfter) getReuseAddress()      = %s\n", this.socket.getReuseAddress());
+			if (flag) System.out.printf("\tAfter) getOOBInline()         = %s\n", this.socket.getOOBInline());
 			if (flag) System.out.println();
 		}
 	}
