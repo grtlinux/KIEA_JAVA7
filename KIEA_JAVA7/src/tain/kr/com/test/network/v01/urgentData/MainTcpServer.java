@@ -78,7 +78,7 @@ public final class MainTcpServer {
 
 		if (flag) {
 			/*
-			 * begin server
+			 * begin server  : related method -> void setOOBInline(boolean on), boolean getOOBInline()
 			 * 
 			 *     --> = from TCP client to TCP server
 			 *     <-- = from TCP server to TCP client
