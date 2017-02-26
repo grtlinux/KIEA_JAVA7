@@ -79,19 +79,23 @@ public class MainTcpClient {
 
 		if (flag) {
 			/*
-			 * begin client
+			 * begin client  : related method -> void setOOBInline(boolean on), boolean getOOBInline()
 			 * 
 			 *     --> = from TCP client to TCP server
 			 *     <-- = from TCP server to TCP client
 			 *     
 			 *     -->  [PSH, ACK, URG] (Seq=1, Ack=1)
 			 *     <--  [ACK] (Seq=1, Ack=2)
+			 *     
 			 *     -->  [PSH, ACK, URG] (Seq=2, Ack=1)
 			 *     <--  [ACK] (Seq=1, Ack=3)
+			 *     
 			 *     ...
+			 *     
 			 *     -->  [PSH, ACK, URG] (Seq=17, Ack=1)
 			 *     <--  [RST, ACK] (Seq=1, Ack=18)
-			 * 
+			 *     
+			 *     [ERROR]
 			 */
 			final Socket socket = new Socket("192.168.0.11", Integer.parseInt("12345"));
 			
