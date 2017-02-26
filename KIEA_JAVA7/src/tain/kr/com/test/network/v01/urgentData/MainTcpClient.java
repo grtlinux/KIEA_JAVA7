@@ -19,6 +19,10 @@
  */
 package tain.kr.com.test.network.v01.urgentData;
 
+import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -74,7 +78,52 @@ public class MainTcpClient {
 			new MainTcpClient();
 
 		if (flag) {
+			/*
+			 * begin client
+			 * 
+			 *     --> = from TCP client to TCP server
+			 *     <-- = from TCP server to TCP client
+			 *     
+			 *     -->  [PSH, ACK, URG] (Seq=1, Ack=1)
+			 *     <--  [ACK] (Seq=1, Ack=2)
+			 *     -->  [PSH, ACK, URG] (Seq=2, Ack=1)
+			 *     <--  [ACK] (Seq=1, Ack=3)
+			 *     ...
+			 *     -->  [PSH, ACK, URG] (Seq=17, Ack=1)
+			 *     <--  [RST, ACK] (Seq=1, Ack=18)
+			 * 
+			 */
+			final Socket socket = new Socket("192.168.0.11", Integer.parseInt("12345"));
+			
+			if (flag) log.debug("CONNECTED..." + socket);
+			
+			Timer urgentDataTimer = new Timer(true);
+			
+			urgentDataTimer.scheduleAtFixedRate(new TimerTask() {
+				int n = 0;
+				
+				@Override
+				public void run() {
+					try {
+						if (flag) System.out.printf("SENDING URGENT DATA (%d)..\n", ++n);
+						socket.sendUrgentData(1);
+						if (flag) System.out.printf("SENT URGENT DATA...\n");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}, 1000, 2000);
+			
+			int b;
+			while ((b = socket.getInputStream().read()) != -1) {
+				System.out.println("READ byte: " + b);
+			}
+			
+			if (flag) log.debug("CLOSING.....");
 
+			urgentDataTimer.cancel();
+			
+			socket.close();
 		}
 	}
 
