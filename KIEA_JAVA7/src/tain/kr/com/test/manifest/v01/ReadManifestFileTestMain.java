@@ -19,6 +19,10 @@
  */
 package tain.kr.com.test.manifest.v01;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -52,7 +56,7 @@ public class ReadManifestFileTestMain {
 
 	private static void test01(String[] args) throws Exception {
 		
-		if (flag) {
+		if (!flag) {
 			
 			@SuppressWarnings("resource")
 			JarFile jarFile = new JarFile("N:/PROG/jdk1.7.0_79/jre/lib/rt.jar");
@@ -66,6 +70,32 @@ public class ReadManifestFileTestMain {
 				Object val = entry.getValue();
 				
 				log.debug("[" + key + "] => [" + val + "]");
+			}
+		}
+		
+		if (flag) {
+			if (flag) log.debug(String.format("\t 1) JarFile.MANIFEST_NAME = [%s]\n", JarFile.MANIFEST_NAME));
+			
+			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
+			while (urls.hasMoreElements()) {
+				URL url = (URL) urls.nextElement();
+				if (flag) log.debug(String.format("\t\t 2) url = [%s]\n", url));
+				
+				InputStream is = url.openStream();
+				if (is != null) {
+					Manifest manifest = new Manifest(is);
+					Attributes attributes = manifest.getMainAttributes();
+					
+					for (Map.Entry<Object, Object> entry : attributes.entrySet()) {
+						String strKey = String.valueOf(entry.getKey());
+						String strVal = String.valueOf(entry.getValue());
+						
+						if (flag) log.debug(String.format("\t\t\t 3) [%s] = [%s]", strKey, strVal));
+					}
+					if (flag) System.out.println();
+					
+					is.close();
+				}
 			}
 		}
 	}
