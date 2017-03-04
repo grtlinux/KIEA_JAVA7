@@ -1,12 +1,31 @@
 Manifest-Version: 1.0
+ 
 Package: com.darwinsys.util
+ 
 Created-By: 1.3.0_02 (Sun Microsystems Inc.)
+ 
 Title: Darwin Open Systems' Utility Classes
+ 
 Provider: Ian Darwin, ian@darwinsys.com
+ 
+Etc-Content: 
+  libs/commons-net-3.3.jar
+  libs/log4j-1.2.17.jar
+  libs/gson-2.6.2.jar
+ 
+Main-Class: tain.kr.jar.v01.JarRsrcLoader
+ 
 Class-Path: ./
   libs/ant.jar
-Main-Class: tain.kr.jar.v01.JarRsrcLoader
+ 
+Rsrc-Main-Class: tain.kr.com.test.runJar.v02.RunJarTestMain
+ 
 Rsrc-Class-Path: ./
      libs/commons-net-3.3.jar
      libs/ant.jar
-Rsrc-Main-Class: tain.kr.com.test.runJar.v02.RunJarTestMain
+ 
+ 
+
+
+
+
