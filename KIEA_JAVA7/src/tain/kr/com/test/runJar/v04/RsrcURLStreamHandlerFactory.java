@@ -34,7 +34,7 @@ package tain.kr.com.test.runJar.v04;
  * @author taincokr
  *
  */
-public class RsrcURLStreamHandlerFactory {
+public final class RsrcURLStreamHandlerFactory {
 
 	private static boolean flag = true;
 

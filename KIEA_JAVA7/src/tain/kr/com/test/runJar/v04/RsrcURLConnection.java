@@ -34,7 +34,7 @@ package tain.kr.com.test.runJar.v04;
  * @author taincokr
  *
  */
-public class RsrcURLConnection {
+public final class RsrcURLConnection {
 
 	private static boolean flag = true;
 

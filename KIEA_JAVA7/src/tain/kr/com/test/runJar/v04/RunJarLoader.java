@@ -34,7 +34,7 @@ package tain.kr.com.test.runJar.v04;
  * @author taincokr
  *
  */
-public class RunJarLoader {
+public final class RunJarLoader {
 
 	private static boolean flag = true;
 
