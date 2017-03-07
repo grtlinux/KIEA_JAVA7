@@ -19,6 +19,13 @@
  */
 package tain.kr.com.test.runJar.v04;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
+
 
 /**
  * Code Templates > Comments > Types
@@ -34,20 +41,49 @@ package tain.kr.com.test.runJar.v04;
  * @author taincokr
  *
  */
-public final class RsrcURLConnection {
+public final class RsrcURLConnection extends URLConnection {
 
 	private static boolean flag = true;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private ClassLoader classLoader = null;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public RsrcURLConnection() {}
+	public RsrcURLConnection(URL url, ClassLoader classLoader) {
+		
+		super(url);
+		
+		this.classLoader = classLoader;
+	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public InputStream getInputStream() throws IOException {
+		
+		String file = URLDecoder.decode(url.getFile(), "UTF-8");
+		if (!flag) System.out.printf("%s >>>>> file=%s\n\n", this.getClass().getName(), file);
+		
+		InputStream is = classLoader.getResourceAsStream(file);
+		if (is == null)
+			throw new MalformedURLException("Could not open InputStream for URL '" + url + "'");
+		
+		return is;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see java.net.URLConnection#connect()
+	 */
+	@Override
+	public void connect() throws IOException {}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
