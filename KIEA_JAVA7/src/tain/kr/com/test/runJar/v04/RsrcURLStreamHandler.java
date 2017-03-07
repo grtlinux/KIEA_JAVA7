@@ -19,6 +19,11 @@
  */
 package tain.kr.com.test.runJar.v04;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
+
 
 /**
  * Code Templates > Comments > Types
@@ -34,21 +39,60 @@ package tain.kr.com.test.runJar.v04;
  * @author taincokr
  *
  */
-public final class RsrcURLStreamHandler {
+public final class RsrcURLStreamHandler extends URLStreamHandler {
 
 	private static boolean flag = true;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private ClassLoader classLoader = null;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public RsrcURLStreamHandler() {}
+	public RsrcURLStreamHandler(ClassLoader classLoader) {
+		
+		this.classLoader = classLoader;
+	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	protected void parseURL(URL url, String spec, int start, int limit) {
+
+		if (!flag) System.out.printf("%s >>>>> (URL=%s, spec=%s, start=%d, limit=%d)\n"
+				, this.getClass().getName(), url, spec, start, limit);
+		
+		String file;
+		
+		if (spec.startsWith("rsrc:"))
+			file = spec.substring(5);
+		else if (url.getFile().equals("./"))
+			file = spec;
+		else if (url.getFile().endsWith("/"))
+			file = url.getFile() + spec;
+		else
+			file = spec;
+		
+		setURL(url, "rsrc", "", -1, null, null, file, null, null);
+
+		if (!flag) System.out.printf("%s >>>>> file=[%s], url.getFile()=[%s]\n"
+				, this.getClass().getName(), file, url.getFile());
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see java.net.URLStreamHandler#openConnection(java.net.URL)
+	 */
+	@Override
+	protected URLConnection openConnection(URL url) throws IOException {
+
+		return new RsrcURLConnection(url, this.classLoader);
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
