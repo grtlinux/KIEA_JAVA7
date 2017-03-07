@@ -19,6 +19,9 @@
  */
 package tain.kr.com.test.runJar.v04;
 
+import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
+
 
 /**
  * Code Templates > Comments > Types
@@ -34,20 +37,52 @@ package tain.kr.com.test.runJar.v04;
  * @author taincokr
  *
  */
-public final class RsrcURLStreamHandlerFactory {
+public final class RsrcURLStreamHandlerFactory implements URLStreamHandlerFactory {
 
 	private static boolean flag = true;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private ClassLoader classLoader = null;
+	private URLStreamHandlerFactory factory = null;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public RsrcURLStreamHandlerFactory() {}
+	public RsrcURLStreamHandlerFactory(ClassLoader classLoader) {
+		
+		this.classLoader = classLoader;
+	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void setURLStreamHandlerFactory(URLStreamHandlerFactory factory) {
+		
+		this.factory = factory;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see java.net.URLStreamHandlerFactory#createURLStreamHandler(java.lang.String)
+	 */
+	@Override
+	public URLStreamHandler createURLStreamHandler(String protocol) {
+		
+		if (!flag) System.out.printf("%s >>>>> protocol=%s\n", this.getClass().getName(), protocol);
+		
+		if ("rsrc".equals(protocol))
+			return new RsrcURLStreamHandler(classLoader);
+		
+		if (factory != null)
+			return factory.createURLStreamHandler(protocol);
+		
+		return null;
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
