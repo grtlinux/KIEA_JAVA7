@@ -20,7 +20,9 @@
 package tain.kr.com.test.runJar.v04;
 
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -145,6 +147,34 @@ public final class RunJarLoader {
 			 * begin
 			 */
 			ManifestInfo manifestInfo = getManifestInfo();
+			
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			URL.setURLStreamHandlerFactory(new RsrcURLStreamHandlerFactory(classLoader));
+			
+			URL[] rsrcUrls = new URL[manifestInfo.rsrcClassPath.length];
+			for (int i=0; i < manifestInfo.rsrcClassPath.length; i++) {
+				String rsrcPath = manifestInfo.rsrcClassPath[i];
+				if (!flag) System.out.printf("\t 5) rsrcPath = [%s]\n", rsrcPath);
+				
+				if (rsrcPath.endsWith("/"))
+					rsrcUrls[i] = new URL("rsrc:" + rsrcPath);
+				else
+					rsrcUrls[i] = new URL("jar:rsrc:" + rsrcPath + "!/");
+				
+				if (!flag) System.out.printf("\t 5) URL = [%s]\n\n", rsrcUrls[i]);
+			}
+			
+			if (flag) {
+				/*
+				 * start classLoader
+				 */
+				ClassLoader jceClassLoader = new URLClassLoader(rsrcUrls, null);
+				Thread.currentThread().setContextClassLoader(jceClassLoader);
+				
+				Class<?> cls = Class.forName(manifestInfo.rsrcMainClass, true, jceClassLoader);
+				Method main = cls.getMethod("main", new Class[] { args.getClass() });
+				main.invoke((Object) null, new Object[] { args });
+			}
 		}
 	}
 
