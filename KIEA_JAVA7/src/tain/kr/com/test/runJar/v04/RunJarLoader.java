@@ -21,7 +21,9 @@ package tain.kr.com.test.runJar.v04;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -65,6 +67,24 @@ public final class RunJarLoader {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static String[] splitSpaces(String line) throws Exception {
+		
+		if (line != null) {
+			List<String> list = new ArrayList<String>();
+			
+			String[] arr = line.split("\\s+");
+			for (String str : arr) {
+				if (!"".equals(str = str.trim()))
+					list.add(str);
+			}
+			
+			return (String[]) list.toArray(new String[list.size()]);
+		}
+		
+		return null;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static ManifestInfo getManifestInfo() throws Exception {
@@ -89,9 +109,12 @@ public final class RunJarLoader {
 					if (flag) System.out.println();
 				}
 				
-				if (flag) continue;
+				//if (flag) continue;
 				
 				ManifestInfo manifestInfo = new ManifestInfo();
+				
+				manifestInfo.rsrcMainClass = attributes.getValue("Rsrc-Main-Class").trim();
+				manifestInfo.rsrcClassPath = splitSpaces(attributes.getValue("Rsrc-Class-Path"));
 				
 				if (flag && manifestInfo.rsrcMainClass != null)
 					return manifestInfo;
