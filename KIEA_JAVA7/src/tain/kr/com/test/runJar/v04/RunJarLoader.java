@@ -19,6 +19,12 @@
  */
 package tain.kr.com.test.runJar.v04;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
+
 
 /**
  * Code Templates > Comments > Types
@@ -48,10 +54,45 @@ public final class RunJarLoader {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static class ManifestInfo {
+		String rsrcMainClass;
+		String[] rsrcClassPath;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static ManifestInfo getManifestInfo() throws Exception {
+		
+		if (flag) System.out.printf("\t 1) JarFile.MANIFEST_NAME = [%s]\n", JarFile.MANIFEST_NAME);
+		
+		Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
+		while (urls.hasMoreElements()) {
+			URL url = (URL) urls.nextElement();
+			if (flag) System.out.printf("\t\t 2) url = [%s]\n", url);
+			
+			InputStream is = url.openStream();
+			if (is != null) {
+				Manifest manifest = new Manifest(is);
+				
+				
+				ManifestInfo manifestInfo = new ManifestInfo();
+				
+				if (flag && manifestInfo.rsrcMainClass != null)
+					return manifestInfo;
+			}
+			
+			if (flag) break;
+		}
+		
+		if (flag) throw new Exception("Missing attributes for RunJarLoader in Manifest(Rsrc-Main-Class, Rsrc-Class-Path)");
+		
+		return null;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +106,10 @@ public final class RunJarLoader {
 	private static void test01(String[] args) throws Exception {
 
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			ManifestInfo manifestInfo = getManifestInfo();
 		}
 	}
 
