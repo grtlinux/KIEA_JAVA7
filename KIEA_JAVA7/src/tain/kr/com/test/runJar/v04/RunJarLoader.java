@@ -22,6 +22,8 @@ package tain.kr.com.test.runJar.v04;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.Map;
+import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
@@ -77,7 +79,17 @@ public final class RunJarLoader {
 			InputStream is = url.openStream();
 			if (is != null) {
 				Manifest manifest = new Manifest(is);
+				Attributes attributes = manifest.getMainAttributes();
+				if (flag) {
+					for (Map.Entry<Object, Object> entry : attributes.entrySet()) {
+						String strKey = String.valueOf(entry.getKey());
+						String strVal = String.valueOf(entry.getValue());
+						if (flag) System.out.printf("\t\t\t 3) [%s] = [%s]\n", strKey, strVal);
+					}
+					if (flag) System.out.println();
+				}
 				
+				if (flag) continue;
 				
 				ManifestInfo manifestInfo = new ManifestInfo();
 				
