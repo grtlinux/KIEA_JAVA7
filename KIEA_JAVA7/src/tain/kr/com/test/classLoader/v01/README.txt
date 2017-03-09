@@ -12,7 +12,7 @@
 아래의 예제는 다음과 같이 커맨드라인 아규먼트를 사용하여 JVM 옵션을 설정하여 JVM이 클래스를 로드
 할 때 시스템 클래스로더가 아닌 커스텀 클래스로더를 사용하도록 지정하는 예이다.
 
-	java -Djava.system.class.loader=org.kdea.cloader.MyClassLoader Main
+	java -Djava.system.class.loader=tain.kr.com.test.classLoader.v01.MyClassLoader MainTest
 
 ----------------------------------------------------------------------------------
 package org.kdea.cloader;
