@@ -19,7 +19,6 @@
  */
 package tain.kr.com.test.classLoader.v01;
 
-import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
