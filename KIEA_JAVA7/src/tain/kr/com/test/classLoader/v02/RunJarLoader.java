@@ -89,12 +89,12 @@ public final class RunJarLoader {
 	
 	private static ManifestInfo getManifestInfo() throws Exception {
 		
-		if (!flag) System.out.printf("\t 1) JarFile.MANIFEST_NAME = [%s]\n\n", JarFile.MANIFEST_NAME);
+		if (flag) System.out.printf("\t 1) JarFile.MANIFEST_NAME = [%s]\n\n", JarFile.MANIFEST_NAME);
 
 		Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
 		while (urls.hasMoreElements()) {
 			URL url = (URL) urls.nextElement();
-			if (!flag) System.out.printf("\t\t 2) url = [%s]\n\n", url);
+			if (flag) System.out.printf("\t\t 2) url = [%s]\n\n", url);
 			
 			InputStream is = url.openStream();
 			if (is != null) {
@@ -108,9 +108,9 @@ public final class RunJarLoader {
 					for (Map.Entry<Object, Object> entry : attributes.entrySet()) {
 						String key = String.valueOf(entry.getKey());
 						String val = String.valueOf(entry.getValue());
-						if (!flag) System.out.printf("\t\t\t 3) [%s] = [%s]\n", key, val);
+						if (flag) System.out.printf("\t\t\t 3) [%s] = [%s]\n", key, val);
 					}
-					if (!flag) System.out.println();
+					if (flag) System.out.println();
 				}
 				// if (flag) continue;
 				
@@ -150,7 +150,7 @@ public final class RunJarLoader {
 			 * begin
 			 */
 			ManifestInfo manifestInfo = getManifestInfo();
-			if (!flag) System.out.printf("\t 4) [%s] = %s\n\n"
+			if (flag) System.out.printf("\t 4) [%s] = %s\n\n"
 					, manifestInfo.rsrcMainClass, new ArrayList<String>(Arrays.asList(manifestInfo.rsrcClassPath)));
 			
 			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -159,14 +159,14 @@ public final class RunJarLoader {
 			URL[] rsrcUrls = new URL[manifestInfo.rsrcClassPath.length];
 			for (int i=0; i < manifestInfo.rsrcClassPath.length; i++) {
 				String rsrcPath = manifestInfo.rsrcClassPath[i];
-				if (!flag) System.out.printf("\t 5) rsrcPath = [%s]\n", rsrcPath);
+				if (flag) System.out.printf("\t 5) rsrcPath = [%s]\n", rsrcPath);
 				
 				if (rsrcPath.endsWith("/"))
 					rsrcUrls[i] = new URL("rsrc:" + rsrcPath);
 				else
 					rsrcUrls[i] = new URL("jar:rsrc:" + rsrcPath + "!/");
 				
-				if (!flag) System.out.printf("\t 5) URL = [%s]\n\n", rsrcUrls[i]);
+				if (flag) System.out.printf("\t 5) URL = [%s]\n\n", rsrcUrls[i]);
 			}
 			
 			if (flag) {
