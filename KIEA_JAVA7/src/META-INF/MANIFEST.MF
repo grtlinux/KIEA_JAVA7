@@ -12,13 +12,14 @@ Etc-Content:
   libs/commons-net-3.3.jar
   libs/log4j-1.2.17.jar
   libs/gson-2.6.2.jar
+  libs/ant.jar
  
-Main-Class: tain.kr.jar.v01.JarRsrcLoader
+Main-Class: tain.kr.com.test.runJar.v04.RunJarLoader
  
 Class-Path: ./
   libs/ant.jar
  
-Rsrc-Main-Class: tain.kr.com.test.runJar.v02.RunJarTestMain
+Rsrc-Main-Class: tain.kr.com.test.runJar.v04.MainTestRunjar
  
 Rsrc-Class-Path: ./
      libs/commons-net-3.3.jar
