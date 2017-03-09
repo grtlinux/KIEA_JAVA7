@@ -19,6 +19,14 @@
  */
 package tain.kr.com.test.classLoader.v02;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -74,7 +82,28 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			/*
+			 * begin - 1
+			 */
+			if (flag) System.out.printf(" 1) JarFile.MANIFEST_NAME = [%s]\n\n", JarFile.MANIFEST_NAME);
+			
+			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
+			while (urls.hasMoreElements()) {
+				URL url = urls.nextElement();
+				if (flag) System.out.printf("\t 2) url = [%s]\n\n", url);
+				
+				InputStream is = url.openStream();
+				if (is != null) {
+					Manifest manifest = new Manifest(is);
+					Attributes attributes = manifest.getMainAttributes();
+					for (Map.Entry<Object, Object> entry : attributes.entrySet()) {
+						String strKey = String.valueOf(entry.getKey());
+						String strVal = String.valueOf(entry.getValue());
+						
+						if (flag) System.out.printf("\t\t 3) [%s] = [%s]\n", strKey, strVal);
+					}
+				}
+			}
 		}
 	}
 
