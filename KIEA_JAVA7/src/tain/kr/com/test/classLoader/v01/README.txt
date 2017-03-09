@@ -2,6 +2,42 @@
 #
 #
 
+- Application
+
+	1. BootstrapClassLoader   ($JAVAHOME/jre/lib/rt.jar)
+	
+	
+	2. ExtensionClassLoader   ($JAVAHOME/jre/lib/ext/*.jar)
+	
+	
+	3. SystemClassLoader      ($CLASSPATH)
+	
+	
+	4. UserDefinedClassLoader (userdev.jar ...)
+
+===================================================================================================
+
+- WAS
+
+	1. BootstrapClassLoader
+	
+	
+	2. ExtensionClassLoader
+	
+	
+	3. ApplicationClassLoader
+	
+	
+	4. EJBClassLoader
+	
+	
+	5. ServletClassLoader
+
+
+
+===================================================================================================
+===================================================================================================
+
 * Java에서 커스텀 클래스로드를 작성하는 예
 
 커스텀 클래스로더를 작성하는 방법을 알아보고 작성된 클래스로더를 사용하여 클래스가 로드되는
