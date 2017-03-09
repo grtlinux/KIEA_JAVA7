@@ -66,7 +66,7 @@ public final class RsrcURLConnection extends URLConnection {
 	public InputStream getInputStream() throws IOException {
 	
 		String file = URLDecoder.decode(url.getFile(), "UTF-8");
-		if (flag) System.out.printf("%s >>>>> file = [%s]\n\n", this.getClass().getName(), file);
+		if (flag) System.out.printf("1-%s >>>>> file = [%s]\n\n", this.getClass().getName(), file);
 		
 		InputStream is = this.classLoader.getResourceAsStream(file);
 		if (is == null)
