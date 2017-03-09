@@ -154,14 +154,14 @@ public final class RunJarLoader {
 			URL[] rsrcUrls = new URL[manifestInfo.rsrcClassPath.length];
 			for (int i=0; i < manifestInfo.rsrcClassPath.length; i++) {
 				String rsrcPath = manifestInfo.rsrcClassPath[i];
-				if (!flag) System.out.printf("\t 5) rsrcPath = [%s]\n", rsrcPath);
+				if (flag) System.out.printf("\t 5) rsrcPath = [%s]\n", rsrcPath);
 				
 				if (rsrcPath.endsWith("/"))
 					rsrcUrls[i] = new URL("rsrc:" + rsrcPath);
 				else
 					rsrcUrls[i] = new URL("jar:rsrc:" + rsrcPath + "!/");
 				
-				if (!flag) System.out.printf("\t 5) URL = [%s]\n\n", rsrcUrls[i]);
+				if (flag) System.out.printf("\t 5) URL = [%s]\n\n", rsrcUrls[i]);
 			}
 			
 			if (flag) {
