@@ -81,7 +81,7 @@ public class MainTest {
 		if (flag)
 			new MainTest();
 
-		if (flag) {
+		if (!flag) {
 			/*
 			 * begin - 1
 			 */
