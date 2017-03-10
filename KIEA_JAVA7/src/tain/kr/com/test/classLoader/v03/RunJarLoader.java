@@ -87,14 +87,14 @@ public final class RunJarLoader {
 	
 	private static ManifestInfo getManifestInfo() throws Exception {
 		
-		// Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
+		//Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
 		Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources("META-INF/TEST.MF");
 		while (urls.hasMoreElements()) {
 			URL url = (URL) urls.nextElement();
 			
 			InputStream is = url.openStream();
 			if (is != null) {
-				Manifest manifest = new Manifest();
+				Manifest manifest = new Manifest(is);
 				Attributes attributes = manifest.getMainAttributes();
 				
 				ManifestInfo manifestInfo = new ManifestInfo();
@@ -147,7 +147,7 @@ public final class RunJarLoader {
 				if (rsrcPath.endsWith("/"))
 					rsrcUrls[i] = new URL("rsrc:" + rsrcPath);
 				else
-					rsrcUrls[i] = new URL("jsr:rsrc:" + rsrcPath);
+					rsrcUrls[i] = new URL("jar:rsrc:" + rsrcPath + "!/");
 				
 				if (flag) System.out.printf("-> [%s]\n", rsrcUrls[i]);
 			}
