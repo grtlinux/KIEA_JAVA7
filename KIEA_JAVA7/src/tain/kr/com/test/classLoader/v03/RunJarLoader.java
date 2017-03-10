@@ -98,8 +98,8 @@ public final class RunJarLoader {
 				Attributes attributes = manifest.getMainAttributes();
 				
 				ManifestInfo manifestInfo = new ManifestInfo();
-				manifestInfo.rsrcMainClass = attributes.getValue("").trim();
-				manifestInfo.rsrcClassPath = splitSpaces(attributes.getValue(""));
+				manifestInfo.rsrcMainClass = attributes.getValue("Rsrc-Main-Class").trim();
+				manifestInfo.rsrcClassPath = splitSpaces(attributes.getValue("Rsrc-Class-Path"));
 				
 				if (manifestInfo.rsrcMainClass != null)
 					return manifestInfo;
