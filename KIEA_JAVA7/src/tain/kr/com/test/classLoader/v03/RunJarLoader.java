@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.Attributes;
-import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 
@@ -88,7 +87,8 @@ public final class RunJarLoader {
 	
 	private static ManifestInfo getManifestInfo() throws Exception {
 		
-		Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
+		// Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
+		Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources("META-INF/TEST.MF");
 		while (urls.hasMoreElements()) {
 			URL url = (URL) urls.nextElement();
 			
