@@ -14,19 +14,21 @@ Etc-Content:
   libs/commons-net-3.3.jar
   libs/log4j-1.2.17.jar
   libs/gson-2.6.2.jar
+  libs/ant.jar
  
 Provider: Kiea Seok Kang    kiea@tain.co.kr  at 17.03.03
  
 Class-Path: .
  
-Main-Class: tain.kr.runjar.v04.RunJarLoader
+Main-Class: tain.kr.com.test.classLoader.v03.RunJarLoader
  
 Rsrc-Class-Path: ./
   libs/commons-net-3.3.jar
   libs/log4j-1.2.17.jar
   libs/gson-2.6.2.jar
+  libs/ant.jar
  
-Rsrc-Main-Class: tain.kr.runjar.v04.MainTestRunjar
+Rsrc-Main-Class: tain.kr.com.test.classLoader.v03.MainTest
  
 
 
