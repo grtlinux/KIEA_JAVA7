@@ -19,7 +19,17 @@
  */
 package tain.kr.com.test.classLoader.v03;
 
-import org.apache.log4j.Logger;
+import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
+
 
 /**
  * Code Templates > Comments > Types
@@ -35,11 +45,9 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class RunJarLoader {
+public final class RunJarLoader {
 
 	private static boolean flag = true;
-
-	private static final Logger log = Logger.getLogger(RunJarLoader.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,15 +55,65 @@ public class RunJarLoader {
 	/*
 	 * constructor
 	 */
-	public RunJarLoader() {
-		if (flag)
-			log.debug(">>>>> in class " + this.getClass().getSimpleName());
-	}
+	public RunJarLoader() {}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static class ManifestInfo {
+		String rsrcMainClass;
+		String[] rsrcClassPath;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static String[] splitSpaces(String line) throws Exception {
+		
+		if (line != null) {
+			List<String> list = new ArrayList<String>();
+			
+			String[] arr = line.split("\\s+");
+			for (String str : arr) {
+				if (!"".equals(str = str.trim()))
+					list.add(str);
+			}
+			
+			return (String[]) list.toArray(new String[list.size()]);
+		}
+		
+		return null;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static ManifestInfo getManifestInfo() throws Exception {
+		
+		Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
+		while (urls.hasMoreElements()) {
+			URL url = (URL) urls.nextElement();
+			
+			InputStream is = url.openStream();
+			if (is != null) {
+				Manifest manifest = new Manifest();
+				Attributes attributes = manifest.getMainAttributes();
+				
+				ManifestInfo manifestInfo = new ManifestInfo();
+				manifestInfo.rsrcMainClass = attributes.getValue("").trim();
+				manifestInfo.rsrcClassPath = splitSpaces(attributes.getValue(""));
+				
+				if (manifestInfo.rsrcMainClass != null)
+					return manifestInfo;
+			}
+			
+			if (flag) break;
+		}
+		
+		if (flag)
+			throw new Exception(String.format("Missing attributes for RunJarLoader in Manifest (%s, %s)", "Rsrc-Main-Class", "Rsrc-Class-Path"));
+		
+		return null;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +128,36 @@ public class RunJarLoader {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new RunJarLoader();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			ManifestInfo manifestInfo = getManifestInfo();
+			
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			URL.setURLStreamHandlerFactory(new RsrcURLStreamHandlerFactory(classLoader));
+			
+			URL[] rsrcUrls = new URL[manifestInfo.rsrcClassPath.length];
+			for (int i=0; i < manifestInfo.rsrcClassPath.length; i++) {
+				String rsrcPath = manifestInfo.rsrcClassPath[i];
+				
+				/*
+				 * protocol
+				 */
+				if (rsrcPath.endsWith("/"))
+					rsrcUrls[i] = new URL("rsrc:" + rsrcPath);
+				else
+					rsrcUrls[i] = new URL("jsr:rsrc:" + rsrcPath);
+				
+				if (flag) System.out.printf("-> [%s]\n", rsrcUrls[i]);
+			}
+			
+			ClassLoader jceClassLoader = new URLClassLoader(rsrcUrls, null);
+			Thread.currentThread().setContextClassLoader(jceClassLoader);
+			
+			Class<?> cls = Class.forName(manifestInfo.rsrcMainClass, true, jceClassLoader);
+			Method main = cls.getMethod("main", new Class[] { args.getClass() });
+			main.invoke((Object) null, new Object[] {args});
 		}
 	}
 
@@ -82,10 +165,6 @@ public class RunJarLoader {
 	 * main method
 	 */
 	public static void main(String[] args) throws Exception {
-
-		if (flag)
-			log.debug(">>>>> " + new Object() {
-			}.getClass().getEnclosingClass().getName());
 
 		if (flag)
 			test01(args);
