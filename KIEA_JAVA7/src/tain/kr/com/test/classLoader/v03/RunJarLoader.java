@@ -149,8 +149,10 @@ public final class RunJarLoader {
 				else
 					rsrcUrls[i] = new URL("jar:rsrc:" + rsrcPath + "!/");
 				
-				if (flag) System.out.printf("-> [%s]\n", rsrcUrls[i]);
+				if (flag) System.out.printf("(Rsrc-Class-Path:%d) -> [%s]\n", i, rsrcUrls[i]);
 			}
+			
+			if (flag) System.out.printf("(Rsrc-Main-Class) -> [%s]\n", manifestInfo.rsrcMainClass);
 			
 			ClassLoader jceClassLoader = new URLClassLoader(rsrcUrls, null);
 			Thread.currentThread().setContextClassLoader(jceClassLoader);
