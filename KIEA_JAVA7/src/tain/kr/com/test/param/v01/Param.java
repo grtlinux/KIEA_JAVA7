@@ -85,7 +85,7 @@ public final class Param {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public synchronized String getString(String key) {
+	public String getString(String key) {
 		
 		String value;
 		
@@ -138,7 +138,19 @@ public final class Param {
 	private static void test01(String[] args) throws Exception {
 
 		if (flag) {
-
+			/*
+			 * tain.project = CoSmarter version 1.02
+			 * tain.company = TAIN, Inc.
+			 * tain.copyright = Copyright 2014, 2015, 2016, 2017 TAIN, Inc. all rights reserved.
+			 * tain.version = ver1.02
+			 * tain.serial.key = 918X942YAAAZAA2K94C8
+			 */
+			
+			if (flag) System.out.printf("[%s] = [%s]\n", "tain.project", Param.getInstance().getString("tain.project"));
+			if (flag) System.out.printf("[%s] = [%s]\n", "tain.company", Param.getInstance().getString("tain.company"));
+			if (flag) System.out.printf("[%s] = [%s]\n", "tain.copyright", Param.getInstance().getString("tain.copyright"));
+			if (flag) System.out.printf("[%s] = [%s]\n", "tain.version", Param.getInstance().getString("tain.version"));
+			if (flag) System.out.printf("[%s] = [%s]\n", "tain.serial.key", Param.getInstance().getString("tain.serial.key"));
 		}
 	}
 
