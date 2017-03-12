@@ -74,7 +74,16 @@ public class MainTest {
 			new MainTest();
 
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			Process process = new ProcessBuilder("notepad.exe").start();
+			if (process.waitFor() == 0) {
+				System.out.printf("SUCCESS\n");
+			} else {
+				System.out.printf("FAIL\n");
+			}
+			process.destroy();
 		}
 	}
 
