@@ -19,6 +19,10 @@
  */
 package tain.kr.com.test.process.v01;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -73,8 +77,108 @@ public class MainTest {
 		if (flag)
 			new MainTest();
 
-		if (flag) {
+		if (!flag) {
+			/*
+			 * begin-1
+			 */
+			File workDir = new File("N:/");
+			String[] env = new String[] { "FOLDER=PROG" };
+			String cmd = "cmd /c dir %FOLDER%";
+			// String[] cmd = new String[] { "/bin/sh", "-c", "dir %FOLDER%" };
+			
+			Runtime run = Runtime.getRuntime();
+			Process process = run.exec(cmd, env, workDir);
+			
+			if (process.waitFor() == 0) {
+				/*
+				 * success
+				 */
+				BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+				String line;
+				while ((line = br.readLine()) != null) {
+					System.out.printf("OUT LINE:%s\n", line);
+				}
+			} else {
+				/*
+				 * error
+				 */
+				BufferedReader br = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+				String line;
+				while ((line = br.readLine()) != null) {
+					System.out.printf("ERR LINE:%s\n", line);
+				}
+			}
+			
+			process.destroy();
+		}
+		
+		if (!flag) {
+			/*
+			 * begin-2
+			 */
+			File workDir = new File("N:/");
+			String[] env = new String[] { "" };
+			String cmd = "netstat -n";
+			
+			Runtime run = Runtime.getRuntime();
+			Process process = run.exec(cmd, env, workDir);
+			
+			if (process.waitFor() == 0) {
+				/*
+				 * success
+				 */
+				BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+				String line;
+				while ((line = br.readLine()) != null) {
+					System.out.printf("OUT LINE:%s\n", line);
+				}
+			} else {
+				/*
+				 * error
+				 */
+				BufferedReader br = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+				String line;
+				while ((line = br.readLine()) != null) { 
+					System.out.printf("ERR LINE:%s\n", line);
+				}
+			}
+			
+			process.destroy();
+		}
 
+		if (flag) {
+			/*
+			 * begin-3
+			 */
+			File workDir = new File("N:/");
+			String[] env = new String[] { "PATH=C:\\Windows\\SysWOW64;%PATH%", "STR=DIR" };
+			String cmd = "cmd /c dir | findstr %STR%";   // SUCCESS using a pipe
+			// String cmd = "netstat -na | C:\\Windows\\SysWOW64\\findstr.exe 443";  // ERROR
+			
+			Runtime run = Runtime.getRuntime();
+			Process process = run.exec(cmd, env, workDir);
+			
+			if (process.waitFor() == 0) {
+				/*
+				 * success
+				 */
+				BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+				String line;
+				while ((line = br.readLine()) != null) {
+					System.out.printf("OUT LINE:%s\n", line);
+				}
+			} else {
+				/*
+				 * error
+				 */
+				BufferedReader br = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+				String line;
+				while ((line = br.readLine()) != null) {
+					System.out.printf("ERR LINE:%s\n", line);
+				}
+			}
+			
+			process.destroy();
 		}
 	}
 
