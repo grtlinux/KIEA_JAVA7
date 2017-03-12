@@ -1,0 +1,229 @@
+site : http://serverworld.kr/
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+CentOS 7 VirtualBox 설치
+
+VirtualBox 설치
+
+Oracle VM VirtualBox 가상화 설치
+
+1. 필요한 것을 설치하고 시스템을 재시작합니다.
+
+		$ yum --enablerepo=epel -y install gcc make glibc kernel-headers kernel-devel dkms
+		
+		$ yum -y update kernel
+		
+		$ reboot
+		
+
+2. VirtualBox를 설치합니다.
+
+		$ curl http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -o /etc/yum.repos.d/virtualbox.repo
+		
+		$ yum search virtualbox
+		
+			Loaded plugins: fastestmirror
+			Loading mirror speeds from cached hostfile
+			* base: www.ftp.ne.jp
+			* extras: www.ftp.ne.jp
+			* updates: www.ftp.ne.jp
+			====================== N/S matched: virtualbox ========================
+			VirtualBox-4.3.x86_64: Oracle VM VirtualBox
+			VirtualBox-5.0.x86_64: Oracle VM VirtualBox
+			
+			Name and summary matches only, use "search all" for everything.
+			
+		$ yum -y install VirtualBox-5.0
+		
+		
+		$ VBoxManage -v
+		
+			5.0.14r105127
+		
+
+3. VRDP (Virtual Remote Desktop Protocol)를 사용할 수 있도록 확장 팩을 설치해야합니다.
+
+		$ curl -O http://download.virtualbox.org/virtualbox/5.0.14/Oracle_VM_VirtualBox_Extension_Pack-5.0.14.vbox-extpack
+		
+		$ VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-5.0.14.vbox-extpack
+		
+			0 ~ 100%
+			Successfully installed "Oracle VM VirtualBox Extension Pack".
+		
+		$ VBoxManage list extpacks
+		
+			Extension Packs: 1
+			Pack no: Oracle VM VirtualBox Extension Pack
+			Version: 5.0.14
+			Revision: 104061
+			Edition:
+			Description: USB 2.0 and USB 3.0 Host Controller, Host Webcam, VirtualBox RDP, PXE ROM, Disk Encryption.
+			VRDE Module: VBoxVRDP
+			Usable: true
+			Why unusable:
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
+CentOS 7 VirtualBox 가상 머신 생성
+
+VirtualBox 가상 머신 생성
+
+가상머신을 만듭니다. 여기에서는 호스트 OS와 동일한 CentOS7을 설치하고 가상머신을 만듭니다.
+
+1. 가상 머신을 만듭니다.
+
+	- 가상 머신 저장 디렉토리 생성
+	
+		$ mkdir /var/vbox
+	
+	- 가상 머신 생성
+	
+		$ VBoxManage createvm \
+		--name CentOS_7 \
+		--ostype RedHat_64 \
+		--register \
+		--basefolder /var/vbox
+		
+			Virtual machine 'CentOS_7' is created and registered.
+			UUID: XXXXXXX
+			Settings file: '/var/vbox/CentOS_7/CentOS_7.vbox'
+	
+	- 가상 머신 설정 변경
+	
+		$ VBoxManage modifyvm CentOS_7 \
+		--cpus 4 \
+		--memory 4096 \
+		--nic1 bridged \
+		--bridgeadapter1 eth0 \
+		--boot1 dvd \
+		--vrde on \
+		--vrdeport 5001
+	
+	- 가상 머신 스토리지 설정
+	
+		$ VBoxManage storagectl CentOS_7 \
+		--name "CentOS_7_SATA" \
+		--add sata
+		
+		$ VBoxManage createhd \
+		--filename /var/vbox/CentOS_7/CentOS_7.vdi \
+		--size 20480 \
+		--format VDI \
+		--variant Standard
+		
+			0 ~ 100%
+			Medium created. UUID: XXXXXXX
+			
+		$ VBoxManage storageattach CentOS_7 \
+		--storagectl CentOS_7_SATA \
+		--port 1 \
+		--type hdd \
+		--medium /var/vbox/CentOS_7/CentOS_7.vdi
+	
+	- 가상 머신의 DVD 드라이브 설정(예에서는 사전에 다온로드 한 ISO 파일을 지정하고 있다)
+	
+		$ VBoxManage storageattach CentOS_7 \
+		--storagectl CentOS_7_SATA \
+		--port 0 \
+		--type dvddrive \
+		--medium /tmp/CentOS-7-x86_64-DVD-1511.iso
+	
+	- 설정 확인
+	
+		$ VBoxManage showvminfo CentOS_7
+		
+			Name: CentOS_7
+			Groups: /
+			Guest OS: Red Hat(64-bit)
+			UUID: XXXXXXXXXX
+			Config file: /var/vbox/CentOS_7/CentOS_7.vbox
+			Sanpshot folder: /var/vbox/CentOS_7/Snapshots
+			Log folder: /var/vbox/CentOS_7/Logs
+			Hardware UUID: XXXXXXXX
+			Memory size: 4096MB
+			Page Fusion: off
+			VRAM size: 8MB
+			CPU exec cap: 100%
+			HPET: off
+			Chipset: piix3
+			Firmware: BIOS
+			Number of CPUs: 4
+			PAE: on
+			Long Mode: on
+			CPUID Portability Level: 0
+			.....
+	
+2. 가상 컴퓨터를 시작합니다.
+
+		$ VBoxManage  startvm CentOS_7  --type headless
+			Waiting for VM "CentOS_7" to power on...
+			VM "CentOS_7" has been successfully started.
+
+
+
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
+CentOS 7 VirtualBox GeustAdditions 설치
+
+VirtualBox GuestAdditions 설치
+
+VirtualBox 가상 머신에 GuestAdditions를 설치하여 가상 머신의 성능을 개선합니다.
+예를 들어, CentOS_7라는 이름의 가상 머신에 GuestAdditions를 설치합니다.
+
+
+1. 호스트 측에서 해당 가상 머신 드라이브에 GuestAdditions 디스크를 연결해야 합니다.
+
+		$ VBoxManage storageattach CentOS_7 \
+		--storagectl CentOS_7_SATA \
+		--port 0 \
+		--type dvddrive \
+		--medium /usr/share/virtualbox/VBoxGuestAdditions.iso
+		
+
+2. 가상 머신 측에서 GuestAdditions를 설치합니다.
+
+	- 사전에 필요한 것을 설치
+	
+		$ yum -y update kernel
+		
+		$ reboot
+		
+		$ yum -y install gcc make bzip2 kernel-devel
+		
+		$ mount /dev/cdrom /mnt
+		
+		$ cd /mnt
+		
+		$ ./VBoxLinuxAdditions.run
+		
+		$ reboot
+		
+		
+		
+3. GuestAdditions를 설치하면 성능도 개선 된 마우스의 차이 등도 통합됩니다.
+
+
+
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
+
