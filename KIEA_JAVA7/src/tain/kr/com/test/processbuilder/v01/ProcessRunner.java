@@ -19,6 +19,12 @@
  */
 package tain.kr.com.test.processbuilder.v01;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -53,10 +59,45 @@ public class ProcessRunner {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private void printStream(Process process) throws Exception {
+		
+		process.waitFor();
+		try (InputStream psout = process.getInputStream()) {
+			copy(psout, System.out);
+		}
+	}
+	
+	private void copy(InputStream is, OutputStream os) throws IOException {
+		
+		byte[] bytRead = new byte[1024];
+		int nRead;
+		
+		while ((nRead = is.read(bytRead)) != -1) {
+			os.write(bytRead, 0, nRead);
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void byRuntime(String[] command) throws Exception {
+		
+		Runtime runtime = Runtime.getRuntime();
+		Process process = runtime.exec(command);
+		printStream(process);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void byProcessBuilder(String[] command) throws Exception {
+		
+		ProcessBuilder builder = new ProcessBuilder(new ArrayList<String>(Arrays.asList(command)));
+		Process process = builder.start();
+		printStream(process);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +115,15 @@ public class ProcessRunner {
 			new ProcessRunner();
 
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			String[] command = new String[] { "cmd", "/c", "echo", "%PATH%" };
+			
+			ProcessRunner runner = new ProcessRunner();
+			runner.byRuntime(command);
+			runner.byProcessBuilder(command);
+			runner.byProcessBuilderRedirect(command);
 		}
 	}
 
