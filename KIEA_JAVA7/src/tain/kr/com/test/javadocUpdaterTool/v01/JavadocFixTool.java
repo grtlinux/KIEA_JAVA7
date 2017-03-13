@@ -278,7 +278,8 @@ public class JavadocFixTool {
      * If global parameter doPatch is false we should only print the location of the vulnerable html file
      * and return
      */
-    public void applyPatch(File file, File currentFolder) throws Exception {
+    @SuppressWarnings("resource")
+	public void applyPatch(File file, File currentFolder) throws Exception {
         FileInputStream fis = new FileInputStream(file);
         BufferedReader br = new BufferedReader(new InputStreamReader(fis));
         String line;
