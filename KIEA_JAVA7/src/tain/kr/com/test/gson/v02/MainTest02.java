@@ -65,7 +65,7 @@ public class MainTest02 {
 		private String[] cmd = new String[] { "" };
 		private String[] env = new String[] { "" };
 		private String dir = "";
-		private String skip = "";
+		private String[] lineCmd = new String[] { "" };
 		private String[] fldName = new String[] { "" };
 		private String result = "";
 		
@@ -92,8 +92,8 @@ public class MainTest02 {
 		public String getDir() {
 			return dir;
 		}
-		public String getSkip() {
-			return skip;
+		public String[] getLineCmd() {
+			return lineCmd;
 		}
 		public String[] getFldName() {
 			return fldName;
@@ -125,8 +125,8 @@ public class MainTest02 {
 		public void setDir(String dir) {
 			this.dir = dir;
 		}
-		public void setSkip(String skip) {
-			this.skip = skip;
+		public void setLineCmd(String[] lineCmd) {
+			this.lineCmd = lineCmd;
 		}
 		public void setFldName(String[] fldName) {
 			this.fldName = fldName;
@@ -171,7 +171,7 @@ public class MainTest02 {
 			cmdBean.setEnv(new String[] { "PARAM1=hello", "PARAM2=world" });
 			cmdBean.setDir("N:/PROG");  // N:/PROG  N:\\PROG
 			
-			cmdBean.setSkip("0");
+			cmdBean.setLineCmd(new String[] { "W", "L1", "L2", "R5-10" });
 			cmdBean.setFldName(new String[] { "fld1", "fld2", "fld3" });
 			
 			Gson gson = new Gson();
