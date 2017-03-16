@@ -139,6 +139,8 @@ public class MainTest01 {
 		public String getName() {
 			return this.name;
 		}
+		
+		public abstract void add(AbsEntry entry) throws Exception;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,7 +160,8 @@ public class MainTest01 {
 			return this.lstEntry;
 		}
 		
-		public void add(AbsEntry entry) {
+		@Override
+		public void add(AbsEntry entry) throws Exception {
 			this.lstEntry.add(entry);
 		}
 	}
@@ -169,8 +172,13 @@ public class MainTest01 {
 		private String desc = new String();
 		private List<AbsEntry> lstEntry = new ArrayList<AbsEntry>();
 		
-		public FolderEntry(String name) {
+		public FolderEntry(String name, String desc) {
 			super(name);
+			this.desc = desc;
+		}
+		
+		public FolderEntry(String name) {
+			this(name, "NO_DESC");
 		}
 		
 		public void setDesc(String desc) {
@@ -189,7 +197,8 @@ public class MainTest01 {
 			return this.lstEntry;
 		}
 		
-		public void add(AbsEntry entry) {
+		@Override
+		public void add(AbsEntry entry) throws Exception {
 			this.lstEntry.add(entry);
 		}
 	}
@@ -221,6 +230,11 @@ public class MainTest01 {
 		
 		public long getDate() {
 			return this.date;
+		}
+		
+		@Override
+		public void add(AbsEntry entry) throws Exception {
+			throw new Exception("couldn't do the action method 'add'");
 		}
 	}
 	
@@ -304,7 +318,51 @@ public class MainTest01 {
 			 */
 			if (flag) log.debug(">>>>> >>>>> >>>>> TEST -4 <<<<< <<<<< <<<<<");
 			
-			AbsEntry file1 = new FileEntry("");
+			AbsEntry kang   = new FileEntry("kang", 2025, 100);
+			AbsEntry kim    = new FileEntry("kim",  2025, 100);
+			AbsEntry java   = new FileEntry("java", 2025, 100);
+			AbsEntry apache = new FileEntry("apache", 2025, 100);
+			AbsEntry maven  = new FileEntry("maven", 2025, 100);
+			AbsEntry tty    = new FileEntry("tty", 2025, 100);
+			AbsEntry dev    = new FileEntry("dev", 2025, 100);
+			AbsEntry test01 = new FileEntry("test01", 2025, 100);
+			
+			AbsEntry root = new FolderEntry("root", "root desc");
+			AbsEntry home = new FolderEntry("home", "home desc");
+			AbsEntry usr  = new FolderEntry("usr", "usr desc");
+			AbsEntry var  = new FolderEntry("var", "var desc");
+			AbsEntry tmp  = new FolderEntry("tmp", "tmp desc");
+			
+			AbsEntry system = new SystemEntry("system");
+			
+			/*
+			 * do jobs
+			 */
+			system.add(root);
+			
+			root.add(home);
+			root.add(usr);
+			root.add(var);
+			root.add(tmp);
+			
+			home.add(kang);
+			home.add(kim);
+			
+			usr.add(java);
+			usr.add(apache);
+			usr.add(maven);
+			
+			var.add(tty);
+			var.add(dev);
+			
+			tmp.add(test01);
+			
+			/*
+			 * Gson
+			 */
+			Gson gson = new Gson();
+			String strGson = gson.toJson(system);
+			if (flag) System.out.printf("%s\n\n", strGson);
 		}
 		
 		
