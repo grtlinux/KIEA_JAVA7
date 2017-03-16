@@ -161,6 +161,19 @@ public class MainTest02 {
 			 */
 			CmdBean cmdBean = new CmdBean();
 			
+			cmdBean.setName("cmdDir");
+			cmdBean.setDesc("command of dir");
+			
+			cmdBean.setHost("127.0.0.1");
+			cmdBean.setPort("1234");
+			
+			cmdBean.setCmd(new String[] { "cmd", "-c", "dir" });
+			cmdBean.setEnv(new String[] { "PARAM1=hello", "PARAM2=world" });
+			cmdBean.setDir("N:\\PROG");  // N:/PROG
+			
+			cmdBean.setSkip("0");
+			cmdBean.setFldName(new String[] { "fld1", "fld2", "fld3" });
+			
 			Gson gson = new Gson();
 			String strGson = gson.toJson(cmdBean);
 			if (flag) System.out.println(strGson);
