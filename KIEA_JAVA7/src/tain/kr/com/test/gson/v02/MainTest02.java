@@ -169,7 +169,7 @@ public class MainTest02 {
 			
 			cmdBean.setCmd(new String[] { "cmd", "-c", "dir" });
 			cmdBean.setEnv(new String[] { "PARAM1=hello", "PARAM2=world" });
-			cmdBean.setDir("N:\\PROG");  // N:/PROG
+			cmdBean.setDir("N:/PROG");  // N:/PROG  N:\\PROG
 			
 			cmdBean.setSkip("0");
 			cmdBean.setFldName(new String[] { "fld1", "fld2", "fld3" });
