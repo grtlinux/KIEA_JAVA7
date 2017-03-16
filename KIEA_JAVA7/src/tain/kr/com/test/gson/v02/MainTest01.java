@@ -125,19 +125,37 @@ public class MainTest01 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public static class SystemEntry {
+	public static abstract class AbsEntry {
+		private String name = new String();
 		
+		public void setName(String name) {
+			this.name = name;
+		}
+		
+		public String getName() {
+			return this.name;
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public static class FolderEntry {
-		
+	public static class SystemEntry extends AbsEntry {
+		private List<AbsEntry> lstEntry = new ArrayList<AbsEntry>();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public static class FileEntry {
+	public static class FolderEntry extends AbsEntry {
+		private String desc = new String();
+		private List<AbsEntry> lstEntry = new ArrayList<AbsEntry>();
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public static class FileEntry extends AbsEntry {
+		private long size = 0;
+		private long date = 0;
+		
 		
 	}
 	
@@ -215,6 +233,14 @@ public class MainTest01 {
 			if (flag) System.out.printf("\t%s\n\n", objGson);
 		}
 		
+		if (flag) {
+			/*
+			 * TEST-4
+			 */
+			if (flag) log.debug(">>>>> >>>>> >>>>> TEST -4 <<<<< <<<<< <<<<<");
+			
+			
+		}
 		
 		
 		
