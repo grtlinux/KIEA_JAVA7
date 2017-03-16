@@ -128,6 +128,10 @@ public class MainTest01 {
 	public static abstract class AbsEntry {
 		private String name = new String();
 		
+		public AbsEntry(String name) {
+			this.name = name;
+		}
+		
 		public void setName(String name) {
 			this.name = name;
 		}
@@ -141,6 +145,22 @@ public class MainTest01 {
 	
 	public static class SystemEntry extends AbsEntry {
 		private List<AbsEntry> lstEntry = new ArrayList<AbsEntry>();
+		
+		public SystemEntry(String name) {
+			super(name);
+		}
+		
+		public void setLstEntry(List<AbsEntry> lstEntry) {
+			this.lstEntry = lstEntry;
+		}
+		
+		public List<AbsEntry> getLstEntry() {
+			return this.lstEntry;
+		}
+		
+		public void add(AbsEntry entry) {
+			this.lstEntry.add(entry);
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,6 +168,30 @@ public class MainTest01 {
 	public static class FolderEntry extends AbsEntry {
 		private String desc = new String();
 		private List<AbsEntry> lstEntry = new ArrayList<AbsEntry>();
+		
+		public FolderEntry(String name) {
+			super(name);
+		}
+		
+		public void setDesc(String desc) {
+			this.desc = desc;
+		}
+		
+		public void setLstEntry(List<AbsEntry> lstEntry) {
+			this.lstEntry = lstEntry;
+		}
+		
+		public String getDesc() {
+			return this.desc;
+		}
+		
+		public List<AbsEntry> getLstEntry() {
+			return this.lstEntry;
+		}
+		
+		public void add(AbsEntry entry) {
+			this.lstEntry.add(entry);
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,7 +200,28 @@ public class MainTest01 {
 		private long size = 0;
 		private long date = 0;
 		
+		public FileEntry(String name, long size, long date) {
+			super(name);
+			
+			this.size = size;
+			this.date = date;
+		}
 		
+		public void setSize(long size) {
+			this.size = size;
+		}
+		
+		public void setDate(long date) {
+			this.date = date;
+		}
+		
+		public long getSize() {
+			return this.size;
+		}
+		
+		public long getDate() {
+			return this.date;
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -239,7 +304,7 @@ public class MainTest01 {
 			 */
 			if (flag) log.debug(">>>>> >>>>> >>>>> TEST -4 <<<<< <<<<< <<<<<");
 			
-			
+			AbsEntry file1 = new FileEntry("");
 		}
 		
 		
