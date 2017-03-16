@@ -146,23 +146,23 @@ public class MainTest01 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public static class SystemEntry extends AbsEntry {
-		private List<AbsEntry> lstEntry = new ArrayList<AbsEntry>();
+		private List<AbsEntry> lstFolderEntry = new ArrayList<AbsEntry>();
 		
 		public SystemEntry(String name) {
 			super(name);
 		}
 		
 		public void setLstEntry(List<AbsEntry> lstEntry) {
-			this.lstEntry = lstEntry;
+			this.lstFolderEntry = lstEntry;
 		}
 		
 		public List<AbsEntry> getLstEntry() {
-			return this.lstEntry;
+			return this.lstFolderEntry;
 		}
 		
 		@Override
 		public void add(AbsEntry entry) throws Exception {
-			this.lstEntry.add(entry);
+			this.lstFolderEntry.add(entry);
 		}
 	}
 	
@@ -170,7 +170,7 @@ public class MainTest01 {
 	
 	public static class FolderEntry extends AbsEntry {
 		private String desc = new String();
-		private List<AbsEntry> lstEntry = new ArrayList<AbsEntry>();
+		private List<AbsEntry> lstFileEntry = new ArrayList<AbsEntry>();
 		
 		public FolderEntry(String name, String desc) {
 			super(name);
@@ -186,7 +186,7 @@ public class MainTest01 {
 		}
 		
 		public void setLstEntry(List<AbsEntry> lstEntry) {
-			this.lstEntry = lstEntry;
+			this.lstFileEntry = lstEntry;
 		}
 		
 		public String getDesc() {
@@ -194,12 +194,12 @@ public class MainTest01 {
 		}
 		
 		public List<AbsEntry> getLstEntry() {
-			return this.lstEntry;
+			return this.lstFileEntry;
 		}
 		
 		@Override
 		public void add(AbsEntry entry) throws Exception {
-			this.lstEntry.add(entry);
+			this.lstFileEntry.add(entry);
 		}
 	}
 	
