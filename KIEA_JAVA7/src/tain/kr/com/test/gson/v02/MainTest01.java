@@ -83,8 +83,8 @@ public class MainTest01 {
 
 			System.out.printf("\t[name]         = [%s]\n", this.name);
 			System.out.printf("\t[age]          = [%s]\n", this.age);
-			System.out.printf("\t[favoriteFood] = [%s]\n", this.favoriteFood);
-			System.out.printf("\t[etc]          = [%s]\n", this.etc);
+			System.out.printf("\t[favoriteFood] = %s\n", this.favoriteFood);
+			System.out.printf("\t[etc]          = %s\n", this.etc);
 			
 			System.out.println();
 		}
@@ -114,6 +114,10 @@ public class MainTest01 {
 		}
 		public void setStr(String str) {
 			this.str = str;
+		}
+		
+		public String toString() {
+			return String.format("{ %d, %d, '%s' }", a, b, str);
 		}
 	}
 	
@@ -170,6 +174,26 @@ public class MainTest01 {
 			person.print();
 		}
 		
+		if (flag) {
+			/*
+			 * TEST-3
+			 */
+			if (flag) log.debug(">>>>> >>>>> >>>>> TEST -3 <<<<< <<<<< <<<<<");
+			
+			if (flag) System.out.println();
+			
+			Obj obj = new Obj();
+			obj.setA(10);
+			obj.setB(123);
+			obj.setStr("Hello, World...");
+			
+			Gson gson = new Gson();
+			String strGson = gson.toJson(obj);
+			if (flag) System.out.printf("\t%s\n\n", strGson);
+			
+			Obj objGson = gson.fromJson(strGson, Obj.class);
+			if (flag) System.out.printf("\t%s\n\n", objGson);
+		}
 		
 		
 		
