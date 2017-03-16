@@ -21,6 +21,8 @@ package tain.kr.com.test.gson.v02;
 
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+
 /**
  * Code Templates > Comments > Types
  *
@@ -154,7 +156,14 @@ public class MainTest02 {
 			new MainTest02();
 
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			CmdBean cmdBean = new CmdBean();
+			
+			Gson gson = new Gson();
+			String strGson = gson.toJson(cmdBean);
+			if (flag) System.out.println(strGson);
 		}
 	}
 
