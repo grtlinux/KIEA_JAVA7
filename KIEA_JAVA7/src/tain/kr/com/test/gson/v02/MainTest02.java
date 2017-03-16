@@ -58,16 +58,17 @@ public class MainTest02 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public static class CmdBean {
-		private String name = "";
-		private String desc = "";
-		private String host = "";
-		private String port = "";
-		private String[] cmd = new String[] { "" };
-		private String[] env = new String[] { "" };
-		private String dir = "";
-		private String[] lineCmd = new String[] { "" };
-		private String[] fldName = new String[] { "" };
-		private String result = "";
+		private String name = "name";
+		private String desc = "desc";
+		private String host = "127.0.0.1";
+		private String port = "7412";
+		private String[] cmd = new String[] { "cmd", "/c" };
+		private String[] env = null;
+		private String dir = null;
+		private String[] args = null;
+		private String[] skipCmd = new String[] { "W" };
+		private String[] fldName = new String[] { "fld1" };
+		private String result = null;
 		
 		///////////////////////////////////////
 		
@@ -92,8 +93,11 @@ public class MainTest02 {
 		public String getDir() {
 			return dir;
 		}
-		public String[] getLineCmd() {
-			return lineCmd;
+		public String[] getArgs() {
+			return args;
+		}
+		public String[] getSkipCmd() {
+			return skipCmd;
 		}
 		public String[] getFldName() {
 			return fldName;
@@ -125,8 +129,11 @@ public class MainTest02 {
 		public void setDir(String dir) {
 			this.dir = dir;
 		}
-		public void setLineCmd(String[] lineCmd) {
-			this.lineCmd = lineCmd;
+		public void setArgs(String[] args) {
+			this.args = args;
+		}
+		public void setSkipCmd(String[] skipCmd) {
+			this.skipCmd = skipCmd;
 		}
 		public void setFldName(String[] fldName) {
 			this.fldName = fldName;
@@ -159,8 +166,14 @@ public class MainTest02 {
 			/*
 			 * begin
 			 */
+			Gson gson = new Gson();
+			String strGson;
+
 			CmdBean cmdBean = new CmdBean();
 			
+			strGson = gson.toJson(cmdBean);
+			if (flag) System.out.println(strGson);
+
 			cmdBean.setName("cmdDir");
 			cmdBean.setDesc("command of dir");
 			
@@ -171,11 +184,10 @@ public class MainTest02 {
 			cmdBean.setEnv(new String[] { "PARAM1=hello", "PARAM2=world" });
 			cmdBean.setDir("N:/PROG");  // N:/PROG  N:\\PROG
 			
-			cmdBean.setLineCmd(new String[] { "W", "L1", "L2", "R5-10" });
+			cmdBean.setSkipCmd(new String[] { "W", "L1", "L2", "R5-10" });
 			cmdBean.setFldName(new String[] { "fld1", "fld2", "fld3" });
 			
-			Gson gson = new Gson();
-			String strGson = gson.toJson(cmdBean);
+			strGson = gson.toJson(cmdBean);
 			if (flag) System.out.println(strGson);
 		}
 	}
