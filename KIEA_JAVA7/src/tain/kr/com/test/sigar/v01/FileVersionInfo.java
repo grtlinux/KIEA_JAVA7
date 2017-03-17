@@ -20,6 +20,7 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -35,7 +36,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class FileVersionInfo {
+public final class FileVersionInfo extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -47,13 +48,30 @@ public class FileVersionInfo {
 	/*
 	 * constructor
 	 */
-	public FileVersionInfo() {
+	public FileVersionInfo(Shell shell) {
+		
+		super(shell);
+		
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public FileVersionInfo() {
+		super();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.sigar.v01.SigarCommandBase#output(java.lang.String[])
+	 */
+	@Override
+	public void output(String[] args) throws SigarException {
+		// TODO Auto-generated method stub
+		
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
