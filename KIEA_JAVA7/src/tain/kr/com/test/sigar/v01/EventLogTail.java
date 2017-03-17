@@ -20,6 +20,11 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.win32.EventLog;
+import org.hyperic.sigar.win32.EventLogNotification;
+import org.hyperic.sigar.win32.EventLogRecord;
+import org.hyperic.sigar.win32.EventLogThread;
+import org.hyperic.sigar.win32.Win32Exception;
 
 /**
  * Code Templates > Comments > Types
@@ -35,7 +40,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class EventLogTail {
+public final class EventLogTail {
 
 	private static boolean flag = true;
 
@@ -53,7 +58,49 @@ public class EventLogTail {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static void tail(String name, Tail tail) throws Win32Exception {
+		
+		EventLog log = new EventLog();
+		log.open(name);
+		int max = log.getNumberOfRecords();
+		if (tail.number < max) {
+			max = tail.number;
+		}
+		
+		int last = log.getNewestRecord() + 1;
+		int first = last - max;
+		
+		for (int i=first; i < last; i++) {
+			EventLogRecord record = log.read(i);
+			System.out.println(record);
+		}
+		
+		log.close();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static class TailNotification implements EventLogNotification {
+
+		/* (non-Javadoc)
+		 * @see org.hyperic.sigar.win32.EventLogNotification#handleNotification(org.hyperic.sigar.win32.EventLogRecord)
+		 */
+		@Override
+		public void handleNotification(EventLogRecord event) {
+			System.out.println(event);
+		}
+
+		/* (non-Javadoc)
+		 * @see org.hyperic.sigar.win32.EventLogNotification#matches(org.hyperic.sigar.win32.EventLogRecord)
+		 */
+		@Override
+		public boolean matches(EventLogRecord event) {
+			return true;
+		}
+		
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +117,33 @@ public class EventLogTail {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new EventLogTail();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			Tail tail = new Tail();
+			tail.parseArgs(args);
+			
+			if (tail.files.size() == 0) {
+				tail.files.add(EventLog.SYSTEM);
+			}
+			
+			for (int i=0; i < tail.files.size(); i++) {
+				String name = (String) tail.files.get(i);
+				tail(name, tail);
+				
+				if (tail.follow) {
+					TailNotification notifier = new TailNotification();
+					EventLogThread thread = EventLogThread.getInstance(name);
+					thread.add(notifier);;
+					thread.doStart();
+				}
+			}
+			
+			if (tail.follow) {
+				System.out.println("pause");
+				System.in.read();
+			}
 		}
 	}
 
