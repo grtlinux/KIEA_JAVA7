@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 
+import org.apache.log4j.Logger;
 import org.hyperic.jni.ArchLoader;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
@@ -46,7 +47,7 @@ import org.hyperic.sigar.util.Getline;
  *   -. Package    : tain.kr.com.test.sigar.v01
  *   -. Comment    :
  *   -. Author     : taincokr
- *   -. First Date : 2017. 3. 18. {time}
+ *   -. First Date : 2017. 3. 17. {time}
  * </PRE>
  *
  * @author taincokr
@@ -54,8 +55,14 @@ import org.hyperic.sigar.util.Getline;
  */
 public class Shell extends ShellBase {
 
+	private static boolean flag = true;
+
+	private static final Logger log = Logger.getLogger(Shell.class);
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static final String RCFILE_NAME = ".sigar_shellrc";
-	private static final String CLEAR_SCREEN = "\033[2J";
+	private static final String CLEAR_SCREEN = "\033[2j";
 
 	private Sigar sigar = new Sigar();
 	private SigarProxy proxy = SigarProxyCache.newInstance(this.sigar);
@@ -64,7 +71,12 @@ public class Shell extends ShellBase {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	/*
+	 * constructor
+	 */
 	public Shell() {
+		if (!flag)
+			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,66 +93,66 @@ public class Shell extends ShellBase {
 		return this.isInteractive;
 	}
 
-	public void setInteractive(boolean value) {
-		this.isInteractive = value;
+	public void setInteractive(boolean isInteractive) {
+		this.isInteractive = isInteractive;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void registerCommands() throws ShellCommandInitException {
-//		registerCommandHandler("df", new Df(this));
-//		registerCommandHandler("du", new Du(this));
-//		registerCommandHandler("ls", new Ls(this));
-//		registerCommandHandler("iostat", new Iostat(this));
-//		registerCommandHandler("free", new Free(this));
-//		registerCommandHandler("pargs", new ShowArgs(this));
-//		registerCommandHandler("penv", new ShowEnv(this));
-//		registerCommandHandler("pfile", new ProcFileInfo(this));
-//		registerCommandHandler("pmodules", new ProcModuleInfo(this));
-//		registerCommandHandler("pinfo", new ProcInfo(this));
 		registerCommandHandler("cpuinfo", new CpuInfo(this));
-//		registerCommandHandler("ifconfig", new Ifconfig(this));
-//		registerCommandHandler("uptime", new Uptime(this));
-//		registerCommandHandler("ps", new Ps(this));
-//		registerCommandHandler("pidof", new Pidof(this));
-//		registerCommandHandler("kill", new Kill(this));
-//		registerCommandHandler("netstat", new Netstat(this));
-//		registerCommandHandler("netinfo", new NetInfo(this));
-//		registerCommandHandler("nfsstat", new Nfsstat(this));
-//		registerCommandHandler("route", new Route(this));
-//		registerCommandHandler("version", new Version(this));
-//		registerCommandHandler("mps", new MultiPs(this));
-//		registerCommandHandler("sysinfo", new SysInfo(this));
-//		registerCommandHandler("time", new Time(this));
-//		registerCommandHandler("ulimit", new Ulimit(this));
-//		registerCommandHandler("who", new Who(this));
+		//registerCommandHandler("df", new Df(this));
+		//registerCommandHandler("du", new Du(this));
+		//registerCommandHandler("ls", new Ls(this));
+		//registerCommandHandler("iostat", new Iostat(this));
+		//registerCommandHandler("free", new Free(this));
+		//registerCommandHandler("pargs", new ShowArgs(this));
+		//registerCommandHandler("penv", new ShowEnv(this));
+		//registerCommandHandler("pfile", new ProcFileInfo(this));
+		//registerCommandHandler("pmodules", new ProcModuleInfo(this));
+		//registerCommandHandler("pinfo", new ProcInfo(this));
+		//registerCommandHandler("ifconfig", new Ifconfig(this));
+		//registerCommandHandler("uptime", new Uptime(this));
+		//registerCommandHandler("ps", new Ps(this));
+		//registerCommandHandler("pidof", new Pidof(this));
+		//registerCommandHandler("kill", new Kill(this));
+		//registerCommandHandler("netstat", new Netstat(this));
+		//registerCommandHandler("netinfo", new NetInfo(this));
+		//registerCommandHandler("nfsstat", new Nfsstat(this));
+		//registerCommandHandler("route", new Route(this));
+		//registerCommandHandler("version", new Version(this));
+		//registerCommandHandler("mps", new MultiPs(this));
+		//registerCommandHandler("sysinfo", new SysInfo(this));
+		//registerCommandHandler("time", new Time(this));
+		//registerCommandHandler("ulimit", new Ulimit(this));
+		//registerCommandHandler("who", new Who(this));
+
 		if (ArchLoader.IS_WIN32) {
-//			registerCommandHandler("service", new Win32Service(this));
-//			registerCommandHandler("fversion", new FileVersionInfo(this));
+			//registerCommandHandler("service", new Win32Service(this));
+			//registerCommandHandler("fversion", new FileVersionInfo(this));
 		}
+
 		try {
-			//requires junit.jar
+			// requires junit.jar
 			registerCommandHandler("test", "org.hyperic.sigar.test.SigarTestRunner");
-		} catch (NoClassDefFoundError e) { }
-		catch (Exception e) { }
+		} catch (NoClassDefFoundError e) {
+		} catch (Exception e) {}
 	}
 
 	private void registerCommandHandler(String name, String className) throws Exception {
-		Class cls = Class.forName(className);
-		Constructor con = cls.getConstructor(new Class[] { this.getClass() });
-		registerCommandHandler(name, (ShellCommandHandler)con.newInstance(new Object[] { this }));
+		Class<?> cls = Class.forName(className);
+		Constructor<?> con = cls.getConstructor(new Class[] { this.getClass() });
+		registerCommandHandler(name, (ShellCommandHandler) con.newInstance(new Object[] { this }));
 	}
-
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public void processCommand(ShellCommandHandler handler, String args[])
-		throws ShellCommandUsageException, ShellCommandExecException
-	{
+	public void processCommand(ShellCommandHandler handler, String[] args) throws ShellCommandUsageException, ShellCommandExecException {
 		try {
 			super.processCommand(handler, args);
 			if (handler instanceof SigarCommandBase) {
-				((SigarCommandBase)handler).flush();
+				((SigarCommandBase) handler).flush();
 			}
 		} finally {
 			SigarProxyCache.clear(this.proxy);
@@ -148,24 +160,23 @@ public class Shell extends ShellBase {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	public long[] findPids(String[] args) throws SigarException {
-
 		if ((args.length == 1) && args[0].equals("-")) {
 			return this.foundPids;
 		}
-
+		
 		this.foundPids = getPids(this.proxy, args);
-
+		
 		return this.foundPids;
 	}
-
+	
 	public long[] findPids(String query) throws SigarException {
 		return findPids(new String[] { query });
 	}
-
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	public void readCommandFile(String dir) {
 		try {
 			File rc = new File(dir, RCFILE_NAME);
@@ -173,38 +184,38 @@ public class Shell extends ShellBase {
 			if (this.isInteractive && Getline.isTTY()) {
 				this.out.println("Loaded rc file: " + rc);
 			}
-		} catch (IOException e) { }
+		} catch (IOException e) {
+		}
 	}
-
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	public String getUserDeniedMessage(long pid) {
-		return
-			SigarPermissionDeniedException.getUserDeniedMessage(this.proxy,
-																pid);
+		return SigarPermissionDeniedException.getUserDeniedMessage(this.proxy, pid);
 	}
-
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	@Override
 	public void shutdown() {
 		this.sigar.close();
-		//cleanup for dmalloc
-		//using reflection incase junit.jar is not present
+		
+		// cleanup for dmalloc
+		// using reflection incase junit.jar is not present
+		
 		try {
-			//SigarTestCase.closeSigar();
-			Class.forName("org.hyperic.sigar.test.SigarTestCase").
-				getMethod("closeSigar", new Class[0]).invoke(null, new Object[0]);
+			// SigarTestCase.closeSigar();
+			Class.forName("org.hyperic.sigar.test.SigarTestCase").getMethod("closeSigar", new Class[0]).invoke(null, new Object[0]);
 		} catch (ClassNotFoundException e) {
-			//SigarTestCase.java not compiled w/o junit.jar
+			// SigarTestCase.java not compiled w/o junit.jar
 		} catch (Exception e) {
 			e.printStackTrace();
 		} catch (NoClassDefFoundError e) {
-			//avoiding possible Class Not Found: junit/framework/TestCase
+			// avoiding possible Class Not Found: junit/framework/TestCase
 		}
-		super.shutdown();
 	}
-
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -216,74 +227,90 @@ public class Shell extends ShellBase {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static long[] getPids(SigarProxy sigar, String[] args)
-		throws SigarException {
-
+	
+	public static long[] getPids(SigarProxy sigar, String[] args) throws SigarException {
 		long[] pids;
-
+		
 		switch (args.length) {
-		  case 0:
+		case 0:
 			pids = new long[] { sigar.getPid() };
 			break;
-		  case 1:
+		case 1:
 			if (args[0].indexOf("=") > 0) {
-				pids = ProcessFinder.find(sigar, args[0]);
-			}
-			else if (args[0].equals("$$")) {
+				pids = ProcessFinder.find(sigar,  args[0]);
+			} else if (args[0].equals("$$")) {
 				pids = new long[] { sigar.getPid() };
-			}
-			else {
-				pids = new long[] {
-					Long.parseLong(args[0])
-				};
+			} else {
+				pids = new long[] { Long.parseLong(args[0]) };
 			}
 			break;
-		  default:
+		default:
 			pids = new long[args.length];
-			for (int i=0; i<args.length; i++) {
+			for (int i=0; i < args.length; i++) {
 				pids[i] = Long.parseLong(args[i]);
 			}
 			break;
 		}
-
+		
 		return pids;
 	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	/*
+	 * static test method
+	 */
+	private static void test01(String[] args) throws Exception {
 
-	public static void main(String[] args) {
-		Shell shell = new Shell();
-
-		try {
-			if (args.length == 0) {
-				shell.isInteractive = true;
+		if (flag) {
+			/*
+			 * begin
+			 */
+			Shell shell = new Shell();
+			
+			try {
+				if (args.length == 0) {
+					shell.isInteractive = true;
+				}
+				
+				shell.init("sigar",  System.out, System.err);
+				shell.registerCommands();
+				
+				shell.readCommandFile(System.getProperty("user.home"));
+				shell.readCommandFile(".");
+				shell.readCommandFile(SigarLoader.getLocation());
+				
+				if (shell.isInteractive) {
+					shell.initHistory();
+					Getline.setCompleter(shell);
+					shell.run();
+				} else {
+					shell.handleCommand(null, args);
+				}
+			} catch (Exception e) {
+				System.err.println("Unexpected exception: " + e);
+			} finally {
+				shell.shutdown();
 			}
-
-			shell.init("sigar", System.out, System.err);
-			shell.registerCommands();
-
-			shell.readCommandFile(System.getProperty("user.home"));
-			shell.readCommandFile(".");
-			shell.readCommandFile(SigarLoader.getLocation());
-
-			if (shell.isInteractive) {
-				shell.initHistory();
-				Getline.setCompleter(shell);
-				shell.run();
-			}
-			else {
-				shell.handleCommand(null, args);
-			}
-		} catch (Exception e) {
-			System.err.println("Unexpected exception: " + e);
-		} finally {
-			shell.shutdown();
 		}
+	}
+
+	/*
+	 * main method
+	 */
+	public static void main(String[] args) throws Exception {
+
+		if (flag)
+			log.debug(">>>>> " + new Object() {
+			}.getClass().getEnclosingClass().getName());
+
+		if (flag)
+			test01(args);
 	}
 }
