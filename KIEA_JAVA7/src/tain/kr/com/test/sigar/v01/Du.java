@@ -20,6 +20,8 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.DirUsage;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -35,7 +37,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Du {
+public final class Du extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -47,12 +49,34 @@ public class Du {
 	/*
 	 * constructor
 	 */
-	public Du() {
-		if (flag)
+	public Du(Shell shell) {
+		
+		super(shell);
+		
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public Du() {
+		super();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String getUsageShort() {
+		return "Display usage for a directory recursively";
+	}
+	
+	protected boolean validateArgs(String[] args) {
+		return args.length == 1;
+	}
+	
+	public void output(String[] args) throws SigarException {
+		String dir = args[0];
+		DirUsage du = this.sigar.getDirUsage(dir);
+		println(du.getDiskUsage() + "\t" + du.getFiles() + "\t" + dir);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +94,13 @@ public class Du {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new Du();
-
 		if (flag) {
-
+			/*
+			 * du N:/DOC
+			 * 7683583	1	N:/DOC
+			 */
+			//new Du().processCommand(new String[] { "N:/DOC" });
+			new Du().processCommand(args);
 		}
 	}
 
