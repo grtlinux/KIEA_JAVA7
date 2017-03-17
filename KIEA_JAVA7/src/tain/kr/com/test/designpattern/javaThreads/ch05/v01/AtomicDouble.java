@@ -80,19 +80,19 @@ public class AtomicDouble extends Number {
     }
 
     public double getAndIncrement() {
-        return getAndAdd((double) 1.0);
+        return getAndAdd(1.0);
     }
 
     public double getAndDecrement() {
-        return getAndAdd((double) -1.0);
+        return getAndAdd(-1.0);
     }
 
     public double incrementAndGet() {
-        return addAndGet((double) 1.0);
+        return addAndGet(1.0);
     }
 
     public double decrementAndGet() {
-        return addAndGet((double) -1.0);
+        return addAndGet(-1.0);
     }
 
     public double getAndMultiply(double multiple) {
@@ -117,27 +117,33 @@ public class AtomicDouble extends Number {
         }
     }
 
-    public int intValue() {
+    @Override
+	public int intValue() {
         return DoubleValue().intValue();
     }
 
-    public long longValue() {
+    @Override
+	public long longValue() {
         return DoubleValue().longValue();
     }
 
-    public float floatValue() {
+    @Override
+	public float floatValue() {
         return DoubleValue().floatValue();
     }
 
-    public double doubleValue() {
+    @Override
+	public double doubleValue() {
         return DoubleValue().doubleValue();
     }
 
-    public byte byteValue() {
+    @Override
+	public byte byteValue() {
         return (byte)intValue();
     }
 
-    public short shortValue() {
+    @Override
+	public short shortValue() {
         return (short)intValue();
     }
 
@@ -153,19 +159,22 @@ public class AtomicDouble extends Number {
         return DoubleValue().isInfinite();
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return DoubleValue().toString();
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return DoubleValue().hashCode();
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         Double origVal = DoubleValue();
 
         return ((obj instanceof Double)
-                && (origVal.equals((Double)obj)))
+                && (origVal.equals(obj)))
                ||
                ((obj instanceof AtomicDouble)
                 && 

@@ -88,7 +88,8 @@ public class HashTest implements Runnable {
     }
 
     static Map targetMap;
-    public void run() {
+    @Override
+	public void run() {
 	for (int i = 0; i < nLoops; i++) {
 	    Integer I = new Integer(i);
 	    targetMap.put(I, I);

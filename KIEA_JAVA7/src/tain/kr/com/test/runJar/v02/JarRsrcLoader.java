@@ -85,14 +85,14 @@ public class JarRsrcLoader {
 			firstPos = lastPos + 1;
 		}
 		
-		return (String[]) result.toArray(new String[result.size()]);
+		return result.toArray(new String[result.size()]);
 	}
 	
 	private static ManifestInfo getManifestInfo() throws Exception {
 		
 		Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
 		while (urls.hasMoreElements()) {
-			URL url = (URL) urls.nextElement();
+			URL url = urls.nextElement();
 			
 			if (!flag) log.debug(">>>>> " + url.toString());
 			
@@ -139,7 +139,7 @@ public class JarRsrcLoader {
 		if (flag) {
 			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
 			while (urls.hasMoreElements()) {
-				URL url = (URL) urls.nextElement();
+				URL url = urls.nextElement();
 
 				if (flag) log.debug(">>>>> ");
 				if (flag) log.debug(">>>>> " + url.toString());

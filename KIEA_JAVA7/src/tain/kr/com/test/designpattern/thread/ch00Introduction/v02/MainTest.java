@@ -92,6 +92,7 @@ public class MainTest {
 			 * inner thread
 			 */
 			Thread thread = new Thread() {
+				@Override
 				public void run() {
 					System.out.println("Thread-3 start thread...");
 					try { Thread.sleep(1000); } catch (InterruptedException e) {}
@@ -107,6 +108,7 @@ public class MainTest {
 			 * inner runnable thread
 			 */
 			Thread thread = new Thread(new Runnable() {
+				@Override
 				public void run() {
 					System.out.println("Runnable-4 start thread...");
 					try { Thread.sleep(1000); } catch (InterruptedException e) {}

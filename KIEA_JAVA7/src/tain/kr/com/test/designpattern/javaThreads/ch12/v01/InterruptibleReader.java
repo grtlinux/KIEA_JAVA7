@@ -12,7 +12,8 @@ public abstract class InterruptibleReader extends Thread {
     protected void processData(byte[] b, int n) { }
 
     class ReaderClass extends Thread {
-        public void run() {
+        @Override
+		public void run() {
             byte[] b = new byte[buflen];
             while (!done) {
                 try {
@@ -37,7 +38,8 @@ public abstract class InterruptibleReader extends Thread {
         buflen = len;
     }
 
-    public void run() {
+    @Override
+	public void run() {
         ReaderClass rc = new ReaderClass();
         synchronized(lock) {
             rc.start();

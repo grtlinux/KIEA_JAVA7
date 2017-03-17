@@ -42,7 +42,8 @@ public class AtomicTest {
 
     static class AtomicRunnable implements Runnable {
         AtomicInteger ai = new AtomicInteger(1);
-        public void run() {
+        @Override
+		public void run() {
             for (int i = 0; i < nLoops; i++)
 	        ai.incrementAndGet();
         }
@@ -55,7 +56,8 @@ public class AtomicTest {
             testVar++;
         }
 
-        public void run() {
+        @Override
+		public void run() {
             for (int i = 0; i < nLoops; i++)
 	        incrVar();
         }

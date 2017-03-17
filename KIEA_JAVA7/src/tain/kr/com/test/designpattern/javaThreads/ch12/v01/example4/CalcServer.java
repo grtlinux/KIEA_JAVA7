@@ -33,7 +33,8 @@ public class CalcServer extends TCPNIOServer {
             return fib(n - 1) + fib(n - 2);
         }
 
-        public void run() {
+        @Override
+		public void run() {
             try {
                 long answer = fib(n);
                 buffer.putLong(answer);
@@ -54,7 +55,8 @@ public class CalcServer extends TCPNIOServer {
         }
     }
 
-    protected void handleClient(SelectionKey key) throws IOException {
+    @Override
+	protected void handleClient(SelectionKey key) throws IOException {
         SocketChannel sc = (SocketChannel) key.channel();
         ByteBuffer buffer = ByteBuffer.allocateDirect(8);
         sc.read(buffer);
@@ -64,7 +66,8 @@ public class CalcServer extends TCPNIOServer {
         pool.execute(fc);
     }
 
-    protected void registeredClient(SocketChannel sc) {
+    @Override
+	protected void registeredClient(SocketChannel sc) {
     }
 
     public static void main(String[] args) throws Exception {

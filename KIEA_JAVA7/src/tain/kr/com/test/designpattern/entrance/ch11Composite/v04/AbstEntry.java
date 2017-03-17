@@ -61,6 +61,7 @@ public abstract class AbstEntry {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("%s (%d)", this.getName(), this.getSize());
 	}

@@ -132,7 +132,7 @@ public class Deet<T> {
 				try {
 					m.setAccessible(true);
 					Object o = m.invoke(t, new Locale(args[1], args[2], args[3]));
-					out.format("%s() returned %b%n", mName, (Boolean) o);
+					out.format("%s() returned %b%n", mName, o);
 					
 					// Handle any exceptions thrown by method to be invoked.
 				} catch (InvocationTargetException e) {

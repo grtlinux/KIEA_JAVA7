@@ -27,20 +27,24 @@ public class RandomCharacterGenerator extends Thread implements CharacterSource 
         return (int) (Math.max(1000, 5000 * random.nextDouble()));
     }
 
-    public void addCharacterListener(CharacterListener cl) {
+    @Override
+	public void addCharacterListener(CharacterListener cl) {
         handler.addCharacterListener(cl);
     }
 
-    public void removeCharacterListener(CharacterListener cl) {
+    @Override
+	public void removeCharacterListener(CharacterListener cl) {
         handler.removeCharacterListener(cl);
     }
 
-    public void nextCharacter() {
+    @Override
+	public void nextCharacter() {
         handler.fireNewCharacter(this,
-                                (int) chars[random.nextInt(chars.length)]);
+                                chars[random.nextInt(chars.length)]);
     }
 
-    public void run() {
+    @Override
+	public void run() {
         while (!done) {
             nextCharacter();
             try {

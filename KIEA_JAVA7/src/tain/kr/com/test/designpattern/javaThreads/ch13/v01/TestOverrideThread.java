@@ -6,7 +6,8 @@ import java.util.ArrayList;
 public class TestOverrideThread implements Runnable {
 
     static class OverrideExceptionHandler implements Thread.UncaughtExceptionHandler {
-        public void uncaughtException(Thread t, Throwable e) {
+        @Override
+		public void uncaughtException(Thread t, Throwable e) {
             alertAdministrator(e);
         }
     }
@@ -24,7 +25,8 @@ public class TestOverrideThread implements Runnable {
         t.start();
     }
 
-    public void run() {
+    @Override
+	public void run() {
         ArrayList al = new ArrayList();
         while (true) {
             al.add(new byte[1024]);

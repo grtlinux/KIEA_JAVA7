@@ -42,6 +42,7 @@ public class PrimitiveCommandNode extends Node {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void parse(Context context) throws ParseException {
 		
 		this.name = context.currentToken();
@@ -56,6 +57,7 @@ public class PrimitiveCommandNode extends Node {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("%s", this.name);
 	}

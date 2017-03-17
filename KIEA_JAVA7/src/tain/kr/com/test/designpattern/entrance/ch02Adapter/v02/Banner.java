@@ -50,6 +50,7 @@ public class Banner {
 		return this.string;
 	}
 	
+	@Override
 	public String toString() {
 		return String.format("%s", this.string);
 	}

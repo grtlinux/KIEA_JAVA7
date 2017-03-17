@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 
 import org.apache.log4j.Logger;
+import org.hyperic.jni.ArchLoader;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.hyperic.sigar.SigarLoader;
@@ -126,7 +127,7 @@ public class Shell0 extends ShellBase {
 		//registerCommandHandler("ulimit", new Ulimit(this));
 		//registerCommandHandler("who", new Who(this));
 
-		if (SigarLoader.IS_WIN32) {
+		if (ArchLoader.IS_WIN32) {
 			//registerCommandHandler("service", new Win32Service(this));
 			//registerCommandHandler("fversion", new FileVersionInfo(this));
 		}
@@ -146,6 +147,7 @@ public class Shell0 extends ShellBase {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	@Override
 	public void processCommand(ShellCommandHandler handler, String[] args) throws ShellCommandUsageException, ShellCommandExecException {
 		try {
 			super.processCommand(handler, args);
@@ -194,6 +196,7 @@ public class Shell0 extends ShellBase {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void shutdown() {
 		this.sigar.close();
 		

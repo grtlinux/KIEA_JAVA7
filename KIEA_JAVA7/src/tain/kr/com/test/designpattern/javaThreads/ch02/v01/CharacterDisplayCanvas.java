@@ -88,10 +88,12 @@ public class CharacterDisplayCanvas extends JComponent implements CharacterListe
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public Dimension preferredSize() {
 		return new Dimension(this.fontMetrics.getMaxAscent() + 10, this.fontMetrics.getMaxAdvance() + 10);
 	}
 	
+	@Override
 	protected synchronized void paintComponent(Graphics gc) {
 		Dimension d = getSize();
 		gc.clearRect(0, 0, d.width, d.height);

@@ -47,6 +47,7 @@ public class CommandNode extends Node {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void parse(Context context) throws ParseException {
 		
 		if (!flag) log.debug(">>> in class " + this.getClass().getName());
@@ -62,6 +63,7 @@ public class CommandNode extends Node {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("%s", node);
 	}

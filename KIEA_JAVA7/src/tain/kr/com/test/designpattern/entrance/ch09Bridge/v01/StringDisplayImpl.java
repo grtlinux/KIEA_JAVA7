@@ -50,14 +50,17 @@ public class StringDisplayImpl extends DisplayImpl {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void rawOpen() {
 		printLine();
 	}
 	
+	@Override
 	public void rawPrint() {
 		System.out.println("|" + this.string + "|");
 	}
 	
+	@Override
 	public void rawClose() {
 		printLine();
 	}

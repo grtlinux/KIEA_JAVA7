@@ -54,6 +54,7 @@ public class Thread01Main {
 		
 		if (flag) {
 			Thread thread = new Thread() {
+				@Override
 				public void run() {
 					System.out.println("THREAD-2 start thread...");
 					try { Thread.sleep(1000); } catch (InterruptedException e) {}
@@ -70,6 +71,7 @@ public class Thread01Main {
 		
 		if (flag) {
 			Thread thread = new Thread(new Runnable(){
+				@Override
 				public void run() {
 					System.out.println("RUNNABLE-4 start thread...");
 					try { Thread.sleep(1000); } catch (InterruptedException e) {}
@@ -96,6 +98,7 @@ class MyThread extends Thread {
 		this.name = name;
 	}
 	
+	@Override
 	public void run() {
 		System.out.println("THREAD-1 start thread...[name=" + this.name + "]");
 		try { Thread.sleep(1000); } catch (InterruptedException e) {}
@@ -111,6 +114,7 @@ class MyRunnable implements Runnable {
 		this.name = name;
 	}
 	
+	@Override
 	public void run() {
 		System.out.println("RUNNABLE-3 start thread...[name=" + this.name + "]");
 		try { Thread.sleep(1000); } catch (InterruptedException e) {}

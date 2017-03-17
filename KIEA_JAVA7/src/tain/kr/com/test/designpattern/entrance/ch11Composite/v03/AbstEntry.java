@@ -51,6 +51,7 @@ public abstract class AbstEntry {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return getName() + " (" + getSize() + ")";
 	}

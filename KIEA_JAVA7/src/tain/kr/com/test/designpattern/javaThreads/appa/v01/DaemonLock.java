@@ -46,6 +46,7 @@ public class DaemonLock implements Runnable {
 		} 
 	}
 
+	@Override
 	public synchronized void run() {
 		while (lockCount != 0) {
 			try {

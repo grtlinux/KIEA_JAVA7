@@ -75,6 +75,7 @@ public class RandomCharacterGenerator extends Thread implements CharacterSource 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void run() {
 		while (!isInterrupted()) {
 			nextCharacter();
@@ -116,7 +117,7 @@ public class RandomCharacterGenerator extends Thread implements CharacterSource 
 	@Override
 	public void nextCharacter() {
 		// TODO Auto-generated method stub
-		handler.fireNewCharacter(this, (int) chars[random.nextInt(chars.length)]);
+		handler.fireNewCharacter(this, chars[random.nextInt(chars.length)]);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////

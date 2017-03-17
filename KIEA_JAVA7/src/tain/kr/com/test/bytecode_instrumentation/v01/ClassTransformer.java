@@ -34,7 +34,8 @@ import java.security.ProtectionDomain;
  * Created by Junhyeong Lim on 2017-02-02.
  */
 public class ClassTransformer implements ClassFileTransformer {
-    public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+    @Override
+	public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         byte[] ret = classfileBuffer;
         if (className.equals("java/lang/Exception")) {
             try {

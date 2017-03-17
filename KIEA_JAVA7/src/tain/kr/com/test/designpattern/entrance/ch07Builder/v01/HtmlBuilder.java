@@ -47,6 +47,7 @@ public class HtmlBuilder extends Builder {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void makeTitle(String title) {
 		this.fileName = "N:/" + title + ".html";
 		try {
@@ -60,10 +61,12 @@ public class HtmlBuilder extends Builder {
 		writer.println("<h1>" + title + "</h1>");
 	}
 	
+	@Override
 	public void makeString(String string) {
 		writer.println("<p>" + string + "</p>");
 	}
 	
+	@Override
 	public void makeItems(String[] items) {
 		writer.println("<ul>");
 		for (int i=0; i < items.length; i++) {
@@ -72,6 +75,7 @@ public class HtmlBuilder extends Builder {
 		writer.println("</ul>");
 	}
 	
+	@Override
 	public Object getResult() {
 		writer.println("</body></html>");
 		writer.close();

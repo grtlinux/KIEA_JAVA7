@@ -63,7 +63,7 @@ public class Dep1Manager {
 	}
 	
 	public ImplProduct create(String protoName) {
-		ImplProduct product = (ImplProduct) this.showCase.get(protoName);
+		ImplProduct product = this.showCase.get(protoName);
 		return product.createClone();
 	}
 	

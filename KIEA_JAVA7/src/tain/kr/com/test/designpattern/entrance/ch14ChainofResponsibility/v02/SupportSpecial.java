@@ -58,6 +58,7 @@ public class SupportSpecial extends AbstSupport {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	protected boolean resolve(Dep1Trouble trouble) {
 		
 		if (trouble.getNumber() == number) {

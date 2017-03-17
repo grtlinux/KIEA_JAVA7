@@ -116,6 +116,7 @@ public class MainTest01 {
 			this.str = str;
 		}
 		
+		@Override
 		public String toString() {
 			return String.format("{ %d, %d, '%s' }", a, b, str);
 		}

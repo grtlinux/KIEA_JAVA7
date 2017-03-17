@@ -73,6 +73,7 @@ public class DrawableCanvas extends Canvas implements ImplDrawable {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void paint(Graphics g) {
 		this.history.execute();
 	}

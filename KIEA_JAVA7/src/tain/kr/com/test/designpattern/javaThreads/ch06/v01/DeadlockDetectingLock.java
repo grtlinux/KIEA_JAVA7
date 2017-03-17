@@ -121,7 +121,8 @@ public class DeadlockDetectingLock extends ReentrantLock {
     //
     // Core Methods
     //
-    public void lock() {
+    @Override
+	public void lock() {
         // Note: Owner can't change if current thread is owner. It is
         //       not guaranteed otherwise. Other owners can change due to
         //       condition variables.
@@ -150,7 +151,8 @@ public class DeadlockDetectingLock extends ReentrantLock {
     //       interruption is common, we don't know if the interrupting thread
     //       is also involved in the deadlock. As a compromise, we'll just
     //       not allow interrupts. This method is disabled.
-    public void lockInterruptibly() throws InterruptedException {
+    @Override
+	public void lockInterruptibly() throws InterruptedException {
         lock();
     }
 
@@ -179,7 +181,8 @@ public class DeadlockDetectingLock extends ReentrantLock {
         // Note: The algorithm can detect a deadlock condition if the thead is
         //    either waiting for or already owns the lock, or both. This is why
         //    we have to mark for waiting *before* giving up the lock.
-        public void await() throws InterruptedException {
+        @Override
+		public void await() throws InterruptedException {
             try {
                 markAsHardwait(hardwaitingThreads, Thread.currentThread());
                 embedded.await();
@@ -188,13 +191,15 @@ public class DeadlockDetectingLock extends ReentrantLock {
             }
         }
 
-        public void awaitUninterruptibly() {
+        @Override
+		public void awaitUninterruptibly() {
             markAsHardwait(hardwaitingThreads, Thread.currentThread());
             embedded.awaitUninterruptibly();
             freeIfHardwait(hardwaitingThreads, Thread.currentThread());
         }
 
-        public long awaitNanos(long nanosTimeout) throws InterruptedException {
+        @Override
+		public long awaitNanos(long nanosTimeout) throws InterruptedException {
             try {
                 markAsHardwait(hardwaitingThreads, Thread.currentThread());
                 return embedded.awaitNanos(nanosTimeout);
@@ -203,7 +208,8 @@ public class DeadlockDetectingLock extends ReentrantLock {
             }
         }
 
-        public boolean await(long time, TimeUnit unit) throws InterruptedException {
+        @Override
+		public boolean await(long time, TimeUnit unit) throws InterruptedException {
             try {
                 markAsHardwait(hardwaitingThreads, Thread.currentThread());
                 return embedded.await(time, unit);
@@ -212,7 +218,8 @@ public class DeadlockDetectingLock extends ReentrantLock {
             }
         }
 
-        public boolean awaitUntil(Date deadline) throws InterruptedException {
+        @Override
+		public boolean awaitUntil(Date deadline) throws InterruptedException {
             try {
                 markAsHardwait(hardwaitingThreads, Thread.currentThread());
                 return embedded.awaitUntil(deadline);
@@ -221,17 +228,20 @@ public class DeadlockDetectingLock extends ReentrantLock {
             }
         }
 
+	@Override
 	public void signal() {
 	    embedded.signal();
 	}
 
+	@Override
 	public void signalAll() {
 	    embedded.signalAll();
 	}
     }
 
     // Return a condition variable that support detection of deadlocks
-    public Condition newCondition() {
+    @Override
+	public Condition newCondition() {
         return new DeadlockDetectingCondition(this, super.newCondition());
     }
 
@@ -262,7 +272,8 @@ public class DeadlockDetectingLock extends ReentrantLock {
 
     private static void testOne() {
          new Thread(new Runnable() {
-             public void run() {
+             @Override
+			public void run() {
                  System.out.println("thread one grab a");
                  a.lock();
                  delaySeconds(2);
@@ -274,7 +285,8 @@ public class DeadlockDetectingLock extends ReentrantLock {
          }).start();
 
          new Thread(new Runnable() {
-             public void run() {
+             @Override
+			public void run() {
                  System.out.println("thread two grab b");
                  b.lock();
                  delaySeconds(2);
@@ -288,7 +300,8 @@ public class DeadlockDetectingLock extends ReentrantLock {
 
     private static void testTwo() {
          new Thread(new Runnable() {
-             public void run() {
+             @Override
+			public void run() {
                  System.out.println("thread one grab a");
                  a.lock();
                  delaySeconds(2);
@@ -300,7 +313,8 @@ public class DeadlockDetectingLock extends ReentrantLock {
          }).start();
 
          new Thread(new Runnable() {
-             public void run() {
+             @Override
+			public void run() {
                  System.out.println("thread two grab b");
                  b.lock();
                  delaySeconds(2);
@@ -312,7 +326,8 @@ public class DeadlockDetectingLock extends ReentrantLock {
          }).start();
 
          new Thread(new Runnable() {
-             public void run() {
+             @Override
+			public void run() {
                  System.out.println("thread three grab c");
                  c.lock();
                  delaySeconds(4);
@@ -326,7 +341,8 @@ public class DeadlockDetectingLock extends ReentrantLock {
  
     private static void testThree() {
          new Thread(new Runnable() {
-             public void run() {
+             @Override
+			public void run() {
                  System.out.println("thread one grab b");
                  b.lock();
                  System.out.println("thread one grab a");
@@ -339,7 +355,8 @@ public class DeadlockDetectingLock extends ReentrantLock {
          }).start();
 
          new Thread(new Runnable() {
-             public void run() {
+             @Override
+			public void run() {
                  delaySeconds(1);
                  System.out.println("thread two grab b");
                  b.lock();

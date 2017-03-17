@@ -74,6 +74,7 @@ public class NodeProgram extends AbstNode {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("program %s", this.commandList);
 	}

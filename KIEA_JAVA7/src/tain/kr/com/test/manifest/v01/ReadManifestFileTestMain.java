@@ -78,7 +78,7 @@ public class ReadManifestFileTestMain {
 			
 			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
 			while (urls.hasMoreElements()) {
-				URL url = (URL) urls.nextElement();
+				URL url = urls.nextElement();
 				if (flag) log.debug(String.format("\t\t 2) url = [%s]\n", url));
 				
 				InputStream is = url.openStream();

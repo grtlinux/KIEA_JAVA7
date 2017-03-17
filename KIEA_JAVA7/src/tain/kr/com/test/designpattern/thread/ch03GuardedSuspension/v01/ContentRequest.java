@@ -67,6 +67,7 @@ public final class ContentRequest extends AbstContent {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("[ Request %s ]", this.name);
 	}

@@ -21,7 +21,6 @@ package tain.kr.com.test.deploy.v01.server.tr;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;

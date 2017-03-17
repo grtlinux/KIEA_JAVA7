@@ -89,6 +89,7 @@ public final class ThrVolatile extends Thread {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("[%s]", Thread.currentThread().getName());
 	}

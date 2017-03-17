@@ -120,7 +120,7 @@ public class RandomCharacterGenerator extends Thread implements CharacterSource 
 	@Override
 	public void nextCharacter() {
 		// TODO Auto-generated method stub
-		this.handler.fireNewCharacter(this, (int) chars[random.nextInt(chars.length)]);
+		this.handler.fireNewCharacter(this, chars[random.nextInt(chars.length)]);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////

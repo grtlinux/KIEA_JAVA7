@@ -67,12 +67,14 @@ public class Folder extends Entry {
 		return size;
 	}
 	
+	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public Entry add(Entry entry) {
 		this.folder.add(entry);
 		return this;

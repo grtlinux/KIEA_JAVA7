@@ -22,7 +22,8 @@ public abstract class TCPThrottledServer implements Runnable {
         done = true;
     }
 
-    public void run() {
+    @Override
+	public void run() {
         while (!done) {
             try {
                 Socket data;

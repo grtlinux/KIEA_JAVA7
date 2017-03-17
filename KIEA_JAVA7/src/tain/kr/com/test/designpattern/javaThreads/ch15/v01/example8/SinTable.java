@@ -14,12 +14,13 @@ public class SinTable extends PoolLoopHandler {
         }
     }    
 
-    public void loopDoRange(int start, int end) {
+    @Override
+	public void loopDoRange(int start, int end) {
         float sinValue = 0.0f;
         for (int i = start; i < end; i++) {
             sinValue = (float)Math.sin((i % 360)*Math.PI/180.0);
-            lookupValues[j][i] = sinValue * (float)i / 180.0f;
-            lookupValues[j][i] += lookupValues[j-1][i]*(float)j/180.0f;
+            lookupValues[j][i] = sinValue * i / 180.0f;
+            lookupValues[j][i] += lookupValues[j-1][i]*j/180.0f;
         }
     }    
 

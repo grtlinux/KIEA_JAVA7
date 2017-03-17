@@ -42,6 +42,7 @@ public class GraphObserver implements Observer {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void update(NumberGenerator generator) {
 		
 		if (!flag) {

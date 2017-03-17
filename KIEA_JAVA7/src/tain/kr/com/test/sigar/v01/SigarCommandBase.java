@@ -125,7 +125,7 @@ public abstract class SigarCommandBase extends ShellCommandBase implements Getli
 	}
 
 	public void printf(List items) {
-		printf((Object[])items.toArray(new Object[0]));
+		printf(items.toArray(new Object[0]));
 	}
 
 	public void println(String line) {
@@ -200,6 +200,7 @@ public abstract class SigarCommandBase extends ShellCommandBase implements Getli
 		return args.length == 0;
 	}
 
+	@Override
 	public void processCommand(String[] args)
 		throws ShellCommandUsageException, ShellCommandExecException
 	{
@@ -234,6 +235,7 @@ public abstract class SigarCommandBase extends ShellCommandBase implements Getli
 		return this.ptqlCompleter.complete(line);
 	}
 
+	@Override
 	public String complete(String line) {
 		if (isPidCompleter()) {
 			return completePid(line);

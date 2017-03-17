@@ -76,6 +76,7 @@ public class NodeCommand extends AbstNode {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("%s", node);
 	}

@@ -46,7 +46,8 @@ public class FeedbackFrame extends JFrame implements Runnable {
         Container c = getContentPane();
         JButton stopButton = new JButton("Stop");
         stopButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
+            @Override
+			public void actionPerformed(ActionEvent ae) {
                 error();
             }
         });
@@ -57,7 +58,8 @@ public class FeedbackFrame extends JFrame implements Runnable {
     private void setText(final String s) {
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
+                @Override
+				public void run() {
                     label.setText(s);
 	        }
             });
@@ -73,7 +75,8 @@ public class FeedbackFrame extends JFrame implements Runnable {
         if (SwingUtilities.isEventDispatchThread())
             closeDown();
         else SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
+            @Override
+			public void run() {
                 closeDown();
            }
         });
@@ -85,7 +88,8 @@ public class FeedbackFrame extends JFrame implements Runnable {
         dispose();
     }
 
-    public void run() {
+    @Override
+	public void run() {
         // Simulate connecting to server
         for (int i = 0; i < stateMessages.length; i++) {
             setText(stateMessages[i]);
@@ -96,7 +100,8 @@ public class FeedbackFrame extends JFrame implements Runnable {
 	        return;
 	}
         SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
+            @Override
+			public void run() {
               	stt.setupDone();
                 hide();
                 dispose();

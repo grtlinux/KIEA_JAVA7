@@ -81,7 +81,7 @@ public class JarRsrcLoader {
 			firstPos = lastPos + 1;
 		}
 		
-		return (String[]) result.toArray(new String[result.size()]);
+		return result.toArray(new String[result.size()]);
 	}
 	
 	private static ManifestInfo getManifestInfo() throws IOException {
@@ -90,7 +90,7 @@ public class JarRsrcLoader {
 		
 		while (resEnum.hasMoreElements()) {
 			try {
-				URL url = (URL) resEnum.nextElement();
+				URL url = resEnum.nextElement();
 				InputStream is = url.openStream();
 				if (is != null) {
 					ManifestInfo result = new ManifestInfo();

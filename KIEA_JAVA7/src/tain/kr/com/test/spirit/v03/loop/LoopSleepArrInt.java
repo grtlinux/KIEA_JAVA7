@@ -105,7 +105,7 @@ public final class LoopSleepArrInt implements ImplLoop {
 	public void sleep() {
 		
 		try {
-			Thread.sleep((long) this.info[this.index]);
+			Thread.sleep(this.info[this.index]);
 		} catch (InterruptedException e) {}
 		
 		if (this.index < this.indexLimit)
@@ -118,7 +118,7 @@ public final class LoopSleepArrInt implements ImplLoop {
 	@Override
 	public long getMSec() {
 
-		long msec = (long) this.info[this.index];
+		long msec = this.info[this.index];
 		
 		if (this.index < this.indexLimit)
 			this.index ++;

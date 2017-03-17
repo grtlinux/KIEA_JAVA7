@@ -60,6 +60,7 @@ public class StrategyWinning implements ImplStrategy {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	@Override
 	public Dep1Hand nextHand() {
 		if (!this.won) {
 			prevHand = Dep1Hand.getHand(random.nextInt(3));
@@ -68,10 +69,12 @@ public class StrategyWinning implements ImplStrategy {
 		return this.prevHand;
 	}
 	
+	@Override
 	public void study(boolean win) {
 		this.won = win;
 	}
 	
+	@Override
 	public String getName() {
 		return "WinningStrategy";
 	}

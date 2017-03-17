@@ -53,6 +53,7 @@ public class SupportOdd extends AbstSupport {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	protected boolean resolve(Dep1Trouble trouble) {
 		
 		if (trouble.getNumber() % 2 == 1) {

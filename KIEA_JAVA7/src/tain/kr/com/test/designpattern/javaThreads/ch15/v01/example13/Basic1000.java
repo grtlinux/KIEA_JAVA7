@@ -12,7 +12,8 @@ public class Basic1000 implements ScaleTester {
     int nCols, nRows;
     PrintStream devnull;
 
-    public void init(int nRows, int nCols, int nThreads) {
+    @Override
+	public void init(int nRows, int nCols, int nThreads) {
         this.nCols = nCols;
         this.nRows = nRows;
         lookupValues = new float[nRows][];
@@ -26,7 +27,8 @@ public class Basic1000 implements ScaleTester {
 	}
     }
 
-    public float[][] doCalc() {
+    @Override
+	public float[][] doCalc() {
 	NumberFormat nf = NumberFormat.getInstance();
 	nf.setMaximumFractionDigits(4);
         for (int i = 0; i < nCols; i++) {
@@ -36,9 +38,9 @@ public class Basic1000 implements ScaleTester {
             for (int i = 0; i < nCols; i++) {
                 float sinValue =
                                 (float)Math.sin((i % 360)*Math.PI/180.0);
-                lookupValues[j][i] = sinValue * (float)i / 180.0f;
+                lookupValues[j][i] = sinValue * i / 180.0f;
                 lookupValues[j][i] +=
-                                lookupValues[j-1][i]*(float)j/180.0f;
+                                lookupValues[j-1][i]*j/180.0f;
 		if ((j % 1000) == 0)
 		    devnull.println(nf.format(lookupValues[j][i]));
             }

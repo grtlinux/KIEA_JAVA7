@@ -77,6 +77,7 @@ public class AnimatedCharacterDisplayCanvas extends CharacterDisplayCanvas imple
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	protected synchronized void paintComponent(Graphics gc) {
 		Dimension d = getSize();
 		gc.clearRect(0, 0, d.width, d.height);
@@ -87,6 +88,7 @@ public class AnimatedCharacterDisplayCanvas extends CharacterDisplayCanvas imple
 		gc.drawChars(tmpChar, 0, 1, curX++, fontHeight);
 	}
 
+	@Override
 	public void run() {
 		while (!done) {
 			repaint();

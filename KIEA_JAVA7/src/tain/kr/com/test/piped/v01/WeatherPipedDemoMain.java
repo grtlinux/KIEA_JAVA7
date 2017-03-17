@@ -91,6 +91,7 @@ class RandomWeather extends TimerTask {
 		this.dos = new DataOutputStream(pos);
 	}
 	
+	@Override
 	public void run() {
 		
 		try {
@@ -132,6 +133,7 @@ class WeatherViewer extends Thread {
 		this.dis = new DataInputStream(pis);
 	}
 	
+	@Override
 	public void run() {
 		
 		try {

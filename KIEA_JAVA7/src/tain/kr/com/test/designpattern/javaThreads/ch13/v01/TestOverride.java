@@ -9,7 +9,8 @@ public class TestOverride implements Runnable {
         public OverrideThreadGroup() {
             super("Administrator Alert Group");
         }
-        public void uncaughtException(Thread t, Throwable e) {
+        @Override
+		public void uncaughtException(Thread t, Throwable e) {
             alertAdministrator(e);
         }
     }
@@ -27,7 +28,8 @@ public class TestOverride implements Runnable {
         t.start();
     }
 
-    public void run() {
+    @Override
+	public void run() {
         ArrayList al = new ArrayList();
         while (true) {
             al.add(new byte[1024]);

@@ -107,6 +107,7 @@ public final class EntryFolder extends AbstEntry {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public AbstEntry add(AbstEntry entry) {
 		this.folder.add(entry);
 		return this;

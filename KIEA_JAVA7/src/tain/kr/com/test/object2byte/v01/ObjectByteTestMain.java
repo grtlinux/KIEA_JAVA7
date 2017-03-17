@@ -14,6 +14,7 @@ class ObjectByte implements Serializable {
 	 */
 	private static final long serialVersionUID = -1227482356251180435L;
 	
+	@Override
 	public String toString() {
 		return String.valueOf(serialVersionUID);
 	}

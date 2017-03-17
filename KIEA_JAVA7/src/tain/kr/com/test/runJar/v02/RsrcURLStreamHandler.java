@@ -56,10 +56,12 @@ public class RsrcURLStreamHandler extends URLStreamHandler {
 		this.classLoader = classLoader;
 	}
 	
+	@Override
 	protected URLConnection openConnection(URL url) throws IOException {
 		return new RsrcURLConnection(url, this.classLoader);
 	}
 	
+	@Override
 	protected void parseURL(URL url, String spec, int start, int limit) {
 	
 		if (!flag) log.debug("[" + url + ", " + spec + ", " + start + ", " + limit + "]");

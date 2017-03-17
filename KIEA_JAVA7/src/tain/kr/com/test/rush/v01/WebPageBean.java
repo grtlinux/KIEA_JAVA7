@@ -40,6 +40,7 @@ public class WebPageBean {
 	/**
 	 * toString
 	 */
+	@Override
 	public String toString() {
 		return String.format("[%s](%d)[%s]", this.pageKey, this.pageWaitTime, this.pageUrl);
 	}

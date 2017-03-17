@@ -42,6 +42,7 @@ public class ProgramNode extends Node {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void parse(Context context) throws ParseException {
 		
 		context.skipToken("PROGRAM");
@@ -52,6 +53,7 @@ public class ProgramNode extends Node {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("[ program %s ]", this.commandListNode);
 	}

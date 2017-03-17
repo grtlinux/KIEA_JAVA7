@@ -73,13 +73,15 @@ public class ScoreLabel extends JLabel implements CharacterListener {
 
     private void setScore() {
         SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
+            @Override
+			public void run() {
                 setText(Integer.toString(score));
             }
         });
     }
 
-    public void newCharacter(CharacterEvent ce) {
+    @Override
+	public void newCharacter(CharacterEvent ce) {
         scoreLock.lock();
         try {
             if (ce.source == generator) {

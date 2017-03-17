@@ -91,6 +91,7 @@ public class LoginFrame extends Frame implements ActionListener, Mediator {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	@Override
 	public void createColleagues() {
 		CheckboxGroup group = new CheckboxGroup();
 		checkGuest = new ColleagueCheckbox("Guest", group, true);
@@ -116,6 +117,7 @@ public class LoginFrame extends Frame implements ActionListener, Mediator {
 		buttonCancel.addActionListener(this);
 	}
 	
+	@Override
 	public void colleagueChanged(Colleague colleague) {
 		if (colleague == checkGuest || colleague == checkLogin) {
 			if (checkGuest.getState()) {
@@ -147,6 +149,7 @@ public class LoginFrame extends Frame implements ActionListener, Mediator {
 		}
 	}
 	
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(e);
 		System.exit(0);

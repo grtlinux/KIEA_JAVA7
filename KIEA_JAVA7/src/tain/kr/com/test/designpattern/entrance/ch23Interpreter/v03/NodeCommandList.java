@@ -86,6 +86,7 @@ public class NodeCommandList extends AbstNode {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("%s", this.commandList);
 	}

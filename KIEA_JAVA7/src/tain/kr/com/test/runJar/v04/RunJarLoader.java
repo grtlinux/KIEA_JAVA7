@@ -81,7 +81,7 @@ public final class RunJarLoader {
 					list.add(str);
 			}
 			
-			return (String[]) list.toArray(new String[list.size()]);
+			return list.toArray(new String[list.size()]);
 		}
 		
 		return null;
@@ -95,7 +95,7 @@ public final class RunJarLoader {
 		
 		Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
 		while (urls.hasMoreElements()) {
-			URL url = (URL) urls.nextElement();
+			URL url = urls.nextElement();
 			if (flag) System.out.printf("\t\t 2) url = [%s]\n", url);
 			
 			InputStream is = url.openStream();

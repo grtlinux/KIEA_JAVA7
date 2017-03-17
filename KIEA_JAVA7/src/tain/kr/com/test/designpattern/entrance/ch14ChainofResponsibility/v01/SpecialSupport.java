@@ -49,6 +49,7 @@ public class SpecialSupport extends Support {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	protected boolean resolve(Trouble trouble) {
 		if (trouble.getNumber() == number) {
 			return true;

@@ -7,7 +7,8 @@ import tain.kr.com.test.designpattern.javaThreads.ch12.v01.InterruptibleReader;
 
 public class InterruptibleClient extends InterruptibleReader {
 
-    public void processData(byte[] b, int n) {
+    @Override
+	public void processData(byte[] b, int n) {
         System.out.println("Got data " + new String(b, 0, n));
     }
 

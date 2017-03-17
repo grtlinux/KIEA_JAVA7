@@ -10,10 +10,11 @@ public class SinTable extends LoopHandler {
         lookupValues = new float [360 * 100];
     }
 
-    public void loopDoRange(int start, int end) {
+    @Override
+	public void loopDoRange(int start, int end) {
         for (int i = start; i < end; i++) {
             float sinValue = (float)Math.sin((i % 360)*Math.PI/180.0);
-            lookupValues[i] = sinValue * (float)i / 180.0f;
+            lookupValues[i] = sinValue * i / 180.0f;
         }
     }    
 

@@ -50,6 +50,7 @@ public class Book {
 		return this.name;
 	}
 	
+	@Override
 	public String toString() {
 		return String.format("Book('%s')", this.getName());
 	}

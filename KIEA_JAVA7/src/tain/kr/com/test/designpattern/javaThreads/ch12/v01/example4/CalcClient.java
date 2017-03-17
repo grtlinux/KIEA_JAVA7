@@ -13,7 +13,8 @@ public class CalcClient extends Thread {
 	sock = new Socket(host, port);
     }
 
-    public void run() {
+    @Override
+	public void run() {
         try {
             DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
             dos.writeLong(n);

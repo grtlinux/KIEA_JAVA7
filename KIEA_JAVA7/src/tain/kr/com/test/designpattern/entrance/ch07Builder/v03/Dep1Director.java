@@ -70,6 +70,7 @@ public final class Dep1Director {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("-> in class %s", this.getClass().getSimpleName());
 	}

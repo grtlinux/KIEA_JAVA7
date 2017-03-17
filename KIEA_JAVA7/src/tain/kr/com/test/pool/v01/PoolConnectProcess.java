@@ -23,6 +23,7 @@ public class PoolConnectProcess extends Thread {
 		}
 	}
 	
+	@Override
 	public void run() {
 		
 		if (flag) System.out.printf("POOL STATUS : thread running, name is [%s]\n", this.thrName);
@@ -54,6 +55,7 @@ public class PoolConnectProcess extends Thread {
 		}
 	}
 	
+	@Override
 	public String toString() {
 		return this.thrName;
 	}

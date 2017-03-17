@@ -12,6 +12,7 @@ public class TicketManager extends Thread {
 		this.queue = new SyncQueue();
 	}
 	
+	@Override
 	public void run() {
 		
 		if (flag) {

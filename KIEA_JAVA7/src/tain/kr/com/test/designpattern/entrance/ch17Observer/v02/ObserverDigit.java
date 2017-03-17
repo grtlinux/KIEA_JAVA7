@@ -51,6 +51,7 @@ public class ObserverDigit implements ImplObserver {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void update(AbstNumberGenerator generator) {
 		
 		System.out.format("%s : %d\n", this.getClass().getSimpleName(), generator.getNumber());

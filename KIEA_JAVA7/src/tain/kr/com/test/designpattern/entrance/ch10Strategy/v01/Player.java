@@ -74,6 +74,7 @@ public class Player {
 		this.gameCount ++;
 	}
 	
+	@Override
 	public String toString() {
 		return String.format("[ %s : %d games, %d win, %d lose (%s) ]", this.name, this.gameCount, this.winCount, this.loseCount, this.strategy.getName());
 	}

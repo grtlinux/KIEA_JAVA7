@@ -7,7 +7,8 @@ public class Basic implements ScaleTester {
     int nCols, nRows;
     float sumValue;
 
-    public void init(int nRows, int nCols, int nThreads) {
+    @Override
+	public void init(int nRows, int nCols, int nThreads) {
         this.nCols = nCols;
         this.nRows = nRows;
         lookupValues = new float[nRows][];
@@ -16,7 +17,8 @@ public class Basic implements ScaleTester {
         }
     }
 
-    public float[][] doCalc() {
+    @Override
+	public float[][] doCalc() {
 	sumValue = 0.0f;
         for (int i = 0; i < nCols; i++) {
             lookupValues[0][i] = 0;
@@ -25,9 +27,9 @@ public class Basic implements ScaleTester {
             for (int i = 0; i < nCols; i++) {
                 float sinValue =
                                 (float)Math.sin((i % 360)*Math.PI/180.0);
-                lookupValues[j][i] = sinValue * (float)i / 180.0f;
+                lookupValues[j][i] = sinValue * i / 180.0f;
                 lookupValues[j][i] +=
-                                lookupValues[j-1][i]*(float)j/180.0f;
+                                lookupValues[j-1][i]*j/180.0f;
 		sumValue += lookupValues[j][i];
             }
         }

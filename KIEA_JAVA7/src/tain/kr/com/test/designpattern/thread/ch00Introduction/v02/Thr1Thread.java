@@ -59,6 +59,7 @@ public class Thr1Thread extends Thread {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void run() {
 		
 		System.out.println("Thread-1 start thread...[name=" + this.name + "]");

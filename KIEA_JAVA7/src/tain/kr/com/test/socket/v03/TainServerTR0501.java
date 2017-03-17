@@ -22,10 +22,6 @@ package tain.kr.com.test.socket.v03;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.ResourceBundle;
-
 import org.apache.log4j.Logger;
 
 /**

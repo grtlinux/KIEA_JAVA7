@@ -46,7 +46,9 @@ class OrderedPair<K, V> implements Pair<K, V> {
 	
 	public void setKey(K key) { this.key = key; }
 	public void setValue(V value) { this.value = value; }
+	@Override
 	public K getKey() { return this.key; }
+	@Override
 	public V getValue() { return this.value; }
 	
 	public static <K,V> boolean compare(Pair<K,V> p1, Pair<K,V> p2) {

@@ -53,6 +53,7 @@ public class SupportNo extends AbstSupport {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	protected boolean resolve(Dep1Trouble trouble) {
 		return false;
 	}

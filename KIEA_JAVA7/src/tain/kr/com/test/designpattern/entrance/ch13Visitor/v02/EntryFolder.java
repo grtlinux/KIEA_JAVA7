@@ -76,12 +76,14 @@ public class EntryFolder extends AcceptorAbstEntry {
 		return size;
 	}
 	
+	@Override
 	public void accept(AbstVisitor visitor) {
 		visitor.visit(this);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public AcceptorAbstEntry add(AcceptorAbstEntry entry) {
 		this.folder.add(entry);
 		return this;

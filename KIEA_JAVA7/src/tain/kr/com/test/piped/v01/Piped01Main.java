@@ -89,6 +89,7 @@ class FirstThread extends Thread {
 		this.dos = new DataOutputStream(new BufferedOutputStream(os));
 	}
 	
+	@Override
 	public void run() {
 		
 		try {
@@ -131,6 +132,7 @@ class SecondThread extends Thread {
 		this.dis = new DataInputStream(new BufferedInputStream(is));
 	}
 	
+	@Override
 	public void run() {
 		
 		try {

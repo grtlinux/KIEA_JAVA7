@@ -26,6 +26,7 @@ public class PutThread extends Thread {
 		}
 	}
 	
+	@Override
 	public void run() {
 		if (flag) System.out.printf("[%s] thread start..\n", this.thrName);
 		
@@ -80,6 +81,7 @@ public class PutThread extends Thread {
 		return this.res;
 	}
 	
+	@Override
 	public String toString() {
 		return this.thrName;
 	}

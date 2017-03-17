@@ -61,10 +61,12 @@ public class EntryFolder extends AbstEntry {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String getName() {
 		return this.name;
 	}
 	
+	@Override
 	public int getSize() {
 		int size = 0;
 		
@@ -77,11 +79,13 @@ public class EntryFolder extends AbstEntry {
 		return size;
 	}
 	
+	@Override
 	public AbstEntry add(AbstEntry entry) {
 		folder.addElement(entry);
 		return this;
 	}
 
+	@Override
 	protected void printList(String prefix) {
 		System.out.println(prefix + "/" + this);
 		

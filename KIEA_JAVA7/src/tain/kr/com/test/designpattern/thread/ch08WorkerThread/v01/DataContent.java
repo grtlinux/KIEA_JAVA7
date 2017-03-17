@@ -65,6 +65,7 @@ public final class DataContent extends AbstData {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void execute() {
 		
 		if (flag) System.out.printf("%s executes %s.\n", Thread.currentThread().getName(), this);
@@ -77,6 +78,7 @@ public final class DataContent extends AbstData {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("[ Request from %s No.%d ]", this.name, this.number);
 	}

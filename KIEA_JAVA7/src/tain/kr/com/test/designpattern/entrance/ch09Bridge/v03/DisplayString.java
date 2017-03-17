@@ -91,6 +91,7 @@ public final class DisplayString extends AbstDisplay {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("this.string = '%s'", this.string);
 	}

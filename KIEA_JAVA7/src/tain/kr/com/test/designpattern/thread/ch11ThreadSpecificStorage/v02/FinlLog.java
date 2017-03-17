@@ -68,7 +68,7 @@ public final class FinlLog {
 	
 	private static FinlTSLog getTSLog() {
 		
-		FinlTSLog tsLog = (FinlTSLog) threadLocal.get();
+		FinlTSLog tsLog = threadLocal.get();
 		
 		if (tsLog == null) {
 			tsLog = new FinlTSLog("result/" + Thread.currentThread().getName() + "-log.txt");

@@ -53,6 +53,7 @@ public final class ProductIDCard extends Product {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	@Override
 	public void use() {
 		System.out.println(owner + "의 카드를 사용합니다.");
 	}

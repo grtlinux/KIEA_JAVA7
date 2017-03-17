@@ -70,7 +70,7 @@ public class CharacterEventHandler {
 	
 	public void fireNewCharacter(CharacterSource source, int c) {
 		CharacterEvent ce = new CharacterEvent(source, c);
-		CharacterListener[] cl = (CharacterListener[]) this.listeners.toArray(new CharacterListener[0]);
+		CharacterListener[] cl = this.listeners.toArray(new CharacterListener[0]);
 		
 		for (int i=0; i < cl.length; i++) {
 			cl[i].newCharacter(ce);

@@ -8,7 +8,8 @@ public class GuidedLoopHandler extends PoolLoopHandler {
         minSize = min;
     }
 
-    protected synchronized LoopRange loopGetRange() {
+    @Override
+	protected synchronized LoopRange loopGetRange() {
         if (curLoop >= endLoop)
             return null;
         LoopRange ret = new LoopRange();

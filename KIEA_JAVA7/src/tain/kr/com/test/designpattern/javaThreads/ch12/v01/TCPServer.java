@@ -27,7 +27,8 @@ public class TCPServer implements Cloneable, Runnable {
         return done;
     }
 
-    public void run() {
+    @Override
+	public void run() {
         if (server != null) {
             while (!getDone()) {
                 try {

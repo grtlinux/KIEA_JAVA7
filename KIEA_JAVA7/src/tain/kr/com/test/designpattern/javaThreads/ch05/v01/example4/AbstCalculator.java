@@ -57,6 +57,7 @@ public abstract class AbstCalculator {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static ThreadLocal<HashMap<Object, Object>> results = new ThreadLocal<HashMap<Object, Object>>() {
+		@Override
 		protected HashMap<Object, Object> initialValue() {
 			return new HashMap<Object, Object>();
 		}

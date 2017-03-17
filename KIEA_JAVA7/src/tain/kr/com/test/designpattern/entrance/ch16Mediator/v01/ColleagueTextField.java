@@ -63,15 +63,18 @@ public class ColleagueTextField extends TextField implements TextListener, Colle
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	@Override
 	public void setMediator(Mediator mediator) {
 		this.mediator = mediator;
 	}
 	
+	@Override
 	public void setColleagueEnabled(boolean enabled) {
 		setEnabled(enabled);
 		setBackground(enabled ? Color.WHITE : Color.LIGHT_GRAY);
 	}
 	
+	@Override
 	public void textValueChanged(TextEvent e) {
 		mediator.colleagueChanged(this);
 	}

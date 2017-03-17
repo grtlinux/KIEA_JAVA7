@@ -270,7 +270,8 @@ public class ModVector<E>
      *
      * @return  the number of components in this vector.
      */
-    public int size() {
+    @Override
+	public int size() {
 	return elementCount;
     }
 
@@ -281,7 +282,8 @@ public class ModVector<E>
      *          no components, that is, its size is zero;
      *          <code>false</code> otherwise.
      */
-    public boolean isEmpty() {
+    @Override
+	public boolean isEmpty() {
 	return elementCount == 0;
     }
 
@@ -299,11 +301,13 @@ public class ModVector<E>
 	return new Enumeration<E>() {
 	    int count = 0;
 
-	    public boolean hasMoreElements() {
+	    @Override
+		public boolean hasMoreElements() {
 		return count < elementCount;
 	    }
 
-	    public E nextElement() {
+	    @Override
+		public E nextElement() {
 		synchronized (ModVector.this) {
 		    if (count < elementCount) {
 			return (E)elementData[count++];
@@ -322,7 +326,8 @@ public class ModVector<E>
      * is the same as a component in this vector, as determined by the 
      * <tt>equals</tt> method; <code>false</code> otherwise.
      */
-    public boolean contains(Object elem) {
+    @Override
+	public boolean contains(Object elem) {
 	return indexOf(elem, 0) >= 0;
     }
 
@@ -337,7 +342,8 @@ public class ModVector<E>
      *          returns <code>-1</code> if the object is not found.
      * @see     Object#equals(Object)
      */
-    public int indexOf(Object elem) {
+    @Override
+	public int indexOf(Object elem) {
 	return indexOf(elem, 0);
     }
 
@@ -381,7 +387,8 @@ public class ModVector<E>
      *          <tt>elem.equals(elementData[k])</tt> is <tt>true</tt>; 
      *          returns <code>-1</code> if the object is not found.
      */
-    public int lastIndexOf(Object elem) {
+    @Override
+	public int lastIndexOf(Object elem) {
 	return lastIndexOf(elem, elementCount-1);
     }
 
@@ -637,7 +644,8 @@ public class ModVector<E>
      *
      * @return  a clone of this vector.
      */
-    public Object clone() {
+    @Override
+	public Object clone() {
 	try {
 	    ModVector<E> v = (ModVector<E>) super.clone();
 	    v.elementData = new Object[elementCount];
@@ -656,7 +664,8 @@ public class ModVector<E>
      *
      * @since 1.2
      */
-    public Object[] toArray() {
+    @Override
+	public Object[] toArray() {
 	Object[] result = new Object[elementCount];
 	System.arraycopy(elementData, 0, result, 0, elementCount);
 	return result;
@@ -685,7 +694,8 @@ public class ModVector<E>
      * @throws NullPointerException if the given array is null.
      * @since 1.2
      */
-    public <T> T[] toArray(T[] a) {
+    @Override
+	public <T> T[] toArray(T[] a) {
         if (a.length < elementCount)
             a = (T[])java.lang.reflect.Array.newInstance(
                                 a.getClass().getComponentType(), elementCount);
@@ -709,7 +719,8 @@ public class ModVector<E>
      * 		  &lt; 0 || index &gt;= size()).
      * @since 1.2
      */
-    public E get(int index) {
+    @Override
+	public E get(int index) {
 	if (index >= elementCount)
 	    throw new ArrayIndexOutOfBoundsException(index);
 
@@ -727,7 +738,8 @@ public class ModVector<E>
      *		  (index &lt; 0 || index &gt;= size()).
      * @since 1.2
      */
-    public E set(int index, E element) {
+    @Override
+	public E set(int index, E element) {
 	if (index >= elementCount)
 	    throw new ArrayIndexOutOfBoundsException(index);
 
@@ -743,7 +755,8 @@ public class ModVector<E>
      * @return true (as per the general contract of Collection.add).
      * @since 1.2
      */
-    public boolean add(E o) {
+    @Override
+	public boolean add(E o) {
 	modCount++;
 	ensureCapacityHelper(elementCount + 1);
 	elementData[elementCount++] = o;
@@ -761,7 +774,8 @@ public class ModVector<E>
      * @return true if the ModVector contained the specified element.
      * @since 1.2
      */
-    public boolean remove(Object o) {
+    @Override
+	public boolean remove(Object o) {
         return removeElement(o);
     }
 
@@ -776,7 +790,8 @@ public class ModVector<E>
      *		  (index &lt; 0 || index &gt; size()).
      * @since 1.2
      */
-    public void add(int index, E element) {
+    @Override
+	public void add(int index, E element) {
         insertElementAt(element, index);
     }
 
@@ -791,7 +806,8 @@ public class ModVector<E>
      * @return element that was removed
      * @since 1.2
      */
-    public E remove(int index) {
+    @Override
+	public E remove(int index) {
 	modCount++;
 	if (index >= elementCount)
 	    throw new ArrayIndexOutOfBoundsException(index);
@@ -812,7 +828,8 @@ public class ModVector<E>
      *
      * @since 1.2
      */
-    public void clear() {
+    @Override
+	public void clear() {
         removeAllElements();
     }
 
@@ -828,7 +845,8 @@ public class ModVector<E>
      *	       specified collection.
      * @throws NullPointerException if the specified collection is null.
      */
-    public boolean containsAll(Collection<?> c) {
+    @Override
+	public boolean containsAll(Collection<?> c) {
         return super.containsAll(c);
     }
 
@@ -845,7 +863,8 @@ public class ModVector<E>
      * @throws NullPointerException if the specified collection is null.
      * @since 1.2
      */
-    public boolean addAll(Collection<? extends E> c) {
+    @Override
+	public boolean addAll(Collection<? extends E> c) {
 	modCount++;
         Object[] a = c.toArray();
         int numNew = a.length;
@@ -864,7 +883,8 @@ public class ModVector<E>
      * @throws NullPointerException if the specified collection is null.
      * @since 1.2
      */
-    public boolean removeAll(Collection<?> c) {
+    @Override
+	public boolean removeAll(Collection<?> c) {
         return super.removeAll(c);
     }
 
@@ -879,7 +899,8 @@ public class ModVector<E>
      * @throws NullPointerException if the specified collection is null.
      * @since 1.2
      */
-    public boolean retainAll(Collection<?> c)  {
+    @Override
+	public boolean retainAll(Collection<?> c)  {
         return super.retainAll(c);
     }
 
@@ -900,7 +921,8 @@ public class ModVector<E>
      * @throws NullPointerException if the specified collection is null.
      * @since 1.2
      */
-    public boolean addAll(int index, Collection<? extends E> c) {
+    @Override
+	public boolean addAll(int index, Collection<? extends E> c) {
 	modCount++;
 	if (index < 0 || index > elementCount)
 	    throw new ArrayIndexOutOfBoundsException(index);
@@ -931,14 +953,16 @@ public class ModVector<E>
      * @param o the Object to be compared for equality with this ModVector.
      * @return true if the specified Object is equal to this ModVector
      */
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
         return super.equals(o);
     }
 
     /**
      * Returns the hash code value for this ModVector.
      */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return super.hashCode();
     }
 
@@ -946,7 +970,8 @@ public class ModVector<E>
      * Returns a string representation of this ModVector, containing
      * the String representation of each element.
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return super.toString();
     }
 
@@ -984,7 +1009,8 @@ public class ModVector<E>
      * @throws IllegalArgumentException endpoint indices out of order
      *	       <code>(fromIndex &gt; toIndex)</code>
      */
-    public List<E> subList(int fromIndex, int toIndex) {
+    @Override
+	public List<E> subList(int fromIndex, int toIndex) {
         //return Collections.synchronizedList(super.subList(fromIndex, toIndex),
          //                                   this);
          return null;
@@ -1000,7 +1026,8 @@ public class ModVector<E>
      * @param fromIndex index of first element to be removed.
      * @param toIndex index after last element to be removed.
      */
-    protected void removeRange(int fromIndex, int toIndex) {
+    @Override
+	protected void removeRange(int fromIndex, int toIndex) {
 	modCount++;
 	int numMoved = elementCount - toIndex;
         System.arraycopy(elementData, toIndex, elementData, fromIndex,

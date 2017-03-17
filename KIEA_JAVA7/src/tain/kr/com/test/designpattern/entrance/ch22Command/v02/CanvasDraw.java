@@ -73,10 +73,12 @@ public class CanvasDraw extends Canvas implements DrawImpl {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void paint(Graphics g) {
 		this.history.execute();
 	}
 	
+	@Override
 	public void draw(int x, int y) {
 		Graphics g = getGraphics();
 		

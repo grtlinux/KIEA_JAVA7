@@ -118,6 +118,7 @@ public class TR0500 extends Thread {
 		}
 	}
 	
+	@Override
 	public void run() {
 		
 		if (flag) {

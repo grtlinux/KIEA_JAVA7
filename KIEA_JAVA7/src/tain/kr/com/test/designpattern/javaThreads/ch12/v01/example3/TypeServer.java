@@ -24,7 +24,8 @@ public class TypeServer extends TCPNIOServer {
 	Map allClients = new HashMap();
     Charset encoder = Charset.forName("UTF-8");
 
-    protected void handleClient(SelectionKey key) throws IOException {
+    @Override
+	protected void handleClient(SelectionKey key) throws IOException {
         SocketChannel sc = (SocketChannel) key.channel();
        ClientInfo ci = (ClientInfo) allClients.get(sc);
         if (ci == null)
@@ -111,7 +112,8 @@ public class TypeServer extends TCPNIOServer {
         }
     }
 
-    protected void registeredClient(SocketChannel sc) throws IOException {
+    @Override
+	protected void registeredClient(SocketChannel sc) throws IOException {
         ClientInfo ci = new ClientInfo();
         ci.channel = sc;
         ci.outBuf.clear();

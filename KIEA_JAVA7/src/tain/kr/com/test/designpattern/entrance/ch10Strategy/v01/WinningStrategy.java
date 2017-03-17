@@ -52,6 +52,7 @@ public class WinningStrategy implements Strategy {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public Hand nextHand() {
 		if (!this.won) {
 			prevHand = Hand.getHand(random.nextInt(3));
@@ -60,10 +61,12 @@ public class WinningStrategy implements Strategy {
 		return this.prevHand;
 	}
 	
+	@Override
 	public void study(boolean win) {
 		this.won = win;
 	}
 	
+	@Override
 	public String getName() {
 		return "WinningStrategy";
 	}

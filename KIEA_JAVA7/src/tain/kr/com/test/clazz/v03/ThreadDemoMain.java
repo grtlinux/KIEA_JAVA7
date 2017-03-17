@@ -115,6 +115,7 @@ public class ThreadDemoMain extends Thread {
 		if (flag) log.debug(">>>>> name = " + name);
 	}
 	
+	@Override
 	public void run() {
 		
 		if (flag) log.debug(">>>>> run() method");

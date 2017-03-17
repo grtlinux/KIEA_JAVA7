@@ -66,13 +66,15 @@ public class ScoreLabel extends JLabel implements CharacterListener {
     private void setScore() {
         // This method will be explained later in chapter 7
         SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
+            @Override
+			public void run() {
                 setText(Integer.toString(score.get()));
             }
         });
     }
 
-    public void newCharacter(CharacterEvent ce) {
+    @Override
+	public void newCharacter(CharacterEvent ce) {
         int oldChar2type;
  
         // Previous character not typed correctly - 1 point penalty

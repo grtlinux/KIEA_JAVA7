@@ -83,6 +83,7 @@ class PutPipe extends Thread {
 		out = new DataOutputStream (o);
 	}
 
+	@Override
 	public void run(){
 		int j=0;
 		while(j<10){
@@ -108,6 +109,7 @@ class GetPipe extends Thread{
 		pis = (PipedInputStream) i;
 	}
 
+	@Override
 	public void run(){
 		
 		if (!flag) {

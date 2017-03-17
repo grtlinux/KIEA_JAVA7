@@ -95,6 +95,7 @@ public class RushThread extends Thread {
 	/**
 	 * thread processing
 	 */
+	@Override
 	public void run() {
 		
 		if (flag) {

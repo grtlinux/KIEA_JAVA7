@@ -9,6 +9,7 @@ public class PoolLoopHandler implements Runnable {
     }
 
     protected static class PoolHandlerFactory implements ThreadFactory {
+	@Override
 	public Thread newThread(Runnable r) {
 	    Thread t = new Thread(r);
 	    t.setDaemon(true);
@@ -79,7 +80,8 @@ public class PoolLoopHandler implements Runnable {
         }
     }
  
-    public void run() {
+    @Override
+	public void run() {
         LoopRange str;
         while ((str = loopGetRange()) != null) {
             loopDoRange(str.start, str.end);

@@ -60,10 +60,12 @@ public class ColleagueButton extends Button implements Colleague {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	@Override
 	public void setMediator(Mediator mediator) {
 		this.mediator = mediator;
 	}
 	
+	@Override
 	public void setColleagueEnabled(boolean enabled) {
 		setEnabled(enabled);
 	}

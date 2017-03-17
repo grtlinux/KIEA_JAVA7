@@ -165,8 +165,8 @@ public class SortInMap02TestMain {
 		@Override
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public int compare(Object o1, Object o2) {
-			Comparable val1 = (Comparable) this.map.get(o1);
-			Comparable val2 = (Comparable) this.map.get(o2);
+			Comparable val1 = this.map.get(o1);
+			Comparable val2 = this.map.get(o2);
 			return val2.compareTo(val1);
 		}
 	}

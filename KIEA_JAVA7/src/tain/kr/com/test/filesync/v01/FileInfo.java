@@ -144,7 +144,7 @@ public class FileInfo {
 			
 			while ((n = fis.read(bytBuffer)) >= 0) {
 				for (int i=0; i < n; i++) {
-					crc += (int) (0xFF & bytBuffer[i]);
+					crc += 0xFF & bytBuffer[i];
 				}
 			}
 			

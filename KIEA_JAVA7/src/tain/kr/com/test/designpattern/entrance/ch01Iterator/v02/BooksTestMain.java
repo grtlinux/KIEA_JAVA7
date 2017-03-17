@@ -62,7 +62,7 @@ public class BooksTestMain {
 			
 			ToolBooks tool = contentBooks.getTool();
 			while (tool.hasNext()) {
-				Book book = (Book) tool.next();
+				Book book = tool.next();
 				System.out.println(book);
 			}
 		}

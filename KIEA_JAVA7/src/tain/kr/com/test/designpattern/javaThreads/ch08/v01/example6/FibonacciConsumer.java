@@ -13,7 +13,8 @@ public class FibonacciConsumer implements Runnable {
         thr.start();
     }
 
-    public void run() {
+    @Override
+	public void run() {
         int request, result;
         try {
             while (true) {

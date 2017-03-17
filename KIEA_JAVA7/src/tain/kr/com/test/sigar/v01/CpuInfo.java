@@ -20,6 +20,7 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.jni.ArchLoader;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
@@ -118,7 +119,7 @@ public final class CpuInfo extends SigarCommandBase {
 		println("Nice Time....." + CpuPerc.format(cpu.getNice()));
 		println("Combined......" + CpuPerc.format(cpu.getCombined()));
 		println("Irq Time......" + CpuPerc.format(cpu.getIrq()));
-		if (SigarLoader.IS_LINUX) {
+		if (ArchLoader.IS_LINUX) {
 			println("SoftIrq Time.." + CpuPerc.format(cpu.getSoftIrq()));
 			println("Stolen Time...." + CpuPerc.format(cpu.getStolen()));
 		}
@@ -127,6 +128,7 @@ public final class CpuInfo extends SigarCommandBase {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	@Override
 	public String getUsageShort() {
 		return "Display cpu information";
 	}

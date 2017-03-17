@@ -119,15 +119,18 @@ public class URLConnectionTestMain {
 			this.tm = tm;
 		}
 		
+		@Override
 		public X509Certificate[] getAcceptedIssuers() {
 			//throw new UnsupportedOperationException();
 			return new X509Certificate[0];
 		}
 		
+		@Override
 		public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
 			throw new UnsupportedOperationException();
 		}
 		
+		@Override
 		public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
 			this.chain = chain;
 			tm.checkServerTrusted(chain, authType);
@@ -517,6 +520,7 @@ class WebPageInfoBean {
 		this.pageUrl = pageUrl;
 	}
 	
+	@Override
 	public String toString() {
 		return String.format("[%s](%d)[%s]", this.pageKey, this.pageWaitTime, this.pageUrl);
 	}

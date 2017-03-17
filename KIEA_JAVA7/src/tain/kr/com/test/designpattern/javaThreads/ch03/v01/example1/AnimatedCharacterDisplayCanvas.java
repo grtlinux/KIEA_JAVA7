@@ -77,6 +77,7 @@ public class AnimatedCharacterDisplayCanvas extends CharacterDisplayCanvas imple
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public synchronized void newCharacter(CharacterEvent ce) {
 		
 		this.curX = 0;
@@ -84,6 +85,7 @@ public class AnimatedCharacterDisplayCanvas extends CharacterDisplayCanvas imple
 		repaint();
 	}
 	
+	@Override
 	protected synchronized void paintComponent(Graphics gc) {
 		
 		Dimension d = getSize();

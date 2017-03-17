@@ -45,6 +45,7 @@ public class ListPage extends ItemPage {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String makeHtml() {
 		StringBuffer buffer = new StringBuffer();
 		

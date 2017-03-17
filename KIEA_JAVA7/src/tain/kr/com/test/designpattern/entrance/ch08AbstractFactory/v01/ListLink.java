@@ -45,6 +45,7 @@ public class ListLink extends ItemLink {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String makeHtml() {
 		return "   <li><a href=\"" + this.getUrl() + "\">" + this.getCaption() + "</a></li>\n";
 	}

@@ -3,6 +3,7 @@ package tain.kr.com.test.threadLocal.v01;
 class TestObject {
 	public String testMember1;
 	public String testMember2;
+	@Override
 	public String toString() {
 		return ("TestObject.testMember1[" + testMember1 + "]testMember2["
 				+ testMember2 + "]");

@@ -77,7 +77,8 @@ public class ScoreLabel extends JLabel implements CharacterListener {
 	    setText(Integer.toString(score));
 	else try {
 	    SwingUtilities.invokeAndWait(new Runnable() {
-	    	public void run() {
+	    	@Override
+			public void run() {
 		    setText(Integer.toString(score));
 		}
 	    });
@@ -85,7 +86,8 @@ public class ScoreLabel extends JLabel implements CharacterListener {
 	} catch (InvocationTargetException ite) {}
     }
 
-    public void newCharacter(CharacterEvent ce) {
+    @Override
+	public void newCharacter(CharacterEvent ce) {
         scoreLock.lock();
         try {
             if (ce.source == generator) {

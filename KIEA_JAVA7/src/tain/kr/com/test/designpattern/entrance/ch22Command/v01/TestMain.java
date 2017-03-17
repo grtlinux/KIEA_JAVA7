@@ -93,6 +93,7 @@ public class TestMain extends JFrame implements ActionListener, MouseMotionListe
 	/*
 	 * ActionListener
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.clearButton) {
 			this.history.clear();
@@ -105,8 +106,10 @@ public class TestMain extends JFrame implements ActionListener, MouseMotionListe
 	/*
 	 * MouseMotionListener
 	 */
+	@Override
 	public void mouseMoved(MouseEvent e) {}
 	
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		CommandImpl command = new DrawCommand(this.canvas, e.getPoint());
 		this.history.append(command);
@@ -118,15 +121,22 @@ public class TestMain extends JFrame implements ActionListener, MouseMotionListe
 	/*
 	 * WindowListener
 	 */
+	@Override
 	public void windowClosing(WindowEvent e) {
 		System.exit(0);
 	}
 	
+	@Override
 	public void windowActivated(WindowEvent e) {}
+	@Override
 	public void windowClosed(WindowEvent e) {}
+	@Override
 	public void windowDeactivated(WindowEvent e) {}
+	@Override
 	public void windowDeiconified(WindowEvent e) {}
+	@Override
 	public void windowIconified(WindowEvent e) {}
+	@Override
 	public void windowOpened(WindowEvent e) {}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

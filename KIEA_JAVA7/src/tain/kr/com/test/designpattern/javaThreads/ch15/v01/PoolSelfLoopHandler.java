@@ -14,7 +14,8 @@ public class PoolSelfLoopHandler extends PoolLoopHandler {
         reset();
     }
 
-    protected synchronized LoopRange loopGetRange() {
+    @Override
+	protected synchronized LoopRange loopGetRange() {
         if (curLoop >= endLoop)
             return null;
         LoopRange ret = new LoopRange();

@@ -97,6 +97,7 @@ public class TainServerThread extends Thread {
 		}
 	}
 	
+	@Override
 	public void run() {
 		
 		if (flag) {

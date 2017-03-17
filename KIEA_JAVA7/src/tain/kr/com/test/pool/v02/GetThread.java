@@ -21,6 +21,7 @@ public class GetThread extends Thread {
 		}
 	}
 	
+	@Override
 	public void run() {
 		if (flag) System.out.printf("[%s] thread start..\n", this.thrName);
 		
@@ -55,6 +56,7 @@ public class GetThread extends Thread {
 		}
 	}
 	
+	@Override
 	public String toString() {
 		return this.thrName;
 	}

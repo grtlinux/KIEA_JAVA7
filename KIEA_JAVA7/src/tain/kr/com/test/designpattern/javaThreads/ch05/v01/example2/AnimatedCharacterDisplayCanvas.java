@@ -38,12 +38,14 @@ public class AnimatedCharacterDisplayCanvas extends CharacterDisplayCanvas imple
         }
     }
 
-    public void newCharacter(CharacterEvent ce) {
+    @Override
+	public void newCharacter(CharacterEvent ce) {
         curX.set(0);
         tempChar.set(ce.character);
         repaint();
     }
 
+	@Override
 	protected void paintComponent(Graphics gc) {
         char[] localTmpChar = new char[1];
         localTmpChar[0] = (char) tempChar.get();
@@ -60,7 +62,8 @@ public class AnimatedCharacterDisplayCanvas extends CharacterDisplayCanvas imple
         curX.getAndIncrement();
     }
 
-    public void run() {
+    @Override
+	public void run() {
         while (true) {
             try {
                 Thread.sleep(100);

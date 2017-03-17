@@ -30,11 +30,12 @@ public class SinTable implements Runnable {
     private void loopDoRange(int start, int end) {
         for (int i = start; i < end; i += 1) {
             float sinValue = (float)Math.sin((i % 360)*Math.PI/180.0);
-            lookupValues[i] = sinValue * (float)i / 180.0f;
+            lookupValues[i] = sinValue * i / 180.0f;
         }
     }
  
-    public void run() {
+    @Override
+	public void run() {
         SinTableRange str;
         while ((str = loopGetRange()) != null) {
             loopDoRange(str.start, str.end);

@@ -9,7 +9,7 @@ public class SinTable {
             for (int i = 0; i < (360*100); i++) {
                 float sinValue = (float)Math.sin(
                                     (i % 360)*Math.PI/180.0);
-                lookupValues[i] = sinValue * (float)i / 180.0f;
+                lookupValues[i] = sinValue * i / 180.0f;
             }    
         }
         return lookupValues;

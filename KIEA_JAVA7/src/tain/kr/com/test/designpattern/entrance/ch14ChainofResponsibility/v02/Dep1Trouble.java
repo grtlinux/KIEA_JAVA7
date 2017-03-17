@@ -62,6 +62,7 @@ public class Dep1Trouble {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("[Trouble %d]", this.getNumber());
 	}

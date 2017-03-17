@@ -64,6 +64,7 @@ public class SocketServerThread extends Thread {
 		}
 	}
 
+	@Override
 	public void run() {
 		
 		if (flag) {

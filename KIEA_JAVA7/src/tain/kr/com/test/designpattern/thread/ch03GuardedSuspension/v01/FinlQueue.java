@@ -66,7 +66,7 @@ public final class FinlQueue {
 			try { wait(); } catch (InterruptedException e) {}
 		}
 		
-		return (AbstContent) this.queue.removeFirst();
+		return this.queue.removeFirst();
 	}
 	
 	public synchronized void put(AbstContent content) {

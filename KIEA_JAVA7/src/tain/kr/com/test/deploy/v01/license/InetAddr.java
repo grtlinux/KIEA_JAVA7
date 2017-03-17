@@ -78,7 +78,7 @@ public class InetAddr {
 				
 				byte[] ip = inetAddress.getAddress();
 				for (int i=0; i < ip.length; i++) {
-					sb.append((int) ip[i] & 0xFF);   // bug
+					sb.append(ip[i] & 0xFF);   // bug
 					if (i != ip.length - 1)
 						sb.append(".");
 				}
@@ -94,7 +94,7 @@ public class InetAddr {
 				
 				byte[] ip = inetAddress.getAddress();
 				for (int i=0; i < ip.length; i++) {
-					sb.append(String.format("%03d", (int) ip[i] & 0xFF));   // bug
+					sb.append(String.format("%03d", ip[i] & 0xFF));   // bug
 					if (i != ip.length - 1)
 						sb.append(".");
 				}
@@ -169,7 +169,7 @@ public class InetAddr {
 			
 			byte[] ip = { -4, -3, -2, -1 };
 			for (int i=0; i < ip.length; i++) {
-				sb.append((int) ip[i] & 0xFF);   // bug
+				sb.append(ip[i] & 0xFF);   // bug
 				if (i != ip.length - 1)
 					sb.append(".");
 			}
@@ -196,7 +196,7 @@ public class InetAddr {
 				
 				byte[] ip = inetAddress.getAddress();
 				for (int i=0; i < ip.length; i++) {
-					sb.append((int) ip[i] & 0xFF);   // bug
+					sb.append(ip[i] & 0xFF);   // bug
 					if (i != ip.length - 1)
 						sb.append(".");
 				}
@@ -211,7 +211,7 @@ public class InetAddr {
 				
 				byte[] ip = inetAddress.getAddress();
 				for (int i=0; i < ip.length; i++) {
-					sb.append(String.format("%03d", (int) ip[i] & 0xFF));   // bug
+					sb.append(String.format("%03d", ip[i] & 0xFF));   // bug
 					if (i != ip.length - 1)
 						sb.append(".");
 				}
@@ -239,7 +239,7 @@ public class InetAddr {
 				
 				byte[] ip = inetAddress.getAddress();
 				for (int i=0; i < ip.length; i++) {
-					sb.append((int) ip[i] & 0xFF);   // bug
+					sb.append(ip[i] & 0xFF);   // bug
 					if (i != ip.length - 1)
 						sb.append(".");
 				}
@@ -254,7 +254,7 @@ public class InetAddr {
 				
 				byte[] ip = inetAddress.getAddress();
 				for (int i=0; i < ip.length; i++) {
-					sb.append(String.format("%03d", (int) ip[i] & 0xFF));   // bug
+					sb.append(String.format("%03d", ip[i] & 0xFF));   // bug
 					if (i != ip.length - 1)
 						sb.append(".");
 				}

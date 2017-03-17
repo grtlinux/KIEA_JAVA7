@@ -58,6 +58,7 @@ public class SupportLimit extends AbstSupport {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	protected boolean resolve(Dep1Trouble trouble) {
 		
 		if (trouble.getNumber() < this.limit) {

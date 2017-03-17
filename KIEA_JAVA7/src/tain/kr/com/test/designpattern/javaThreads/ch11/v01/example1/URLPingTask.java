@@ -22,6 +22,7 @@ public class URLPingTask extends TimerTask {
         updater = uu;
     }
 
+	@Override
 	public void run() {
         if (System.currentTimeMillis() - scheduledExecutionTime() > 5000) {
             // Let the next task do it

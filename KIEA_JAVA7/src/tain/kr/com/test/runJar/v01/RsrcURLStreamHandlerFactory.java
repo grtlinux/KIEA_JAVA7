@@ -53,6 +53,7 @@ public class RsrcURLStreamHandlerFactory implements URLStreamHandlerFactory {
 		this.classLoader = cl;
 	}
 	
+	@Override
 	public URLStreamHandler createURLStreamHandler(String protocol) {
 		
 		if (JIJConstants.INTERNAL_URL_PROTOCOL.equals(protocol)) {

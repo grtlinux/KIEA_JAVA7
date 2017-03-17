@@ -27,7 +27,7 @@ public enum EnumProduct {
 	}
 	
 	public double getPrice(int amount) {
-		double price = this.price * (double) amount;
+		double price = this.price * amount;
 		return (price * vat) + price;
 	}
 	

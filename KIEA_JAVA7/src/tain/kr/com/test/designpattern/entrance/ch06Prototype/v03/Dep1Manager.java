@@ -67,7 +67,7 @@ public final class Dep1Manager {
 	}
 	
 	public ImplProduct create(String name) {
-		ImplProduct product = (ImplProduct) this.products.get(name);
+		ImplProduct product = this.products.get(name);
 		return product.createClone();
 	}
 	

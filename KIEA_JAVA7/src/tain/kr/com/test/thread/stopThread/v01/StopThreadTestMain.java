@@ -51,6 +51,7 @@ public class StopThreadTestMain {
 		stoppable.start();
 		
 		new Timer(true).schedule(new TimerTask() {
+			@Override
 			public void run() {
 				System.out.println("Requesting stop");
 				stoppable.requestStop();
@@ -65,6 +66,7 @@ class CanStop extends Thread {
 	private volatile boolean stop = false;
 	private int counter = 0;
 	
+	@Override
 	public void run() {
 		while (!stop && counter < 10000) {
 			System.out.println(counter++);

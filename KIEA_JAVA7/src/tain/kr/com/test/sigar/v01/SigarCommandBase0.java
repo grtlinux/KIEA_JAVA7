@@ -140,7 +140,7 @@ public abstract class SigarCommandBase0 extends ShellCommandBase implements Getl
 	}
 	
 	public void printf(List<String> items) {
-		printf((Object[]) items.toArray(new Object[0]));
+		printf(items.toArray(new Object[0]));
 	}
 	
 	public void println(String line) {
@@ -162,7 +162,7 @@ public abstract class SigarCommandBase0 extends ShellCommandBase implements Getl
 		int[] max = null;
 		
 		for (Iterator<Object[]> it = this.printfItems.iterator(); it.hasNext();) {
-			Object[] items = (Object[]) it.next();
+			Object[] items = it.next();
 			if (max == null) {
 				max = new int[items.length];
 				Arrays.fill(max, 0);
@@ -185,7 +185,7 @@ public abstract class SigarCommandBase0 extends ShellCommandBase implements Getl
 		}
 		
 		for (Iterator<Object[]> it = this.printfItems.iterator(); it.hasNext();) {
-			printf(format.toString(), (Object[]) it.next());
+			printf(format.toString(), it.next());
 		}
 		
 		this.printfItems.clear();
@@ -211,6 +211,7 @@ public abstract class SigarCommandBase0 extends ShellCommandBase implements Getl
 		return args.length == 0;
 	}
 	
+	@Override
 	public void processCommand(String[] args) throws ShellCommandUsageException, ShellCommandExecException {
 		if (!validateArgs(args)) {
 			throw new ShellCommandUsageException(getSyntax());
@@ -241,6 +242,7 @@ public abstract class SigarCommandBase0 extends ShellCommandBase implements Getl
 		return this.ptqlCompleter.complete(line);
 	}
 	
+	@Override
 	public String complete(String line) {
 		if (isPidCompleter()) {
 			return completePid(line);

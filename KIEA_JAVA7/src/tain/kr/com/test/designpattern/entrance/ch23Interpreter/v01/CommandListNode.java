@@ -43,6 +43,7 @@ public class CommandListNode extends Node {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void parse(Context context) throws ParseException {
 		
 		// loop
@@ -63,6 +64,7 @@ public class CommandListNode extends Node {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("%s", this.list);
 	}

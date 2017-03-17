@@ -43,11 +43,13 @@ public class ListVisitor extends Visitor {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void visit(File file) {
 		// print file info
 		System.out.println(this.currentFolder + "/" + file);
 	}
 	
+	@Override
 	public void visit(Folder folder) {
 		// print folder info
 		System.out.println(this.currentFolder + "/" + folder);

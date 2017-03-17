@@ -50,6 +50,7 @@ public class SyncThread extends Thread {
 		}
 	}
 	
+	@Override
 	public void run() {
 		
 		if (flag) {
@@ -120,6 +121,7 @@ public class SyncThread extends Thread {
 		if (flag) System.out.printf("[%s] SYNC_THREAD : SyncThread is closed..\n", this);
 	}
 	
+	@Override
 	public String toString() {
 		return this.thrName;
 	}

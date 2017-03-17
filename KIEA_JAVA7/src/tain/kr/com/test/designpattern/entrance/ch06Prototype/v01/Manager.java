@@ -54,7 +54,7 @@ public class Manager {
 	}
 	
 	public Product create(String protoName) {
-		Product product = (Product) this.showCase.get(protoName);
+		Product product = this.showCase.get(protoName);
 		return product.createClone();
 	}
 	

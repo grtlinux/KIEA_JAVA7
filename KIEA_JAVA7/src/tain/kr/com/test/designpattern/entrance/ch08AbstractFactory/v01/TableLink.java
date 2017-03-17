@@ -45,6 +45,7 @@ public class TableLink extends ItemLink {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String makeHtml() {
 		return "<td><a href=\"" + this.getUrl() + "\">" + this.getCaption() + "</a></td>\n";
 	}

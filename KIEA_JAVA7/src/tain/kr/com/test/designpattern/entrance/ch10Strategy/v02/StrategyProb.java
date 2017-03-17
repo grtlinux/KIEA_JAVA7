@@ -66,6 +66,7 @@ public class StrategyProb implements ImplStrategy {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public Dep1Hand nextHand() {
 		int bet = this.random.nextInt(getSum(this.currentHandValue));
 		int handValue = 0;
@@ -84,6 +85,7 @@ public class StrategyProb implements ImplStrategy {
 		return Dep1Hand.getHand(handValue);
 	}
 	
+	@Override
 	public void study(boolean won) {
 		if (won) {
 			this.history[this.prevHandValue][this.currentHandValue]++;
@@ -93,6 +95,7 @@ public class StrategyProb implements ImplStrategy {
 		}
 	}
 	
+	@Override
 	public String getName() {
 		return "ProbStrategy";
 	}

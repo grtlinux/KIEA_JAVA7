@@ -53,6 +53,7 @@ public class ObserverGraph implements ImplObserver {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void update(AbstNumberGenerator generator) {
 		
 		byte[] bytGraph = new byte[generator.getNumber()];

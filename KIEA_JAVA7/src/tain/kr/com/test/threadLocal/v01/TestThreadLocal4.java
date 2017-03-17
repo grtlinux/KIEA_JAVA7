@@ -5,6 +5,7 @@ import java.util.Random;
 
 class MapThreadLocal extends ThreadLocal<Object> {
 	//Object 가 아니라 HashMap 를 값으로 갖는다. 
+	@Override
 	protected Object initialValue() {
 		return new HashMap<Object, Object>();
 	}
@@ -54,6 +55,7 @@ public class TestThreadLocal4 {
 		public TestThread(String threadIdValue) {
 			this.threadIdValue = threadIdValue;
 		}
+		@Override
 		public void run() {
 			try {
 				Util.sleep_for_a_while();

@@ -67,6 +67,7 @@ public final class BuilderBeta extends AbstBuilder {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("(class %s)", this.getClass().getSimpleName());
 	}

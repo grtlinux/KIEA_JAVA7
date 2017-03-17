@@ -58,14 +58,17 @@ public class EntryFile extends AbstEntry {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String getName() {
 		return this.name;
 	}
 	
+	@Override
 	public int getSize() {
 		return this.size;
 	}
 	
+	@Override
 	protected void printList(String prefix) {
 		System.out.println(prefix + "/" + this);
 	}

@@ -22,6 +22,7 @@ public class URLPingTask implements Runnable {
     }
 
 
+	@Override
 	public void run() {
         try {
             HttpURLConnection huc = (HttpURLConnection) url.openConnection();

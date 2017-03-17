@@ -15,7 +15,8 @@ public class GuidedAtomicLoopInterchanged implements ScaleTester {
             super(0, nc, 10, nt);
         }
 
-        public void loopDoRange(int start, int end) {
+        @Override
+		public void loopDoRange(int start, int end) {
             float sum = 0.0f;
             for (int i = start; i < end; i++) {
                 lookupValues[0][i] = 0;
@@ -24,9 +25,9 @@ public class GuidedAtomicLoopInterchanged implements ScaleTester {
                 for (int j = 1; j < nRows; j++) {
                     float sinValue =
                                 (float)Math.sin((i % 360)*Math.PI/180.0);
-                    lookupValues[j][i] = sinValue * (float)i / 180.0f;
+                    lookupValues[j][i] = sinValue * i / 180.0f;
                     lookupValues[j][i] +=
-                                lookupValues[j-1][i]*(float)j/180.0f;
+                                lookupValues[j-1][i]*j/180.0f;
 		    sum += lookupValues[j][i];
                 }  
             }
@@ -34,7 +35,8 @@ public class GuidedAtomicLoopInterchanged implements ScaleTester {
         }
     }
 
-    public void init(int nRows, int nCols, int nThreads) {
+    @Override
+	public void init(int nRows, int nCols, int nThreads) {
         this.nRows = nRows;
         this.nCols = nCols;
         this.nThreads = nThreads;
@@ -44,7 +46,8 @@ public class GuidedAtomicLoopInterchanged implements ScaleTester {
         }
     }
 
-    public float[][] doCalc() {
+    @Override
+	public float[][] doCalc() {
         GuidedLoopInterchangedHandler loop =
                     new GuidedLoopInterchangedHandler(nCols, nThreads);
         loop.loopProcess();

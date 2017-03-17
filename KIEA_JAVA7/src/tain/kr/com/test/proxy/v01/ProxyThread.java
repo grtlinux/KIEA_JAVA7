@@ -44,6 +44,7 @@ public class ProxyThread extends Thread {
 		}
 	}
 	
+	@Override
 	public void run() {
 		
 		if (flag) {
@@ -72,6 +73,7 @@ public class ProxyThread extends Thread {
 		if (flag) System.out.printf("[%s] PROXY_THREAD : ProxyThread is closed..\n", this);
 	}
 	
+	@Override
 	public String toString() {
 		return this.thrName;
 	}

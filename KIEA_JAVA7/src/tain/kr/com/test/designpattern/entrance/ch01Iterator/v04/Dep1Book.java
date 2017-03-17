@@ -67,6 +67,7 @@ public final class Dep1Book {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		
 		return String.format("Book('%s')", this.name);

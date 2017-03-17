@@ -80,7 +80,7 @@ public final class VisitorList extends AbstVisitor {
 			
 			this.currentFolder = this.currentFolder + "/" + entryFolder.getName();
 			
-			for (AbstAcceptorEntry ent : ((EntryFolder)entryFolder).getEntries()) {
+			for (AbstAcceptorEntry ent : entryFolder.getEntries()) {
 				ent.accept(this);
 			}
 			

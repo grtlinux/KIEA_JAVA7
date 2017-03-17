@@ -39,14 +39,17 @@ public class TableFactory extends ItemFactory {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public ItemLink createLink(String caption, String url) {
 		return new TableLink(caption, url);
 	}
 	
+	@Override
 	public ItemTray createTray(String caption) {
 		return new TableTray(caption);
 	}
 	
+	@Override
 	public ItemPage createPage(String title, String author) {
 		return new TablePage(title, author);
 	}

@@ -57,6 +57,7 @@ public class Anonymous01Main {
 			Object tv = new Object() {
 				int inch = 20;
 				
+				@Override
 				public String toString() {
 					return String.format("Anonymous Class [person:%d] [inch:%d]%n", person, inch);
 				}

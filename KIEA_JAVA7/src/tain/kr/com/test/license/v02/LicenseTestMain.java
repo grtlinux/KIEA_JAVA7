@@ -132,7 +132,7 @@ public class LicenseTestMain {
 
 				byte[] ip = inetAddr.getAddress();
 				for (int i=0; i < ip.length; i++) {
-					sbIp.append(String.format("%03d", (int) ip[i] & 0xFF));
+					sbIp.append(String.format("%03d", ip[i] & 0xFF));
 					if (i != ip.length - 1)
 						sbIp.append(".");
 				}

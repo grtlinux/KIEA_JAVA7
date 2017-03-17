@@ -138,9 +138,9 @@ public class UsernameValidatorTest {
 			
 			Double fld3 = 282828282.123;
 			
-			Object obj1 = (Object) fld1;
-			Object obj2 = (Object) fld2;
-			Object obj3 = (Object) fld3;
+			Object obj1 = fld1;
+			Object obj2 = fld2;
+			Object obj3 = fld3;
 			
 			System.out.println(">" + String.valueOf(obj1));
 			System.out.println(">" + String.valueOf(obj2));
@@ -222,7 +222,7 @@ public class UsernameValidatorTest {
 			System.out.println(">" + printValue(1234567890123L, "¾ø½¿"));
 			System.out.println(">" + printValue(new BigDecimal(12345678912345L), "¾ø½¿"));
 			System.out.println(">" + printValue(12345.67, "¾ø½¿"));
-			System.out.println(">" + printValue((double) 12312345.67, "¾ø½¿"));
+			System.out.println(">" + printValue(12312345.67, "¾ø½¿"));
 			System.out.println(">" + printValue(null, "¾ø½¿"));
 		}
 	}

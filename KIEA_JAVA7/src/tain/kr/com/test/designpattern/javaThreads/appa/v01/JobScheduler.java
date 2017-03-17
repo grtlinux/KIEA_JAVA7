@@ -118,6 +118,7 @@ public class JobScheduler implements Runnable {
 		return minDiff;
 	}
 
+	@Override
 	public synchronized void run() {
 		while (true) {
 			long waitTime = runJobs();
@@ -128,7 +129,7 @@ public class JobScheduler implements Runnable {
 	}
 
 	public void execute(Runnable job) {
-		executeIn(job, (long)0);
+		executeIn(job, 0);
 	}
 
 	public void executeIn(Runnable job, long millis) {
@@ -182,6 +183,7 @@ public class JobScheduler implements Runnable {
 	public static void main(String[] args)
 		throws Exception {
 		Runnable r1 = new Runnable() {
+			@Override
 			public void run() {
 				System.out.print("1");
 				try { Thread.sleep(5000); } catch (Exception ex) {};
@@ -189,6 +191,7 @@ public class JobScheduler implements Runnable {
 			}
 		};
 		Runnable r2 = new Runnable() {
+			@Override
 			public void run() {
 				System.out.print("2");
 				try { Thread.sleep(5000); } catch (Exception ex) {};
@@ -196,11 +199,13 @@ public class JobScheduler implements Runnable {
 			}
 		};
 		Runnable r3 = new Runnable() {
+			@Override
 			public void run() {
 				System.out.print("3");
 			}
 		};
 		Runnable r4 = new Runnable() {
+			@Override
 			public void run() {
 				System.out.print("4");
 			}

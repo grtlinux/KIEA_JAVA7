@@ -49,10 +49,12 @@ public class Folder extends Entry {
 		this.folder = new Vector<Entry>();
 	}
 	
+	@Override
 	public String getName() {
 		return this.name;
 	}
 	
+	@Override
 	public int getSize() {
 		int size = 0;
 		
@@ -62,12 +64,14 @@ public class Folder extends Entry {
 		return size;
 	}
 	
+	@Override
 	public Entry add(Entry entry) {
 		folder.addElement(entry);
 		entry.parent = this;
 		return this;
 	}
 	
+	@Override
 	protected void printList(String prefix) {
 		System.out.println(prefix + "/" + this);
 		

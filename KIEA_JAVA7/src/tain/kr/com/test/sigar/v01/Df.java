@@ -104,18 +104,22 @@ public final class Df extends SigarCommandBase {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	@Override
 	public GetlineCompleter getCompleter() {
 		return this.completer;
 	}
 
+	@Override
 	protected boolean validateArgs(String[] args) {
 		return true;
 	}
 
+	@Override
 	public String getSyntaxArgs() {
 		return "[filesystem]";
 	}
 
+	@Override
 	public String getUsageShort() {
 		return "Report filesystem disk space usage";
 	}
@@ -124,6 +128,7 @@ public final class Df extends SigarCommandBase {
 		printf(this.opt_i ? IHEADER : HEADER);
 	}
 
+	@Override
 	public void output(String[] args) throws SigarException {
 		this.opt_i = false;
 		ArrayList<FileSystem> sys = new ArrayList<FileSystem>();
@@ -155,7 +160,7 @@ public final class Df extends SigarCommandBase {
 
 		printHeader();
 		for (int i=0; i<sys.size(); i++) {
-			output((FileSystem)sys.get(i));
+			output(sys.get(i));
 		}
 	}
 

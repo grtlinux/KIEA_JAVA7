@@ -97,7 +97,7 @@ public final class LoopSleep {
 	public void sleep() {
 		
 		try {
-			Thread.sleep((long) this.info[this.index]);
+			Thread.sleep(this.info[this.index]);
 		} catch (InterruptedException e) {
 			// TODO: handle exception
 		}
@@ -113,7 +113,7 @@ public final class LoopSleep {
 		long msec = (this.index / 10 + 1) * 100;
 		
 		try {
-			Thread.sleep((long) msec);
+			Thread.sleep(msec);
 		} catch (InterruptedException e) {
 			// TODO: handle exception
 		}

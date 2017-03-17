@@ -69,6 +69,7 @@ public final class StatTriple {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("[StatTriple id = %d]", this.id);
 	}

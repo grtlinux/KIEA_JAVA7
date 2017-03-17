@@ -59,10 +59,12 @@ public class RsrcURLConnection extends URLConnection {
 		this.classLoader = classLoader;
 	}
 	
+	@Override
 	public void connect() throws IOException {
 		
 	}
 	
+	@Override
 	public InputStream getInputStream() throws IOException {
 		String file = URLDecoder.decode(url.getFile(), JIJConstants.UTF8_ENCODING);
 		if (!flag) log.debug("URL : " + file);

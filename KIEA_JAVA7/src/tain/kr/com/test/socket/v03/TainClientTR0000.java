@@ -71,6 +71,7 @@ public class TainClientTR0000 extends Thread {
 		}
 	}
 	
+	@Override
 	public void run() {
 		
 		if (!flag) {

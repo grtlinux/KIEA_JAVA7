@@ -70,6 +70,7 @@ public class AttachmentThread extends Thread {
 		}
 	}
 	
+	@Override
 	public void run() {
 		
 		if (flag) {

@@ -76,24 +76,28 @@ public class SwingTypeTester extends JFrame implements CharacterSource {
         pack();
 
         addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent evt) {
+            @Override
+			public void windowClosing(WindowEvent evt) {
                 quit();
             }
         });
         feedbackCanvas.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent ke) {
+            @Override
+			public void keyPressed(KeyEvent ke) {
                 char c = ke.getKeyChar();
                 if (c != KeyEvent.CHAR_UNDEFINED)
-                    newCharacter((int) c);
+                    newCharacter(c);
             }
         });
         startButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 new FeedbackFrame(parent).show();
             }
         });
         stopButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 startButton.setEnabled(true);
                 stopButton.setEnabled(false);
                 producer.setDone(true);
@@ -102,7 +106,8 @@ public class SwingTypeTester extends JFrame implements CharacterSource {
             }
         });
         quitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 quit();
             }
         });
@@ -125,11 +130,13 @@ public class SwingTypeTester extends JFrame implements CharacterSource {
         System.exit(0);
     }
 
-    public void addCharacterListener(CharacterListener cl) {
+    @Override
+	public void addCharacterListener(CharacterListener cl) {
         handler.addCharacterListener(cl);
     }
 
-    public void removeCharacterListener(CharacterListener cl) {
+    @Override
+	public void removeCharacterListener(CharacterListener cl) {
         handler.removeCharacterListener(cl);
     }
 
@@ -137,7 +144,8 @@ public class SwingTypeTester extends JFrame implements CharacterSource {
         handler.fireNewCharacter(this, c);
     }
 
-    public void nextCharacter() {
+    @Override
+	public void nextCharacter() {
         throw new IllegalStateException("We don't produce on demand");
     }
     

@@ -9,7 +9,8 @@ import tain.kr.com.test.designpattern.javaThreads.ch12.v01.TCPThrottledServer;
 import tain.kr.com.test.designpattern.javaThreads.ch12.v01.TypeServerConstants;
 
 public class TypeServer extends TCPThrottledServer {
-    public void run(Socket data) {
+    @Override
+	public void run(Socket data) {
         try {
             DataOutputStream dos =
                    new DataOutputStream(data.getOutputStream());

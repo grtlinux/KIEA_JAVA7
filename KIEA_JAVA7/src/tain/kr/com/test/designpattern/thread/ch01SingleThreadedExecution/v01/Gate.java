@@ -57,6 +57,7 @@ public class Gate {
 		check();
 	}
 	
+	@Override
 	public String toString() {
 		return "No." + counter + ": " + name + ", " + address;
 	}

@@ -74,6 +74,7 @@ public class Dep1Memento {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	@Override
 	public String toString() {
 		return String.format("Memento ##### [money = %d, fruits = %s]", this.money, this.fruites);
 	}

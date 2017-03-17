@@ -72,6 +72,7 @@ public final class FinlPerson {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("[ Person: name = %s, address = %s ]", this.name, this.address);
 	}

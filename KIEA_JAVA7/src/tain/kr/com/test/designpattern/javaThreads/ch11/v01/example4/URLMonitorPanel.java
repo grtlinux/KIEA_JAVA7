@@ -28,7 +28,8 @@ import javax.swing.SwingUtilities;
 
 @SuppressWarnings("rawtypes")
 class TimeoutTask implements Callable {
-    public Integer call() throws IOException {
+    @Override
+	public Integer call() throws IOException {
         return new Integer(0);
     }
 }
@@ -62,7 +63,8 @@ public class URLMonitorPanel extends JPanel implements URLPingTask.URLUpdate {
         startButton = new JButton("Start");
         startButton.setEnabled(false);
         startButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
+            @Override
+			public void actionPerformed(ActionEvent ae) {
                 makeTask();
                 startButton.setEnabled(false);
                 stopButton.setEnabled(true);
@@ -71,7 +73,8 @@ public class URLMonitorPanel extends JPanel implements URLPingTask.URLUpdate {
         stopButton = new JButton("Stop");
         stopButton.setEnabled(true);
         stopButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
+            @Override
+			public void actionPerformed(ActionEvent ae) {
                 cancellable.cancel(true);
                 startButton.setEnabled(true);
                 stopButton.setEnabled(false);
@@ -107,10 +110,12 @@ public class URLMonitorPanel extends JPanel implements URLPingTask.URLUpdate {
         }
     }
 
-    public void isAlive(final boolean b) {
+    @Override
+	public void isAlive(final boolean b) {
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
+                @Override
+				public void run() {
                     checkLicense();
                     if (done) {
                         cancellable.cancel(true);
@@ -136,7 +141,8 @@ public class URLMonitorPanel extends JPanel implements URLPingTask.URLUpdate {
             c.add(new URLMonitorPanel(args[i], se));
         }
         frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent evt) {
+            @Override
+			public void windowClosing(WindowEvent evt) {
                 System.exit(0);
             }
         });

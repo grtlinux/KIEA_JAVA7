@@ -12,7 +12,8 @@ public class FibonacciProducer implements Runnable {
         thr.start();
     }
 
-    public void run() {
+    @Override
+	public void run() {
         try {
             for(int x=0;;x++) {
                 Thread.sleep(1000);

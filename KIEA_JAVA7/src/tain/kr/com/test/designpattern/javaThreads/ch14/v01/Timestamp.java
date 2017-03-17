@@ -34,7 +34,8 @@ public class Timestamp {
 	return ts.convert(stopTime - startTime, TimeUnit.NANOSECONDS);
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
 	try {
 	    return elapsedTime() + " " + ts;
 	} catch (IllegalStateException ise) {

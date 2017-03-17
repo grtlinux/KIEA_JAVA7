@@ -40,14 +40,17 @@ public class ListFactory extends ItemFactory {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public ItemLink createLink(String caption, String url) {
 		return new ListLink(caption, url);
 	}
 	
+	@Override
 	public ItemTray createTray(String caption) {
 		return new ListTray(caption);
 	}
 	
+	@Override
 	public ItemPage createPage(String title, String author) {
 		return new ListPage(title, author);
 	}

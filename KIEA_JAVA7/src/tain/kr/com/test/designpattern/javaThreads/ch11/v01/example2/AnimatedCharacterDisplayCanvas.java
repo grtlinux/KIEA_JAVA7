@@ -27,13 +27,15 @@ public class AnimatedCharacterDisplayCanvas extends CharacterDisplayCanvas
 	timer = new Timer(100, this);
     }
 
-    public synchronized void newCharacter(CharacterEvent ce) {
+    @Override
+	public synchronized void newCharacter(CharacterEvent ce) {
         curX = 0;
         tmpChar[0] = (char) ce.character;
         repaint();
     }
 
-    public synchronized void paintComponent(Graphics gc) {
+    @Override
+	public synchronized void paintComponent(Graphics gc) {
         if (tmpChar[0] == 0)
             return;
         Dimension d = getSize();
@@ -44,7 +46,8 @@ public class AnimatedCharacterDisplayCanvas extends CharacterDisplayCanvas
             curX = 0;
     }
 
-    public void actionPerformed(ActionEvent ae) {
+    @Override
+	public void actionPerformed(ActionEvent ae) {
         repaint();
     }
 

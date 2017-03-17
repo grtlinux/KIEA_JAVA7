@@ -33,17 +33,20 @@ public class CharacterDisplayCanvas extends JComponent implements CharacterListe
         cs.addCharacterListener(this);
     }
 
-    public Dimension preferredSize() {
+    @Override
+	public Dimension preferredSize() {
         return new Dimension(fm.getMaxAscent() + 10,
                              fm.getMaxAdvance() + 10);
     }
 
-    public void newCharacter(CharacterEvent ce) {
+    @Override
+	public void newCharacter(CharacterEvent ce) {
         tmpChar[0] = (char) ce.character;
         repaint();
     }
 
-    protected void paintComponent(Graphics gc) {
+    @Override
+	protected void paintComponent(Graphics gc) {
         Dimension d = getSize();
         gc.clearRect(0, 0, d.width, d.height);
         if (tmpChar[0] == 0)

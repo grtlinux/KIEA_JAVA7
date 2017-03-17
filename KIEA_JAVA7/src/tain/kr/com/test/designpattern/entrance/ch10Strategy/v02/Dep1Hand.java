@@ -90,6 +90,7 @@ public class Dep1Hand {
 		}
 	}
 	
+	@Override
 	public String toString() {
 		return name[handValue];
 	}

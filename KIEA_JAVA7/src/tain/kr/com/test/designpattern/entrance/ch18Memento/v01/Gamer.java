@@ -116,6 +116,7 @@ public class Gamer {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 	
 		return String.format("[money = %d, fruits = %s]", this.money, this.fruits);

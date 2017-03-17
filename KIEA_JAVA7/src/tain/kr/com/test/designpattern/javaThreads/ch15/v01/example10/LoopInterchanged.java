@@ -13,7 +13,8 @@ public class LoopInterchanged implements ScaleTester {
             super(0, nc, nt);
         }
 
-        public void loopDoRange(int start, int end) {
+        @Override
+		public void loopDoRange(int start, int end) {
             for (int i = start; i < end; i++) {
                 lookupValues[0][i] = 0;
             }
@@ -21,15 +22,16 @@ public class LoopInterchanged implements ScaleTester {
                 for (int j = 1; j < nRows; j++) {
                     float sinValue =
                                 (float)Math.sin((i % 360)*Math.PI/180.0);
-                    lookupValues[j][i] = sinValue * (float)i / 180.0f;
+                    lookupValues[j][i] = sinValue * i / 180.0f;
                     lookupValues[j][i] +=
-                                lookupValues[j-1][i]*(float)j/180.0f;
+                                lookupValues[j-1][i]*j/180.0f;
                 }  
             }
         }
     }
 
-    public void init(int nRows, int nCols, int nThreads) {
+    @Override
+	public void init(int nRows, int nCols, int nThreads) {
         this.nRows = nRows;
         this.nCols = nCols;
         this.nThreads = nThreads;
@@ -39,7 +41,8 @@ public class LoopInterchanged implements ScaleTester {
         }
     }
 
-    public float[][] doCalc() {
+    @Override
+	public float[][] doCalc() {
         LoopInterchangedHandler loop =
                     new LoopInterchangedHandler(nCols, nThreads);
         loop.loopProcess();

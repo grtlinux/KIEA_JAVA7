@@ -221,6 +221,7 @@ public class SortInMap01TestMain {
 		// 2. Sort list with Collections.sort(), provide a custom Comparator
 		//    Try switch the o1 o2 position for a different order
 		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+			@Override
 			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
 				return (o1.getValue()).compareTo(o2.getValue());
 			}
@@ -247,6 +248,7 @@ public class SortInMap01TestMain {
 		List<Map.Entry<K, V>> list = new LinkedList<Map.Entry<K, V>>(unsortMap.entrySet());
 
 		Collections.sort(list, new Comparator<Map.Entry<K, V>>() {
+			@Override
 			public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2) {
 				return (o1.getValue()).compareTo(o2.getValue());
 			}

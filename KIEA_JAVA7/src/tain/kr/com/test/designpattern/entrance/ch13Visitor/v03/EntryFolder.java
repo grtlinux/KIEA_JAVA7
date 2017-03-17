@@ -102,6 +102,7 @@ public final class EntryFolder extends AbstAcceptorEntry {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public AbstAcceptorEntry add(AbstAcceptorEntry entry) {
 		this.entries.add(entry);
 		return this;

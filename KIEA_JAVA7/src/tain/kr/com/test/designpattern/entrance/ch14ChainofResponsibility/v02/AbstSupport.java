@@ -92,6 +92,7 @@ public abstract class AbstSupport {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String toString() {
 		return String.format("[%s]", this.getName());
 	}

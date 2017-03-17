@@ -27,10 +27,14 @@ public class CharacterTracker extends JPanel {
 		 *
 		 */
 		private static final long serialVersionUID = 1L;
+		@Override
 		public int getColumnCount() { return 3; }
-        public int getRowCount() { return charAt.length; };
-        public String getColumnName(int col) { return colName[col]; }
-        public Object getValueAt(int row, int col) {
+        @Override
+		public int getRowCount() { return charAt.length; };
+        @Override
+		public String getColumnName(int col) { return colName[col]; }
+        @Override
+		public Object getValueAt(int row, int col) {
             switch(col) {
                 case 0: return Character.toString((char)charAt[row]);
         	case 1: return Integer.toString(counter.getCorrectNum(charAt[row]));
@@ -38,7 +42,8 @@ public class CharacterTracker extends JPanel {
         	default: throw new IllegalArgumentException("Too many cols");
             }
         }
-        public Class getColumnClass(int c) { return String.class; }
+        @Override
+		public Class getColumnClass(int c) { return String.class; }
     }
 
     public CharacterTracker(CharCounter cc) {

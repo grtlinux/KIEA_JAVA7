@@ -49,6 +49,7 @@ public class MessageBox implements Product {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public void use(String string) {
 		
 		int length = string.getBytes().length;
@@ -66,6 +67,7 @@ public class MessageBox implements Product {
 		System.out.println();
 	}
 	
+	@Override
 	public Product createClone() {
 		Product product = null;
 		

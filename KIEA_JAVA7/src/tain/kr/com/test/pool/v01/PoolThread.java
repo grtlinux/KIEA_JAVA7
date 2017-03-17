@@ -25,6 +25,7 @@ public class PoolThread extends Thread {
 		}
 	}
 	
+	@Override
 	public void run() {
 		
 		if (flag) System.out.printf("POOL STATUS : thread running, name is [%s]\n", this.thrName);
@@ -61,6 +62,7 @@ public class PoolThread extends Thread {
 		this.recvQueue.put(str);
 	}
 	
+	@Override
 	public String toString() {
 		return this.thrName;
 	}
