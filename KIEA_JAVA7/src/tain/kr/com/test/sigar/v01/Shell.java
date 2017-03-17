@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : SigarCommandBase.java
+ *   -. FileName   : Shell.java
  *   -. Package    : tain.kr.com.test.sigar.v01
  *   -. Comment    :
  *   -. Author     : taincokr
@@ -35,11 +35,11 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class SigarCommandBase2 {
+public class Shell {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(SigarCommandBase2.class);
+	private static final Logger log = Logger.getLogger(Shell.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ public class SigarCommandBase2 {
 	/*
 	 * constructor
 	 */
-	public SigarCommandBase2() {
+	public Shell() {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -71,7 +71,7 @@ public class SigarCommandBase2 {
 	private static void test01(String[] args) throws Exception {
 
 		if (flag)
-			new SigarCommandBase2();
+			new Shell();
 
 		if (flag) {
 
