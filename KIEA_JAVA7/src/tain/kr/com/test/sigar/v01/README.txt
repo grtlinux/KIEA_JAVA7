@@ -14,6 +14,7 @@ Tail.java
 
 EventLogTail.java
 
+FileVersionInfo.java
 
 
 
@@ -23,7 +24,6 @@ EventLogTail.java
 
 
 
-FileVersionInfo.java
 Free.java
 Ifconfig.java
 Iostat.java
