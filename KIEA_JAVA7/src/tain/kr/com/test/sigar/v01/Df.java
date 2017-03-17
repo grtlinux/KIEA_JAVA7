@@ -28,8 +28,6 @@ import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.NfsFileSystem;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
-import org.hyperic.sigar.cmd.Shell;
-import org.hyperic.sigar.cmd.SigarCommandBase;
 import org.hyperic.sigar.shell.FileCompleter;
 import org.hyperic.sigar.util.GetlineCompleter;
 
@@ -128,6 +126,8 @@ public final class Df extends SigarCommandBase {
 		printf(this.opt_i ? IHEADER : HEADER);
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 	@Override
 	public void output(String[] args) throws SigarException {
 		this.opt_i = false;
@@ -223,6 +223,8 @@ public final class Df extends SigarCommandBase {
 
 		printf(items);
 	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	private String formatSize(long size) {
 		return this.opt_i ? String.valueOf(size) : Sigar.formatSize(size * 1024);
