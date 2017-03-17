@@ -20,6 +20,7 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.shell.ShellBase;
 
 /**
  * Code Templates > Comments > Types
@@ -35,7 +36,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Shell {
+public class Shell extends ShellBase {
 
 	private static boolean flag = true;
 
