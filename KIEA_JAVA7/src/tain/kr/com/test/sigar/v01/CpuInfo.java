@@ -24,7 +24,6 @@ import org.hyperic.jni.ArchLoader;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
-import org.hyperic.sigar.SigarLoader;
 
 /**
  * Code Templates > Comments > Types
