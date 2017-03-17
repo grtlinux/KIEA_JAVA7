@@ -125,6 +125,8 @@ public final class CpuInfo extends SigarCommandBase {
 		println("");
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 	public String getUsageShort() {
 		return "Display cpu information";
 	}
