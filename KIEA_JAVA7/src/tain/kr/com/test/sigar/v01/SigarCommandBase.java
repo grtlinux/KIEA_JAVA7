@@ -104,6 +104,8 @@ public abstract class SigarCommandBase extends ShellCommandBase implements Getli
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public boolean isPidCompleter() {
 		return false;
@@ -129,6 +131,10 @@ public abstract class SigarCommandBase extends ShellCommandBase implements Getli
 		println(sprintf(format, items));
 	}
 	
+	public void printf(List<String> items) {
+		printf((Object[]) items.toArray(new Object[0]));
+	}
+	
 	public void printf(Object[] items) {
 		PrintfFormat formatter = getFormatter();
 		if (formatter == null) {
@@ -137,10 +143,6 @@ public abstract class SigarCommandBase extends ShellCommandBase implements Getli
 		} else {
 			println(formatter.sprintf(items));
 		}
-	}
-	
-	public void printf(List<String> items) {
-		printf(items.toArray(new Object[0]));
 	}
 	
 	public void println(String line) {
