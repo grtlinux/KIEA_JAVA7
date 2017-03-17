@@ -24,8 +24,6 @@ import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.hyperic.sigar.SigarLoader;
-import org.hyperic.sigar.cmd.Shell;
-import org.hyperic.sigar.cmd.SigarCommandBase;
 
 /**
  * Code Templates > Comments > Types
