@@ -20,9 +20,13 @@
 package tain.kr.com.test.sigar.v01;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.SigarException;
+import org.hyperic.sigar.win32.Service;
+import org.hyperic.sigar.win32.Win32Exception;
 
 /**
  * Code Templates > Comments > Types
@@ -69,6 +73,71 @@ public final class Win32Service extends SigarCommandBase {
 
 	public Win32Service() {
 		super();
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public String getSyntaxArgs() {
+		return "[name] [action]";
+	}
+
+	public String getUsageShort() {
+		return "Windows service commands";
+	}
+
+	protected boolean validateArgs(String[] args) {
+		return (args.length == 1) || (args.length == 2);
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Collection getCompletions() {
+		
+		try {
+			return Service.getServiceNames();
+		} catch (Win32Exception e) {
+			return null;
+		}
+	}
+
+	public void output(String[] args) throws SigarException {
+		
+		Service service = null;
+		String name = args[0];
+		String cmd = null;
+
+		if (args.length == 2) {
+			cmd = args[1];
+		}
+
+		try {
+			service = new Service(name);
+
+			if ((cmd == null) || cmd.equals("state")) {
+				service.list(this.out);
+			} else if (cmd.equals("start")) {
+				service.start();
+			} else if (cmd.equals("stop")) {
+				service.stop();
+			} else if (cmd.equals("pause")) {
+				service.pause();
+			} else if (cmd.equals("resume")) {
+				service.resume();
+			} else if (cmd.equals("delete")) {
+				service.delete();
+			} else if (cmd.equals("restart")) {
+				service.stop(0);
+				service.start();
+			} else {
+				println("Unsupported service command: " + args[1]);
+				println("Valid commands: " + COMMANDS);
+			}
+		} finally {
+			if (service != null) {
+				service.close();
+			}
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
