@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp;
+package tain.kr.com.commons.net.v01.ftp;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,10 +33,10 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import org.apache.commons.net.util.Base64;
-import org.apache.commons.net.util.SSLContextUtils;
-import org.apache.commons.net.util.SSLSocketUtils;
-import org.apache.commons.net.util.TrustManagerUtils;
+import tain.kr.com.commons.net.v01.util.Base64;
+import tain.kr.com.commons.net.v01.util.SSLContextUtils;
+import tain.kr.com.commons.net.v01.util.SSLSocketUtils;
+import tain.kr.com.commons.net.v01.util.TrustManagerUtils;
 
 /**
  * FTP over SSL processing. If desired, the JVM property -Djavax.net.debug=all can be used to

@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.net.ftp;
+package tain.kr.com.commons.net.v01.ftp;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -41,17 +42,17 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.commons.net.MalformedServerReplyException;
-import org.apache.commons.net.ftp.parser.DefaultFTPFileEntryParserFactory;
-import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
-import org.apache.commons.net.ftp.parser.MLSxEntryParser;
-import org.apache.commons.net.io.CRLFLineReader;
-import org.apache.commons.net.io.CopyStreamAdapter;
-import org.apache.commons.net.io.CopyStreamEvent;
-import org.apache.commons.net.io.CopyStreamListener;
-import org.apache.commons.net.io.FromNetASCIIInputStream;
-import org.apache.commons.net.io.ToNetASCIIOutputStream;
-import org.apache.commons.net.io.Util;
+import tain.kr.com.commons.net.v01.MalformedServerReplyException;
+import tain.kr.com.commons.net.v01.ftp.parser.DefaultFTPFileEntryParserFactory;
+import tain.kr.com.commons.net.v01.ftp.parser.FTPFileEntryParserFactory;
+import tain.kr.com.commons.net.v01.ftp.parser.MLSxEntryParser;
+import tain.kr.com.commons.net.v01.io.CRLFLineReader;
+import tain.kr.com.commons.net.v01.io.CopyStreamAdapter;
+import tain.kr.com.commons.net.v01.io.CopyStreamEvent;
+import tain.kr.com.commons.net.v01.io.CopyStreamListener;
+import tain.kr.com.commons.net.v01.io.FromNetASCIIInputStream;
+import tain.kr.com.commons.net.v01.io.ToNetASCIIOutputStream;
+import tain.kr.com.commons.net.v01.io.Util;
 
 /**
  * FTPClient encapsulates all the functionality necessary to store and
@@ -730,7 +731,7 @@ implements Configurable
         } else {
             output = socket.getOutputStream();
         }
-        return new org.apache.commons.net.io.SocketOutputStream(socket, output);
+        return new tain.kr.com.commons.net.v01.io.SocketOutputStream(socket, output);
     }
 
 
@@ -1996,7 +1997,7 @@ implements Configurable
         } else {
             input = socket.getInputStream();
         }
-        return new org.apache.commons.net.io.SocketInputStream(socket, input);
+        return new tain.kr.com.commons.net.v01.io.SocketInputStream(socket, input);
     }
 
 

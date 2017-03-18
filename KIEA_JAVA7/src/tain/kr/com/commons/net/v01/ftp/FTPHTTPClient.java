@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp;
+package tain.kr.com.commons.net.v01.ftp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +30,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.net.util.Base64;
+import tain.kr.com.commons.net.v01.util.Base64;
 
 /**
  * Experimental attempt at FTP client that tunnels over an HTTP proxy connection.

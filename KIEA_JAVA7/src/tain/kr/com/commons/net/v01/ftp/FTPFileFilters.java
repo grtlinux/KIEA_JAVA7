@@ -16,7 +16,7 @@
  *
  */
 
-package org.apache.commons.net.ftp;
+package tain.kr.com.commons.net.v01.ftp;
 
 /**
  * Implements some simple FTPFileFilter classes.

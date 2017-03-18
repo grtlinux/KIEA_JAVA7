@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp;
+package tain.kr.com.commons.net.v01.ftp;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -29,10 +30,10 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
-import org.apache.commons.net.MalformedServerReplyException;
-import org.apache.commons.net.ProtocolCommandSupport;
-import org.apache.commons.net.SocketClient;
-import org.apache.commons.net.io.CRLFLineReader;
+import tain.kr.com.commons.net.v01.MalformedServerReplyException;
+import tain.kr.com.commons.net.v01.ProtocolCommandSupport;
+import tain.kr.com.commons.net.v01.SocketClient;
+import tain.kr.com.commons.net.v01.io.CRLFLineReader;
 
 /***
  * FTP provides the basic the functionality necessary to implement your

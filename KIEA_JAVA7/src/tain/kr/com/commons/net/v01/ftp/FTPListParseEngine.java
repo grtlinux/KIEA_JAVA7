@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp;
+package tain.kr.com.commons.net.v01.ftp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.commons.net.util.Charsets;
+import tain.kr.com.commons.net.v01.util.Charsets;
 
 
 /**
