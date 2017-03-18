@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.imap;
+package tain.kr.com.commons.net.v01.imap;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -25,7 +25,8 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLContext;
-import org.apache.commons.net.util.Base64;
+
+import tain.kr.com.commons.net.v01.util.Base64;
 
 /**
  * An IMAP Client class with authentication support.
