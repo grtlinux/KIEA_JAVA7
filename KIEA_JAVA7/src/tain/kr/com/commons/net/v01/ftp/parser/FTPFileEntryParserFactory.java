@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp.parser;
-import org.apache.commons.net.ftp.FTPClientConfig;
-import org.apache.commons.net.ftp.FTPFileEntryParser;
+package tain.kr.com.commons.net.v01.ftp.parser;
+
+import tain.kr.com.commons.net.v01.ftp.FTPClientConfig;
+import tain.kr.com.commons.net.v01.ftp.FTPFileEntryParser;
 
 /**
  * The interface describes a factory for creating FTPFileEntryParsers.
