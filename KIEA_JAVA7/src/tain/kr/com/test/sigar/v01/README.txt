@@ -20,9 +20,17 @@ Free.java
 
 Ifconfig.java
 
+Iostat.java
 
+Kill.java
 
+Ls.java
 
+MemWatch.java
+
+Ps.java
+
+MultiPs.java
 
 
 
@@ -30,11 +38,6 @@ Ifconfig.java
 
 
 
-Iostat.java
-Kill.java
-Ls.java
-MemWatch.java
-MultiPs.java
 NetInfo.java
 Netstat.java
 Nfsstat.java
@@ -43,7 +46,6 @@ ProcessState.java
 ProcFileInfo.java
 ProcInfo.java
 ProcModuleInfo.java
-Ps.java
 Route.java
 Runner.java
 ServiceStatus.java
