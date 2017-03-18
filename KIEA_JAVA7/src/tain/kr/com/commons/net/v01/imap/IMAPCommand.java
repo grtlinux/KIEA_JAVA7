@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.imap;
+package tain.kr.com.commons.net.v01.imap;
 
 /**
  * IMAPCommand stores IMAP command codes.
