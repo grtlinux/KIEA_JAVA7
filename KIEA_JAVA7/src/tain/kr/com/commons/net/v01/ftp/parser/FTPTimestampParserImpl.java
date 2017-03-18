@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp.parser;
+package tain.kr.com.commons.net.v01.ftp.parser;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -25,8 +25,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.apache.commons.net.ftp.Configurable;
-import org.apache.commons.net.ftp.FTPClientConfig;
+import tain.kr.com.commons.net.v01.ftp.Configurable;
+import tain.kr.com.commons.net.v01.ftp.FTPClientConfig;
 
 /**
  * Default implementation of the {@link  FTPTimestampParser  FTPTimestampParser}
