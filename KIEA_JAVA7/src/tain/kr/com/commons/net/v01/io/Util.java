@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.io;
+package tain.kr.com.commons.net.v01.io;
 
 import java.io.Closeable;
 import java.io.IOException;
