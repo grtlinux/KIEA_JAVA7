@@ -19,7 +19,12 @@
  */
 package tain.kr.com.test.sigar.v01;
 
+import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.NetFlags;
+import org.hyperic.sigar.NetRoute;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -42,6 +47,21 @@ public final class Route extends SigarCommandBase {
 	private static final Logger log = Logger.getLogger(Route.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String OUTPUT_FORMAT =
+		"%-15s %-15s %-15s %-5s %-6s %-3s %-s";
+
+	//like route -n
+	private static final String[] HEADER = new String[] {
+		"Destination",
+		"Gateway",
+		"Genmask",
+		"Flags",
+		"Metric",
+		"Ref",
+		"Iface"
+	};
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -49,12 +69,39 @@ public final class Route extends SigarCommandBase {
 	 */
 	public Route(Shell shell) {
 		super(shell);
+		setOutputFormat(OUTPUT_FORMAT);
+		
 		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
 	public Route() {
 		super();
+		setOutputFormat(OUTPUT_FORMAT);
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//netstat -r
+	public void output(String[] args) throws SigarException {
+		NetRoute[] routes = this.sigar.getNetRouteList();
+
+		printf(HEADER);
+
+		for (int i=0; i<routes.length; i++) {
+			NetRoute route = routes[i];
+
+			ArrayList<String> items = new ArrayList<String>();
+			items.add(route.getDestination());
+			items.add(route.getGateway());
+			items.add(route.getMask());
+			items.add(flags(route.getFlags()));
+			items.add(String.valueOf(route.getMetric()));
+			items.add(String.valueOf(route.getRefcnt()));
+			items.add(route.getIfname());
+
+			printf(items);
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +114,22 @@ public final class Route extends SigarCommandBase {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static String flags(long flags) {
+		StringBuffer sb = new StringBuffer();
+		if ((flags & NetFlags.RTF_UP) != 0) {
+			sb.append('U');
+		}
+		if ((flags & NetFlags.RTF_GATEWAY) != 0) {
+			sb.append('G');
+		}
+		return sb.toString();
+	}
+
+	public String getUsageShort() {
+		return "Kernel IP routing table";
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
