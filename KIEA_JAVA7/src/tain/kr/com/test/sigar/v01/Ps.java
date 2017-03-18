@@ -20,6 +20,7 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -35,7 +36,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Ps {
+public final class Ps extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -47,13 +48,41 @@ public class Ps {
 	/*
 	 * constructor
 	 */
-	public Ps() {
-		if (flag)
+	public Ps(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+	
+	public Ps() {
+		super();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	protected boolean validateArgs(String[] args) {
+		return true;
+	}
+	
+	public String getSyntaxArgs() {
+		return "[pid|query]";
+	}
+	
+	public String getUsageShort() {
+		return "Show process status";
+	}
+	
+	public boolean isPidCompleter() {
+		return true;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void output(String[] args) throws SigarException {
+		
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +103,10 @@ public class Ps {
 			new Ps();
 
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new Ps().processCommand(args);
 		}
 	}
 
