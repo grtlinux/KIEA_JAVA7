@@ -20,6 +20,7 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -35,7 +36,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Kill {
+public final class Kill extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -47,13 +48,57 @@ public class Kill {
 	/*
 	 * constructor
 	 */
-	public Kill() {
-		if (flag)
+	public Kill(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public Kill() {
+		super();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	protected boolean validateArgs(String[] args) {
+		return args.length == 1 || args.length == 2;
+	}
+	
+	public String getSyntaxArgs() {
+		return "[signal] <query|pid>";
+	}
+	
+	public String getUsageShort() {
+		return "Send signal to a process";
+	}
+	
+	public boolean isPidCompleter() {
+		return true;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void output(String[] args) throws SigarException {
+		
+		String signal = "SIGTERM";
+		long[] pids;
+		String query;
+		
+		if (args.length == 2) {
+			signal = args[0];
+			query = args[1];
+		} else {
+			query = args[0];
+		}
+		
+		pids = this.shell.findPids(new String[] { query });
+		
+		for (int i=0; i < pids.length; i++) {
+			println("kill " + signal + " " + pids[i]);
+			this.sigar.kill(pids[i], signal);
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +115,11 @@ public class Kill {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new Kill();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new Kill().processCommand(args);
 		}
 	}
 
