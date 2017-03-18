@@ -19,6 +19,9 @@
  */
 package tain.kr.com.test.sigar.v01;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,23 +38,39 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Win32Service {
+public final class Win32Service extends SigarCommandBase {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(Win32Service.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final List<String> COMMANDS =
+		Arrays.asList(new String[] {
+			"state",
+			"start",
+			"stop",
+			"pause",
+			"resume",
+			"restart",
+		});
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * constructor
 	 */
-	public Win32Service() {
-		if (flag)
+	public Win32Service(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public Win32Service() {
+		super();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +89,11 @@ public class Win32Service {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new Win32Service();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new Win32Service().processCommand(args);
 		}
 	}
 
