@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Route {
+public final class Route extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -47,11 +47,16 @@ public class Route {
 	/*
 	 * constructor
 	 */
-	public Route() {
-		if (flag)
+	public Route(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public Route() {
+		super();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +75,11 @@ public class Route {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new Route();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new Route().processCommand(args);
 		}
 	}
 
