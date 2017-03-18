@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp.parser;
+package tain.kr.com.commons.net.v01.ftp.parser;
+
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,8 +26,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPFileEntryParserImpl;
+import tain.kr.com.commons.net.v01.ftp.FTPFile;
+import tain.kr.com.commons.net.v01.ftp.FTPFileEntryParserImpl;
 
 /**
  * Parser class for MSLT and MLSD replies. See RFC 3659.
