@@ -20,6 +20,7 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -35,7 +36,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Pidof {
+public final class Pidof extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -47,13 +48,44 @@ public class Pidof {
 	/*
 	 * constructor
 	 */
-	public Pidof() {
-		if (flag)
+	public Pidof(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public Pidof() {
+		super();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	protected boolean validateArgs(String[] args) {
+		return args.length > 0;
+	}
+
+	public String getSyntaxArgs() {
+		return "query";
+	}
+
+	public String getUsageShort() {
+		return "Find the process ID of a running program";
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void output(String[] args) throws SigarException {
+		
+		long[] pids = this.shell.findPids(args);
+
+		for (int i=0; i<pids.length; i++) {
+			this.out.print(pids[i]);
+			this.out.print(' ');
+		}
+		this.out.println();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +106,11 @@ public class Pidof {
 			new Pidof();
 
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			// new Pidof().processCommand(args);
+			new Pidof().processCommand(new String[] { "Exe.Name.ct=Program Files" });
 		}
 	}
 
