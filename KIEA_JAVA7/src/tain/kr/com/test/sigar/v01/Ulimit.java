@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Ulimit {
+public final class Ulimit extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -70,11 +70,11 @@ public class Ulimit {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new Ulimit();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new Ulimit().processCommand(args);
 		}
 	}
 
