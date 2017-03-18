@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ShowArgs {
+public final class ShowArgs extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -70,11 +70,11 @@ public class ShowArgs {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new ShowArgs();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new ShowArgs().processCommand(args);
 		}
 	}
 
