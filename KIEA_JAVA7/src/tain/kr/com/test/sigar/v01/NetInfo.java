@@ -20,6 +20,8 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.NetInterfaceConfig;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -35,7 +37,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class NetInfo {
+public final class NetInfo extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -47,13 +49,50 @@ public class NetInfo {
 	/*
 	 * constructor
 	 */
-	public NetInfo() {
-		if (flag)
+	public NetInfo(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public NetInfo() {
+		super();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String getUsageShort() {
+		return "Display network info";
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void output(String[] args) throws SigarException {
+		
+		NetInterfaceConfig config = this.sigar.getNetInterfaceConfig(null);
+		
+		println("primary interface....." + config.getName());
+
+		println("primary ip address...." + config.getAddress());
+
+		println("primary mac address..." + config.getHwaddr());
+
+		println("primary netmask......." + config.getNetmask());
+
+		org.hyperic.sigar.NetInfo info = this.sigar.getNetInfo();
+
+		println("host name............." + info.getHostName());
+
+		println("domain name..........." + info.getDomainName());
+
+		println("default gateway......." + info.getDefaultGateway());
+
+		println("primary dns..........." + info.getPrimaryDns());
+
+		println("secondary dns........." + info.getSecondaryDns());
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +109,11 @@ public class NetInfo {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new NetInfo();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new NetInfo().processCommand(args);
 		}
 	}
 
