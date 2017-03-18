@@ -19,7 +19,10 @@
  */
 package tain.kr.com.test.sigar.v01;
 
+import java.util.Arrays;
+
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -55,6 +58,46 @@ public final class SysInfo extends SigarCommandBase {
 	
 	public SysInfo() {
 		super();
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public String getUsageShort() {
+		return "Display system information";
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void output(String[] args) throws SigarException {
+		//sigar/os info
+		Version.printInfo(this.out);
+		println("");
+
+		//uptime
+		new Uptime(this.shell).output(args);
+		println("");
+
+		//cpu info
+		CpuInfo cpuinfo = new CpuInfo(this.shell);
+		cpuinfo.displayTimes = false;
+		cpuinfo.output(args);
+		println("");
+
+		//memory info
+		new Free(this.shell).output(args);
+		println("");
+
+		println("File Systems........." +
+				Arrays.asList(this.sigar.getFileSystemList()));
+		println("");
+
+		println("Network Interfaces..." +
+				Arrays.asList(this.sigar.getNetInterfaceList()));
+		println("");
+
+		//system resource limits
+		println("System resource limits:");
+		new Ulimit(this.shell).output(args);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
