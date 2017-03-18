@@ -20,6 +20,8 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.CpuTimer;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -55,6 +57,54 @@ public final class Time extends SigarCommandBase {
 	
 	public Time() {
 		super();
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected boolean validateArgs(String[] args) {
+		return args.length >= 1;
+	}
+
+	public String getSyntaxArgs() {
+		return "[command] [...]";
+	}
+
+	public String getUsageShort() {
+		return "Time command";
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void output(String[] args) throws SigarException {
+		
+		boolean isInteractive = this.shell.isInteractive();
+		//turn off paging.
+		this.shell.setInteractive(false);
+		CpuTimer cpu = new CpuTimer(this.sigar);
+
+		int num;
+
+		if (Character.isDigit(args[0].charAt(0))) {
+			num = Integer.parseInt(args[0]);
+			String[] xargs = new String[args.length-1];
+			System.arraycopy(args, 1, xargs, 0, xargs.length);
+			args = xargs;
+		} else {
+			num = 1;
+		}
+
+		cpu.start();
+
+		try {
+			for (int i=0; i<num; i++) {
+				this.shell.handleCommand("time " + args[0], args);
+			}
+		} finally {
+			this.shell.setInteractive(isInteractive);
+		}
+
+		cpu.stop();
+		cpu.list(this.out);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
