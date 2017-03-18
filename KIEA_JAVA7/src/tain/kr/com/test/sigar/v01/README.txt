@@ -41,15 +41,20 @@ Ps.java
 
 MultiPs.java
 
+NetInfo.java
+
+Netstat.java
+
+Nfsstat.java     <- more thinking
+
+
+
 
 
 ----------------------------------------------------------------------
 
 
 
-NetInfo.java
-Netstat.java
-Nfsstat.java
 Pidof.java
 ProcessState.java
 ProcFileInfo.java
