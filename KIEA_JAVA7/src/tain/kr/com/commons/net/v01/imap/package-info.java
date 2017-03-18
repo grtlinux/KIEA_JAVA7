@@ -18,4 +18,4 @@
 /**
  * Basic IMAP and IMAPS support classes
  */
-package org.apache.commons.net.imap;
+package tain.kr.com.commons.net.v01.imap;
