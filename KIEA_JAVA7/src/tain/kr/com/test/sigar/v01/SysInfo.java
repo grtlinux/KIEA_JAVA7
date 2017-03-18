@@ -47,9 +47,14 @@ public final class SysInfo extends SigarCommandBase {
 	/*
 	 * constructor
 	 */
-	public SysInfo() {
-		if (flag)
+	public SysInfo(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+	
+	public SysInfo() {
+		super();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
