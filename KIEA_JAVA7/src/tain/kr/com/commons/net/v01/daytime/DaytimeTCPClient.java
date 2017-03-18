@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.daytime;
+package tain.kr.com.commons.net.v01.daytime;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.apache.commons.net.SocketClient;
+import tain.kr.com.commons.net.v01.SocketClient;
 
 /**
  * The DaytimeTCPClient class is a TCP implementation of a client for the
