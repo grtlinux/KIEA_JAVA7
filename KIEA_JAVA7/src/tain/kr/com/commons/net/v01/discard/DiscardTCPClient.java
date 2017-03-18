@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.discard;
+package tain.kr.com.commons.net.v01.discard;
 
 import java.io.OutputStream;
 
-import org.apache.commons.net.SocketClient;
+import tain.kr.com.commons.net.v01.SocketClient;
 
 /***
  * The DiscardTCPClient class is a TCP implementation of a client for the
