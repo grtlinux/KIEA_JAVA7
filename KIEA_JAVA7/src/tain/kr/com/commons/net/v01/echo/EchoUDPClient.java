@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.echo;
+package tain.kr.com.commons.net.v01.echo;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
-import org.apache.commons.net.discard.DiscardUDPClient;
+import tain.kr.com.commons.net.v01.discard.DiscardUDPClient;
 
 /***
  * The EchoUDPClient class is a UDP implementation of a client for the
