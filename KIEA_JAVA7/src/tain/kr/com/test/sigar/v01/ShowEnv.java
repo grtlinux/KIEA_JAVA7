@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ShowEnv {
+public final class ShowEnv extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -70,11 +70,11 @@ public class ShowEnv {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new ShowEnv();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new ShowEnv().processCommand(args);
 		}
 	}
 
