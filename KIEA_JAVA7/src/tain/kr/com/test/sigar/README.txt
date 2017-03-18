@@ -6,6 +6,7 @@ from the dll file : .../hyperic-sigar-1.6.4/sigar-bin/lib/sigar-amd64-winnt.dll(
 to the folder : .../jdk1.7.0_79/jre/lib
 
 ----------------------------------------------------------------------
+# cpptasks.jar from http://github.com/dougm/ant-contrib-cpptasks
 
 
 
