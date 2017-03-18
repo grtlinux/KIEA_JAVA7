@@ -20,6 +20,8 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.ProcMem;
+import org.hyperic.sigar.Sigar;
 
 /**
  * Code Templates > Comments > Types
@@ -35,13 +37,16 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MemWatch {
+public final class MemWatch {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(MemWatch.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static final int SLEEP_TIME = 1000 * 10;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -63,6 +68,31 @@ public class MemWatch {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static StringBuffer diff(ProcMem last, ProcMem cur) {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		long diff;
+		
+		diff = cur.getSize() - last.getSize();
+		if (diff != 0) {
+			sb.append("size=" + diff);
+		}
+		
+		diff = cur.getResident() - last.getResident();
+		if (diff != 0) {
+			sb.append(", resident=" + diff);
+		}
+		
+		diff = cur.getShare() - last.getShare();
+		if (diff != 0) {
+			sb.append(", share=" + diff);
+		}
+		
+		return sb;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -74,7 +104,36 @@ public class MemWatch {
 			new MemWatch();
 
 		if (flag) {
+			Sigar sigar = new Sigar();
+			
+			if (args.length != 1) {
+				throw new Exception("Usage: MemWatch pid");
+			}
+			
+			long pid = Long.parseLong(args[0]);
 
+			long lastTime = System.currentTimeMillis();
+
+			ProcMem last = sigar.getProcMem(pid);
+
+			while (true) {
+				ProcMem cur = sigar.getProcMem(pid);
+
+				StringBuffer diff = diff(last, cur);
+
+				if (diff.length() == 0) {
+					System.out.println("no change " + "(size=" + Sigar.formatSize(cur.getSize()) + ")");
+				} else {
+					long curTime = System.currentTimeMillis();
+					long timeDiff = curTime - lastTime;
+					lastTime = curTime;
+					diff.append(" after " + timeDiff + "ms");
+					System.out.println(diff);
+				}
+
+				last = cur;
+				Thread.sleep(SLEEP_TIME);
+			}
 		}
 	}
 
@@ -87,7 +146,12 @@ public class MemWatch {
 			log.debug(">>>>> " + new Object() {
 			}.getClass().getEnclosingClass().getName());
 
-		if (flag)
-			test01(args);
+		if (flag) {
+			/*
+			 * begin
+			 */
+			// test01(args);
+			test01(new String[] { "1520" });
+		}
 	}
 }
