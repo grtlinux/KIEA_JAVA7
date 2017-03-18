@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp.parser;
+package tain.kr.com.commons.net.v01.ftp.parser;
 
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPFileEntryParser;
-import org.apache.commons.net.ftp.FTPFileEntryParserImpl;
+import tain.kr.com.commons.net.v01.ftp.FTPFile;
+import tain.kr.com.commons.net.v01.ftp.FTPFileEntryParser;
+import tain.kr.com.commons.net.v01.ftp.FTPFileEntryParserImpl;
 
 /**
  * This implementation allows to pack some FileEntryParsers together
