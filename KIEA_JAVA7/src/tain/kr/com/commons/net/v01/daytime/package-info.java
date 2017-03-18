@@ -18,4 +18,4 @@
 /**
  * Daytime over TCP and UDP
  */
-package org.apache.commons.net.daytime;
+package tain.kr.com.commons.net.v01.daytime;
