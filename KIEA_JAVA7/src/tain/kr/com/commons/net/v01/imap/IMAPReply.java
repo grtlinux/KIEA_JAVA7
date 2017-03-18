@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.imap;
+package tain.kr.com.commons.net.v01.imap;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.net.MalformedServerReplyException;
+import tain.kr.com.commons.net.v01.MalformedServerReplyException;
 
 /**
  * IMAPReply stores IMAP reply code constants.
