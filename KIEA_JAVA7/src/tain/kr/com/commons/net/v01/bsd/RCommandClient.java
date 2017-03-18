@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.bsd;
+package tain.kr.com.commons.net.v01.bsd;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +26,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import org.apache.commons.net.io.SocketInputStream;
+import tain.kr.com.commons.net.v01.io.SocketInputStream;
 
 /***
  * RCommandClient is very similar to
