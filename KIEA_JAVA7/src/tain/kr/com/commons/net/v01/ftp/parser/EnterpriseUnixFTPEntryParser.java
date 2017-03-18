@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp.parser;
+package tain.kr.com.commons.net.v01.ftp.parser;
+
 import java.util.Calendar;
 
-import org.apache.commons.net.ftp.FTPFile;
+import tain.kr.com.commons.net.v01.ftp.FTPFile;
 
 /**
  * Parser for the Connect Enterprise Unix FTP Server From Sterling Commerce.
