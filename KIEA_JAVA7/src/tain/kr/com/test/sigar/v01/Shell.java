@@ -103,38 +103,38 @@ public class Shell extends ShellBase {
 		registerCommandHandler("cpuinfo", new CpuInfo(this));
 		registerCommandHandler("df", new Df(this));
 		registerCommandHandler("du", new Du(this));
-		//registerCommandHandler("ls", new Ls(this));
-		//registerCommandHandler("iostat", new Iostat(this));
-		//registerCommandHandler("free", new Free(this));
-		//registerCommandHandler("pargs", new ShowArgs(this));
-		//registerCommandHandler("penv", new ShowEnv(this));
-		//registerCommandHandler("pfile", new ProcFileInfo(this));
-		//registerCommandHandler("pmodules", new ProcModuleInfo(this));
-		//registerCommandHandler("pinfo", new ProcInfo(this));
-		//registerCommandHandler("ifconfig", new Ifconfig(this));
-		//registerCommandHandler("uptime", new Uptime(this));
-		//registerCommandHandler("ps", new Ps(this));
-		//registerCommandHandler("pidof", new Pidof(this));
-		//registerCommandHandler("kill", new Kill(this));
-		//registerCommandHandler("netstat", new Netstat(this));
-		//registerCommandHandler("netinfo", new NetInfo(this));
-		//registerCommandHandler("nfsstat", new Nfsstat(this));
-		//registerCommandHandler("route", new Route(this));
-		//registerCommandHandler("version", new Version(this));
-		//registerCommandHandler("mps", new MultiPs(this));
-		//registerCommandHandler("sysinfo", new SysInfo(this));
-		//registerCommandHandler("time", new Time(this));
-		//registerCommandHandler("ulimit", new Ulimit(this));
-		//registerCommandHandler("who", new Who(this));
+		registerCommandHandler("ls", new Ls(this));
+		registerCommandHandler("iostat", new Iostat(this));
+		registerCommandHandler("free", new Free(this));
+		registerCommandHandler("pargs", new ShowArgs(this));
+		registerCommandHandler("penv", new ShowEnv(this));
+		registerCommandHandler("pfile", new ProcFileInfo(this));
+		registerCommandHandler("pmodules", new ProcModuleInfo(this));
+		registerCommandHandler("pinfo", new ProcInfo(this));
+		registerCommandHandler("ifconfig", new Ifconfig(this));
+		registerCommandHandler("uptime", new Uptime(this));
+		registerCommandHandler("ps", new Ps(this));
+		registerCommandHandler("pidof", new Pidof(this));
+		registerCommandHandler("kill", new Kill(this));
+		registerCommandHandler("netstat", new Netstat(this));
+		registerCommandHandler("netinfo", new NetInfo(this));
+		registerCommandHandler("nfsstat", new Nfsstat(this));
+		registerCommandHandler("route", new Route(this));
+		registerCommandHandler("version", new Version(this));
+		registerCommandHandler("mps", new MultiPs(this));
+		registerCommandHandler("sysinfo", new SysInfo(this));
+		registerCommandHandler("time", new Time(this));
+		registerCommandHandler("ulimit", new Ulimit(this));
+		registerCommandHandler("who", new Who(this));
 
 		if (ArchLoader.IS_WIN32) {
-			//registerCommandHandler("service", new Win32Service(this));
-			//registerCommandHandler("fversion", new FileVersionInfo(this));
+			registerCommandHandler("service", new Win32Service(this));
+			registerCommandHandler("fversion", new FileVersionInfo(this));
 		}
 
 		try {
 			// requires junit.jar
-			registerCommandHandler("test", "org.hyperic.sigar.test.SigarTestRunner");
+			registerCommandHandler("test", "org.hyperic.sigar.test.SigarTestRunner");  // Runner
 		} catch (NoClassDefFoundError e) {
 		} catch (Exception e) {}
 	}
