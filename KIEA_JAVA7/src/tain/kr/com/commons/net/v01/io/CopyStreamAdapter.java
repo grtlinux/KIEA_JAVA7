@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.io;
+package tain.kr.com.commons.net.v01.io;
 
 import java.util.EventListener;
 
-import org.apache.commons.net.util.ListenerList;
+import tain.kr.com.commons.net.v01.util.ListenerList;
 
 /**
  * The CopyStreamAdapter will relay CopyStreamEvents to a list of listeners
