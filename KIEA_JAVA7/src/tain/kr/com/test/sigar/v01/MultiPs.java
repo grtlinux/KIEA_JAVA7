@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class MultiPs {
+public final class MultiPs extends SigarCommandBase {
 
 	private static boolean flag = true;
 
