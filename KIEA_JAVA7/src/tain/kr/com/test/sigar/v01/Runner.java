@@ -19,6 +19,8 @@
  */
 package tain.kr.com.test.sigar.v01;
 
+import java.util.HashMap;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -35,13 +37,22 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Runner {
+public final class Runner {
 
 	private static boolean flag = true;
 
 	private static final Logger log = Logger.getLogger(Runner.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static HashMap wantedJars = new HashMap();
+	private static final String JAR_EXT = ".jar";
+
+	static {
+		wantedJars.put("junit", Boolean.FALSE);
+		wantedJars.put("log4j", Boolean.FALSE);
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -70,11 +81,24 @@ public class Runner {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new Runner();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			if (args.length < 1) {
+				args = new String[] { "Shell" };
+			} else {
+				//e.g. convert
+				//          "ifconfig", "eth0"
+				//   to:
+				// "Shell", "ifconfig", "eth0"
+				if (Character.isLowerCase(args[0].charAt(0))) {
+					String[] nargs = new String[args.length + 1];
+					System.arraycopy(args, 0, nargs, 1, args.length);
+					nargs[0] = "Shell";
+					args = nargs;
+				}
+			}
 		}
 	}
 
