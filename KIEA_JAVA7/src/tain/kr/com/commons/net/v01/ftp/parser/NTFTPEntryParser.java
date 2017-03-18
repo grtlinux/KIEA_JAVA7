@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp.parser;
+package tain.kr.com.commons.net.v01.ftp.parser;
+
 import java.text.ParseException;
 import java.util.regex.Pattern;
 
-import org.apache.commons.net.ftp.Configurable;
-import org.apache.commons.net.ftp.FTPClientConfig;
-import org.apache.commons.net.ftp.FTPFile;
+import tain.kr.com.commons.net.v01.ftp.Configurable;
+import tain.kr.com.commons.net.v01.ftp.FTPClientConfig;
+import tain.kr.com.commons.net.v01.ftp.FTPFile;
 
 /**
  * Implementation of FTPFileEntryParser and FTPFileListParser for NT Systems.
