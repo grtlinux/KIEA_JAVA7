@@ -18,4 +18,4 @@
 /**
  * Classes for rcommand, rexec, rlogin
  */
-package org.apache.commons.net.bsd;
+package tain.kr.com.commons.net.v01.bsd;
