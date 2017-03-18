@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net;
+package tain.kr.com.commons.net.v01;
 
 import java.io.IOException;
 
