@@ -26,9 +26,10 @@ import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecutor;
 import org.apache.log4j.Logger;
+
+import tain.kr.com.commons.exec.v01.CommandLine;
+import tain.kr.com.commons.exec.v01.DefaultExecutor;
 
 /**
  * Code Templates > Comments > Types
