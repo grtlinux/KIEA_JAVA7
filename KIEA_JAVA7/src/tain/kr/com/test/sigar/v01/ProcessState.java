@@ -20,6 +20,9 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.ProcState;
+import org.hyperic.sigar.Sigar;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -35,7 +38,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ProcessState {
+public final class ProcessState {
 
 	private static boolean flag = true;
 
@@ -63,18 +66,52 @@ public class ProcessState {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static String getStateString(char state) {
+		
+		switch (state) {
+		case ProcState.SLEEP:
+			return "Sleeping";
+		case ProcState.RUN:
+			return "Running";
+		case ProcState.STOP:
+			return "Suspended";
+		case ProcState.ZOMBIE:
+			return "Zombie";
+		case ProcState.IDLE:
+			return "Idle";
+		default:
+			return String.valueOf(state);
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	 * static test method
 	 */
-	private static void test01(String[] args) throws Exception {
+	private static void test01(String[] args) throws SigarException {
 
 		if (flag)
 			new ProcessState();
 
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			String pid;
+			if (args.length == 0) {
+				pid = "$$"; // default to this process
+			} else {
+				pid = args[0];
+			}
+			
+			Sigar sigar = new Sigar();
+			
+			ProcState procState = sigar.getProcState(pid);
+			System.out.println(procState.getName() + ": " + getStateString(procState.getState()));
+			
+			sigar.close();
 		}
 	}
 
