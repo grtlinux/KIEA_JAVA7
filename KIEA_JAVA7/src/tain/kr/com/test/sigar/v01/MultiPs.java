@@ -20,6 +20,9 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.CpuPerc;
+import org.hyperic.sigar.MultiProcCpu;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -47,13 +50,31 @@ public final class MultiPs extends SigarCommandBase {
 	/*
 	 * constructor
 	 */
-	public MultiPs() {
-		if (flag)
+	public MultiPs(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public MultiPs() {
+		super();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void output(String[] args) throws SigarException {
+		
+		String query = args[0];
+		MultiProcCpu cpu = this.proxy.getMultiProcCpu(query);
+		
+		println("Number of processes: " + cpu.getProcesses());
+		println("Cpu usage: " + CpuPerc.format(cpu.getPercent()));
+		println("Cpu time: " + Ps.getCpuTime(cpu.getTotal()));
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +91,11 @@ public final class MultiPs extends SigarCommandBase {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new MultiPs();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new MultiPs().processCommand(args);
 		}
 	}
 
