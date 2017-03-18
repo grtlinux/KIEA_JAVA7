@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp.parser;
+package tain.kr.com.commons.net.v01.ftp.parser;
 
 import java.io.File;
 import java.text.ParseException;
 
-import org.apache.commons.net.ftp.FTPClientConfig;
-import org.apache.commons.net.ftp.FTPFile;
+import tain.kr.com.commons.net.v01.ftp.FTPClientConfig;
+import tain.kr.com.commons.net.v01.ftp.FTPFile;
 
 /**
  * @version $Id: OS400FTPEntryParser.java 1752660 2016-07-14 13:25:39Z sebb $
