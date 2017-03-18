@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Who {
+public final class Who extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -47,11 +47,16 @@ public class Who {
 	/*
 	 * constructor
 	 */
-	public Who() {
+	public Who(Shell shell) {
+		super(shell);
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public Who() {
+		super();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +75,11 @@ public class Who {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new Who();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new Who().processCommand(args);
 		}
 	}
 
