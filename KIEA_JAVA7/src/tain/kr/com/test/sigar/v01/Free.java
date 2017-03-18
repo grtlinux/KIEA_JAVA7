@@ -20,6 +20,9 @@
 package tain.kr.com.test.sigar.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.Mem;
+import org.hyperic.sigar.SigarException;
+import org.hyperic.sigar.Swap;
 
 /**
  * Code Templates > Comments > Types
@@ -35,7 +38,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Free {
+public final class Free extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -47,11 +50,65 @@ public class Free {
 	/*
 	 * constructor
 	 */
-	public Free() {
-		if (flag)
+	public Free(Shell shell) {
+		super(shell);
+		
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
 
+	public Free() {
+		super();
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String getUsageShort() {
+		return "Display information about free and used memory";
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void output(String[] args) throws SigarException {
+		
+		Mem mem = this.sigar.getMem();
+		Swap swap = this.sigar.getSwap();
+		
+		Object[] header = new Object[] { "total", "used", "free" };
+		
+		Object[] memRow = new Object[] {
+				Free.format(mem.getTotal()),
+				Free.format(mem.getUsed()),
+				Free.format(mem.getFree()),
+		};
+		
+		Object[] actualRow = new Object[] {
+				Free.format(mem.getActualUsed()),
+				Free.format(mem.getActualFree()),
+		};
+		
+		Object[] swapRow = new Object[] {
+				Free.format(swap.getTotal()),
+				Free.format(swap.getUsed()),
+				Free.format(swap.getFree()),
+		};
+		
+		printf("%18s %10s %10s", header);
+		
+		// printf("Mem:   %,10d  %(10d  %10ld", ...);
+		printf("Mem:   %10d  %10d %10ld", memRow);
+		
+		// e.g. linux
+		if ((mem.getUsed() != mem.getActualUsed()) || (mem.getFree() != mem.getActualFree())) {
+			printf("-/+ buffers/cache: %10ld %10ld", actualRow);
+		}
+		
+		printf("Swap:  %10ld  %10ld %10ld", swapRow);
+		
+		printf("RAM:   %10ls", new Object[] { mem.getRam() + "MB" });
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,8 +118,11 @@ public class Free {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static Long format(long value) {
+		return new Long(value / 1024);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -70,11 +130,11 @@ public class Free {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new Free();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new Free().processCommand(args);
 		}
 	}
 
