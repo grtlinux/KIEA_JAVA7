@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.echo;
+package tain.kr.com.commons.net.v01.echo;
 
 import java.io.InputStream;
 
-import org.apache.commons.net.discard.DiscardTCPClient;
+import tain.kr.com.commons.net.v01.discard.DiscardTCPClient;
 
 /***
  * The EchoTCPClient class is a TCP implementation of a client for the
