@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.chargen;
+package tain.kr.com.commons.net.v01.chargen;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
-import org.apache.commons.net.DatagramSocketClient;
+import tain.kr.com.commons.net.v01.DatagramSocketClient;
 
 /***
  * The CharGenUDPClient class is a UDP implementation of a client for the
