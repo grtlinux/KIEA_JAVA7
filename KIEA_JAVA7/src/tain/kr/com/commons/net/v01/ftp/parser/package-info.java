@@ -18,4 +18,4 @@
 /**
  * FTP file listing parser classes
  */
-package org.apache.commons.net.ftp.parser;
+package tain.kr.com.commons.net.v01.ftp.parser;
