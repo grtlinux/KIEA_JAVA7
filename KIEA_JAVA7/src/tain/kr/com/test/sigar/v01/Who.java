@@ -19,7 +19,11 @@
  */
 package tain.kr.com.test.sigar.v01;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -57,6 +61,43 @@ public final class Who extends SigarCommandBase {
 		super();
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public String getUsageShort() {
+		return "Show who is logged on";
+	}
+
+	private String getTime(long time) {
+		
+		if (time == 0) {
+			return "unknown";
+		}
+		String fmt = "MMM dd HH:mm";
+		return new SimpleDateFormat(fmt).format(new Date(time));
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void output(String[] args) throws SigarException {
+		
+		org.hyperic.sigar.Who[] who = this.sigar.getWhoList();
+		
+		for (int i=0; i<who.length; i++) {
+			String host = who[i].getHost();
+			
+			if (host.length() != 0) {
+				host = "(" + host + ")";
+			}
+			
+			printf(new String[] {
+				who[i].getUser(),
+				who[i].getDevice(),
+				getTime(who[i].getTime() * 1000),
+				host
+			});
+		}
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
