@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.chargen;
+package tain.kr.com.commons.net.v01.chargen;
 
 import java.io.InputStream;
 
-import org.apache.commons.net.SocketClient;
+import tain.kr.com.commons.net.v01.SocketClient;
 
 /***
  * The CharGenTCPClient class is a TCP implementation of a client for the
