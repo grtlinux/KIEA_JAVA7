@@ -47,9 +47,14 @@ public final class Ulimit extends SigarCommandBase {
 	/*
 	 * constructor
 	 */
-	public Ulimit() {
-		if (flag)
+	public Ulimit(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+	
+	public Ulimit() {
+		super();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
