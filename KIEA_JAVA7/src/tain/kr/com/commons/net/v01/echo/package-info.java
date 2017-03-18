@@ -18,4 +18,4 @@
 /**
  * Echo over TCP and UDP
  */
-package org.apache.commons.net.echo;
+package tain.kr.com.commons.net.v01.echo;
