@@ -51,7 +51,11 @@ Pidof.java
 
 ProcessState.java
 
+ProcFileInfo.java
 
+ProcInfo.java
+
+ProcModuleInfo.java
 
 
 
@@ -62,9 +66,6 @@ ProcessState.java
 
 
 
-ProcFileInfo.java
-ProcInfo.java
-ProcModuleInfo.java
 Route.java
 Runner.java
 ServiceStatus.java
