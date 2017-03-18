@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class SysInfo {
+public final class SysInfo extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -70,11 +70,11 @@ public class SysInfo {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new SysInfo();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new SysInfo().processCommand(args);
 		}
 	}
 
