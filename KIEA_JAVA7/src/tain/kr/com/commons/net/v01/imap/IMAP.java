@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.imap;
+package tain.kr.com.commons.net.v01.imap;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.EOFException;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.net.SocketClient;
-import org.apache.commons.net.io.CRLFLineReader;
+import tain.kr.com.commons.net.v01.SocketClient;
+import tain.kr.com.commons.net.v01.io.CRLFLineReader;
 
 
 /**
