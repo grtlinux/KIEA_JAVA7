@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class Version {
+public final class Version extends SigarCommandBase {
 
 	private static boolean flag = true;
 
@@ -47,9 +47,14 @@ public class Version {
 	/*
 	 * constructor
 	 */
-	public Version() {
-		if (flag)
+	public Version(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+	
+	public Version() {
+		super();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +75,11 @@ public class Version {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new Version();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new Version().processCommand(args);
 		}
 	}
 
