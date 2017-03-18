@@ -18,4 +18,4 @@
 /**
  * Finger implementation
  */
-package org.apache.commons.net.finger;
+package tain.kr.com.commons.net.v01.finger;
