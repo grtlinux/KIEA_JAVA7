@@ -18,4 +18,4 @@
 /**
  * Chargen over TCP and UDP
  */
-package org.apache.commons.net.chargen;
+package tain.kr.com.commons.net.v01.chargen;
