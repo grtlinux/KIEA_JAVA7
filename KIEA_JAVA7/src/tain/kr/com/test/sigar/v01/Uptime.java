@@ -47,9 +47,14 @@ public final class Uptime extends SigarCommandBase {
 	/*
 	 * constructor
 	 */
-	public Uptime() {
-		if (flag)
+	public Uptime(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+	
+	public Uptime() {
+		super();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
