@@ -47,9 +47,14 @@ public final class Time extends SigarCommandBase {
 	/*
 	 * constructor
 	 */
-	public Time() {
-		if (flag)
+	public Time(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+	
+	public Time() {
+		super();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
