@@ -47,9 +47,14 @@ public final class ShowArgs extends SigarCommandBase {
 	/*
 	 * constructor
 	 */
-	public ShowArgs() {
-		if (flag)
+	public ShowArgs(Shell shell) {
+		super(shell);
+		if (!flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+	}
+	
+	public ShowArgs() {
+		super();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
