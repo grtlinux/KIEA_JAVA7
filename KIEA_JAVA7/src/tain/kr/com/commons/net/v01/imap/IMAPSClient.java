@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.imap;
+package tain.kr.com.commons.net.v01.imap;
 
 import java.io.BufferedWriter;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import javax.net.ssl.HostnameVerifier;
@@ -31,9 +31,9 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import org.apache.commons.net.io.CRLFLineReader;
-import org.apache.commons.net.util.SSLContextUtils;
-import org.apache.commons.net.util.SSLSocketUtils;
+import tain.kr.com.commons.net.v01.io.CRLFLineReader;
+import tain.kr.com.commons.net.v01.util.SSLContextUtils;
+import tain.kr.com.commons.net.v01.util.SSLSocketUtils;
 
 /**
  * The IMAPSClient class provides SSL/TLS connection encryption to IMAPClient.
