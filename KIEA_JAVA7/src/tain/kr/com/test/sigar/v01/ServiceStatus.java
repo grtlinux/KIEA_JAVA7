@@ -19,7 +19,12 @@
  */
 package tain.kr.com.test.sigar.v01;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.win32.Service;
+import org.hyperic.sigar.win32.Win32Exception;
 
 /**
  * Code Templates > Comments > Types
@@ -35,7 +40,7 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ServiceStatus {
+public final class ServiceStatus {
 
 	private static boolean flag = true;
 
@@ -63,6 +68,14 @@ public class ServiceStatus {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static void printStatus(String name) throws Win32Exception {
+
+		Service service = new Service(name);
+		System.out.println(name + ": " + service.getStatusString());
+		service.close();
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -74,7 +87,20 @@ public class ServiceStatus {
 			new ServiceStatus();
 
 		if (flag) {
+			/*
+			 * begin
+			 */
+			List<?> services;
 
+			if (args.length == 0) {
+				services = Service.getServiceNames();
+			} else {
+				services = Arrays.asList(args);
+			}
+
+			for (int i=0; i < services.size(); i++) {
+				printStatus((String)services.get(i));
+			}
 		}
 	}
 
