@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp.parser;
+package tain.kr.com.commons.net.v01.ftp.parser;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.StringTokenizer;
 
-import org.apache.commons.net.ftp.FTPClientConfig;
-import org.apache.commons.net.ftp.FTPFile;
+import tain.kr.com.commons.net.v01.ftp.FTPClientConfig;
+import tain.kr.com.commons.net.v01.ftp.FTPFile;
 
 /**
  * Implementation FTPFileEntryParser and FTPFileListParser for VMS Systems.
@@ -259,7 +260,7 @@ public class VMSFTPEntryParser extends ConfigurableFTPFileEntryParserImpl
      */
     @Deprecated
     public FTPFile[] parseFileList(java.io.InputStream listStream) throws IOException {
-        org.apache.commons.net.ftp.FTPListParseEngine engine = new org.apache.commons.net.ftp.FTPListParseEngine(this);
+    	tain.kr.com.commons.net.v01.ftp.FTPListParseEngine engine = new tain.kr.com.commons.net.v01.ftp.FTPListParseEngine(this);
         engine.readServerList(listStream, null);
         return engine.getFiles();
     }

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp.parser;
+package tain.kr.com.commons.net.v01.ftp.parser;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.commons.net.ftp.FTPClientConfig;
+import tain.kr.com.commons.net.v01.ftp.FTPClientConfig;
 
 /**
  * Special implementation VMSFTPEntryParser with versioning turned on.

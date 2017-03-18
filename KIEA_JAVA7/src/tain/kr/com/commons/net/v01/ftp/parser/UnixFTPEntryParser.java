@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.ftp.parser;
+package tain.kr.com.commons.net.v01.ftp.parser;
+
 import java.text.ParseException;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.commons.net.ftp.FTPClientConfig;
-import org.apache.commons.net.ftp.FTPFile;
+import tain.kr.com.commons.net.v01.ftp.FTPClientConfig;
+import tain.kr.com.commons.net.v01.ftp.FTPFile;
 
 /**
  * Implementation FTPFileEntryParser and FTPFileListParser for standard
@@ -51,10 +52,9 @@ public class UnixFTPEntryParser extends ConfigurableFTPFileEntryParserImpl
     private static final String JA_YEAR  = "\u5e74";
 
     private static final String DEFAULT_DATE_FORMAT_JA
-        = "M'" + JA_MONTH + "' d'" + JA_DAY + "' yyyy'" + JA_YEAR + "'"; //6月 3日 2003年
-
+        = "M'" + JA_MONTH + "' d'" + JA_DAY + "' yyyy'" + JA_YEAR + "'"; //6��3��2003亮�
     private static final String DEFAULT_RECENT_DATE_FORMAT_JA
-        = "M'" + JA_MONTH + "' d'" + JA_DAY + "' HH:mm"; //8月 17日 20:10
+        = "M'" + JA_MONTH + "' d'" + JA_DAY + "' HH:mm"; //8��17��20:10
 
     /**
      * Some Linux distributions are now shipping an FTP server which formats

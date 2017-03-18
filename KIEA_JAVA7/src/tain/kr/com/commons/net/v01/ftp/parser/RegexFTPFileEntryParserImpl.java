@@ -16,14 +16,14 @@
  */
 
 
-package org.apache.commons.net.ftp.parser;
+package tain.kr.com.commons.net.v01.ftp.parser;
 
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.commons.net.ftp.FTPFileEntryParserImpl;
+import tain.kr.com.commons.net.v01.ftp.FTPFileEntryParserImpl;
 
 /**
  * This abstract class implements both the older FTPFileListParser and
