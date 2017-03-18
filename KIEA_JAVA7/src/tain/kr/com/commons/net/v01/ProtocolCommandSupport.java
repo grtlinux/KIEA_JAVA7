@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net;
+package tain.kr.com.commons.net.v01;
 
 import java.io.Serializable;
 import java.util.EventListener;
 
-import org.apache.commons.net.util.ListenerList;
+import tain.kr.com.commons.net.v01.util.ListenerList;
 
 /***
  * ProtocolCommandSupport is a convenience class for managing a list of
