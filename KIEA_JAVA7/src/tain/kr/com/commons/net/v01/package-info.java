@@ -18,4 +18,4 @@
 /**
  * Common socket classes and protocol command utility classes
  */
-package org.apache.commons.net;
+package tain.kr.com.commons.net.v01;
