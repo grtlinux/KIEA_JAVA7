@@ -18,4 +18,4 @@
 /**
  * Discard over TCP and UDP
  */
-package org.apache.commons.net.discard;
+package tain.kr.com.commons.net.v01.discard;
