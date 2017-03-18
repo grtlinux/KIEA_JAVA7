@@ -101,8 +101,7 @@ public final class Top {
 			 */
 			Sigar sigarImpl = new Sigar();
 
-			SigarProxy sigar =
-				SigarProxyCache.newInstance(sigarImpl, SLEEP_TIME);
+			SigarProxy sigar = SigarProxyCache.newInstance(sigarImpl, SLEEP_TIME);
 
 			while (true) {
 				Shell.clearScreen();
@@ -128,12 +127,14 @@ public final class Top {
 
 					String cpuPerc = "?";
 
-					List info;
+					List<String> info;
+					
 					try {
 						info = Ps.getInfo(sigar, pid);
 					} catch (SigarException e) {
 						continue; //process may have gone away
 					}
+					
 					try {
 						ProcCpu cpu = sigar.getProcCpu(pid);
 						cpuPerc = CpuPerc.format(cpu.getPercent());
