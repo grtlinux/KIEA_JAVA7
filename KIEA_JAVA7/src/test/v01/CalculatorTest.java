@@ -40,11 +40,11 @@ import tain.kr.com.test.junit.v01.Calculator;
  * @author taincokr
  *
  */
-public class CalculateTest {
+public class CalculatorTest {
 
 	private static boolean flag = true;
 
-	private static final Logger log = Logger.getLogger(CalculateTest.class);
+	private static final Logger log = Logger.getLogger(CalculatorTest.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ public class CalculateTest {
 	/*
 	 * constructor
 	 */
-	public CalculateTest() {
+	public CalculatorTest() {
 		if (flag)
 			log.debug(">>>>> in class " + this.getClass().getSimpleName());
 	}
@@ -84,11 +84,11 @@ public class CalculateTest {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag)
-			new CalculateTest();
-
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			new CalculatorTest().testAdd();
 		}
 	}
 
@@ -103,10 +103,5 @@ public class CalculateTest {
 
 		if (flag)
 			test01(args);
-	}
-
-	@Test
-	public void test() {
-		fail("Not yet implemented");
 	}
 }
