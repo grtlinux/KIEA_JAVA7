@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package examples.mail;
+package tain.kr.com.commons.net.v01.examples.mail;
 
 import java.io.BufferedReader;
 import java.io.Console;
