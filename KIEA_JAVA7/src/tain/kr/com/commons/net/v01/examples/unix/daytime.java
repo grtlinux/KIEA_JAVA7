@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package examples.unix;
+package tain.kr.com.commons.net.v01.examples.unix;
 
 import java.io.IOException;
 import java.net.InetAddress;
 
-import org.apache.commons.net.daytime.DaytimeTCPClient;
-import org.apache.commons.net.daytime.DaytimeUDPClient;
+import tain.kr.com.commons.net.v01.daytime.DaytimeTCPClient;
+import tain.kr.com.commons.net.v01.daytime.DaytimeUDPClient;
 
 /***
  * This is an example program demonstrating how to use the DaytimeTCP
