@@ -16,7 +16,7 @@
  */
 
 
-package org.apache.commons.net.nntp;
+package tain.kr.com.commons.net.v01.nntp;
 
 /**
  * This is an implementation of a message threading algorithm, as originally devised by Zamie Zawinski.
