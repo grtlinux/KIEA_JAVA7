@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.nntp;
+package tain.kr.com.commons.net.v01.nntp;
 
 /***
  * NNTPCommand stores a set of constants for NNTP command codes.  To interpret
