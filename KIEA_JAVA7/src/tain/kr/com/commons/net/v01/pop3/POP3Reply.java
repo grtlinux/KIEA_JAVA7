@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.pop3;
+package tain.kr.com.commons.net.v01.pop3;
 
 /***
  * POP3Reply stores POP3 reply code constants.
