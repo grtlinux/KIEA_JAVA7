@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package examples.mail;
+package tain.kr.com.commons.net.v01.examples.mail;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.net.imap.IMAPClient;
+import tain.kr.com.commons.net.v01.imap.IMAPClient;
 
 /**
  * This is an example program demonstrating how to use the IMAP[S]Client class.
