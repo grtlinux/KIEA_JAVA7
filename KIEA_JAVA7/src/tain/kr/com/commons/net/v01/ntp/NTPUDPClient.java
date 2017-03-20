@@ -1,4 +1,4 @@
-package org.apache.commons.net.ntp;
+package tain.kr.com.commons.net.v01.ntp;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
-import org.apache.commons.net.DatagramSocketClient;
+import tain.kr.com.commons.net.v01.DatagramSocketClient;
 
 /***
  * The NTPUDPClient class is a UDP implementation of a client for the
