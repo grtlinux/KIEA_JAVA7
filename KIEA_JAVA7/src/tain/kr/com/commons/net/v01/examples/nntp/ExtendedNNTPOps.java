@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-package examples.nntp;
+package tain.kr.com.commons.net.v01.examples.nntp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.apache.commons.net.PrintCommandListener;
-import org.apache.commons.net.nntp.Article;
-import org.apache.commons.net.nntp.NNTPClient;
-import org.apache.commons.net.nntp.NewsgroupInfo;
+import tain.kr.com.commons.net.v01.PrintCommandListener;
+import tain.kr.com.commons.net.v01.nntp.Article;
+import tain.kr.com.commons.net.v01.nntp.NNTPClient;
+import tain.kr.com.commons.net.v01.nntp.NewsgroupInfo;
 
 
 /**
