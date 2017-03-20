@@ -16,16 +16,17 @@
  */
 
 
-package examples.nntp;
+package tain.kr.com.commons.net.v01.examples.nntp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.SocketException;
-import org.apache.commons.net.PrintCommandListener;
-import org.apache.commons.net.nntp.Article;
-import org.apache.commons.net.nntp.NNTPClient;
-import org.apache.commons.net.nntp.NewsgroupInfo;
-import org.apache.commons.net.nntp.Threader;
+
+import tain.kr.com.commons.net.v01.PrintCommandListener;
+import tain.kr.com.commons.net.v01.nntp.Article;
+import tain.kr.com.commons.net.v01.nntp.NNTPClient;
+import tain.kr.com.commons.net.v01.nntp.NewsgroupInfo;
+import tain.kr.com.commons.net.v01.nntp.Threader;
 
 /**
  * Sample program demonstrating the use of article iteration and threading.
