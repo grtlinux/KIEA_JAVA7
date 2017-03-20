@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.pop3;
+package tain.kr.com.commons.net.v01.pop3;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,10 +26,10 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.net.MalformedServerReplyException;
-import org.apache.commons.net.ProtocolCommandSupport;
-import org.apache.commons.net.SocketClient;
-import org.apache.commons.net.io.CRLFLineReader;
+import tain.kr.com.commons.net.v01.MalformedServerReplyException;
+import tain.kr.com.commons.net.v01.ProtocolCommandSupport;
+import tain.kr.com.commons.net.v01.SocketClient;
+import tain.kr.com.commons.net.v01.io.CRLFLineReader;
 
 /***
  * The POP3 class is not meant to be used by itself and is provided
@@ -340,7 +340,7 @@ public class POP3 extends SocketClient
      * the correct method {@link SocketClient#removeProtocolCommandListener}
      * @param listener The ProtocolCommandListener to remove
      */
-    public void removeProtocolCommandistener(org.apache.commons.net.ProtocolCommandListener listener){
+    public void removeProtocolCommandistener(tain.kr.com.commons.net.v01.ProtocolCommandListener listener){
         removeProtocolCommandListener(listener);
     }
 
