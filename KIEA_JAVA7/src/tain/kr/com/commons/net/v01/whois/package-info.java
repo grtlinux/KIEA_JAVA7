@@ -18,4 +18,4 @@
 /**
  * Whois client
  */
-package org.apache.commons.net.whois;
+package tain.kr.com.commons.net.v01.whois;
