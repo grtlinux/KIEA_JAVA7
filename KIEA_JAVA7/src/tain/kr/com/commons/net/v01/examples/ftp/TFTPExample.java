@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package examples.ftp;
+package tain.kr.com.commons.net.v01.examples.ftp;
 
 import java.io.Closeable;
 import java.io.File;
@@ -24,9 +24,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import org.apache.commons.net.tftp.TFTP;
-import org.apache.commons.net.tftp.TFTPClient;
-import org.apache.commons.net.tftp.TFTPPacket;
+
+import tain.kr.com.commons.net.v01.tftp.TFTP;
+import tain.kr.com.commons.net.v01.tftp.TFTPClient;
+import tain.kr.com.commons.net.v01.tftp.TFTPPacket;
 
 /***
  * This is an example of a simple Java tftp client.
