@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-package examples.mail;
+package tain.kr.com.commons.net.v01.examples.mail;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Locale;
 
-import org.apache.commons.net.PrintCommandListener;
-import org.apache.commons.net.pop3.POP3Client;
-import org.apache.commons.net.pop3.POP3MessageInfo;
-import org.apache.commons.net.pop3.POP3SClient;
+import tain.kr.com.commons.net.v01.PrintCommandListener;
+import tain.kr.com.commons.net.v01.pop3.POP3Client;
+import tain.kr.com.commons.net.v01.pop3.POP3MessageInfo;
+import tain.kr.com.commons.net.v01.pop3.POP3SClient;
 
 /**
  * This is an example program demonstrating how to use the POP3[S]Client class.
