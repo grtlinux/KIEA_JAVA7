@@ -18,4 +18,4 @@
 /**
  * Telnet implementation
  */
-package org.apache.commons.net.telnet;
+package tain.kr.com.commons.net.v01.telnet;
