@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.net.util;
+package tain.kr.com.commons.net.v01.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
