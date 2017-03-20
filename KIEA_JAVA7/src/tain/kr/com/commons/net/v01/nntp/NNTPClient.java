@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.nntp;
+package tain.kr.com.commons.net.v01.nntp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,10 +25,10 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import org.apache.commons.net.MalformedServerReplyException;
-import org.apache.commons.net.io.DotTerminatedMessageReader;
-import org.apache.commons.net.io.DotTerminatedMessageWriter;
-import org.apache.commons.net.io.Util;
+import tain.kr.com.commons.net.v01.MalformedServerReplyException;
+import tain.kr.com.commons.net.v01.io.DotTerminatedMessageReader;
+import tain.kr.com.commons.net.v01.io.DotTerminatedMessageWriter;
+import tain.kr.com.commons.net.v01.io.Util;
 
 /***
  * NNTPClient encapsulates all the functionality necessary to post and
