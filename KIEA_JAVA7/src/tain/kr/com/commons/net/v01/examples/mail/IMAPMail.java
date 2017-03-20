@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package examples.mail;
+package tain.kr.com.commons.net.v01.examples.mail;
 
 import java.io.IOException;
 import java.net.URI;
 
-import org.apache.commons.net.PrintCommandListener;
-import org.apache.commons.net.imap.IMAPClient;
+import tain.kr.com.commons.net.v01.PrintCommandListener;
+import tain.kr.com.commons.net.v01.imap.IMAPClient;
 
 /**
  * This is an example program demonstrating how to use the IMAP[S]Client class.
