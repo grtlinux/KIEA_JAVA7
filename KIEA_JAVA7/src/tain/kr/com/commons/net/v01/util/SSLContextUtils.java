@@ -16,7 +16,7 @@
  *
  */
 
-package org.apache.commons.net.util;
+package tain.kr.com.commons.net.v01.util;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
