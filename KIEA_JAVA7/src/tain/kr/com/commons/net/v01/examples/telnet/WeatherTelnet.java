@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package examples.telnet;
+package tain.kr.com.commons.net.v01.examples.telnet;
 
 import java.io.IOException;
-import org.apache.commons.net.telnet.TelnetClient;
 
-import examples.util.IOUtil;
+import tain.kr.com.commons.net.v01.examples.util.IOUtil;
+import tain.kr.com.commons.net.v01.telnet.TelnetClient;
 
 /***
  * This is an example of a trivial use of the TelnetClient class.
