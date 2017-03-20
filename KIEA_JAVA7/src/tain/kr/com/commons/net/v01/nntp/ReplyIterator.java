@@ -16,15 +16,15 @@
  *
  */
 
-package org.apache.commons.net.nntp;
+package tain.kr.com.commons.net.v01.nntp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.net.io.DotTerminatedMessageReader;
-import org.apache.commons.net.io.Util;
+import tain.kr.com.commons.net.v01.io.DotTerminatedMessageReader;
+import tain.kr.com.commons.net.v01.io.Util;
 
 /**
  * Wraps a {@link BufferedReader} and returns an {@code Iterable<String>}
