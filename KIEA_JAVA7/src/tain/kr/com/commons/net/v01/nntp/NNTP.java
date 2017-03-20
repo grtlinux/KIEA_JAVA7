@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.nntp;
+package tain.kr.com.commons.net.v01.nntp;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -23,10 +23,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import org.apache.commons.net.MalformedServerReplyException;
-import org.apache.commons.net.ProtocolCommandSupport;
-import org.apache.commons.net.SocketClient;
-import org.apache.commons.net.io.CRLFLineReader;
+import tain.kr.com.commons.net.v01.MalformedServerReplyException;
+import tain.kr.com.commons.net.v01.ProtocolCommandSupport;
+import tain.kr.com.commons.net.v01.SocketClient;
+import tain.kr.com.commons.net.v01.io.CRLFLineReader;
 
 /***
  * The NNTP class is not meant to be used by itself and is provided
