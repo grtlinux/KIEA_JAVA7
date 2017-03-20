@@ -1,4 +1,4 @@
-package examples.ntp;
+package tain.kr.com.commons.net.v01.examples.ntp;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -23,11 +23,11 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.text.NumberFormat;
 
-import org.apache.commons.net.ntp.NTPUDPClient;
-import org.apache.commons.net.ntp.NtpUtils;
-import org.apache.commons.net.ntp.NtpV3Packet;
-import org.apache.commons.net.ntp.TimeInfo;
-import org.apache.commons.net.ntp.TimeStamp;
+import tain.kr.com.commons.net.v01.ntp.NTPUDPClient;
+import tain.kr.com.commons.net.v01.ntp.NtpUtils;
+import tain.kr.com.commons.net.v01.ntp.NtpV3Packet;
+import tain.kr.com.commons.net.v01.ntp.TimeInfo;
+import tain.kr.com.commons.net.v01.ntp.TimeStamp;
 
 /***
  * This is an example program demonstrating how to use the NTPUDPClient
