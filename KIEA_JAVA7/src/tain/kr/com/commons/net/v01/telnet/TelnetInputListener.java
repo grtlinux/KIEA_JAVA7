@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.telnet;
+package tain.kr.com.commons.net.v01.telnet;
 
 /***
  * Listener interface used for notification that incoming data is
