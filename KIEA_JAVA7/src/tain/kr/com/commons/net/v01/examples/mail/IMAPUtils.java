@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package examples.mail;
+package tain.kr.com.commons.net.v01.examples.mail;
 
 import java.io.IOException;
 import java.net.URI;
 
-import org.apache.commons.net.ProtocolCommandListener;
-import org.apache.commons.net.imap.IMAPClient;
-import org.apache.commons.net.imap.IMAPSClient;
+import tain.kr.com.commons.net.v01.ProtocolCommandListener;
+import tain.kr.com.commons.net.v01.imap.IMAPClient;
+import tain.kr.com.commons.net.v01.imap.IMAPSClient;
 
 /**
  * Utility class for shared IMAP utilities
