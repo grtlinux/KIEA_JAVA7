@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package examples.nntp;
+package tain.kr.com.commons.net.v01.examples.nntp;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -25,11 +25,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Writer;
 
-import org.apache.commons.net.PrintCommandListener;
-import org.apache.commons.net.io.Util;
-import org.apache.commons.net.nntp.NNTPClient;
-import org.apache.commons.net.nntp.NNTPReply;
-import org.apache.commons.net.nntp.SimpleNNTPHeader;
+import tain.kr.com.commons.net.v01.PrintCommandListener;
+import tain.kr.com.commons.net.v01.io.Util;
+import tain.kr.com.commons.net.v01.nntp.NNTPClient;
+import tain.kr.com.commons.net.v01.nntp.NNTPReply;
+import tain.kr.com.commons.net.v01.nntp.SimpleNNTPHeader;
 
 
 /***
