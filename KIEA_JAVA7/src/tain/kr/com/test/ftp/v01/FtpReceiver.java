@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPReply;
+import tain.kr.com.commons.net.v01.ftp.FTP;
+import tain.kr.com.commons.net.v01.ftp.FTPClient;
+import tain.kr.com.commons.net.v01.ftp.FTPFile;
+import tain.kr.com.commons.net.v01.ftp.FTPReply;
 
 public class FtpReceiver {
 
