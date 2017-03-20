@@ -18,4 +18,4 @@
 /**
  * TFTP cliemt implementation
  */
-package org.apache.commons.net.tftp;
+package tain.kr.com.commons.net.v01.tftp;
