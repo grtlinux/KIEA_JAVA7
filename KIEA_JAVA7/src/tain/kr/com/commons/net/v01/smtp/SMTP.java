@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.smtp;
+package tain.kr.com.commons.net.v01.smtp;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,10 +24,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-import org.apache.commons.net.MalformedServerReplyException;
-import org.apache.commons.net.ProtocolCommandSupport;
-import org.apache.commons.net.SocketClient;
-import org.apache.commons.net.io.CRLFLineReader;
+import tain.kr.com.commons.net.v01.MalformedServerReplyException;
+import tain.kr.com.commons.net.v01.ProtocolCommandSupport;
+import tain.kr.com.commons.net.v01.SocketClient;
+import tain.kr.com.commons.net.v01.io.CRLFLineReader;
 
 /***
  * SMTP provides the basic the functionality necessary to implement your
@@ -766,7 +766,7 @@ public class SMTP extends SocketClient
      * the correct method {@link SocketClient#removeProtocolCommandListener}
      * @param listener The ProtocolCommandListener to remove
      */
-    public void removeProtocolCommandistener(org.apache.commons.net.ProtocolCommandListener listener){
+    public void removeProtocolCommandistener(tain.kr.com.commons.net.v01.ProtocolCommandListener listener){
         removeProtocolCommandListener(listener);
     }
 
