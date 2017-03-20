@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package examples.ftp;
+package tain.kr.com.commons.net.v01.examples.ftp;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,18 +27,18 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-import org.apache.commons.net.PrintCommandListener;
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPHTTPClient;
-import org.apache.commons.net.ftp.FTPClientConfig;
-import org.apache.commons.net.ftp.FTPConnectionClosedException;
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPReply;
-import org.apache.commons.net.ftp.FTPSClient;
-import org.apache.commons.net.io.CopyStreamEvent;
-import org.apache.commons.net.io.CopyStreamListener;
-import org.apache.commons.net.util.TrustManagerUtils;
+import tain.kr.com.commons.net.v01.PrintCommandListener;
+import tain.kr.com.commons.net.v01.ftp.FTP;
+import tain.kr.com.commons.net.v01.ftp.FTPClient;
+import tain.kr.com.commons.net.v01.ftp.FTPClientConfig;
+import tain.kr.com.commons.net.v01.ftp.FTPConnectionClosedException;
+import tain.kr.com.commons.net.v01.ftp.FTPFile;
+import tain.kr.com.commons.net.v01.ftp.FTPHTTPClient;
+import tain.kr.com.commons.net.v01.ftp.FTPReply;
+import tain.kr.com.commons.net.v01.ftp.FTPSClient;
+import tain.kr.com.commons.net.v01.io.CopyStreamEvent;
+import tain.kr.com.commons.net.v01.io.CopyStreamListener;
+import tain.kr.com.commons.net.v01.util.TrustManagerUtils;
 
 /**
  * This is an example program demonstrating how to use the FTPClient class.
