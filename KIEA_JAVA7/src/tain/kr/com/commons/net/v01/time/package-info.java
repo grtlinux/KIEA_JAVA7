@@ -18,4 +18,4 @@
 /**
  * Time protocol (RFC 868) over TCP and UDP
  */
-package org.apache.commons.net.time;
+package tain.kr.com.commons.net.v01.time;
