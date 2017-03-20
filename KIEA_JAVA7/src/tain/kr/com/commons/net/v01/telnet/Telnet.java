@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.telnet;
+package tain.kr.com.commons.net.v01.telnet;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.OutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Arrays;
 
-import org.apache.commons.net.SocketClient;
+import tain.kr.com.commons.net.v01.SocketClient;
 
 class Telnet extends SocketClient
 {
@@ -870,7 +870,8 @@ class Telnet extends SocketClient
      * @param option - Option code.
      * @throws IOException - Exception in I/O.
      **/
-    final synchronized void _sendDo(int option)
+    @SuppressWarnings("unused")
+	final synchronized void _sendDo(int option)
     throws IOException
     {
         if (debug || debugoptions)
@@ -910,6 +911,7 @@ class Telnet extends SocketClient
      * @param option - Option code.
      * @throws IOException - Exception in I/O.
      **/
+    @SuppressWarnings("unused")
     final synchronized void _sendDont(int option)
     throws IOException
     {
@@ -951,6 +953,7 @@ class Telnet extends SocketClient
      * @param option - Option code.
      * @throws IOException - Exception in I/O.
      **/
+    @SuppressWarnings("unused")
     final synchronized void _sendWill(int option)
     throws IOException
     {
@@ -991,6 +994,7 @@ class Telnet extends SocketClient
      * @param option - Option code.
      * @throws IOException - Exception in I/O.
      **/
+    @SuppressWarnings("unused")
     final synchronized void _sendWont(int option)
     throws IOException
     {
