@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package examples.unix;
+package tain.kr.com.commons.net.v01.examples.unix;
 
 import java.io.IOException;
 import java.net.InetAddress;
 
-import org.apache.commons.net.time.TimeTCPClient;
-import org.apache.commons.net.time.TimeUDPClient;
+import tain.kr.com.commons.net.v01.time.TimeTCPClient;
+import tain.kr.com.commons.net.v01.time.TimeUDPClient;
 
 /***
  * This is an example program demonstrating how to use the TimeTCPClient
