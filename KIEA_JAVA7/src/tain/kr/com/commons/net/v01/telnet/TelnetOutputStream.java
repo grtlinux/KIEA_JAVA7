@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.telnet;
+package tain.kr.com.commons.net.v01.telnet;
 
 import java.io.IOException;
 import java.io.OutputStream;
