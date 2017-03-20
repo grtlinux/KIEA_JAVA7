@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.tftp;
+package tain.kr.com.commons.net.v01.tftp;
 
 /***
  * A class used to signify the occurrence of an error in the creation of
