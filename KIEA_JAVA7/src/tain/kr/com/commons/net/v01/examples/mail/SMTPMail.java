@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package examples.mail;
+package tain.kr.com.commons.net.v01.examples.mail;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -27,11 +27,11 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.net.PrintCommandListener;
-import org.apache.commons.net.io.Util;
-import org.apache.commons.net.smtp.SMTPClient;
-import org.apache.commons.net.smtp.SMTPReply;
-import org.apache.commons.net.smtp.SimpleSMTPHeader;
+import tain.kr.com.commons.net.v01.PrintCommandListener;
+import tain.kr.com.commons.net.v01.io.Util;
+import tain.kr.com.commons.net.v01.smtp.SMTPClient;
+import tain.kr.com.commons.net.v01.smtp.SMTPReply;
+import tain.kr.com.commons.net.v01.smtp.SimpleSMTPHeader;
 
 /***
  * This is an example program using the SMTP package to send a message
