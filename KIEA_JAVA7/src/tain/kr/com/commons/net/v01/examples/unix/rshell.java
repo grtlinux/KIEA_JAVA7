@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package examples.unix;
+package tain.kr.com.commons.net.v01.examples.unix;
 
 import java.io.IOException;
-import org.apache.commons.net.bsd.RCommandClient;
 
-import examples.util.IOUtil;
+import tain.kr.com.commons.net.v01.bsd.RCommandClient;
+import tain.kr.com.commons.net.v01.examples.util.IOUtil;
 
 /***
  * This is an example program demonstrating how to use the RCommandClient
