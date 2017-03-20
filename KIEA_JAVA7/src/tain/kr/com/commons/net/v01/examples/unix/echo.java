@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package examples.unix;
+package tain.kr.com.commons.net.v01.examples.unix;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,8 +26,8 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-import org.apache.commons.net.echo.EchoTCPClient;
-import org.apache.commons.net.echo.EchoUDPClient;
+import tain.kr.com.commons.net.v01.echo.EchoTCPClient;
+import tain.kr.com.commons.net.v01.echo.EchoUDPClient;
 
 /***
  * This is an example program demonstrating how to use the EchoTCPClient
