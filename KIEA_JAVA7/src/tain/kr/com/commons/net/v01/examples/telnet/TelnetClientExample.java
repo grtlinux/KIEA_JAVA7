@@ -15,21 +15,21 @@
  * limitations under the License.
  */
 
-package examples.telnet;
+package tain.kr.com.commons.net.v01.examples.telnet;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.FileOutputStream;
 import java.util.StringTokenizer;
 
-import org.apache.commons.net.telnet.TelnetClient;
-import org.apache.commons.net.telnet.TelnetNotificationHandler;
-import org.apache.commons.net.telnet.SimpleOptionHandler;
-import org.apache.commons.net.telnet.EchoOptionHandler;
-import org.apache.commons.net.telnet.TerminalTypeOptionHandler;
-import org.apache.commons.net.telnet.SuppressGAOptionHandler;
-import org.apache.commons.net.telnet.InvalidTelnetOptionException;
+import tain.kr.com.commons.net.v01.telnet.EchoOptionHandler;
+import tain.kr.com.commons.net.v01.telnet.InvalidTelnetOptionException;
+import tain.kr.com.commons.net.v01.telnet.SimpleOptionHandler;
+import tain.kr.com.commons.net.v01.telnet.SuppressGAOptionHandler;
+import tain.kr.com.commons.net.v01.telnet.TelnetClient;
+import tain.kr.com.commons.net.v01.telnet.TelnetNotificationHandler;
+import tain.kr.com.commons.net.v01.telnet.TerminalTypeOptionHandler;
 
 
 /***
