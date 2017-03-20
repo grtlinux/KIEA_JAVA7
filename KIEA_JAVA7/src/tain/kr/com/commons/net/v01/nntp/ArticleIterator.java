@@ -16,7 +16,7 @@
  *
  */
 
-package org.apache.commons.net.nntp;
+package tain.kr.com.commons.net.v01.nntp;
 
 import java.util.Iterator;
 /**
