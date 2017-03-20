@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.nntp;
+package tain.kr.com.commons.net.v01.nntp;
 
 /***
  * This class is used to construct the bare minimum
