@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.time;
+package tain.kr.com.commons.net.v01.time;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.util.Date;
 
-import org.apache.commons.net.DatagramSocketClient;
+import tain.kr.com.commons.net.v01.DatagramSocketClient;
 
 /***
  * The TimeUDPClient class is a UDP implementation of a client for the
