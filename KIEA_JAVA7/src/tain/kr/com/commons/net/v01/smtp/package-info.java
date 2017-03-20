@@ -18,4 +18,4 @@
 /**
  * SMTP and SMTPS mail
  */
-package org.apache.commons.net.smtp;
+package tain.kr.com.commons.net.v01.smtp;
