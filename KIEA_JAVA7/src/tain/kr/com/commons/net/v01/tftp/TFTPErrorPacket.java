@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.tftp;
+package tain.kr.com.commons.net.v01.tftp;
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;
