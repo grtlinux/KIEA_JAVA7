@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package examples.ftp;
+package tain.kr.com.commons.net.v01.examples.ftp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 
-import org.apache.commons.net.PrintCommandListener;
-import org.apache.commons.net.ProtocolCommandListener;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
+import tain.kr.com.commons.net.v01.PrintCommandListener;
+import tain.kr.com.commons.net.v01.ProtocolCommandListener;
+import tain.kr.com.commons.net.v01.ftp.FTPClient;
+import tain.kr.com.commons.net.v01.ftp.FTPReply;
 
 /***
  * This is an example program demonstrating how to use the FTPClient class.
