@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.tftp;
+package tain.kr.com.commons.net.v01.tftp;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.DatagramPacket;
 import java.net.SocketException;
 
-import org.apache.commons.net.DatagramSocketClient;
+import tain.kr.com.commons.net.v01.DatagramSocketClient;
 
 /***
  * The TFTP class exposes a set of methods to allow you to deal with the TFTP
