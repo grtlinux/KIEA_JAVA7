@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.pop3;
+package tain.kr.com.commons.net.v01.pop3;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -24,7 +24,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ListIterator;
 import java.util.StringTokenizer;
 
-import org.apache.commons.net.io.DotTerminatedMessageReader;
+import tain.kr.com.commons.net.v01.io.DotTerminatedMessageReader;
 
 /***
  * The POP3Client class implements the client side of the Internet POP3
