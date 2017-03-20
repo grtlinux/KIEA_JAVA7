@@ -16,7 +16,7 @@
  *
  */
 
-package examples;
+package tain.kr.com.commons.net.v01.examples;
 
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
