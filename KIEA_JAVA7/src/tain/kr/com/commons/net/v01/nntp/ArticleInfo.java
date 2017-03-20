@@ -16,7 +16,7 @@
  *
  */
 
-package org.apache.commons.net.nntp;
+package tain.kr.com.commons.net.v01.nntp;
 /**
  * Class contains details about an article.
  * Create an instance of the class and pass it to the appropriate NNTP method.
