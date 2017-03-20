@@ -16,7 +16,7 @@
  *
  */
 
-package org.apache.commons.net.util;
+package tain.kr.com.commons.net.v01.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +34,7 @@ import java.util.Enumeration;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.X509ExtendedKeyManager;
 
-import org.apache.commons.net.io.Util;
+import tain.kr.com.commons.net.v01.io.Util;
 
 /**
  * General KeyManager utilities
