@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.util;
+package tain.kr.com.commons.net.v01.util;
 
 import java.io.Serializable;
 import java.util.EventListener;
