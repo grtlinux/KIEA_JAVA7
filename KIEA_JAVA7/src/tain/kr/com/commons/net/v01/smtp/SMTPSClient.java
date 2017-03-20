@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.smtp;
+package tain.kr.com.commons.net.v01.smtp;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -30,9 +30,9 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import org.apache.commons.net.io.CRLFLineReader;
-import org.apache.commons.net.util.SSLContextUtils;
-import org.apache.commons.net.util.SSLSocketUtils;
+import tain.kr.com.commons.net.v01.io.CRLFLineReader;
+import tain.kr.com.commons.net.v01.util.SSLContextUtils;
+import tain.kr.com.commons.net.v01.util.SSLSocketUtils;
 
 /**
  * SMTP over SSL processing. Copied from FTPSClient.java and modified to suit SMTP.
