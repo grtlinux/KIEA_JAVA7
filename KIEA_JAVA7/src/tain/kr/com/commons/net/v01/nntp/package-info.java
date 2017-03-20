@@ -18,4 +18,4 @@
 /**
  * NNTP - network news transfer protocol
  */
-package org.apache.commons.net.nntp;
+package tain.kr.com.commons.net.v01.nntp;
