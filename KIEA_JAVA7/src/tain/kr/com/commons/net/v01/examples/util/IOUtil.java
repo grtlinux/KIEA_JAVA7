@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 
-package examples.util;
+package tain.kr.com.commons.net.v01.examples.util;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.apache.commons.net.io.Util;
+
+import tain.kr.com.commons.net.v01.io.Util;
 
 /***
  * This is a utility class providing a reader/writer capability required
