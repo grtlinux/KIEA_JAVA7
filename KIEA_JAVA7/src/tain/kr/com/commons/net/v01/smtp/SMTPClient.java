@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.smtp;
+package tain.kr.com.commons.net.v01.smtp;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.net.InetAddress;
 
-import org.apache.commons.net.io.DotTerminatedMessageWriter;
+import tain.kr.com.commons.net.v01.io.DotTerminatedMessageWriter;
 
 /***
  * SMTPClient encapsulates all the functionality necessary to send files
