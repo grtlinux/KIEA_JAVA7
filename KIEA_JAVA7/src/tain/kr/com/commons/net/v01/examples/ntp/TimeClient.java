@@ -1,4 +1,4 @@
-package examples.ntp;
+package tain.kr.com.commons.net.v01.examples.ntp;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -21,8 +21,8 @@ package examples.ntp;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import org.apache.commons.net.time.TimeTCPClient;
-import org.apache.commons.net.time.TimeUDPClient;
+import tain.kr.com.commons.net.v01.time.TimeTCPClient;
+import tain.kr.com.commons.net.v01.time.TimeUDPClient;
 
 /***
  * This is an example program demonstrating how to use the TimeTCPClient
