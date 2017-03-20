@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package examples.nntp;
+package tain.kr.com.commons.net.v01.examples.nntp;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.net.nntp.Article;
-import org.apache.commons.net.nntp.NNTPClient;
+
+import tain.kr.com.commons.net.v01.nntp.Article;
+import tain.kr.com.commons.net.v01.nntp.NNTPClient;
 
 /**
  * Some convenience methods for NNTP example classes.
