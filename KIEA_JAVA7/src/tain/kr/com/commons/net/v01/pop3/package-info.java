@@ -18,4 +18,4 @@
 /**
  * POP3 and POP3S mail
  */
-package org.apache.commons.net.pop3;
+package tain.kr.com.commons.net.v01.pop3;
