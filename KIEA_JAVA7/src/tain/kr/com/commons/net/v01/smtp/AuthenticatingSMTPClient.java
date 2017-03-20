@@ -15,18 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.smtp;
+package tain.kr.com.commons.net.v01.smtp;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLContext;
 
-import org.apache.commons.net.util.Base64;
+import tain.kr.com.commons.net.v01.util.Base64;
 
 
 /**
