@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package examples.nntp;
+package tain.kr.com.commons.net.v01.examples.nntp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.SocketException;
 
-import org.apache.commons.net.PrintCommandListener;
-import org.apache.commons.net.nntp.NNTPClient;
-import org.apache.commons.net.nntp.NewsgroupInfo;
+import tain.kr.com.commons.net.v01.PrintCommandListener;
+import tain.kr.com.commons.net.v01.nntp.NNTPClient;
+import tain.kr.com.commons.net.v01.nntp.NewsgroupInfo;
 
 /**
  * Sample program demonstrating the use of article header and body retrieval
