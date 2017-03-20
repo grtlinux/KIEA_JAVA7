@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.smtp;
+package tain.kr.com.commons.net.v01.smtp;
 
 /**
  * SMTPCommand stores a set of constants for SMTP command codes.  To interpret
