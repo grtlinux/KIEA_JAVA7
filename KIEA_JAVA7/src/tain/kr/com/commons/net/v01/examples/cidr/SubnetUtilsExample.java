@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package examples.cidr;
+package tain.kr.com.commons.net.v01.examples.cidr;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
-import org.apache.commons.net.util.SubnetUtils;
-import org.apache.commons.net.util.SubnetUtils.SubnetInfo;
+import tain.kr.com.commons.net.v01.util.SubnetUtils;
+import tain.kr.com.commons.net.v01.util.SubnetUtils.SubnetInfo;
 
 /**
  * Example class that shows how to use the {@link SubnetUtils} class.
