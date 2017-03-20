@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.smtp;
+package tain.kr.com.commons.net.v01.smtp;
 
 /***
  * SMTPReply stores a set of constants for SMTP reply codes.  To interpret
