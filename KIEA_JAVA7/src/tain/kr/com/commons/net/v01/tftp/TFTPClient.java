@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.tftp;
+package tain.kr.com.commons.net.v01.tftp;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,8 +24,9 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import org.apache.commons.net.io.FromNetASCIIOutputStream;
-import org.apache.commons.net.io.ToNetASCIIInputStream;
+
+import tain.kr.com.commons.net.v01.io.FromNetASCIIOutputStream;
+import tain.kr.com.commons.net.v01.io.ToNetASCIIInputStream;
 
 /***
  * The TFTPClient class encapsulates all the aspects of the TFTP protocol
