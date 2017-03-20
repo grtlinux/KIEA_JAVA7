@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package examples.ntp;
-
-import org.apache.commons.net.ntp.NtpUtils;
-import org.apache.commons.net.ntp.NtpV3Impl;
-import org.apache.commons.net.ntp.NtpV3Packet;
-import org.apache.commons.net.ntp.TimeStamp;
+package tain.kr.com.commons.net.v01.examples.ntp;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+
+import tain.kr.com.commons.net.v01.ntp.NtpUtils;
+import tain.kr.com.commons.net.v01.ntp.NtpV3Impl;
+import tain.kr.com.commons.net.v01.ntp.NtpV3Packet;
+import tain.kr.com.commons.net.v01.ntp.TimeStamp;
 
 /**
  * The SimpleNTPServer class is a UDP implementation of a server for the
