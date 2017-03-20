@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package examples.unix;
+package tain.kr.com.commons.net.v01.examples.unix;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import org.apache.commons.net.whois.WhoisClient;
+import tain.kr.com.commons.net.v01.whois.WhoisClient;
 
 /***
  * This is an example of how you would implement the Linux fwhois command
