@@ -6,10 +6,11 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
 import org.apache.tools.ant.filters.StringInputStream;
+
+import tain.kr.com.commons.net.v01.ftp.FTP;
+import tain.kr.com.commons.net.v01.ftp.FTPClient;
+import tain.kr.com.commons.net.v01.ftp.FTPReply;
 
 public class FtpTest2Main {
 
