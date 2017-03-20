@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.net.whois;
+package tain.kr.com.commons.net.v01.whois;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.net.finger.FingerClient;
+import tain.kr.com.commons.net.v01.finger.FingerClient;
 
 /***
  * The WhoisClient class implements the client side of the Internet Whois
