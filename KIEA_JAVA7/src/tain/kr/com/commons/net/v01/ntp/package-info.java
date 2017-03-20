@@ -18,4 +18,4 @@
 /**
  * NTP - network time protocol
  */
-package org.apache.commons.net.ntp;
+package tain.kr.com.commons.net.v01.ntp;
