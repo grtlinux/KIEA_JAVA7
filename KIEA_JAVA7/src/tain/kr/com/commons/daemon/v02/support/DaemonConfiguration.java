@@ -19,7 +19,12 @@
  */
 package tain.kr.com.commons.daemon.v02.support;
 
-import org.apache.log4j.Logger;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * Code Templates > Comments > Types
@@ -35,60 +40,128 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class DaemonConfiguration {
+public final class DaemonConfiguration {
 
-	private static boolean flag = true;
-
-	private static final Logger log = Logger
-			.getLogger(DaemonConfiguration.class);
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
+	protected final static String DEFAULT_CONFIG  = "daemon.properties";
+	
+	protected final static String PREFIX = "daemon.";
+	protected final static String BTOKEN = "${";
+	protected final static String ETOKEN = "}";
+	
+	private final Properties configurationProperties;
+	private final Properties systemProperties;
+	
 	/*
-	 * constructor
+	 * default constructor
 	 */
 	public DaemonConfiguration() {
-		if (flag)
-			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		this.configurationProperties = new Properties();
+		this.systemProperties = System.getProperties();
 	}
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	/*
-	 * static test method
+	 * loads the configuration properties file
 	 */
-	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new DaemonConfiguration();
-
-		if (flag) {
-
+	public boolean load(String fileName) {
+		
+		boolean ok = false;
+		
+		FileInputStream file = null;
+		
+		try {
+			if (fileName == null) 
+				fileName = DEFAULT_CONFIG;
+			
+			file = new FileInputStream(fileName);
+			this.configurationProperties.clear();
+			this.configurationProperties.load(file);
+			ok = true;
+		} catch (FileNotFoundException e) {
+			// TODO: handle exception
+		} catch (IOException e) {
+			//
+		} finally {
+			try {
+				if (file != null)
+					file.close();
+			} catch (IOException e) {
+				//
+			}
 		}
+		
+		return ok;
 	}
-
+	
+	private String expandProperties(String propValue) throws ParseException {
+		
+		StringBuffer expanded;
+		int btoken;
+		int ctoken = 0;
+		
+		if (propValue == null)
+			return null;
+		
+		expanded = new StringBuffer();
+		btoken = propValue.indexOf(BTOKEN);
+		while (btoken != -1) {
+			if (btoken > 0 && propValue.charAt(btoken - 1) == BTOKEN.charAt(0)) {
+				// skip and upquote
+				expanded.append(propValue.substring(ctoken, btoken));
+				ctoken = btoken + 1;
+				btoken = propValue.indexOf(BTOKEN, btoken + BTOKEN.length());
+				continue;
+			}
+			
+			int etoken = propValue.indexOf(ETOKEN, btoken);
+			if (etoken != -1) {
+				String variable = propValue.substring(btoken + BTOKEN.length(), etoken);
+				String sysvalue = systemProperties.getProperty(variable);
+				if (sysvalue == null) {
+					// try with the environment if there was no
+					// property by that name
+					sysvalue = System.getenv(variable); // N.B. deprecated in java
+				}
+				if (sysvalue != null) {
+					String strtoken = propValue.substring(ctoken, btoken);
+					expanded.append(strtoken);
+					expanded.append(sysvalue);
+					ctoken = etoken + ETOKEN.length();
+				}
+			} else {
+				// we have ${ without }
+				throw new ParseException("Error while looking for terminating '" + ETOKEN + "'", btoken);
+			}
+			
+			btoken = propValue.indexOf(BTOKEN, etoken + ETOKEN.length());
+		}
+		// add what's left.
+		expanded.append(propValue.substring(ctoken, propValue.length()));
+		return expanded.toString();
+	}
+	
 	/*
-	 * main method
+	 * gets the configuration property
 	 */
-	public static void main(String[] args) throws Exception {
-
-		if (flag)
-			log.debug(">>>>> " + new Object() {
-			}.getClass().getEnclosingClass().getName());
-
-		if (flag)
-			test01(args);
+	public String getProperty(String name) throws ParseException {
+		
+		if (name == null)
+			return null;
+		else
+			return expandProperties(this.configurationProperties.getProperty(PREFIX + name));
+	}
+	
+	/*
+	 * gets the configuration property array
+	 */
+	public String[] getPropertyArray(String name) throws ParseException {
+		
+		ArrayList<String> list = new ArrayList<String>();
+		String args;
+		
+		while ((args = getProperty(name + "[" + list.size() + "]")) != null) {
+			list.add(args);
+		}
+		
+		return (String[]) list.toArray(new String[list.size()]);
 	}
 }
