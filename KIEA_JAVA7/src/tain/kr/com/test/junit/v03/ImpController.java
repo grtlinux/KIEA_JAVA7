@@ -19,7 +19,6 @@
  */
 package tain.kr.com.test.junit.v03;
 
-import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
@@ -35,5 +34,8 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ImpController {
+public interface ImpController {
+	
+	public abstract ImpResponse getResponse(ImpRequest request);
+	public abstract void addHandler(ImpRequest request, ImpRequestHandler requestHandler);
 }
