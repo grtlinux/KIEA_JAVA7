@@ -70,7 +70,6 @@ public final class ControllerDefaultTest04 {
 			// TODO Auto-generated method stub
 			return this.name;
 		}
-		
 	}
 	
 	private final class HandlerRequestTest implements ImpRequestHandler {
@@ -83,7 +82,6 @@ public final class ControllerDefaultTest04 {
 			// TODO Auto-generated method stub
 			return new ResponseTest();
 		}
-		
 	}
 	
 	private final class ResponseTest implements ImpResponse {
@@ -126,7 +124,6 @@ public final class ControllerDefaultTest04 {
 			// TODO Auto-generated method stub
 			throw new Exception("error processing request.");
 		}
-		
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
