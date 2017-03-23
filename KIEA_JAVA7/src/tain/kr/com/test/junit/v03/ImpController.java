@@ -36,6 +36,7 @@ package tain.kr.com.test.junit.v03;
  */
 public interface ImpController {
 	
-	public abstract ImpResponse getResponse(ImpRequest request);
 	public abstract void addHandler(ImpRequest request, ImpRequestHandler requestHandler);
+	public abstract ImpRequestHandler getHandler(ImpRequest request);
+	public abstract ImpResponse getResponse(ImpRequest request);
 }
