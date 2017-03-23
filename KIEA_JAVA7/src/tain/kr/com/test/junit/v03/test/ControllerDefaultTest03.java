@@ -19,7 +19,18 @@
  */
 package tain.kr.com.test.junit.v03.test;
 
-import org.apache.log4j.Logger;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import tain.kr.com.test.junit.v03.ControllerDefault;
+import tain.kr.com.test.junit.v03.ImpRequest;
+import tain.kr.com.test.junit.v03.ImpRequestHandler;
+import tain.kr.com.test.junit.v03.ImpResponse;
+
 
 /**
  * Code Templates > Comments > Types
@@ -35,60 +46,104 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
-public class ControllerDefaultTest03 {
+public final class ControllerDefaultTest03 {
 
-	private static boolean flag = true;
+	private final class SimpleRequest implements ImpRequest {
 
-	private static final Logger log = Logger
-			.getLogger(ControllerDefaultTest03.class);
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	/*
-	 * constructor
-	 */
-	public ControllerDefaultTest03() {
-		if (flag)
-			log.debug(">>>>> in class " + this.getClass().getSimpleName());
+		/* (non-Javadoc)
+		 * @see tain.kr.com.test.junit.v03.ImpRequest#getName()
+		 */
+		@Override
+		public String getName() {
+			// TODO Auto-generated method stub
+			return "TestRequest";
+		}
+		
 	}
+	
+	private final class SimpleHandler implements ImpRequestHandler {
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
+		/* (non-Javadoc)
+		 * @see tain.kr.com.test.junit.v03.ImpRequestHandler#process(tain.kr.com.test.junit.v03.ImpRequest)
+		 */
+		@Override
+		public ImpResponse process(ImpRequest request) throws Exception {
+			// TODO Auto-generated method stub
+			return new SimpleResponse();
+		}
+		
+	}
+	
+	private final class SimpleResponse implements ImpResponse {
 
-	/*
-	 * static test method
-	 */
-	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ControllerDefaultTest03();
-
-		if (flag) {
-
+		private static final String name = "TestResponse";
+		
+		/* (non-Javadoc)
+		 * @see tain.kr.com.test.junit.v03.ImpResponse#getName()
+		 */
+		@Override
+		@SuppressWarnings("static-access")
+		public String getName() {
+			// TODO Auto-generated method stub
+			return this.name;
+		}
+		
+		public boolean equals(Object object) {
+			
+			boolean result = false;
+			
+			if (object instanceof SimpleResponse) {
+				result = ((SimpleResponse) object).getName().equals(this.getName());
+			}
+			
+			return result;
+		}
+		
+		public int hashCode() {
+			
+			return name.hashCode();
 		}
 	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	/*
-	 * main method
-	 */
-	public static void main(String[] args) throws Exception {
-
-		if (flag)
-			log.debug(">>>>> " + new Object() {
-			}.getClass().getEnclosingClass().getName());
-
-		if (flag)
-			test01(args);
+	private ControllerDefault controller;
+	private ImpRequest request;
+	private ImpRequestHandler handler;
+	
+	@Before
+	public void initialize() throws Exception {
+		
+		this.controller = new ControllerDefault();
+		this.request = new SimpleRequest();
+		this.handler = new SimpleHandler();
+		this.controller.addHandler(this.request, this.handler);
+	}
+	
+	@Test
+	public void testAddHandler() {
+		
+		ImpRequestHandler handler2 = this.controller.getHandler(this.request);
+		assertSame("Handler we set in controller should be the same handler we get", handler2, this.handler);
+	}
+	
+	@Test
+	public void testProcessResponse() {
+		
+		ImpResponse response = this.controller.getResponse(this.request);
+		
+		assertNotNull("Must not return a null response", response);
+		assertEquals("response should be of type SimpleResponse", SimpleResponse.class, response.getClass());
 	}
 }
