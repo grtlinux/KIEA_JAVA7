@@ -19,6 +19,21 @@
  */
 package tain.kr.com.test.junit.v03.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import tain.kr.com.test.junit.v03.ControllerDefault;
+import tain.kr.com.test.junit.v03.ImpRequest;
+import tain.kr.com.test.junit.v03.ImpRequestHandler;
+import tain.kr.com.test.junit.v03.ImpResponse;
+import tain.kr.com.test.junit.v03.ResponseError;
+
 
 /**
  * Code Templates > Comments > Types
@@ -34,9 +49,86 @@ package tain.kr.com.test.junit.v03.test;
  * @author taincokr
  *
  */
-public class ControllerDefaultTest05 {
+public final class ControllerDefaultTest05 {
 
+	private final class RequestTest implements ImpRequest {
 
+		private static final String DEFAULT_NAME = "Test";
+		private String name;
+		
+		public RequestTest(String name) {
+			this.name = name;
+		}
+		
+		public RequestTest() {
+			this(DEFAULT_NAME);
+		}
+		
+		/* (non-Javadoc)
+		 * @see tain.kr.com.test.junit.v03.ImpRequest#getName()
+		 */
+		@Override
+		public String getName() {
+			// TODO Auto-generated method stub
+			return this.name;
+		}
+	}
+
+	private final class HandlerRequestTest implements ImpRequestHandler {
+
+		/* (non-Javadoc)
+		 * @see tain.kr.com.test.junit.v03.ImpRequestHandler#process(tain.kr.com.test.junit.v03.ImpRequest)
+		 */
+		@Override
+		public ImpResponse process(ImpRequest request) throws Exception {
+			// TODO Auto-generated method stub
+			return new ResponseTest();
+		}
+	}
+	
+	private final class ResponseTest implements ImpResponse {
+
+		private static final String name = "Test";
+		
+		/* (non-Javadoc)
+		 * @see tain.kr.com.test.junit.v03.ImpResponse#getName()
+		 */
+		@SuppressWarnings("static-access")
+		@Override
+		public String getName() {
+			// TODO Auto-generated method stub
+			return this.name;
+		}
+		
+		public boolean equals(Object object) {
+			
+			boolean result = false;
+			
+			if (object instanceof ResponseTest) {
+				result = ((ResponseTest) object).getName().equals(this.getName());
+			}
+			
+			return result;
+		}
+		
+		public int hashCode() {
+			return name.hashCode();
+		}
+	}
+	
+	private final class ExceptionHandler implements ImpRequestHandler {
+
+		/* (non-Javadoc)
+		 * @see tain.kr.com.test.junit.v03.ImpRequestHandler#process(tain.kr.com.test.junit.v03.ImpRequest)
+		 */
+		@Override
+		public ImpResponse process(ImpRequest request) throws Exception {
+			// TODO Auto-generated method stub
+			throw new Exception("error processing request");
+		}
+		
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,4 +142,82 @@ public class ControllerDefaultTest05 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	private ControllerDefault controller;
+	private RequestTest request;
+	private HandlerRequestTest handler;
+	
+	@Before
+	public void initialize() throws Exception {
+		
+		this.controller = new ControllerDefault();
+		this.request = new RequestTest();
+		this.handler = new HandlerRequestTest();
+		this.controller.addHandler(this.request, this.handler);
+	}
+	
+	@Test
+	public void testAddHandler() {
+		
+		ImpRequestHandler handler2 = this.controller.getHandler(this.request);
+		assertSame("Handler we set in controller should be the same handler we get", handler2, this.handler);
+	}
+	
+	@Test
+	public void testProcessResponse() {
+		
+		ImpResponse response = this.controller.getResponse(this.request);
+		
+		assertNotNull("Must not return a null response", response);
+		assertEquals("response should be of type Response", ResponseTest.class, response.getClass());
+	}
+	
+	@Test
+	public void testProcessRequestAnswersErrorResponse() {
+		
+		ImpRequest request = new RequestTest("testError");
+		ImpRequestHandler handler = new ExceptionHandler();
+		this.controller.addHandler(request, handler);
+		ImpResponse response = this.controller.getResponse(request);
+		
+		assertNotNull("Must not return a null response", response);
+		assertEquals(ResponseError.class, response.getClass());
+	}
+	
+	@Test ( expected = RuntimeException.class)
+	public void testGetHandlerNotDefined() {
+		
+		ImpRequest request = new RequestTest("testNotDefined");
+		
+		// occured the event RuntimeException
+		this.controller.getHandler(request);
+	}
+	
+	@Test ( expected = RuntimeException.class)
+	public void testAddReqeustDuplicateName() {
+		
+		ImpRequest request = new RequestTest();
+		ImpRequestHandler handler = new HandlerRequestTest();
+		
+		// occured the event RuntimeException
+		this.controller.addHandler(request, handler);
+	}
+	
+	@Test ( timeout = 10 )
+	// @Ignore( value = "Skip for now")
+	@Ignore
+	public void testProcessMultipleRequestsTimeout() {
+		
+		ImpRequest request;
+		ImpResponse response = new ResponseTest();
+		ImpRequestHandler handler = new HandlerRequestTest();
+		
+		for (int i=0; i < 99999; i++) {
+			request = new RequestTest(String.valueOf(i));
+			this.controller.addHandler(request, handler);
+			response = this.controller.getResponse(request);
+			
+			assertNotNull(response);
+			assertNotSame(ResponseError.class, response.getClass());
+		}
+	}
 }
