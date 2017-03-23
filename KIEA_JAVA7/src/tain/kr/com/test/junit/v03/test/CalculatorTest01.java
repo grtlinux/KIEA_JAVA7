@@ -67,6 +67,13 @@ public class CalculatorTest01 {
 		assertEquals(expected, calc.add(value1, value2), 0);
 	}
 	
+	@Test
+	public void testAdd() {
+		Calculator calc = new Calculator();
+		double result = calc.add(10, 50);
+		
+		assertEquals(60, result, 0);
+	}
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Parameters
