@@ -19,6 +19,9 @@
  */
 package tain.kr.com.test.junit.v03;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * Code Templates > Comments > Types
@@ -36,22 +39,54 @@ package tain.kr.com.test.junit.v03;
  */
 public class ControllerDefault implements ImpController {
 
-	/* (non-Javadoc)
-	 * @see tain.kr.com.test.junit.v03.ImpController#getResponse(tain.kr.com.test.junit.v03.ImpRequest)
-	 */
-	@Override
-	public ImpResponse getResponse(ImpRequest request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	private Map<String, ImpRequestHandler> requestHandlers = new HashMap<String, ImpRequestHandler>();
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/* (non-Javadoc)
 	 * @see tain.kr.com.test.junit.v03.ImpController#addHandler(tain.kr.com.test.junit.v03.ImpRequest, tain.kr.com.test.junit.v03.ImpRequestHandler)
 	 */
 	@Override
 	public void addHandler(ImpRequest request, ImpRequestHandler requestHandler) {
-		// TODO Auto-generated method stub
-		
+
+		if (this.requestHandlers.containsKey(request.getName())) {
+			throw new RuntimeException(String.format(
+					"A request handler has already been registered for request name [%s]"
+					, request.getName()));
+		} else {
+			this.requestHandlers.put(request.getName(), requestHandler);
+		}
 	}
 
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.junit.v03.ImpController#getHandler(tain.kr.com.test.junit.v03.ImpRequest)
+	 */
+	@Override
+	public ImpRequestHandler getHandler(ImpRequest request) {
+		
+		if (!this.requestHandlers.containsKey(request.getName())) {
+			throw new RuntimeException(String.format(
+					"Cannot find handler for request name [%s]"
+					, request.getName()));
+		}
+		
+		return this.requestHandlers.get(request.getName());
+	}
+
+	/* (non-Javadoc)
+	 * @see tain.kr.com.test.junit.v03.ImpController#getResponse(tain.kr.com.test.junit.v03.ImpRequest)
+	 */
+	@Override
+	public ImpResponse getResponse(ImpRequest request) {
+		
+		ImpResponse response;
+		
+		try {
+			response = this.getHandler(request).process(request);
+		} catch (Exception e) {
+			response = new ResponseError(request, e);
+		}
+		
+		return response;
+	}
 }
