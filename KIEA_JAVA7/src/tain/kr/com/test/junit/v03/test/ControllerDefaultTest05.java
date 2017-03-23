@@ -19,7 +19,6 @@
  */
 package tain.kr.com.test.junit.v03.test;
 
-import org.apache.log4j.Logger;
 
 /**
  * Code Templates > Comments > Types
@@ -37,21 +36,6 @@ import org.apache.log4j.Logger;
  */
 public class ControllerDefaultTest05 {
 
-	private static boolean flag = true;
-
-	private static final Logger log = Logger
-			.getLogger(ControllerDefaultTest05.class);
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	/*
-	 * constructor
-	 */
-	public ControllerDefaultTest05() {
-		if (flag)
-			log.debug(">>>>> in class " + this.getClass().getSimpleName());
-	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,29 +50,4 @@ public class ControllerDefaultTest05 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	/*
-	 * static test method
-	 */
-	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ControllerDefaultTest05();
-
-		if (flag) {
-
-		}
-	}
-
-	/*
-	 * main method
-	 */
-	public static void main(String[] args) throws Exception {
-
-		if (flag)
-			log.debug(">>>>> " + new Object() {
-			}.getClass().getEnclosingClass().getName());
-
-		if (flag)
-			test01(args);
-	}
 }
