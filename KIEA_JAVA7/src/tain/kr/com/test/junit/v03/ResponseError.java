@@ -36,6 +36,24 @@ package tain.kr.com.test.junit.v03;
  */
 public class ResponseError implements ImpResponse  {
 
+	private ImpRequest request;
+	
+	private Exception exception;
+	
+	public ResponseError(ImpRequest request, Exception exception) {
+		
+		this.request = request;
+		this.exception = exception;
+	}
+	
+	public ImpRequest getRequest() {
+		return this.request;
+	}
+	
+	public Exception getException() {
+		return this.exception;
+	}
+	
 	/* (non-Javadoc)
 	 * @see tain.kr.com.test.junit.v03.ImpResponse#getName()
 	 */
