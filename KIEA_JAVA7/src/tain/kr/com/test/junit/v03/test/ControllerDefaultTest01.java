@@ -19,7 +19,9 @@
  */
 package tain.kr.com.test.junit.v03.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +45,7 @@ import tain.kr.com.test.junit.v03.ImpResponse;
  * @author taincokr
  *
  */
-public class ControllerDefaultTest01 {
+public final class ControllerDefaultTest01 {
 
 	private final class SimpleRequest implements ImpRequest {
 
