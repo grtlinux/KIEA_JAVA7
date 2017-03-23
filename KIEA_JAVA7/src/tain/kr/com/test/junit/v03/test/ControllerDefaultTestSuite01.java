@@ -39,6 +39,7 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(value = Suite.class)
 @SuiteClasses(value = {
+		CalculatorTest01.class,
 		ControllerDefaultTest01.class, 
 		ControllerDefaultTest02.class, 
 		ControllerDefaultTest03.class, 
