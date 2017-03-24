@@ -1,0 +1,30 @@
+
+------------------------------------------------------------------------------------------
+ERROR
+	unable to access ..... : error setting certificate verify...
+
+------------------------------------------------------------------------------------------
+hertzsprung/hamcrest-json
+
+	-> $ env GIT_SSL_NO_VERIFY=true git clone https://github.com/hertzsprung/hamcrest-json
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
