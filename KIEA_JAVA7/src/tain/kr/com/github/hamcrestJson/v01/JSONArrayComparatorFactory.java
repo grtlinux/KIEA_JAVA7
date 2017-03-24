@@ -1,13 +1,19 @@
 package tain.kr.com.github.hamcrestJson.v01;
 
+import static tain.kr.com.github.hamcrestJson.v01.JSONAssertComparisonResult.resultOf;
+import static tain.kr.com.github.json.JSONassert.v01.skyscreamer.jsonassert.JSONCompare.compareJSON;
+import tain.kr.com.github.json.JSONassert.v01.skyscreamer.jsonassert.JSONCompareMode;
+import tain.kr.com.github.json.orgJson.v01.JSONArray;
+import tain.kr.com.github.json.orgJson.v01.JSONException;
+
 
 /**
  * A {@code JSONComparator} implementation that compares {@code JSONArray}s, backed by SkyScreamer's JSONAssert library.
  */
-final class JSONArrayComparatorFactory implements JSONAssertComparatorFactory<JSONArray> {
+public final class JSONArrayComparatorFactory implements JSONAssertComparatorFactory<JSONArray> {
 	private static final JSONAssertComparatorFactory<JSONArray> INSTANCE = new JSONArrayComparatorFactory();
 
-	static JSONAssertComparatorFactory<JSONArray> jsonArrayComparison() {
+	public static JSONAssertComparatorFactory<JSONArray> jsonArrayComparison() {
 		return INSTANCE;
 	}
 
