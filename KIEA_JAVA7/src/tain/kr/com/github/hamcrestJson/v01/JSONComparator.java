@@ -1,5 +1,7 @@
 package tain.kr.com.github.hamcrestJson.v01;
 
+import tain.kr.com.github.json.orgJson.v01.JSONException;
+
 
 /**
  * Compares JSON documents.
