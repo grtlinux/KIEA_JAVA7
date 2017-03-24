@@ -3,6 +3,11 @@ package tain.kr.com.github.hamcrestJson.v01;
 import org.hamcrest.Description;
 import org.hamcrest.SelfDescribing;
 
+import tain.kr.com.github.json.JSONassert.v01.skyscreamer.jsonassert.FieldComparisonFailure;
+import tain.kr.com.github.json.JSONassert.v01.skyscreamer.jsonassert.JSONCompareResult;
+
+import static tain.kr.com.github.hamcrestJson.v01.JSONComparisonResult.comparisonPassed;
+
 final class JSONAssertComparisonResult {
 	private JSONAssertComparisonResult() { }
 
