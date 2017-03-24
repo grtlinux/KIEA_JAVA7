@@ -1,11 +1,16 @@
 package tain.kr.com.github.hamcrestJson.v01;
 
+import tain.kr.com.github.json.JSONassert.v01.skyscreamer.jsonassert.JSONCompareMode;
+import tain.kr.com.github.json.orgJson.v01.JSONException;
 
-final class JSONAssertComparator<T> implements JSONModalComparator<T> {
+import static tain.kr.com.github.json.JSONassert.v01.skyscreamer.jsonassert.JSONCompareMode.STRICT;
+
+
+public final class JSONAssertComparator<T> implements JSONModalComparator<T> {
 	private final JSONAssertComparatorFactory<T> factory;
 	private final JSONCompareMode compareMode;
 
-	static <T> JSONModalComparator<T> modalComparatorFor(JSONAssertComparatorFactory<T> factory) {
+	public static <T> JSONModalComparator<T> modalComparatorFor(JSONAssertComparatorFactory<T> factory) {
 		return new JSONAssertComparator<T>(factory);
 	}
 	
