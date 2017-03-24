@@ -7,6 +7,15 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
+import tain.kr.com.github.json.orgJson.v01.JSONArray;
+import tain.kr.com.github.json.orgJson.v01.JSONException;
+import tain.kr.com.github.json.orgJson.v01.JSONObject;
+
+import static tain.kr.com.github.hamcrestJson.v01.JSONArrayComparatorFactory.jsonArrayComparison;
+import static tain.kr.com.github.hamcrestJson.v01.JSONAssertComparator.modalComparatorFor;
+import static tain.kr.com.github.hamcrestJson.v01.JSONObjectComparatorFactory.jsonObjectComparison;
+import static tain.kr.com.github.hamcrestJson.v01.StringComparatorFactory.stringComparison;
+
 /**
  * Matcher that asserts that one JSON document is the same as another.
  *
