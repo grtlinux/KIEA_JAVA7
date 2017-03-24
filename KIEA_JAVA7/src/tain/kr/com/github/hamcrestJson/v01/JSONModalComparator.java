@@ -1,4 +1,4 @@
-package uk.co.datumedge.hamcrest.json;
+package tain.kr.com.github.hamcrestJson.v01;
 
 /**
  * Allows a comparator's behaviour to be configured to allow any array ordering, or extra unexpected fields.

@@ -1,11 +1,5 @@
-package uk.co.datumedge.hamcrest.json;
+package tain.kr.com.github.hamcrestJson.v01;
 
-import static org.skyscreamer.jsonassert.JSONCompare.compareJSON;
-import static uk.co.datumedge.hamcrest.json.JSONAssertComparisonResult.resultOf;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 
 /**
  * A {@code JSONComparator} implementation that compares {@code JSONArray}s, backed by SkyScreamer's JSONAssert library.

@@ -1,4 +1,4 @@
-package uk.co.datumedge.hamcrest.json;
+package tain.kr.com.github.hamcrestJson.v01.test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.both;

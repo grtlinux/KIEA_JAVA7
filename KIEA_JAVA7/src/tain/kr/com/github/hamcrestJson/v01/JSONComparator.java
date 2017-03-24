@@ -1,6 +1,5 @@
-package uk.co.datumedge.hamcrest.json;
+package tain.kr.com.github.hamcrestJson.v01;
 
-import org.json.JSONException;
 
 /**
  * Compares JSON documents.

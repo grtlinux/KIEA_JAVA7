@@ -1,4 +1,4 @@
 /**
  * Provides Hamcrest matchers for comparing JSON documents.
  */
-package uk.co.datumedge.hamcrest.json;
+package tain.kr.com.github.hamcrestJson.v01;

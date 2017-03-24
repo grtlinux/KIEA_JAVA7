@@ -1,9 +1,5 @@
-package uk.co.datumedge.hamcrest.json;
+package tain.kr.com.github.hamcrestJson.v01;
 
-import static org.skyscreamer.jsonassert.JSONCompareMode.STRICT;
-
-import org.json.JSONException;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 
 final class JSONAssertComparator<T> implements JSONModalComparator<T> {
 	private final JSONAssertComparatorFactory<T> factory;

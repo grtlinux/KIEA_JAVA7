@@ -1,9 +1,4 @@
-package uk.co.datumedge.hamcrest.json;
-
-import static uk.co.datumedge.hamcrest.json.JSONArrayComparatorFactory.jsonArrayComparison;
-import static uk.co.datumedge.hamcrest.json.JSONAssertComparator.modalComparatorFor;
-import static uk.co.datumedge.hamcrest.json.JSONObjectComparatorFactory.jsonObjectComparison;
-import static uk.co.datumedge.hamcrest.json.StringComparatorFactory.stringComparison;
+package tain.kr.com.github.hamcrestJson.v01;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -11,9 +6,6 @@ import java.io.StringWriter;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Matcher that asserts that one JSON document is the same as another.
