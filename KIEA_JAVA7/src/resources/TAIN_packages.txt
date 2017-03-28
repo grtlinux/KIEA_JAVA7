@@ -1,0 +1,56 @@
+#
+#
+#
+
+tain : TAIN_HOME
+	bin
+		__dos.bat
+		_env.cmd
+		
+	tools
+		jdk_[version]
+		jre_[version]
+		apache_[version]
+		git_[version]
+		derby_[version]
+		ant_[version]
+		maven_[version]
+		gradle_[version]
+	data
+		derby
+		item
+			DAT2
+			SEQ2
+			RECV
+			SEND
+	
+	Scheduler : register in service
+		README.txt
+		project
+			scheduler1.01
+			scheduler1.02
+				doc
+				conf
+				lib
+				bin
+				logs
+	
+	Spirit
+		README.txt
+		project
+			spirit1.01
+			spirit1.02
+			spirit1.03
+				doc
+				conf
+				lib
+				bin
+				logs
+
+
+
+
+
+
+
+
