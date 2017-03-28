@@ -16,6 +16,9 @@ tain : TAIN_HOME
 		ant_[version]
 		maven_[version]
 		gradle_[version]
+		nssm
+		UnxUpdates
+		
 	data
 		derby
 		item
@@ -35,6 +38,17 @@ tain : TAIN_HOME
 				bin
 				logs
 	
+	Updater
+		README.txt
+		project
+			updater1.01
+			updater1.02
+				doc
+				conf
+				lib
+				bin
+				logs
+	
 	Spirit
 		README.txt
 		project
@@ -47,7 +61,7 @@ tain : TAIN_HOME
 				bin
 				logs
 
-
+	
 
 
 
