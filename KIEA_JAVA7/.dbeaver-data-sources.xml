@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data-sources>
+	<data-source id="1D38BDF8-52B9-DFDB-E941-454AC60778FC-15b16ec9980-ce13e60751be87a" provider="generic" driver="1D38BDF8-52B9-DFDB-E941-454AC60778FC" name="Derby - false" save-password="true" show-system-objects="true" read-only="false">
+		<connection server="" database="" url="jdbc:derby://localhost:1527/firstdb;create=false" type="dev">
+			<network-handler type="TUNNEL" id="ssh_tunnel" enabled="false" save-password="false">
+				<property name="port" value="22"/>
+				<property name="sshConnectTimeout" value="10000"/>
+				<property name="authType" value="PASSWORD"/>
+			</network-handler>
+			<network-handler type="PROXY" id="socks_proxy" enabled="false" save-password="false">
+				<property name="socks-port" value="1080"/>
+			</network-handler>
+		</connection>
+	</data-source>
+</data-sources>
