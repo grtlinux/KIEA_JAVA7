@@ -48,6 +48,8 @@ set DERBY_HOME=jdk1.7.0_79/db
 		
 		ij> run 'loadTable.sql';
 		
+		ij> disconnect;
+		
 		ij> exit;
 		
 		DOS> dir
@@ -72,7 +74,7 @@ set DERBY_HOME=jdk1.7.0_79/db
 		DOS> ij
 		ij ¹öÀü 10.8
 		
-		ij> connect 'jdbc:derby://localhost:1527/seconddb;create=true';
+		ij> connect 'jdbc:derby://localhost:1527/seconddb;create=true;[user=kang;password=seok;]';
 		
 		ij> create table secondtable
 		> (
@@ -87,6 +89,8 @@ set DERBY_HOME=jdk1.7.0_79/db
 		> (300, 'three hundred')
 		> ;
 
+		ij> disconnect;
+		
 		ij> exit;
 		
 		DOS> dir
