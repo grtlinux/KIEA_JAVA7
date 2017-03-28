@@ -1,6 +1,220 @@
 #
-#
-#
+# ---------------------------------------------------------------------------------------
+# 2017.03.27
+
+set DERBY_HOME=jdk1.7.0_79/db
+
+1) embedded mode
+
+	네트워크 포트 필요없고 그냥 파일 그대로 쓰는 모드
+	다만 한 자바 프로세스만 접근 가능하고 다른 프로세스는 접근할 수 없다.
+	아래 jdbc URL로 username/password 없이 접근.
+	create=true 옵션은 실행시 database가 없으면 생성한다. 이미 생성되어 있으면
+	그냥 사용한다. ${databaseName} 폴더가 생성된다.
+	
+		jdbc:derby:${databaseName);create=true
+	
+2) server mode
+
+	일반적인 RDB 형태로 접근하는 모드
+	여러 클라이언트가 접속 할 수 있음.
+	server 모드로 접근하려면 서버를 실행해야 한다.
+	startNetworkServer(.bat)을 실행하면 된다.
+	
+		jdbc:derby://${host}:${port}/${databaseName};create=true
+
+3) DERBY_HOME (예. set DERBY_HOME=jdk1.7.0_79/db)
+
+		> java -Dderby.system.home=jdk1.7.0_79/db
+
+4) embedded mode 간단한 실행
 
 
+		DOS> ij
+		ij 버전 10.8
+		
+		ij> connect 'jdbc:derby:firstdb;create=true';
+		
+		ij> create table firsttable
+		> (
+		>   id int primary key,
+		>   name varchar(12)
+		> );
+		
+		ij> insert into firsttable values
+		> (10, 'ten'),
+		> ( 11, 'eleven'),
+		> (30, 'thirty');
+		
+		ij> run 'loadTable.sql';
+		
+		ij> exit;
+		
+		DOS> dir
+		
+			firstdb
+
+
+
+5) server mode 접속을 위해 1527 포트 서버를 실행해야 한다.
+
+		DOS> startNetworkServer       <- 서버를 실행한다.
+		
+			Wed Mar 29 02:47:43 KST 2017 : 기본 서버 보안 정책을 사용하여 보안 관리자가 설치됩니다.
+			Wed Mar 29 02:47:43 KST 2017 : Apache Derby 네트워크 서버 - 10.8.3.2 - (1557835)이(가) 시작되어 포트 1527에서 연결을 승인할 준비가 되었습니다.
+
+		DOS> stopNetworkServer        <- 서버를 종료한다.
+		
+			Wed Mar 29 03:09:05 KST 2017 : Apache Derby 네트워크 서버 - 10.8.3.2 - (1557835)이(가) 종료되었습니다.
+		
+6) server mode 접속하는 client를 실행한다.
+
+		DOS> ij
+		ij 버전 10.8
+		
+		ij> connect 'jdbc:derby://localhost:1527/seconddb;create=true';
+		
+		ij> create table secondtable
+		> (
+		>   id int primary key,
+		>   name varchar(12)
+		> );
+		
+		ij> insert into secondtable
+		> values
+		> (100, 'one hundred'),
+		> (200, 'two hundred'),
+		> (300, 'three hundred')
+		> ;
+
+		ij> exit;
+		
+		DOS> dir
+		
+			seconddb
+
+
+7) derby Help 보기
+
+		DOS> ij
+		ij 버전 10.8
+		
+		ij> help;
+		
+			지원되는 명령은 다음과 같습니다.
+			
+			PROTOCOL 'JDBC protocol' [ AS ident ];
+			-- 기본 또는 명명된 프로토콜을 설정합니다.
+			DRIVER 'class for driver'; -- 명명된 클래스를 로드합니다.
+			CONNECT 'url for database' [ PROTOCOL namedProtocol ] [ AS connectionName ];
+			-- 데이터베이스 URL에 연결합니다.
+			-- 또한 식별자를 지정할 수 있습니다.
+			SET CONNECTION connectionName; -- 지정된 연결로 전환합니다.
+			SHOW CONNECTIONS; -- 모든 연결을 나열합니다.
+			AUTOCOMMIT [ ON | OFF ]; -- 연결에 대한 자동 확약 모드를 설정합니다.
+			DISCONNECT [ CURRENT | connectionName | ALL ];
+			-- 현재 연결, 명명된 연결 또는 모든 연결을 해제합니다.
+			-- 기본값은 CURRENT입니다.
+			
+			SHOW SCHEMAS; -- 현재 데이터베이스에 있는 모든 스키마를 나열합니다.
+			SHOW [ TABLES | VIEWS | PROCEDURES | FUNCTIONS | SYNONYMS ] { IN schema };
+			                          -- 테이블, 뷰, 프로시저, 함수 또는 동의어를 나열합니다.
+			SHOW INDEXES { IN schema | FROM table };
+			                           -- 스키마의 색인 또는 테이블에 대한 색인을 나열합니다.
+			SHOW ROLES;                  -- 데이터베이스에 정의된 모든 역할을
+			                           -- 정렬하여 나열합니다.
+			SHOW ENABLED_ROLES;          -- 현재 연결에 대해 활성화된 역할을 정렬하여
+			                           -- 나열합니다(현재 사용 중인 역할을 참조하려면
+			                           -- VALUES CURRENT_ROLE 명령 사용)
+			SHOW SETTABLE_ROLES;         -- 현재 연결에 대해 설정할 수 있는
+			                           -- 역할을 정렬하여 나열합니다.
+			DESCRIBE name;               -- 명명된 테이블의 열을 나열합니다.
+			
+			COMMIT;                      -- 현재 트랜잭션을 완결합니다.
+			ROLLBACK;                    -- 현재 트랜잭션을 롤백합니다.
+			
+			PREPARE name AS 'SQL-J text'; -- SQL-J 텍스트를 준비합니다.
+			EXECUTE { name | 'SQL-J text' } [ USING { name | 'SQL-J text' } ] ;
+			                           -- USING 결과 집합 행의 매개 변수
+			                           --  값을 사용하여 문을 실행합니다.
+			REMOVE name;                 -- 명명된 이전의 준비 문을 제거합니다.
+			
+			RUN 'filename';              -- 명명된 파일에서 명령을 실행합니다.
+			
+			ELAPSEDTIME [ ON | OFF ];    -- ij에 대해 경과 시간 모드를 설정합니다.
+			MAXIMUMDISPLAYWIDTH integerValue;
+			                           -- 각 열에 대한 최대 표시 너비를
+			                           -- integerValue로 설정합니다.
+			
+			ASYNC name 'SQL-J text';     -- 다른 스레드에서 명령을 실행합니다.
+			WAIT FOR name;               -- ASYNC'd 명령 결과를 기다립니다.
+			
+			GET [SCROLL INSENSITIVE] [WITH  {HOLD | NOHOLD}] CURSOR name AS 'SQL-J query';
+			                           -- 조회에서 커서(JDBC 결과 세트)를 가져옵니다.
+			                           -- 기본값은 유지성이 있는 앞으로만 이동하는 커서입니다.
+			NEXT name;                   -- 명명된 커서에서 다음 행을 가져옵니다.
+			FIRST name;                  -- 명명된 스크롤 커서에서 첫 번째 행을 가져옵니다.
+			LAST name;                   -- 명명된 스크롤 커서에서 마지막 행을 가져옵니다.
+			PREVIOUS name;               -- 명명된 스크롤 커서에서 이전 행을 가져옵니다.
+			ABSOLUTE integer name;       -- 명명된 스크롤 커서의 위치를 절대 행 번호로 지정합니다.
+			                           -- (음수는 마지막 행으로부터의 위치를 나타냅니다.)
+			RELATIVE integer name;       -- 현재 행과 관련하여 이름 지정된 화면이동 커서를 놓습니다.
+			                           -- (정수는 행 수입니다.)
+			AFTER LAST name;             -- 이름 지정된 화면이동 커서를 마지막 행 뒤에 놓습니다.
+			BEFORE FIRST name;           -- 이름 지정된 화면이동 커서를 첫 번째 행 앞에 놓습니다.
+			GETCURRENTROWNUMBER name;    -- 이름 지정된 화면이동 커서의 현재 위치에 대한 행 번호를 리턴합니다.
+			                           -- (커서가 행에 있지 않은 경우 0이 리턴됩니다.)
+			CLOSE name;                  -- 이름 지정된 커서를 닫습니다.
+			LOCALIZEDDISPLAY [ ON | OFF ];
+			                           -- 로케일 구분 데이터 표시를 제어합니다.
+			
+			EXIT;                        -- ij를 종료합니다.
+			HELP;                        -- 이 메시지를 표시합니다.
+			
+			인식되지 않은 모든 명령은 잠재적인 SQL-J 명령으로 처리되며 직접 실행됩니다.
+
+		ij> show connections;
+		
+		ij> show tables;
+		
+		ij> set connection connection[0~#]
+		
+		
+8) eclipse에 derby 사용
+
+	아래 파일들을 구해서 eclipse의 plugins에 복사하고 eclipse를 재실행한다.
+	
+		org.apache.derby.core_10.1.2
+		org.apache.derby.plugin.doc_1.1.0
+		org.apache.derby.ui_1.1.0
+
+
+
+
+9) log4sql.jar 를 사용하여 로그에 쿼리를 출력한다.
+
+	log4j.properties 수정
+	
+		log4j.logger.com.ibatis=DEBUG
+		log4j.logger.com.ibatis.common.jdbc.SimpleDataSource=DEBUG
+		log4j.logger.com.ibatis.common.jdbc.ScriptRunner=DEBUG
+		log4j.logger.com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate=DEBUG 
+
+		log4j.logger.java.sql.Connection=DEBUG
+		log4j.logger.java.sql.Statement=DEBUG
+		log4j.logger.java.sql.PreparedStatement=DEBUG
+		log4j.logger.java.sql.ResultSet=DEBUG 
+
+	server.xml 수정  -> http://log4sql.sourceforge.net/index_kr.html
+	
+		<Resource auth="Container" driverClassName="core.log.jdbc.driver.DerbyDriver">  
+
+
+
+
+
+
+#
+# ---------------------------------------------------------------------------------------
+# 2017.
 
