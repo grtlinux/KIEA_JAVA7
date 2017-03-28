@@ -25,7 +25,15 @@ set DERBY_HOME=jdk1.7.0_79/db
 
 3) DERBY_HOME (예. set DERBY_HOME=jdk1.7.0_79/db)
 
-		> java -Dderby.system.home=jdk1.7.0_79/db
+	아래는 database HOME 이다.
+	
+		> java -Dderby.system.home=%TAIN_HOME%\data\derbyDB -jar XXXX.jar
+		
+	또는 DERBY_OPTS 에 추가한다.
+	
+		set DERBY_OPTS=-Dderby.system.home=%TAIN_HOME%\data\derbyDB
+
+
 
 4) embedded mode 간단한 실행
 
