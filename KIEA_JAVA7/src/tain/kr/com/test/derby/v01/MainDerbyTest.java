@@ -69,7 +69,7 @@ public final class MainDerbyTest {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public final void go(String[] args) {
+	public final void go(String[] args) throws Exception {
 		
 		// parse the arguments to determine which framework is desired
 		parseArguments(args);
@@ -240,7 +240,7 @@ public final class MainDerbyTest {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private final void loadDriver() {
+	private final void loadDriver() throws Exception {
 		
 		try {
 			Class.forName(this.driver).newInstance();
@@ -248,13 +248,16 @@ public final class MainDerbyTest {
 		} catch (ClassNotFoundException e) {
 			System.err.println("\nUnable to load the JDBC driver " + this.driver);
 			System.err.println("Please check your CLASSPATH.");
-			e.printStackTrace(System.err);
+			// e.printStackTrace(System.err);
+			throw e;
 		} catch (InstantiationException e) {
 			System.err.println("\nUnable to instantiate the JDBC driver " + this.driver);
-			e.printStackTrace(System.err);
+			//e.printStackTrace(System.err);
+			throw e;
 		} catch (IllegalAccessException e) {
 			System.err.println("\nNot allowed to access the JDBC driver " + this.driver);
-			e.printStackTrace(System.err);
+			//e.printStackTrace(System.err);
+			throw e;
 		}
 	}
 	
@@ -321,7 +324,7 @@ public final class MainDerbyTest {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (!flag) {
+		if (flag) {
 			args = new String[] { "derbyclient" };
 		}
 		
