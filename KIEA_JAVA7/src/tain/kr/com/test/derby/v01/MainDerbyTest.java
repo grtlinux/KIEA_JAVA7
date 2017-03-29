@@ -280,6 +280,15 @@ public final class MainDerbyTest {
 				this.driver = "org.apache.derby.jdbc.ClientDriver";
 				this.protocol = "jdbc:derby://localhost:1527/";
 			}
+		} else {
+			/*
+			 * Framework = embedded
+			 * Driver = org.apache.derby.jdbc.EmbeededDriver
+			 * 
+			 * VM arguments : -Dderby.system.home=[Database Folder]
+			 *  e.g) -Dderby.system.home=N:/tain/data/derbyDB
+			 * 
+			 */
 		}
 	}
 	
