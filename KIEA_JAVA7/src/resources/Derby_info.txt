@@ -712,7 +712,8 @@ set DERBY_HOME=jdk1.7.0_79/db
 		
 14) derby.property
 
-	$DERBY_HOME/bin 에 아래와 같은 내용으로 생성한다.
+	set DERBY_OPTS=-Dderby.system.home=%TAIN_HOME%\data\derbyDB
+	-Dderby.system.home=%TAIN_HOME%\data\derbyDB 위치에 아래와 같은 내용으로 생성한다.
 	
 		# 호스트정보
 		derby.drda.host=127.0.0.1
