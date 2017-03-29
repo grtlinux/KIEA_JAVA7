@@ -312,7 +312,7 @@ public final class MainDerbyTest {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (flag) {
+		if (!flag) {
 			args = new String[] { "derbyclient" };
 		}
 		
