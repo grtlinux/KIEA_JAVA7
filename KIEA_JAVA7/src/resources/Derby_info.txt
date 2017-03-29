@@ -690,8 +690,46 @@ set DERBY_HOME=jdk1.7.0_79/db
 				
 		
 		
-		
+13) 날짜관련 함수
 
+		SELECT CURRENT_DATE AS TT FROM SYSIBM.SYSDUMMY1;
+		
+		SELECT CURRENT_TIME FROM SYSIBM.SYSDUMMY1;
+		
+		SELECT CURRENT_TIMESTAMP FROM SYSIBM.SYSDUMMY1;
+		
+		SELECT YEAR(CURRENT_TIMESTAMP) FROM SYSIBM.SYSDUMMY1;
+		
+		SELECT MONTH(CURRENT_TIMESTAMP) FROM SYSIBM.SYSDUMMY1;
+
+		SELECT DAY(CURRENT_TIMESTAMP) FROM SYSIBM.SYSDUMMY1;
+
+		SELECT DATE('2008-01-01') FROM SYSIBM.SYSDUMMY1;
+		
+		SELECT TIME('10:10:10') FROM SYSIBM.SYSDUMMY1;
+		
+		SELECT TIMESTAMP('2008-01-01 10:10:10.000') AS TIME_STAMP FROM SYSIBM.SYSDUMMY1;
+		
+14) derby.property
+
+	$DERBY_HOME/bin 에 아래와 같은 내용으로 생성한다.
+	
+		# 호스트정보
+		derby.drda.host=127.0.0.1
+		# 서버 포트 설정
+		derby.drda.portNumber=1110
+
+		# 쓰레드 최대 수
+		derby.drda.maxThreads=50
+		# 쓰레드 최소 수
+		derby.drda.minThreads=10
+		# 계정 인증 여부
+
+		derby.connection.requireAuthentication=true
+		# 인증 방식
+		derby.authentication.provider=BUILTIN
+		# user.[계정]=[비밀번호]
+		derby.user.kang=kang123!
 
 #
 # ---------------------------------------------------------------------------------------
