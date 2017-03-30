@@ -23,6 +23,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -171,6 +172,50 @@ public final class MainDerbyTest {
 			
 			if (!failure) {
 				System.out.println("Verified the rows");
+			}
+			
+			if (flag) {
+				/*
+				 * display the data of the table
+				 */
+				Statement stmt = null;
+				ResultSet resultSet = null;
+				ResultSetMetaData meta = null;
+				
+				try {
+					stmt = conn.createStatement();
+					resultSet = stmt.executeQuery("select num as number, addr as address from location order by number");
+					meta = resultSet.getMetaData();
+					
+					// column information
+					for (int i=1; i <= meta.getColumnCount(); i++) {
+						System.out.printf("\t[%d] [%s] [%s] [%d], [%s] [%s], [%d] [%s], [%s] [%s].\n"
+								, i
+								, meta.getCatalogName(i)
+								, meta.getColumnClassName(i)
+								, meta.getColumnDisplaySize(i)
+
+								, meta.getColumnLabel(i)
+								, meta.getColumnName(i)
+
+								, meta.getColumnType(i)
+								, meta.getColumnTypeName(i)
+
+								, meta.getSchemaName(i)
+								, meta.getTableName(i)
+								);
+					}
+					
+					// column data
+					while (resultSet.next()) {
+						System.out.printf("[number, address] = [%d, '%s']\n", resultSet.getInt("number"), resultSet.getString("address"));
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					if (resultSet != null) try { resultSet.close(); } catch (SQLException e) {}
+					if (stmt != null) try { stmt.close(); } catch (SQLException e) {}
+				}
 			}
 			
 			// delete the table
