@@ -88,6 +88,11 @@ public final class MainDerbyTest {
 		Statement s = null;
 		ResultSet rs = null;
 		
+		//Statement stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		//stmt.execute("CREATE");
+		//ResultSet resultSet = stmt.executeQuery("SELECT");
+		//PreparedStatement stmtInsert = this.conn.prepareStatement("INSERT");
+		
 		try {
 			Properties prop = new Properties();  // connection properties
 			// providing a user name and password is optional in the embedded
