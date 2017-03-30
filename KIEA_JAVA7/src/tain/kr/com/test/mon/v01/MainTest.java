@@ -178,6 +178,8 @@ public class MainTest {
 			resultSet.close();
 			stmt.close();
 
+			try { Thread.sleep(10 * 1000); } catch (InterruptedException e) {}
+			
 			conn.commit();
 		}
 		
