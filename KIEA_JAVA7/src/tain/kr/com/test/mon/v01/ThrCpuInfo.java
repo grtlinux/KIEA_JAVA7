@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.hyperic.sigar.CpuInfo;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.FileSystem;
+import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
@@ -130,7 +131,8 @@ public final class ThrCpuInfo implements Runnable {
 			/*
 			 * old records in KANG.TB_CPUINFO be set to be unusable
 			 */
-			PreparedStatement psUpdate = this.conn.prepareStatement("update KANG.TB_CPUINFO set F_YN = 'N' where F_YN = 'Y'");
+			PreparedStatement psUpdate = this.conn.prepareStatement(
+					"update KANG.TB_CPUINFO set F_YN = 'N' where F_YN = 'Y'");
 			
 			psUpdate.executeUpdate();
 			
@@ -144,7 +146,10 @@ public final class ThrCpuInfo implements Runnable {
 			 * insert a information to KANG.TB_CPUINFO
 			 */
 			PreparedStatement psInsert = this.conn.prepareStatement(
-					"insert into KANG.TB_CPUINFO (F_VNDR, F_MDL, F_MHZ, F_TTL, F_PHS, F_CPC) values (?, ?, ?, ?, ?, ?)");
+					"insert into KANG.TB_CPUINFO "
+					+ "( F_VNDR, F_MDL, F_MHZ, F_TTL, F_PHS, F_CPC )"
+					+ " values "
+					+ "( ?, ?, ?, ?, ?, ? )");
 			
 			psInsert.setString(1, this.arrCpuInfo[0].getVendor());
 			psInsert.setString(2, this.arrCpuInfo[0].getModel());
@@ -211,24 +216,59 @@ public final class ThrCpuInfo implements Runnable {
 					+ " values "
 					+ "( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )" );
 			
-			psInsert.setString( 1, dttm);
-			psInsert.setDouble( 2, this.mem.getRam());
-			psInsert.setDouble( 3, this.mem.getTotal());
-			psInsert.setDouble( 4, this.mem.getFree());
-			psInsert.setDouble( 5, this.mem.getUsed());
-			psInsert.setDouble( 6, this.mem.getFreePercent());
-			psInsert.setDouble( 7, this.mem.getUsedPercent());
-			psInsert.setDouble( 8, this.mem.getActualFree());
-			psInsert.setDouble( 9, this.mem.getActualUsed());
-			psInsert.setDouble(10, this.swap.getTotal());
-			psInsert.setDouble(11, this.swap.getFree());
-			psInsert.setDouble(12, this.swap.getUsed());
-			psInsert.setDouble(13, this.swap.getPageIn());
-			psInsert.setDouble(14, this.swap.getPageOut());
+			psInsert.setString(1, dttm);
+			psInsert.setLong(2, this.mem.getRam());
+			psInsert.setLong(3, this.mem.getTotal());
+			psInsert.setLong(4, this.mem.getFree());
+			psInsert.setLong(5, this.mem.getUsed());
+			psInsert.setDouble(6, this.mem.getFreePercent());
+			psInsert.setDouble(7, this.mem.getUsedPercent());
+			psInsert.setLong(8, this.mem.getActualFree());
+			psInsert.setLong(9, this.mem.getActualUsed());
+			psInsert.setLong(10, this.swap.getTotal());
+			psInsert.setLong(11, this.swap.getFree());
+			psInsert.setLong(12, this.swap.getUsed());
+			psInsert.setLong(13, this.swap.getPageIn());
+			psInsert.setLong(14, this.swap.getPageOut());
 			
 			psInsert.executeUpdate();
 
 			if (flag) log.debug("insert KANG.TB_MEMREC...");
+			
+			psInsert.close();
+		}
+		
+		if (flag) {
+			/*
+			 * insert information to KANG.TB_DSKREC
+			 */
+			PreparedStatement psInsert = this.conn.prepareStatement(
+					"insert into KANG.TB_DSKREC "
+					+ "( F_DTTM, F_DEVNM, F_DIRNM, F_SYSNM, F_TYPNM, F_TOT, F_USE, F_AVL, F_USEP )"
+					+ " values "
+					+ "( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+
+			for (int i=0; i < arrCpuPerc.length; i++) {
+				if ("cdrom".equals(this.arrFileSystem[i].getSysTypeName())
+						|| "dvd".equals(this.arrFileSystem[i].getSysTypeName()))
+					continue;
+				
+				FileSystemUsage usage = this.sigar.getFileSystemUsage(this.arrFileSystem[i].getDirName());
+				
+				psInsert.setTimestamp(1, Timestamp.valueOf(dttm));
+				psInsert.setString(2, this.arrFileSystem[i].getDevName());
+				psInsert.setString(3, this.arrFileSystem[i].getDirName());
+				psInsert.setString(4, this.arrFileSystem[i].getSysTypeName());
+				psInsert.setString(5, this.arrFileSystem[i].getTypeName());
+				psInsert.setLong(6, usage.getTotal());
+				psInsert.setLong(7, usage.getTotal() - usage.getFree());
+				psInsert.setLong(8, usage.getAvail());
+				psInsert.setDouble(9, usage.getUsePercent());
+				
+				psInsert.executeUpdate();
+			}
+
+			if (flag) log.debug("insert KANG.TB_DSKREC...");
 			
 			psInsert.close();
 		}
