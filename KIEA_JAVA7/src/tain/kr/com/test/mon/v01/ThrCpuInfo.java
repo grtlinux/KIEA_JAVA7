@@ -23,6 +23,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -127,7 +128,7 @@ public final class ThrCpuInfo implements Runnable {
 			 * insert a information to KANG.TB_CPUINFO
 			 */
 			PreparedStatement psInsert = this.conn.prepareStatement(
-					"insert into KANG.TB_CPUINFO (F_VNDR, F_MDL, F_MHZ, F_TTL, F_PHS, F_CRC) values (?, ?, ?, ?, ?, ?)");
+					"insert into KANG.TB_CPUINFO (F_VNDR, F_MDL, F_MHZ, F_TTL, F_PHS, F_CPC) values (?, ?, ?, ?, ?, ?)");
 			
 			psInsert.setString(1, this.arrCpuInfo[0].getVendor());
 			psInsert.setString(2, this.arrCpuInfo[0].getModel());
@@ -151,12 +152,12 @@ public final class ThrCpuInfo implements Runnable {
 					"insert into KANG.TB_CPUREC "
 					+ "( F_DTTM, F_CPUNM, F_USR, F_SYS, F_IDL, F_WAIT, F_NCE, F_CMB, F_IRQ )"
 					+ " values "
-					+ "( TIMESTAMP(?), ?, ?, ?, ?, ?, ?, ?, ? )");
+					+ "( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
 
 			String dttm = getTimestamp();
 			
 			for (int i=0; i < arrCpuPerc.length; i++) {
-				psInsert.setString(1, dttm);
+				psInsert.setTimestamp(1, Timestamp.valueOf(dttm));
 				psInsert.setString(2, "CPU" + i);
 				psInsert.setDouble(3, arrCpuPerc[i].getUser());
 				psInsert.setDouble(4, arrCpuPerc[i].getSoftIrq());
@@ -188,6 +189,8 @@ public final class ThrCpuInfo implements Runnable {
 		
 		this.conn.commit();
 		this.conn.close();
+		
+		if (flag) log.debug("success completed...");
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
