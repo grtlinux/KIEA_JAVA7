@@ -20,6 +20,10 @@
 package tain.kr.com.test.mon.v01;
 
 import org.apache.log4j.Logger;
+import org.hyperic.sigar.Cpu;
+import org.hyperic.sigar.CpuInfo;
+import org.hyperic.sigar.CpuPerc;
+import org.hyperic.sigar.Sigar;
 
 /**
  * Code Templates > Comments > Types
@@ -73,8 +77,145 @@ public class MainTest {
 		if (flag)
 			new MainTest();
 
+		if (!flag) {
+			/*
+			 * Cpu
+			 */
+			Sigar sigar;
+			Cpu cpu = new Cpu();
+			//Cpu[] arrCpu = sigar.getCpuList();
+			//CpuInfo[] arrCpuInfo = sigar.getCpuInfoList();
+			//CpuPerc cpuPerc = sigar.getCpuPerc();
+			//CpuPerc[] arrCpuPerc = sigar.getCpuPercList();
+			
+			for (int i=0; i < 1000; i++) {
+				sigar = new Sigar();
+				cpu.gather(sigar);
+				
+				System.out.printf("%d %d %d %d %d\n"
+						, cpu.getIdle()
+						, cpu.getSys()
+						, cpu.getUser()
+						, cpu.getWait()
+						, cpu.getTotal()
+						);
+				
+				try { Thread.sleep(1000); } catch (InterruptedException e) {}
+			}
+		}
+		
+		if (!flag) {
+			/*
+			 * Cpu[]
+			 */
+			Sigar sigar;
+			Cpu[] arrCpu;
+			
+			for (int i=0; i < 1000; i++) {
+				sigar = new Sigar();
+				arrCpu = sigar.getCpuList();
+				
+				System.out.printf("arrCpu.length = %d\n", arrCpu.length);
+				for (int idx=0; idx < arrCpu.length; idx++) {
+					System.out.printf("\t[%d] %d %d %d %d %d\n"
+							, idx
+							, arrCpu[idx].getIdle()
+							, arrCpu[idx].getSys()
+							, arrCpu[idx].getUser()
+							, arrCpu[idx].getWait()
+							, arrCpu[idx].getTotal()
+							);
+				}
+				
+				try { Thread.sleep(1000); } catch (InterruptedException e) {}
+			}
+		}
+		
+		if (!flag) {
+			/*
+			 * CpuInfo[]
+			 */
+			Sigar sigar;
+			CpuInfo[] arrCpuInfo;
+			
+			for (int i=0; i < 1000; i++) {
+				sigar = new Sigar();
+				arrCpuInfo = sigar.getCpuInfoList();
+				
+				System.out.printf("arrCpuInfo.length = %d\n", arrCpuInfo.length);  // -> 0
+				for (int idx=0; idx < arrCpuInfo.length; idx++) {
+					System.out.printf("\t[%d] %d %d %d %s %d %d %s\n"
+							, idx
+							, arrCpuInfo[idx].getCacheSize()
+							, arrCpuInfo[idx].getCoresPerSocket()
+							, arrCpuInfo[idx].getMhz()
+							, arrCpuInfo[idx].getModel()
+							, arrCpuInfo[idx].getTotalCores()
+							, arrCpuInfo[idx].getTotalSockets()
+							, arrCpuInfo[idx].getVendor()
+							);
+				}
+				
+				try { Thread.sleep(10000); } catch (InterruptedException e) {}
+			}
+		}
+		
+		if (!flag) {
+			/*
+			 * CpuPerc[]
+			 */
+			Sigar sigar;
+			CpuPerc[] arrCpuPerc;
+			
+			for (int i=0; i < 1000; i++) {
+				sigar = new Sigar();
+				arrCpuPerc = sigar.getCpuPercList();
+				
+				System.out.printf("arrCpuPerc.length = %d\n", arrCpuPerc.length);
+				for (int idx=0; idx < arrCpuPerc.length; idx++) {
+					System.out.printf("\t[%d] %f %f %f %f %f %f %f %f %f\n"
+							, idx
+							, arrCpuPerc[idx].getCombined()
+							, arrCpuPerc[idx].getIdle()
+							, arrCpuPerc[idx].getIrq()
+							, arrCpuPerc[idx].getNice()
+							, arrCpuPerc[idx].getSoftIrq()
+							, arrCpuPerc[idx].getStolen()
+							, arrCpuPerc[idx].getSys()
+							, arrCpuPerc[idx].getUser()
+							, arrCpuPerc[idx].getWait()
+							);
+				}
+				
+				try { Thread.sleep(10000); } catch (InterruptedException e) {}
+			}
+		}
+		
 		if (flag) {
-
+			/*
+			 * CpuPerc
+			 */
+			Sigar sigar;
+			CpuPerc cpuPerc;
+			
+			for (int i=0; i < 1000; i++) {
+				sigar = new Sigar();
+				cpuPerc = sigar.getCpuPerc();
+				
+				System.out.printf("\t%f %f %f %f %f %f %f %f %f\n"
+						, cpuPerc.getCombined()
+						, cpuPerc.getIdle()
+						, cpuPerc.getIrq()
+						, cpuPerc.getNice()
+						, cpuPerc.getSoftIrq()
+						, cpuPerc.getStolen()
+						, cpuPerc.getSys()
+						, cpuPerc.getUser()
+						, cpuPerc.getWait()
+						);
+				
+				try { Thread.sleep(2000); } catch (InterruptedException e) {}
+			}
 		}
 	}
 
@@ -87,7 +228,17 @@ public class MainTest {
 			log.debug(">>>>> " + new Object() {
 			}.getClass().getEnclosingClass().getName());
 
-		if (flag)
-			test01(args);
+		if (flag) test01(args);  // cpu information
+		
+		// disk information
+		
+		// network information
+		
+		// user information
+		
+		// processes information
+		
+		
+		
 	}
 }
