@@ -19,11 +19,19 @@
  */
 package tain.kr.com.test.mon.v01;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+
 import org.apache.log4j.Logger;
-import org.hyperic.sigar.Cpu;
 import org.hyperic.sigar.CpuInfo;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.Sigar;
+import org.hyperic.sigar.SigarException;
 
 /**
  * Code Templates > Comments > Types
@@ -46,6 +54,14 @@ public final class ThrCpuInfo implements Runnable {
 	private static final Logger log = Logger.getLogger(ThrCpuInfo.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private Sigar sigar;
+	private CpuInfo[] arrCpuInfo;  // cpu information. e.g. vender, mode, and so on
+	private CpuPerc[] arrCpuPerc;  // cpu information per cores
+	private CpuPerc cpuPerc;       // cpu information of cores summary
+	
+	private Connection conn;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -63,11 +79,140 @@ public final class ThrCpuInfo implements Runnable {
 	 */
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sigar = new Sigar();
+			
+			this.arrCpuInfo = this.sigar.getCpuInfoList();
+			this.arrCpuPerc = this.sigar.getCpuPercList();
+			this.cpuPerc = this.sigar.getCpuPerc();
+	
+			setterToDerby();
+			
+		} catch (SigarException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (this.conn != null) try { this.conn.close(); } catch (Exception e) {}
+			if (this.sigar != null) try { this.sigar.close(); } catch (Exception e) {}
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private void setterToDerby() throws Exception {
+		
+		setConnection();
+		
+		this.conn.setAutoCommit(false);
+		
+		if (flag) {
+			/*
+			 * sample for select
+			 */
+			Statement stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM KANG.TB_CPUINFO");
+			ResultSetMetaData meta = resultSet.getMetaData();
+			
+			if (flag) {
+				/*
+				 * row count
+				 */
+				int rowCount;
+				resultSet.last();
+				rowCount = resultSet.getRow();
+				resultSet.beforeFirst();
+				
+				System.out.println("rowCount = " + rowCount);
+			}
+			
+			if (flag) {
+				/*
+				 * print column info using meta data
+				 */
+				meta = resultSet.getMetaData();
+				
+				// column information
+				for (int i=1; i <= meta.getColumnCount(); i++) {
+					System.out.printf("\t[%d] [%s] [%s] [%d], [%s] [%s], [%d] [%s], [%s] [%s].\n"
+							, i
+							, meta.getCatalogName(i)
+							, meta.getColumnClassName(i)
+							, meta.getColumnDisplaySize(i)
+
+							, meta.getColumnLabel(i)
+							, meta.getColumnName(i)
+
+							, meta.getColumnType(i)
+							, meta.getColumnTypeName(i)
+
+							, meta.getSchemaName(i)
+							, meta.getTableName(i)
+							);
+				}
+			}
+			
+			if (flag) {
+				/*
+				 * print row info
+				 */
+				while (resultSet.next()) {
+					System.out.printf("[%s]\n", resultSet.getString("F_VNDR"));
+				}
+			}
+			
+			getTimestamp();
+			
+			resultSet.close();
+			stmt.close();
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private void setConnection() throws SQLException {
+		
+		@SuppressWarnings("unused")
+		String framework = "derbyClient";
+		String driver = "org.apache.derby.jdbc.ClientDriver";
+		String protocol = "jdbc:derby://localhost:1527/";
+		String database = "taindb01";
+		
+		String user = "kang";
+		String pass = "kang123!";
+		
+		try {
+			Class.forName(driver).newInstance();
+			
+			Properties prop = new Properties();  // connection properties
+			prop.put("user", user);
+			prop.put("password", pass);
+			
+			this.conn = DriverManager.getConnection(protocol + database + ";create=true", prop);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	private String getTimestamp() {
+	
+		return null;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,148 +228,7 @@ public final class ThrCpuInfo implements Runnable {
 	 */
 	private static void test01(String[] args) throws Exception {
 
-		if (!flag) {
-			/*
-			 * Cpu
-			 */
-			Sigar sigar;
-			Cpu cpu = new Cpu();
-			//Cpu[] arrCpu = sigar.getCpuList();
-			//CpuInfo[] arrCpuInfo = sigar.getCpuInfoList();
-			//CpuPerc cpuPerc = sigar.getCpuPerc();
-			//CpuPerc[] arrCpuPerc = sigar.getCpuPercList();
-			
-			for (int i=0; i < 1000; i++) {
-				sigar = new Sigar();
-				cpu.gather(sigar);
-				
-				System.out.printf("%d %d %d %d %d\n"
-						, cpu.getIdle()
-						, cpu.getSys()
-						, cpu.getUser()
-						, cpu.getWait()
-						, cpu.getTotal()
-						);
-				
-				try { Thread.sleep(1000); } catch (InterruptedException e) {}
-			}
-		}
-		
-		if (!flag) {
-			/*
-			 * Cpu[]
-			 */
-			Sigar sigar;
-			Cpu[] arrCpu;
-			
-			for (int i=0; i < 1000; i++) {
-				sigar = new Sigar();
-				arrCpu = sigar.getCpuList();
-				
-				System.out.printf("arrCpu.length = %d\n", arrCpu.length);
-				for (int idx=0; idx < arrCpu.length; idx++) {
-					System.out.printf("\t[%d] %d %d %d %d %d\n"
-							, idx
-							, arrCpu[idx].getIdle()
-							, arrCpu[idx].getSys()
-							, arrCpu[idx].getUser()
-							, arrCpu[idx].getWait()
-							, arrCpu[idx].getTotal()
-							);
-				}
-				
-				try { Thread.sleep(1000); } catch (InterruptedException e) {}
-			}
-		}
-		
-		if (!flag) {
-			/*
-			 * CpuInfo[]
-			 */
-			Sigar sigar;
-			CpuInfo[] arrCpuInfo;
-			
-			for (int i=0; i < 1000; i++) {
-				sigar = new Sigar();
-				arrCpuInfo = sigar.getCpuInfoList();
-				
-				System.out.printf("arrCpuInfo.length = %d\n", arrCpuInfo.length);  // -> 0
-				for (int idx=0; idx < arrCpuInfo.length; idx++) {
-					System.out.printf("\t[%d] %d %d %d %s %d %d %s\n"
-							, idx
-							, arrCpuInfo[idx].getCacheSize()
-							, arrCpuInfo[idx].getCoresPerSocket()
-							, arrCpuInfo[idx].getMhz()
-							, arrCpuInfo[idx].getModel()
-							, arrCpuInfo[idx].getTotalCores()
-							, arrCpuInfo[idx].getTotalSockets()
-							, arrCpuInfo[idx].getVendor()
-							);
-				}
-				
-				try { Thread.sleep(10000); } catch (InterruptedException e) {}
-			}
-		}
-		
-		if (!flag) {
-			/*
-			 * CpuPerc[]
-			 */
-			Sigar sigar;
-			CpuPerc[] arrCpuPerc;
-			
-			for (int i=0; i < 1000; i++) {
-				sigar = new Sigar();
-				arrCpuPerc = sigar.getCpuPercList();
-				
-				System.out.printf("arrCpuPerc.length = %d\n", arrCpuPerc.length);
-				for (int idx=0; idx < arrCpuPerc.length; idx++) {
-					System.out.printf("\t[%d] %f %f %f %f %f %f %f %f %f\n"
-							, idx
-							, arrCpuPerc[idx].getCombined()
-							, arrCpuPerc[idx].getIdle()
-							, arrCpuPerc[idx].getIrq()
-							, arrCpuPerc[idx].getNice()
-							, arrCpuPerc[idx].getSoftIrq()
-							, arrCpuPerc[idx].getStolen()
-							, arrCpuPerc[idx].getSys()
-							, arrCpuPerc[idx].getUser()
-							, arrCpuPerc[idx].getWait()
-							);
-				}
-				
-				try { Thread.sleep(10000); } catch (InterruptedException e) {}
-			}
-		}
-		
 		if (flag) {
-			/*
-			 * CpuPerc
-			 */
-			Sigar sigar;
-			CpuPerc cpuPerc;
-			
-			for (int i=0; i < 1000; i++) {
-				sigar = new Sigar();
-				cpuPerc = sigar.getCpuPerc();
-				
-				System.out.printf("\t%f %f %f %f %f %f %f %f %f\n"
-						, cpuPerc.getCombined()
-						, cpuPerc.getIdle()
-						, cpuPerc.getIrq()
-						, cpuPerc.getNice()
-						, cpuPerc.getSoftIrq()
-						, cpuPerc.getStolen()
-						, cpuPerc.getSys()
-						, cpuPerc.getUser()
-						, cpuPerc.getWait()
-						);
-				
-				try { Thread.sleep(2000); } catch (InterruptedException e) {}
-			}
-		}
-		
-		if (!flag) {
 			/*
 			 * begin
 			 */
