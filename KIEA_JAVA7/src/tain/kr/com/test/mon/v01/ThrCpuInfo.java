@@ -21,10 +21,10 @@ package tain.kr.com.test.mon.v01;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -111,65 +111,83 @@ public final class ThrCpuInfo implements Runnable {
 		
 		if (flag) {
 			/*
-			 * sample for select
+			 * old records in KANG.TB_CPUINFO be set to be unusable
 			 */
-			Statement stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			PreparedStatement psUpdate = this.conn.prepareStatement("update KANG.TB_CPUINFO set F_YN = 'N' where F_YN = 'Y'");
 			
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM KANG.TB_CPUINFO");
-			ResultSetMetaData meta = resultSet.getMetaData();
+			psUpdate.executeUpdate();
 			
-			if (flag) {
-				/*
-				 * row count
-				 */
-				int rowCount;
-				resultSet.last();
-				rowCount = resultSet.getRow();
-				resultSet.beforeFirst();
-				
-				System.out.println("rowCount = " + rowCount);
-			}
+			if (flag) log.debug("update KANG.TB_CPUINFO..");
 			
-			if (flag) {
-				/*
-				 * print column info using meta data
-				 */
-				meta = resultSet.getMetaData();
-				
-				// column information
-				for (int i=1; i <= meta.getColumnCount(); i++) {
-					System.out.printf("\t[%d] [%s] [%s] [%d], [%s] [%s], [%d] [%s], [%s] [%s].\n"
-							, i
-							, meta.getCatalogName(i)
-							, meta.getColumnClassName(i)
-							, meta.getColumnDisplaySize(i)
-
-							, meta.getColumnLabel(i)
-							, meta.getColumnName(i)
-
-							, meta.getColumnType(i)
-							, meta.getColumnTypeName(i)
-
-							, meta.getSchemaName(i)
-							, meta.getTableName(i)
-							);
-				}
-			}
-			
-			if (flag) {
-				/*
-				 * print row info
-				 */
-				while (resultSet.next()) {
-					System.out.printf("[%s]\n", resultSet.getString("F_VNDR"));
-				}
-			}
-			
-			getTimestamp();
-			
-			resultSet.close();
-			stmt.close();
+			psUpdate.close();
 		}
+		
+		if (flag) {
+			/*
+			 * insert a information to KANG.TB_CPUINFO
+			 */
+			PreparedStatement psInsert = this.conn.prepareStatement(
+					"insert into KANG.TB_CPUINFO (F_VNDR, F_MDL, F_MHZ, F_TTL, F_PHS, F_CRC) values (?, ?, ?, ?, ?, ?)");
+			
+			psInsert.setString(1, this.arrCpuInfo[0].getVendor());
+			psInsert.setString(2, this.arrCpuInfo[0].getModel());
+			psInsert.setInt(3, this.arrCpuInfo[0].getMhz());
+			psInsert.setInt(4, this.arrCpuInfo[0].getTotalCores());
+			psInsert.setInt(5, this.arrCpuInfo[0].getTotalSockets());
+			psInsert.setInt(6, this.arrCpuInfo[0].getCoresPerSocket());
+			
+			psInsert.executeUpdate();
+			
+			if (flag) log.debug("insert KANG.TB_CPUINFO..");
+			
+			psInsert.close();
+		}
+		
+		if (flag) {
+			/*
+			 * insert informations to KANG.TB_CPUREC
+			 */
+			PreparedStatement psInsert = this.conn.prepareStatement(
+					"insert into KANG.TB_CPUREC "
+					+ "( F_DTTM, F_CPUNM, F_USR, F_SYS, F_IDL, F_WAIT, F_NCE, F_CMB, F_IRQ )"
+					+ " values "
+					+ "( TIMESTAMP(?), ?, ?, ?, ?, ?, ?, ?, ? )");
+
+			String dttm = getTimestamp();
+			
+			for (int i=0; i < arrCpuPerc.length; i++) {
+				psInsert.setString(1, dttm);
+				psInsert.setString(2, "CPU" + i);
+				psInsert.setDouble(3, arrCpuPerc[i].getUser());
+				psInsert.setDouble(4, arrCpuPerc[i].getSoftIrq());
+				psInsert.setDouble(5, arrCpuPerc[i].getIdle());
+				psInsert.setDouble(6, arrCpuPerc[i].getWait());
+				psInsert.setDouble(7, arrCpuPerc[i].getNice());
+				psInsert.setDouble(8, arrCpuPerc[i].getCombined());
+				psInsert.setDouble(9, arrCpuPerc[i].getIrq());
+				
+				psInsert.executeUpdate();
+			}
+			
+			psInsert.setString(1, dttm);
+			psInsert.setString(2, "TOTAL");
+			psInsert.setDouble(3, cpuPerc.getUser());
+			psInsert.setDouble(4, cpuPerc.getSoftIrq());
+			psInsert.setDouble(5, cpuPerc.getIdle());
+			psInsert.setDouble(6, cpuPerc.getWait());
+			psInsert.setDouble(7, cpuPerc.getNice());
+			psInsert.setDouble(8, cpuPerc.getCombined());
+			psInsert.setDouble(9, cpuPerc.getIrq());
+			
+			psInsert.executeUpdate();
+
+			if (flag) log.debug("insert KANG.TB_CPUREC...");
+			
+			psInsert.close();
+		}
+		
+		this.conn.commit();
+		this.conn.close();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -208,9 +226,12 @@ public final class ThrCpuInfo implements Runnable {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	private String getTimestamp() {
+	public static String getTimestamp(String format) {
+		return new SimpleDateFormat(format).format(new Date());
+	}
 	
-		return null;
+	public static String getTimestamp() {
+		return getTimestamp("yyyy-MM-dd HH:mm:00.000");
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -232,9 +253,22 @@ public final class ThrCpuInfo implements Runnable {
 			/*
 			 * begin
 			 */
-			Thread thread = new Thread(new ThrCpuInfo());
-			thread.start();
-			thread.join();
+			String oldTimestamp = "";
+			
+			for (int i=0; i < 10000; i++) {
+				String curTimestamp = getTimestamp();
+				
+				if (!oldTimestamp.equals(curTimestamp)) {
+					
+					Thread thread = new Thread(new ThrCpuInfo());
+					thread.start();
+					thread.join();
+
+					oldTimestamp = curTimestamp;
+				}
+				
+				try { Thread.sleep(10 * 1000); } catch (InterruptedException e) {}
+			}
 		}
 	}
 
