@@ -19,6 +19,14 @@
  */
 package tain.kr.com.test.mon.v01;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+
 import org.apache.log4j.Logger;
 import org.hyperic.sigar.Cpu;
 import org.hyperic.sigar.CpuInfo;
@@ -67,6 +75,115 @@ public class MainTest {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/*
+	 * dbms for derby
+	 */
+	private static void test00(String[] args) throws Exception {
+		
+		String driver = "org.apache.derby.jdbc.ClientDriver";
+		String protocol = "jdbc:derby://localhost:1527/";
+		String database = "taindb01";
+		
+		String user = "kang";
+		String pass = "kang123!";
+		
+		Connection conn = null;
+		
+		try {
+			Class.forName(driver).newInstance();
+			
+			Properties prop = new Properties();  // connection properties
+			prop.put("user", user);
+			prop.put("password", pass);
+			
+			conn = DriverManager.getConnection(protocol + database + ";create=true", prop);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		if (flag) System.out.println("get a connection...");
+		
+		conn.setAutoCommit(false);
+		
+		if (flag) {
+			/*
+			 * sample for select
+			 */
+			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM KANG.TB_CPUINFO");
+			ResultSetMetaData meta = resultSet.getMetaData();
+			
+			if (flag) {
+				/*
+				 * row count
+				 */
+				int rowCount;
+				resultSet.last();
+				rowCount = resultSet.getRow();
+				resultSet.beforeFirst();
+				
+				System.out.println("rowCount = " + rowCount);
+			}
+			
+			if (flag) {
+				/*
+				 * print column info using meta data
+				 */
+				meta = resultSet.getMetaData();
+				
+				// column information
+				for (int i=1; i <= meta.getColumnCount(); i++) {
+					System.out.printf("\t[%d] [%s] [%s] [%d], [%s] [%s], [%d] [%s], [%s] [%s].\n"
+							, i
+							, meta.getCatalogName(i)
+							, meta.getColumnClassName(i)
+							, meta.getColumnDisplaySize(i)
+
+							, meta.getColumnLabel(i)
+							, meta.getColumnName(i)
+
+							, meta.getColumnType(i)
+							, meta.getColumnTypeName(i)
+
+							, meta.getSchemaName(i)
+							, meta.getTableName(i)
+							);
+				}
+			}
+			
+			if (flag) {
+				/*
+				 * print row info
+				 */
+				while (resultSet.next()) {
+					System.out.printf("[%s]\n", resultSet.getString("F_VNDR"));
+				}
+			}
+			
+			resultSet.close();
+			stmt.close();
+
+			conn.commit();
+		}
+		
+		conn.close();
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -228,7 +345,9 @@ public class MainTest {
 			log.debug(">>>>> " + new Object() {
 			}.getClass().getEnclosingClass().getName());
 
-		if (flag) test01(args);  // cpu information
+		if (flag) test00(args);  // dbms of derby
+		
+		if (!flag) test01(args);  // cpu information
 		
 		// disk information
 		
