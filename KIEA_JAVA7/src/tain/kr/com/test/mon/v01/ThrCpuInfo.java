@@ -31,8 +31,11 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.hyperic.sigar.CpuInfo;
 import org.hyperic.sigar.CpuPerc;
+import org.hyperic.sigar.FileSystem;
+import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
+import org.hyperic.sigar.Swap;
 
 /**
  * Code Templates > Comments > Types
@@ -57,9 +60,15 @@ public final class ThrCpuInfo implements Runnable {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private Sigar sigar;
+	
 	private CpuInfo[] arrCpuInfo;  // cpu information. e.g. vender, mode, and so on
 	private CpuPerc[] arrCpuPerc;  // cpu information per cores
 	private CpuPerc cpuPerc;       // cpu information of cores summary
+	
+	private Mem mem;               // memory information
+	private Swap swap;             // swap information
+	
+	private FileSystem[] arrFileSystem; // file system
 	
 	private Connection conn;
 	
@@ -87,6 +96,11 @@ public final class ThrCpuInfo implements Runnable {
 			this.arrCpuInfo = this.sigar.getCpuInfoList();
 			this.arrCpuPerc = this.sigar.getCpuPercList();
 			this.cpuPerc = this.sigar.getCpuPerc();
+			
+			this.mem = this.sigar.getMem();
+			this.swap = this.sigar.getSwap();
+			
+			this.arrFileSystem = this.sigar.getFileSystemList();
 	
 			setterToDerby();
 			
@@ -109,6 +123,8 @@ public final class ThrCpuInfo implements Runnable {
 		setConnection();
 		
 		this.conn.setAutoCommit(false);
+		
+		String dttm = getTimestamp();
 		
 		if (flag) {
 			/*
@@ -154,35 +170,65 @@ public final class ThrCpuInfo implements Runnable {
 					+ " values "
 					+ "( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
 
-			String dttm = getTimestamp();
-			
 			for (int i=0; i < arrCpuPerc.length; i++) {
 				psInsert.setTimestamp(1, Timestamp.valueOf(dttm));
 				psInsert.setString(2, "CPU" + i);
-				psInsert.setDouble(3, arrCpuPerc[i].getUser());
-				psInsert.setDouble(4, arrCpuPerc[i].getSoftIrq());
-				psInsert.setDouble(5, arrCpuPerc[i].getIdle());
-				psInsert.setDouble(6, arrCpuPerc[i].getWait());
-				psInsert.setDouble(7, arrCpuPerc[i].getNice());
-				psInsert.setDouble(8, arrCpuPerc[i].getCombined());
-				psInsert.setDouble(9, arrCpuPerc[i].getIrq());
+				psInsert.setDouble(3, this.arrCpuPerc[i].getUser());
+				psInsert.setDouble(4, this.arrCpuPerc[i].getSoftIrq());
+				psInsert.setDouble(5, this.arrCpuPerc[i].getIdle());
+				psInsert.setDouble(6, this.arrCpuPerc[i].getWait());
+				psInsert.setDouble(7, this.arrCpuPerc[i].getNice());
+				psInsert.setDouble(8, this.arrCpuPerc[i].getCombined());
+				psInsert.setDouble(9, this.arrCpuPerc[i].getIrq());
 				
 				psInsert.executeUpdate();
 			}
 			
 			psInsert.setString(1, dttm);
 			psInsert.setString(2, "TOTAL");
-			psInsert.setDouble(3, cpuPerc.getUser());
-			psInsert.setDouble(4, cpuPerc.getSoftIrq());
-			psInsert.setDouble(5, cpuPerc.getIdle());
-			psInsert.setDouble(6, cpuPerc.getWait());
-			psInsert.setDouble(7, cpuPerc.getNice());
-			psInsert.setDouble(8, cpuPerc.getCombined());
-			psInsert.setDouble(9, cpuPerc.getIrq());
+			psInsert.setDouble(3, this.cpuPerc.getUser());
+			psInsert.setDouble(4, this.cpuPerc.getSoftIrq());
+			psInsert.setDouble(5, this.cpuPerc.getIdle());
+			psInsert.setDouble(6, this.cpuPerc.getWait());
+			psInsert.setDouble(7, this.cpuPerc.getNice());
+			psInsert.setDouble(8, this.cpuPerc.getCombined());
+			psInsert.setDouble(9, this.cpuPerc.getIrq());
 			
 			psInsert.executeUpdate();
 
 			if (flag) log.debug("insert KANG.TB_CPUREC...");
+			
+			psInsert.close();
+		}
+		
+		if (flag) {
+			/*
+			 * insert information to KANG.TB_MEMREC
+			 */
+			PreparedStatement psInsert = this.conn.prepareStatement(
+					"insert into KANG.TB_MEMREC "
+					+ "( F_DTTM, F_RAM, F_TTL, F_FRE, F_USE, F_FREP, F_USEP, F_AFRE, F_AUSE, F_SWTTL, F_SWFRE, F_SWUSE, F_SWPGI, F_SWPGO )"
+					+ " values "
+					+ "( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )" );
+			
+			psInsert.setString( 1, dttm);
+			psInsert.setDouble( 2, this.mem.getRam());
+			psInsert.setDouble( 3, this.mem.getTotal());
+			psInsert.setDouble( 4, this.mem.getFree());
+			psInsert.setDouble( 5, this.mem.getUsed());
+			psInsert.setDouble( 6, this.mem.getFreePercent());
+			psInsert.setDouble( 7, this.mem.getUsedPercent());
+			psInsert.setDouble( 8, this.mem.getActualFree());
+			psInsert.setDouble( 9, this.mem.getActualUsed());
+			psInsert.setDouble(10, this.swap.getTotal());
+			psInsert.setDouble(11, this.swap.getFree());
+			psInsert.setDouble(12, this.swap.getUsed());
+			psInsert.setDouble(13, this.swap.getPageIn());
+			psInsert.setDouble(14, this.swap.getPageOut());
+			
+			psInsert.executeUpdate();
+
+			if (flag) log.debug("insert KANG.TB_MEMREC...");
 			
 			psInsert.close();
 		}
@@ -258,7 +304,7 @@ public final class ThrCpuInfo implements Runnable {
 			 */
 			String oldTimestamp = "";
 			
-			for (int i=0; i < 10000; i++) {
+			for (int i=0; ; i = ++i % 1000) {
 				String curTimestamp = getTimestamp();
 				
 				if (!oldTimestamp.equals(curTimestamp)) {
