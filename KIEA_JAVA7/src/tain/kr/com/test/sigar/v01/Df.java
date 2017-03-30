@@ -135,31 +135,34 @@ public final class Df extends SigarCommandBase {
 
 		if (args.length > 0) {
 			FileSystemMap mounts = this.proxy.getFileSystemMap();
-			for (int i=0; i<args.length; i++) {
+			for (int i=0; i < args.length; i++) {
 				String arg = args[i];
 				if (arg.equals("-i")) {
 					this.opt_i = true;
 					continue;
 				}
+				
 				String name = FileCompleter.expand(arg);
 				FileSystem fs = mounts.getMountPoint(name);
 
 				if (fs == null) {
-					throw new SigarException(arg +
-											 " No such file or directory");
+					throw new SigarException(arg + " No such file or directory");
 				}
+				
 				sys.add(fs);
 			}
 		}
+		
 		if (sys.size() == 0) {
 			FileSystem[] fslist = this.proxy.getFileSystemList();
-			for (int i=0; i<fslist.length; i++) {
+			for (int i=0; i < fslist.length; i++) {
 				sys.add(fslist[i]);
 			}
 		}
 
 		printHeader();
-		for (int i=0; i<sys.size(); i++) {
+		
+		for (int i=0; i < sys.size(); i++) {
 			output(sys.get(i));
 		}
 	}
@@ -169,6 +172,7 @@ public final class Df extends SigarCommandBase {
 
 		try {
 			FileSystemUsage usage;
+			
 			if (fs instanceof NfsFileSystem) {
 				NfsFileSystem nfs = (NfsFileSystem)fs;
 				if (!nfs.ping()) {
@@ -176,21 +180,24 @@ public final class Df extends SigarCommandBase {
 					return;
 				}
 			}
+			
 			usage = this.sigar.getFileSystemUsage(fs.getDirName());
+			
 			if (this.opt_i) {
+				// arg -i in args displays inode
 				used  = usage.getFiles() - usage.getFreeFiles();
 				avail = usage.getFreeFiles();
 				total = usage.getFiles();
+				
 				if (total == 0) {
 					pct = 0;
-				}
-				else {
+				} else {
 					long u100 = used * 100;
 					pct = u100 / total +
 						((u100 % total != 0) ? 1 : 0);
 				}
-			}
-			else {
+			} else {
+				// default
 				used = usage.getTotal() - usage.getFree();
 				avail = usage.getAvail();
 				total = usage.getTotal();
@@ -206,8 +213,7 @@ public final class Df extends SigarCommandBase {
 		String usePct;
 		if (pct == 0) {
 			usePct = "-";
-		}
-		else {
+		} else {
 			usePct = pct + "%";
 		}
 
