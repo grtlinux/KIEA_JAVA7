@@ -82,7 +82,26 @@ public final class Who extends SigarCommandBase {
 		
 		org.hyperic.sigar.Who[] who = this.sigar.getWhoList();
 		
-		for (int i=0; i<who.length; i++) {
+		if (flag) {
+			/*
+			 * test
+			 */
+			System.out.printf("who.length = %d\n", who.length);
+			
+			for (int i=0; i < who.length; i++) {
+				System.out.printf("[%d]\t[%s]\t[%s]\t[%,d]\t[%s]\n"
+						, i
+						, who[i].getDevice()
+						, who[i].getHost()
+						, who[i].getTime()
+						, who[i].getUser()
+						);
+			}
+		}
+		
+		System.out.println();
+		
+		for (int i=0; i < who.length; i++) {
 			String host = who[i].getHost();
 			
 			if (host.length() != 0) {
@@ -96,6 +115,8 @@ public final class Who extends SigarCommandBase {
 				host
 			});
 		}
+		
+		flush();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
