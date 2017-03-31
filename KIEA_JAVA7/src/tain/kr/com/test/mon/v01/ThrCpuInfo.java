@@ -291,6 +291,7 @@ public final class ThrCpuInfo implements Runnable {
 		
 		String user = "kang";
 		String pass = "kang123!";
+		String create = "true";
 		
 		try {
 			Class.forName(driver).newInstance();
@@ -298,8 +299,9 @@ public final class ThrCpuInfo implements Runnable {
 			Properties prop = new Properties();  // connection properties
 			prop.put("user", user);
 			prop.put("password", pass);
+			prop.put("create", create);
 			
-			this.conn = DriverManager.getConnection(protocol + database + ";create=true", prop);
+			this.conn = DriverManager.getConnection(protocol + database, prop);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
