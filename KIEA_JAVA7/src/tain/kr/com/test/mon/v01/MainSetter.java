@@ -210,8 +210,8 @@ public final class MainSetter implements Runnable {
 			 * old records in TB_CPUINFO be set to be unusable
 			 */
 			try {
-				this.ps = this.conn.prepareStatement(
-						"update KANG.TB_CPUINFO set F_YN = 'N' where F_YN = 'Y'"
+				this.ps = this.conn.prepareStatement(""
+						+ "update KANG.TB_CPUINFO set F_YN = 'N' where F_YN = 'Y'"
 						);
 				
 				this.ps.executeUpdate();
@@ -233,8 +233,8 @@ public final class MainSetter implements Runnable {
 			 * insert a current information to table KANG.TB_CPUINFO
 			 */
 			try {
-				this.ps = this.conn.prepareStatement(
-						"insert into KANG.TB_CPUINFO "
+				this.ps = this.conn.prepareStatement(""
+						+ "insert into KANG.TB_CPUINFO "
 						+ "( F_VNDR, F_MDL, F_MHZ, F_TTL, F_PHS, F_CPC )"
 						+ " values "
 						+ "( ?, ?, ?, ?, ?, ? )"
@@ -266,8 +266,8 @@ public final class MainSetter implements Runnable {
 			 * insert a current information to table KANG.TB_CPUREC
 			 */
 			try {
-				this.ps = this.conn.prepareStatement(
-						"insert into KANG.TB_CPUREC "
+				this.ps = this.conn.prepareStatement(""
+						+ "insert into KANG.TB_CPUREC "
 						+ "( F_DTTM, F_CPUNM, F_USR, F_SYS, F_IDL, F_WAIT, F_NCE, F_CMB, F_IRQ )"
 						+ " values "
 						+ "( ?, ?, ?, ?, ?, ?, ?, ?, ? )"
@@ -316,8 +316,8 @@ public final class MainSetter implements Runnable {
 			 * insert a current information to table KANG.TB_MEMREC
 			 */
 			try {
-				this.ps = this.conn.prepareStatement(
-						"insert into KANG.TB_MEMREC "
+				this.ps = this.conn.prepareStatement(""
+						+ "insert into KANG.TB_MEMREC "
 						+ "( F_DTTM, F_RAM, F_TTL, F_FRE, F_USE, F_FREP, F_USEP, F_AFRE, F_AUSE, F_SWTTL, F_SWFRE, F_SWUSE, F_SWPGI, F_SWPGO )"
 						+ " values "
 						+ "( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )"
@@ -357,8 +357,8 @@ public final class MainSetter implements Runnable {
 			 * insert a current information to table KANG.TB_DSKREC
 			 */
 			try {
-				this.ps = this.conn.prepareStatement(
-						"insert into KANG.TB_DSKREC "
+				this.ps = this.conn.prepareStatement(""
+						+ "insert into KANG.TB_DSKREC "
 						+ "( F_DTTM, F_DEVNM, F_DIRNM, F_SYSNM, F_TYPNM, F_TOT, F_USE, F_AVL, F_USEP )"
 						+ " values "
 						+ "( ?, ?, ?, ?, ?, ?, ?, ?, ? )"
