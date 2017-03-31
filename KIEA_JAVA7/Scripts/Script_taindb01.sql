@@ -6,6 +6,8 @@
 -- ========================================================================================
 -- TB_CPUINFO
 
+SELECT COUNT(*) FROM TB_CPUINFO;
+
 SELECT * FROM TB_CPUINFO WHERE F_YN = 'Y';
 
 
@@ -15,6 +17,8 @@ SELECT * FROM TB_CPUINFO WHERE F_YN = 'Y';
 
 -- ========================================================================================
 -- TB_CPUREC
+
+SELECT COUNT(*) FROM TB_CPUREC;
 
 SELECT * FROM TB_CPUREC WHERE F_CPUNM = 'TOTAL';
 
@@ -26,6 +30,8 @@ SELECT TIME(F_DTTM), CEIL(10000 - F_IDL*10000) / 100 AS CPU_USE FROM TB_CPUREC W
 
 -- ========================================================================================
 -- TB_MEMREC
+
+SELECT COUNT(*) FROM TB_MEMREC;
 
 SELECT * FROM TB_MEMREC;
 
@@ -62,6 +68,8 @@ OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY
 
 -- ========================================================================================
 -- TB_DSKREC
+
+SELECT COUNT(*) FROM TB_DSKREC;
 
 SELECT * FROM TB_DSKREC;
 
