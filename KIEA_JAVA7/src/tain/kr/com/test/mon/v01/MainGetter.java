@@ -75,10 +75,11 @@ public final class MainGetter implements Runnable {
 			try {
 				if (flag) createConnection();
 				
-				if (flag) selectTbCpuInfo();
+				if (!flag) selectTbCpuInfo();
 				if (flag) selectTbCpuRec();
-				if (flag) selectTbMemRec();
-				if (flag) selectTbDskRec();
+				if (flag) selectTbCpuRec2();
+				if (!flag) selectTbMemRec();
+				if (!flag) selectTbDskRec();
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -110,8 +111,8 @@ public final class MainGetter implements Runnable {
 			prop.put("password", password);
 			
 			this.conn = DriverManager.getConnection(protocol + database, prop);
-			this.stmt = this.conn.createStatement();
-			
+			this.stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
 		} catch (ClassNotFoundException e) {
 			throw e;
 		} catch (InstantiationException e) {
@@ -228,6 +229,61 @@ public final class MainGetter implements Runnable {
 							, this.rs.getDouble("F_CMB")
 							, this.rs.getDouble("F_IRQ")
 							);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				
+			}
+		}
+	}
+	
+	private void selectTbCpuRec2() {
+		
+		if (flag) {
+			/*
+			 * display the datas from the table KANG.TB_CPUINFO
+			 */
+			try {
+				this.rs = this.stmt.executeQuery(""
+						+ "select "
+						+ "    F_DTTM        , "
+						+ "    F_CPUNM       , "
+						+ "    F_USR         , "
+						+ "    F_SYS         , "
+						+ "    F_IDL         , "
+						+ "    F_WAIT        , "
+						+ "    F_NCE         , "
+						+ "    F_CMB         , "
+						+ "    F_IRQ         , "
+						+ "    DTTM_REG        "
+						+ "from "
+						+ "    KANG.TB_CPUREC "
+						+ "where "
+						+ "    F_CPUNM = 'TOTAL' "
+						+ "order by "
+						+ "    F_DTTM desc "
+						+ "offset 0 rows fetch next 10 rows only"
+						);
+				
+				if (this.rs.last()) {
+					int i = 0;
+					while(true) {
+						if (flag) System.out.printf("(%4d) [%s] [%s] - [%f] [%f] [%f] [%f] [%f] [%f] [%f]\n"
+								, i++
+								, this.rs.getTimestamp("F_DTTM")
+								, this.rs.getString("F_CPUNM")
+								, this.rs.getDouble("F_USR")
+								, this.rs.getDouble("F_SYS")
+								, this.rs.getDouble("F_IDL")
+								, this.rs.getDouble("F_WAIT")
+								, this.rs.getDouble("F_NCE")
+								, this.rs.getDouble("F_CMB")
+								, this.rs.getDouble("F_IRQ")
+								);
+						if (!this.rs.previous())
+							break;
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
