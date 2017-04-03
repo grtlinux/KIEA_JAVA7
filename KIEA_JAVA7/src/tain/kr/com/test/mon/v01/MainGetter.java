@@ -243,6 +243,8 @@ public final class MainGetter implements Runnable {
 		if (flag) {
 			/*
 			 * display the datas from the table KANG.TB_CPUINFO
+			 * 
+			 * this.stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			 */
 			try {
 				this.rs = this.stmt.executeQuery(""
