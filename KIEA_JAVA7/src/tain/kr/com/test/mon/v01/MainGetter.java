@@ -266,7 +266,7 @@ public final class MainGetter implements Runnable {
 						+ "offset 0 rows fetch next 10 rows only"
 						);
 				
-				if (this.rs.last()) {
+				if (!flag && this.rs.last()) {
 					int i = 0;
 					while(true) {
 						if (flag) System.out.printf("(%4d) [%s] [%s] - [%f] [%f] [%f] [%f] [%f] [%f] [%f]\n"
@@ -284,6 +284,24 @@ public final class MainGetter implements Runnable {
 						if (!this.rs.previous())
 							break;
 					}
+				}
+				
+				if (flag && this.rs.last()) {
+					int i = 0;
+					do {
+						if (flag) System.out.printf("(%4d) [%s] [%s] - [%f] [%f] [%f] [%f] [%f] [%f] [%f]\n"
+								, i++
+								, this.rs.getTimestamp("F_DTTM")
+								, this.rs.getString("F_CPUNM")
+								, this.rs.getDouble("F_USR")
+								, this.rs.getDouble("F_SYS")
+								, this.rs.getDouble("F_IDL")
+								, this.rs.getDouble("F_WAIT")
+								, this.rs.getDouble("F_NCE")
+								, this.rs.getDouble("F_CMB")
+								, this.rs.getDouble("F_IRQ")
+								);
+					} while (this.rs.previous());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
