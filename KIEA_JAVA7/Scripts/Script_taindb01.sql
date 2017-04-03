@@ -27,7 +27,6 @@ SELECT TIME(F_DTTM), CEIL(10000 - F_IDL*10000) / 100 AS CPU_USE FROM TB_CPUREC W
 
 
 
-
 -- ========================================================================================
 -- TB_MEMREC
 
@@ -77,6 +76,14 @@ SELECT * FROM TB_DSKREC;
 
 
 
+-- ========================================================================================
+-- UNION
+
+SELECT 'TB_CPUINFO' AS NAME, COUNT(*) AS TB_CNT FROM TB_CPUINFO
+UNION SELECT 'TB_CPUREC' AS NAME, COUNT(*) AS TB_CNT FROM TB_CPUREC
+UNION SELECT 'TB_MEMREC' AS NAME, COUNT(*) AS TB_CNT FROM TB_MEMREC
+UNION SELECT 'TB_DSKREC' AS NAME, COUNT(*) AS TB_CNT FROM TB_DSKREC
+;
 
 
 
