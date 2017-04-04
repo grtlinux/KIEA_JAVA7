@@ -94,8 +94,30 @@ UNION SELECT 'TB_DSKREC' AS NAME, COUNT(*) AS TB_CNT FROM TB_DSKREC
 
 
 
+-- ========================================================================================
+-- ========================================================================================
+-- ========================================================================================
+-- FEPGRP, FEPINFO
+
+SELECT 'TB_FEPGRP' AS NAME, COUNT(*) AS TB_CNT FROM KANG.TB_FEPGRP
+UNION SELECT 'TB_FEPINFO' AS NAME, COUNT(*) AS TB_CNT FROM KANG.TB_FEPINFO
+;
 
 
+SELECT
+	GRP.F_GRPID
+	, GRP.F_GRPNM
+	, INFO.F_FEPID
+	, INFO.F_FEPNM
+	, INFO.F_TYPNM
+	, INFO.F_DESC
+	, INFO.F_CMMT
+FROM
+	KANG.TB_FEPGRP GRP
+	, KANG.TB_FEPINFO INFO
+WHERE
+	GRP.F_GRPID = INFO.F_GRPID
+;
 
 
 
