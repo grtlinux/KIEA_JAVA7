@@ -6,6 +6,18 @@
 -----------------------------------------------------------------------------------------------------
 [ 아래 주제의 요약 ]
 
+0. 환경
+
+	- taincokr.iptime.org TAINSERVER10 192.168.0.10 서버
+	
+	- VB_win7_64       192.168.0.15  KangSeok-win764    kangseok64
+	
+	- VB_ubuntu15_Svr1 192.168.0.21  ubuntu151          kang
+	
+	- VB_ubuntu15_Svr2 192.168.0.22  ubuntu152          kang
+
+
+
 1. 패키지
 
 	- nfs       111, 2049, mountd_port
@@ -24,7 +36,7 @@
 	# dpkg -i rpcbind              <--- oracle, deb, nfs-common
 
 	# dpkg -l                             <--- PC에 설치된 모든 패키지
-	# dpkg -l | egrep 'rpcbind|nfs|samba|autofs'
+	# dpkg -l | egrep 'cifs|rpcbind|nfs|samba|autofs'
 
 	# apt-get remove rpcbind
 	# apt-get purge  rpcbind
@@ -49,8 +61,10 @@
 
 	# vi /etc/exports      <--- nfs 서버
 	# vi /etc/fstab        <--- nfs 클라이언트
-	# mount -t nfs 192.168.0.21:/var/nfs_server  /var/nfs_client    <--- nfs 클라이언트
-	# umount /var/nfs_client
+	# mount -t nfs 192.168.0.21:/var/nfs_server  /var/nfs_client                          <--- nfs 클라이언트
+	# mount -t cifs //192.168.0.21/SMB_kang /var/smb_client -o user=kang,pass=kang123 
+	# mount -t cifs //192.168.0.15/kang_64 /var/smb_kang_64 -o user=kang,pass='kang123'
+	# umount /var/nfs_client /var/smb_client /var/smb_kang_64
 
 
 
