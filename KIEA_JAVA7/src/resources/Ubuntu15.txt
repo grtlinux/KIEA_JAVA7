@@ -27,9 +27,9 @@
 	# dpkg -l | egrep 'rpcbind|nfs|samba|autofs'
 
 	# apt-get remove rpcbind
-	# apt-get purge rpcbind
-	# dpkg -r rpcbind
-	# dpkg --purge rpcbind
+	# apt-get purge  rpcbind
+	# dpkg -r        rpcbind
+	# dpkg --purge   rpcbind
 	
 	# apt-get update
 	# apt-get upgrade                     <--- 시간 많이 걸림
@@ -398,9 +398,9 @@
 
 3. 공유할 폴더를 만든다.
 
-	# mkdir /var/smb_data
+	# mkdir /var/smb_server
 	
-	# chmod 0777 /var/smb_data
+	# chmod 0777 /var/smb_server
 
 4. 설정파일에 아래 내용을 추가한다.
 
@@ -411,11 +411,13 @@
 		#======================= MySetting =======================
 		   security = user
 		
-		[Data]
-		   comment = data
-		   path = /var/smb_data
+		[SMB_kang]
+		   comment = SMB kang user
+		   path = /var/smb_server
 		   writable = yes
-		   public = yes
+		   browseable = yes
+		   ;public = yes    <--- 공유됨
+		   valid user = kang
 		
 		#======================= Share Definitions =======================
 		.....
@@ -526,7 +528,7 @@
 
 8. Windows에서 확인
 
-	\\192.168.0.22\Data   <--- /etc/samba/smb.conf > [Data]
+	\\192.168.0.22\SMB_kang   <--- /etc/samba/smb.conf > [SMB_kang]
 
 
 
