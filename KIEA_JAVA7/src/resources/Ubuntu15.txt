@@ -562,6 +562,20 @@
 			---------            -------
 			WORKGROUP            UBUNTU151
 
+	# smbclient -U kangseok64 -L 192.168.0.15
+	
+		Enter kangseok64's password: 
+		Domain=[KANGSEOK-WIN764] OS=[Windows 7 Ultimate 7601 Service Pack 1] Server=[Windows 7 Ultimate 6.1]
+		
+			Sharename       Type      Comment
+			---------       ----      -------
+			ADMIN$          Disk      ????
+			C$              Disk      ?????
+			IPC$            IPC       ?????
+			KANG_64         Disk      
+		Connection to 192.168.0.15 failed (Error NT_STATUS_RESOURCE_NAME_NOT_FOUND)
+		NetBIOS over TCP disabled -- no workgroup available
+	
 	#
 
 3. cifs 마운트
@@ -605,6 +619,7 @@
 	# mount -t cifs //192.168.0.21/SMB_kang /var/smb_client -o user=kang,pass=kang123 
 
 	# mount -t cifs //192.168.0.15/kang_64 /var/smb_kang_64 -o user=kang,pass='kang123'
+
 
 4. autofs 에 등록
 
