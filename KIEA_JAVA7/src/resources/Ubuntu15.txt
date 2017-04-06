@@ -22,7 +22,7 @@
 
 2. nfs 서버가 설치 되어 있지 않으면 인터넷으로 설치한다.
 
-	# apt-get install -y nfs-kernel-server
+	# apt-get install -y nfs-kernel-server    <-- server, client
 		.....
 
 3. nfs 클라이언트를 설치한다.
@@ -34,6 +34,7 @@
 
 	# apt-get install -y portmap
 
+	# apt-get install -y rpcbind
 
 
 
