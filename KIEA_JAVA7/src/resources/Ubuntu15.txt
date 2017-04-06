@@ -128,6 +128,11 @@
 	    100021    3   tcp  37963  nlockmgr
 	    100021    4   tcp  37963  nlockmgr
 
+	# exportfs -v
+
+		/var/nfs_server
+				192.168.0.22(rw,wdelay,no_root_squash,no_subtree_check,sec=sys,rw,no_root_squash,no_all_squash)
+
 6. 
 
 
