@@ -73,7 +73,31 @@
 	# umount /var/nfs_client /var/smb_client /var/smb_kang_64
 
 
+2. ssh 실행
 
+	$ sudo -s                          <--- 일반 계정을 root 계정으로 변경
+		[sudo] password for kang:
+	
+	$ su -                             <--- root 비번이 필요
+		password:
+	
+	$ dpkg -l *ssh*           <--- 설치된 패키지 중에 ssh을 검색
+
+	$ sudo apt-get install -y openssh-server
+
+	$ sudo service ssh restart
+	
+	$ sudo apt-get install -y sysv-rc-conf    <--- chkconfig 명령으로 자동시작 서비스를 관리했으나, 최근에는 sysv-rc-conf로 사용
+
+	$ sudo sysv-rc-conf --list
+	
+		.....
+		ssh
+		.....
+	
+	$ sudo sysv-rc-conf ssh on
+	
+	$ sudo sysv-rc-conf --list ssh
 
 
 
