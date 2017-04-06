@@ -39,7 +39,7 @@
 
 
 ----------------------------------------------------
-[ NFS 서버 설정 ]
+[ NFS 서버 설정 ]  192.168.0.21
 
 1. nfs 폴더를 생성한다.
 
@@ -140,7 +140,7 @@
 
 
 ----------------------------------------------------
-[ NFS 클라이언트 설정 ]
+[ NFS 클라이언트 설정 ]   192.168.0.22
 
 1. mount를 할 폴더를 생성하고 퍼미션을 666(or 777)로 세팅한다.
 
@@ -171,6 +171,21 @@
 
 4. auto 마운트를 위해 /etc/fstab을 수정한다.
 
+	# vi /etc/fstab
+	
+		# /etc/fstab: static file system information.
+		#
+		# Use 'blkid' to print the universally unique identifier for a
+		# device; this may be used with UUID= as a more robust way to name devices
+		# that works even if disks are added and removed. See fstab(5).
+		#
+		# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+		# / was on /dev/sda1 during installation
+		UUID=28fefef5-1916-4e37-98f6-b591af8cacc4 /               ext4    errors=remount-ro 0       1
+		# swap was on /dev/sda5 during installation
+		UUID=215c53f9-66b4-4881-a936-27665fb11d2d none            swap    sw              0       0
+		
+		192.168.0.21:/var/nfs_server /var/nfs_client		nfs defaults 0 0                  <-- insert mount information
 
 
 
