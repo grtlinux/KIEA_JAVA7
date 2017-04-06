@@ -20,8 +20,8 @@
 
 1. ÆÐÅ°Áö
 
-	- nfs       111, 2049, mountd_port
-	- samba     139, 445
+	- nfs       111(rpcbind), 2049(nfsd), mountd_port
+	- samba     139(smbd), 445(smbd)
 	- autofs
 
 
