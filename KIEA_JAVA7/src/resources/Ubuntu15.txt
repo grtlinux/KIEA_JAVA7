@@ -384,7 +384,7 @@
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
-[ samba 설치 ]
+[ samba 서버 설치 ]
 
 1. 패키지 설치 확인
 
@@ -531,6 +531,159 @@
 	\\192.168.0.22\SMB_kang   <--- /etc/samba/smb.conf > [SMB_kang]
 
 
+
+-----------------------------------------------------------------------------------------------------
+[ samba 클라이언트 설정 ]
+
+1. 패키지 설치
+
+	# apt-get install -y samba-client
+		.....
+
+2. 확인
+
+	# smbclient -U kang -L 192.168.0.21
+
+		Enter kang's password: 
+		Domain=[WORKGROUP] OS=[Unix] Server=[Samba 4.1.13-Ubuntu]
+		
+			Sharename       Type      Comment
+			---------       ----      -------
+			print$          Disk      Printer Drivers
+			SMB_kang        Disk      SMG kang user
+			IPC$            IPC       IPC Service (ubuntu151 server (Samba, Ubuntu))
+		Domain=[WORKGROUP] OS=[Unix] Server=[Samba 4.1.13-Ubuntu]
+		
+			Server               Comment
+			---------            -------
+			UBUNTU151            ubuntu151 server (Samba, Ubuntu)
+		
+			Workgroup            Master
+			---------            -------
+			WORKGROUP            UBUNTU151
+
+	#
+
+3. cifs 마운트
+
+	# mount -t cifs //192.168.0.21/SMB_kang /var/smb_client -o user=kang,pass=kang123
+	
+		mount: wrong fs type, bad option, bad superblock on //192.168.0.21/SMB_kang,
+		       missing codepage or helper program, or other error
+		       (for several filesystems (e.g. nfs, cifs) you might
+		       need a /sbin/mount.<type> helper program)
+		
+		       In some cases useful info is found in syslog - try
+		       dmesg | tail or so.
+
+	cifs 에러가 발생에 따른 해결
+	
+	# apt-get install -y cifs-utils   <--- cifs 설치
+
+		Reading package lists... Done
+		Building dependency tree       
+		Reading state information... Done
+		The following packages were automatically installed and are no longer required:
+		  attr libaio1 libfile-copy-recursive-perl libhdb9-heimdal libkdc2-heimdal python-dnspython samba-dsdb-modules samba-vfs-modules tdb-tools update-inetd
+		Use 'apt-get autoremove' to remove them.
+		Suggested packages:
+		  winbind
+		The following NEW packages will be installed:
+		  cifs-utils
+		0 upgraded, 1 newly installed, 0 to remove and 3 not upgraded.
+		Need to get 86.7 kB of archives.
+		After this operation, 262 kB of additional disk space will be used.
+		Get:1 http://kr.archive.ubuntu.com/ubuntu/ vivid/main cifs-utils amd64 2:6.0-1ubuntu2 [86.7 kB]
+		Fetched 86.7 kB in 2s (38.0 kB/s)     
+		Selecting previously unselected package cifs-utils.
+		(Reading database ... 60232 files and directories currently installed.)
+		Preparing to unpack .../cifs-utils_2%3a6.0-1ubuntu2_amd64.deb ...
+		Unpacking cifs-utils (2:6.0-1ubuntu2) ...
+		Processing triggers for man-db (2.7.0.2-5) ...
+		Setting up cifs-utils (2:6.0-1ubuntu2) ...
+
+	# mount -t cifs //192.168.0.21/SMB_kang /var/smb_client -o user=kang,pass=kang123 
+
+	# mount -t cifs //192.168.0.15/kang_64 /var/smb_kang_64 -o user=kang,pass='kang123'
+
+4. autofs 에 등록
+
+	# vi /etc/auto.master
+	
+		#
+		# Sample auto.master file
+		# This is an automounter map and it has the following format
+		# key [ -mount-options-separated-by-comma ] location
+		# For details of the format look at autofs(5).
+		#
+		#/misc	/etc/auto.misc
+		#
+		# NOTE: mounts done from a hosts map will be mounted with the
+		#	"nosuid" and "nodev" options unless the "suid" and "dev"
+		#	options are explicitly given.
+		#
+		#/net	-hosts
+		#
+		# Include /etc/auto.master.d/*.autofs
+		#
+		+dir:/etc/auto.master.d
+		#
+		# Include central master map if it can be found using
+		# nsswitch sources.
+		#
+		# Note that if there are entries for /net or /misc (as
+		# above) in the included master map any keys that are the
+		# same will not be seen as the first read key seen takes
+		# precedence.
+		#
+		+auto.master
+		
+		/-		/etc/auto.direct                 <---
+	
+	# vi /etc/auto.direct	
+
+		#
+		#
+		#
+		
+		/var/nfs_client		-rw,soft	192.168.0.21:/var/nfs_server
+		/var/smb_client		-fstype=cifs,rw,username=kang,passwd=kang123		://192.168.0.21/SMB_kang
+		/var/smb_kang_64	-fstype=cifs,rw,username=kangseok64,passwd=kang123	://192.168.0.15/kang_64
+
+	# /etc/init.d/autofs restart
+
+	soft 연결이므로 공유된 폴더를 사용할 때 실제 mount가 연결된다. 즉, 자동 mount
+	
+	# df -h -T
+	
+		Filesystem                   Type      Size  Used Avail Use% Mounted on
+		udev                         devtmpfs  2.0G     0  2.0G   0% /dev
+		tmpfs                        tmpfs     396M  5.6M  390M   2% /run
+		/dev/sda1                    ext4      197G  1.9G  185G   1% /
+		tmpfs                        tmpfs     2.0G     0  2.0G   0% /dev/shm
+		tmpfs                        tmpfs     5.0M     0  5.0M   0% /run/lock
+		tmpfs                        tmpfs     2.0G     0  2.0G   0% /sys/fs/cgroup
+		VB_share                     vboxsf    299G  113G  187G  38% /media/sf_VB_share
+		tmpfs                        tmpfs     396M     0  396M   0% /run/user/1000
+
+	# cd /var/nfs_client
+	# cd /var/smb_client
+	# cd /var/smb_kang_64
+	
+	# df -h -T
+	
+		Filesystem                   Type      Size  Used Avail Use% Mounted on
+		udev                         devtmpfs  2.0G     0  2.0G   0% /dev
+		tmpfs                        tmpfs     396M  5.6M  390M   2% /run
+		/dev/sda1                    ext4      197G  1.9G  185G   1% /
+		tmpfs                        tmpfs     2.0G     0  2.0G   0% /dev/shm
+		tmpfs                        tmpfs     5.0M     0  5.0M   0% /run/lock
+		tmpfs                        tmpfs     2.0G     0  2.0G   0% /sys/fs/cgroup
+		VB_share                     vboxsf    299G  113G  187G  38% /media/sf_VB_share
+		tmpfs                        tmpfs     396M     0  396M   0% /run/user/1000
+		//192.168.0.15/kang_64       cifs       50G   22G   29G  44% /var/smb_kang_64    <---
+		//192.168.0.21/SMB_kang      cifs      197G  1.9G  185G   2% /var/smb_client     <---
+		192.168.0.21:/var/nfs_server nfs4      197G  1.9G  185G   2% /var/nfs_client     <---
 
 
 -----------------------------------------------------------------------------------------------------
