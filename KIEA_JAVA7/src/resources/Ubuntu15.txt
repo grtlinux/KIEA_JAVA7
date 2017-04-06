@@ -8,10 +8,6 @@
 	- nfs-common : nfs 클라이언트
 
 
-
-
-
-
 1. nfs 서버가 설치 되어 있는지 확인한다.
 
 	# dpkg-reconfigure portmap
@@ -41,6 +37,22 @@
 
 ----------------------------------------------------
 [ NFS 서버 설정 ]  192.168.0.21
+
+0. nfs 서버 패키지 설치
+
+	# apt-get install -y rpcbind
+	# apt-get install -y nfs-common
+	# apt-get install -y nfs-kernel-server
+	
+	# apt-get install -y rpcbind nfs-common nfs-kernel-server
+
+	# dpkg -l | egrep 'nfs|rpcbind'
+	
+		ii  libnfsidmap2:amd64   0.25-5               amd64    NFS idmapping library
+		ii  nfs-common           1:1.2.8-9ubuntu8.1   amd64    NFS support files common to client and server
+		ii  nfs-kernel-server    1:1.2.8-9ubuntu8.1   amd64    support for NFS kernel server
+		ii  rpcbind              0.2.1-6ubuntu3.1     amd64    converts RPC program numbers into universal addresses
+
 
 1. nfs 폴더를 생성한다.
 
@@ -147,6 +159,12 @@
 
 	# apt-get install nfs-common
 		.....
+
+	# dpkg -l | egrep 'nfs|rpcbind'
+	
+		ii  libnfsidmap2:amd64   0.25-5               amd64    NFS idmapping library
+		ii  nfs-common           1:1.2.8-9ubuntu8.1   amd64    NFS support files common to client and server
+		ii  rpcbind              0.2.1-6ubuntu3.1     amd64    converts RPC program numbers into universal addresses
 
 1. mount를 할 폴더를 생성하고 퍼미션을 666(or 777)로 세팅한다.
 
@@ -275,6 +293,12 @@
 		..... [ too much ]
 	
 	# dpkg -l | grep ora*      <-- search packages for specific word
+
+	# dpkg -l | egrep 'nfs|rpcbind'
+	
+		ii  libnfsidmap2:amd64   0.25-5               amd64    NFS idmapping library
+		ii  nfs-common           1:1.2.8-9ubuntu8.1   amd64    NFS support files common to client and server
+		ii  rpcbind              0.2.1-6ubuntu3.1     amd64    converts RPC program numbers into universal addresses
 
 2. 패키지 설치
 
@@ -806,6 +830,108 @@
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
+[ AutoFs (자동 마운트) ]
+
+AutoFS는 이름에서도 알 수 있듯이 "자동으로 마운트하는 파일 시스템입니다."
+즉, Samba나 NFS 서버 등에 연결함에 있어서, 사용자가 로그인할때 자동으로 마운트하고,
+로그아웃하면 역시 자동으로 언마운트 합니다.
+
+autofs를 설명하기 위해선, 미리 구축된 Samba 서버나 NFS 서버가 있어야 합니다.
+앞서 samba와 nfs에 대해서 학습한 내용을 바탕으로, 클라이언트에서 autofs로 
+자동 마운트하는 방법에 대해 알아보도록 합니다.
+
+
+■ autofs 설치
+
+	아래 명령으로 autofs를 설치합니다.
+
+		$ sudo apt-get install autofs
+
+■ 설정파일 설명
+
+	마스터맵(/etc/auto_master)에 마운트 지점을 정의하고, 여기서 지정한 개별 마운트 테이블에 세부 내용을 기록합니다.
+	여기서 설정하는 방식에 따라 다이렉트(direct)와 인다이렉트(indirect)로 구분합니다.
+	
+	① 다이렉트 방식은, 마운트할 디렉터리를 직접 지정하여 마운트하는 것으로 일반적인 마운트 방식을 말하며,
+	
+	② 인다이렉트 방식은, 로그인하는 사용자ID에 따라 자동으로 마운트 포인트를 지정할 수 있는 방식을 말합니다.
+	    (이 경우, NIS 서버와 같이 사용자를 식별할 수 있는 부가 옵션이 필요합니다.)
+	
+	※ 그러므로 아래 가이드는 다이렉트 방식에 대해 기술하도록 하겠습니다.
+
+■ NFS 서버 연결
+
+	① 먼저 마스터맵을 열어서 아래와 같이 설정을 추가합니다.
+	
+		$ sudo vi /etc/auto_master
+			/-        /etc/auto.direct
+	
+	"/-"는 다이렉트 방식으로 설정함을 의미하고, 다이렉트맵(/etc/auto.direct)에 세부 설정을 하겠다는 뜻입니다.
+	
+	② 이제 아래와 같이 다이렉트맵을 만들겠습니다.
+	
+		$ sudo vi /etc/auto.direct
+			/media/nfs_client     -rw,soft     192.168.0.1:/var/nfs_server
+			
+	마운트할 절대경로(/media/nfs_client)를 정의하고,
+	옵션으로 권한(rw / ro), 재시도 수준(soft / hard)을 지정하고,
+	마운트할 서버의 공유디렉터리 경로(/var/nfs_server)를 기록합니다.
+	그리고 마운트할 경로에 해당 디렉터리를 만들어 줍니다.
+	
+		$ sudo mkdir /media/nfs_client
+	
+	③ 이제 autofs 서비스를 구동합니다.
+	
+	그러면 자동으로 NFS 마운트가 진행되어 있음을 확인할 수 있습니다.
+	
+		$ sudo service autofs restart
+	
+	④ autofs 서비스를 시스템 시작시에 자동으로 구동되도록 설정하면,
+	
+	앞으로는 로그인할 때 자동으로 마운트가 되며, 로그아웃할때 자동으로 언마운트가 됩니다.
+	
+		$ sudo sysv-rc-conf autofs on
+	
+		※ sysv-rc-conf 가 설치되어 있지 않으면, 아래 명령으로 설치하면 됩니다.
+	
+		$ sudo apt-get install sysv-rc-conf
+
+■ Samba 서버 연결
+
+	samba 서버와 연결할때는 일부 옵션을 추가로 지정해야 합니다.
+	nfs 설정한 내용과 비교하면서 아래와 같이 작성해 봅니다.
+	
+		$ sudo vi /etc/auto.direct
+		
+			/media/nfs_client  -rw,soft  192.168.0.1:/var/nfs_server
+			/media/smb_client  -fstype=cifs,rw,username=***,passwd=***  ://192.168.0.1/nfs_server
+	
+	파일시스템 type을 cifs로 지정하고, 접속에 필요한 사용자ID와 PW를 지정합니다.
+	그리고 samba 접속이므로 // 뒤로 IP(또는 PC name)을 쓰고, 그 뒤에 공유명을 지정합니다.
+	그 이외의 사항은 nfs 연결과 동일합니다.
+	
+	
+[요약] AutoFS 연결
+	
+	① 설치 :  $ sudo apt-get install autofs
+	
+	② 설정(NFS)
+	
+	  + 마스터맵
+	
+	     $ sudo vi /etc/auto_master
+	     /-        /etc/auto.direct
+	
+	  + 다이렉트맵
+	
+	     $ sudo vi /etc/auto.direct
+	     /media/nfs_client  -rw,soft  192.168.0.1:/var/nfs_server
+	     /media/smb_client  -fstype=cifs,rw,username=***,passwd=***  ://192.168.0.1/nfs_server
+	
+	③ 구동 : $ sudo service autofs restart
+
+
+
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
