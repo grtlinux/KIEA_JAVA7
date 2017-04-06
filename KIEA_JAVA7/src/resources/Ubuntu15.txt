@@ -99,6 +99,24 @@
 	
 	$ sudo sysv-rc-conf --list ssh
 
+	-------------------------------------------------
+	# sysv-rc-conf --list nmbd
+		nmbd
+	# sysv-rc-conf nmbd off
+	# sysv-rc-conf --list nmbd 
+		nmbd         2:off	3:off	4:off	5:off
+	
+	# sysv-rc-conf --list smbd
+		smbd
+	# sysv-rc-conf smbd off
+	# sysv-rc-conf --list smbd
+		smbd         2:off	3:off	4:off	5:off
+	
+	# sysv-rc-conf --list ssh
+		ssh
+	# sysv-rc-conf ssh on
+	# sysv-rc-conf --list ssh
+		ssh          2:on	3:on	4:on	5:on
 
 
 
