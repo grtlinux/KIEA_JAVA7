@@ -48,16 +48,22 @@
 	# apt-get dist-upgrade                <--- 커널 업그레이드
 
 	# /etc/init.d/[name] [start|stop|restart|status]
-		rpcbind
-		nfs-kernel-server
+		autofs
 		smbd
 		nmbd
+		nfs-kernel-server
+		rpcbind
 		ssh
-		autofs
 	
 	# netstat -napt
 	
 	# rpcinfo -p
+	
+	# exportfs -v
+	
+	# ps -ef | grep nmbd
+	
+	# ps -ef | grep autofs
 
 	# vi /etc/exports      <--- nfs 서버
 	# vi /etc/fstab        <--- nfs 클라이언트
