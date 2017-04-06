@@ -100,6 +100,9 @@
 	$ sudo sysv-rc-conf --list ssh
 
 	-------------------------------------------------
+	run-level에 따른 서비스 구동.
+	종료(0), 복원모드(1), 다중사용자모드(2), 텍스트모드(3), 미사용(4), 그래픽모드(5), 재부팅(6)
+	
 	# sysv-rc-conf --list nmbd
 		nmbd
 	# sysv-rc-conf nmbd off
