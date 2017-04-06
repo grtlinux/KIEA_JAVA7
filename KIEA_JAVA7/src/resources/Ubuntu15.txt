@@ -295,8 +295,511 @@
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
+[ samba 설치 ]
+
+1. 패키지 설치 확인
+
+	# apt-cache search samba
+		.....
+
+2. 패키지 설치
+
+	# apt-get install -y samba
+		.....
+
+3. 공유할 폴더를 만든다.
+
+	# mkdir /var/smb_data
+	
+	# chmod 0777 /var/smb_data
+
+4. 설정파일에 아래 내용을 추가한다.
+
+	# vi /etc/samba/smb.conf
+		
+		.....
+			
+		#======================= MySetting =======================
+		   security = user
+		
+		[Data]
+		   comment = data
+		   path = /var/smb_data
+		   writable = yes
+		   public = yes
+		
+		#======================= Share Definitions =======================
+		.....
+
+
+5. 사용자 등록
+
+	# smbpasswd -a kang
+	
+		New SMB password:****
+		Retype new SMB password:****
+		Added user kang.
+	#
+	
+
+6. 서비스 종료 실행 재실행 - 1
+
+	# /etc/init.d/smbd stop
+		[ ok ] Stopping smbd (via systemctl): smbd.service.
+	# /etc/init.d/nmbd stop
+		[ ok ] Stopping nmbd (via systemctl): nmbd.service.
+
+
+	# /etc/init.d/smbd start
+		[ ok ] Starting smbd (via systemctl): smbd.service.
+	# /etc/init.d/nmbd start
+		[ ok ] Starting nmbd (via systemctl): nmbd.service.
+
+
+	# /etc/init.d/smbd restart
+		[ ok ] Restarting smbd (via systemctl): smbd.service.
+	# /etc/init.d/nmbd restart
+		[ ok ] Restarting nmbd (via systemctl): nmbd.service.
+
+
+7. 서비스 종료 실행 재실행 - 2
+
+	# service smbd stop
+	# service nmbd stop
+
+	# service smbd start
+	# service nmbd start
+
+	# service smbd restart
+	# service nmbd restart
+
+8. 확인
+
+	# netstat -napt
+
+		Active Internet connections (servers and established)
+		Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+		tcp        0      0 0.0.0.0:139             0.0.0.0:*               LISTEN      1685/smbd         <--- smbd
+		tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      365/rpcbind     
+		tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      529/sshd        
+		tcp        0      0 0.0.0.0:445             0.0.0.0:*               LISTEN      1685/smbd         <--- smbd
+		tcp        0      0 0.0.0.0:53766           0.0.0.0:*               LISTEN      -               
+		tcp        0      0 192.168.0.22:22         121.171.81.27:57416     ESTABLISHED 1057/sshd: kang [pr
+		tcp        0    404 192.168.0.22:22         121.171.81.27:57338     ESTABLISHED 819/sshd: kang [pri
+		tcp        0      0 192.168.0.22:721        192.168.0.21:2049       ESTABLISHED -               
+		tcp6       0      0 :::139                  :::*                    LISTEN      1685/smbd       
+		tcp6       0      0 :::111                  :::*                    LISTEN      365/rpcbind     
+		tcp6       0      0 :::22                   :::*                    LISTEN      529/sshd        
+		tcp6       0      0 :::44695                :::*                    LISTEN      -               
+		tcp6       0      0 :::445                  :::*                    LISTEN      1685/smbd       
+	
+	# ps -ef | grep nmbd
+
+		root      1894     1  0 15:11 ?        00:00:00 /usr/sbin/nmbd -D         <--- nmbd
+		root      1938   909  0 15:27 pts/0    00:00:00 grep --color=auto nmbd
+	
+	# service smbd status
+	
+		* smbd.service - LSB: start Samba SMB/CIFS daemon (smbd)
+		   Loaded: loaded (/etc/init.d/smbd)
+		   Active: active (running) since Thu 2017-04-06 15:09:56 KST; 19min ago
+		     Docs: man:systemd-sysv-generator(8)
+		  Process: 1844 ExecStop=/etc/init.d/smbd stop (code=exited, status=0/SUCCESS)
+		  Process: 1851 ExecStart=/etc/init.d/smbd start (code=exited, status=0/SUCCESS)
+		   CGroup: /system.slice/smbd.service
+		           |-1861 /usr/sbin/smbd -D
+		           |-1862 /usr/sbin/smbd -D
+		           `-1895 /usr/sbin/smbd -D
+		
+		Apr 06 15:09:55 ubuntu152 systemd[1]: Starting LSB: start Samba SMB/CIFS daemon (smbd)...
+		Apr 06 15:09:56 ubuntu152 smbd[1851]: * Starting SMB/CIFS daemon smbd
+		Apr 06 15:09:56 ubuntu152 smbd[1851]: ...done.
+		Apr 06 15:09:56 ubuntu152 systemd[1]: Started LSB: start Samba SMB/CIFS daemon (smbd).
+	
+	# service nmbd status
+	
+		* nmbd.service - LSB: start Samba NetBIOS nameserver (nmbd)
+		   Loaded: loaded (/etc/init.d/nmbd)
+		   Active: active (running) since Thu 2017-04-06 15:11:13 KST; 17min ago
+		     Docs: man:systemd-sysv-generator(8)
+		  Process: 1875 ExecStop=/etc/init.d/nmbd stop (code=exited, status=0/SUCCESS)
+		  Process: 1880 ExecStart=/etc/init.d/nmbd start (code=exited, status=0/SUCCESS)
+		   CGroup: /system.slice/nmbd.service
+		           `-1894 /usr/sbin/nmbd -D
+		
+		Apr 06 15:11:13 ubuntu152 systemd[1]: Starting LSB: start Samba NetBIOS nameserver (nmbd)...
+		Apr 06 15:11:13 ubuntu152 nmbd[1880]: * Starting NetBIOS name server nmbd
+		Apr 06 15:11:13 ubuntu152 nmbd[1880]: ...done.
+		Apr 06 15:11:13 ubuntu152 systemd[1]: Started LSB: start Samba NetBIOS nameserver (nmbd).
+	
+	
+	
+
+8. Windows에서 확인
+
+	\\192.168.0.22\Data   <--- /etc/samba/smb.conf > [Data]
+
+
+
+
 -----------------------------------------------------------------------------------------------------
+[ samba 설정 ]
+
+1. [global]
+
+	전반적인 samba 설정을 다룹니다. 접속권한, 인증방법, 로그 설정 등
+
+2. [homes]
+
+	사용자 계정의 기본 공유 디렉토리 입니다. 접속 유저별 자신의 공유 공간
+
+3. [public]
+
+	관리자가 별도로 정의해서 사용하는 공유 디렉토리 입니다. 명칭 및 권한 등 자유롭게 설정
+
+
+
 -----------------------------------------------------------------------------------------------------
+먼저 [global] 설정에 대해 알아봅니다.
+
+① Browsing/Identification
+
+	# workgroup는 네트워크 공유 그룹 이름입니다.
+	# 기업이나 단체에서는 단일 네트워크 내에 여러 PC가 있기에 group을 지정합니다만,
+	# 개인용으로 사용하시는 거라면 group이 별 의미가 없습니다. 그냥 그대로 둡니다.
+	
+		workgroup = WORKGROUP
+	
+	# 서버 이름을 표시합니다. Windows에서 네트워크로 검색해보면 나오는 PC 이름에 해당합니다.
+	# 기본으로는 호스트명(%h)을 표시하도록 되어 있습니다. 본인이 원하는 이름으로 바꾸셔도 됩니다.
+	# (예)  server string = HamoniKR Samba server
+	
+		server string = %h server (Samba, Linux Mint)
+	
+	# samba 서버에 접속할때, ID 계정을 확인하여 접속 유무를 허용한다면 "user"로 설정하고,
+	# ID 계정 없이 누구나 접속하게 하려면 "share"로 설정합니다.
+	# 여기서는 보안상 계정 확인이 안전하므로, user 상태 그대로 두겠습니다.
+	# 기본 설정 파일에는 아래 항목이 없을 수도 있습니다. default가 user 이므로 설정이 없어도 무방합니다.
+	
+		security = user
+	
+	# Windows 기반의 Name 서비스를 사용하는 경우...
+	# nmbd 데몬이 wins server 역할을 하고, 등록되지 않은 NetBIOS 이름을 찾아줄때,
+	# DNS server를 이용하여 NetBIOS 이름을 찾아줄 것인지를 지정하는 옵션입니다.
+	# wins server를 사용하지 않는 경우라면, 이 값들을 수정할 필요가 없습니다. (주석 그대로 유지)
+	
+		# wins support = no
+		# wins server = w.x.y.z
+		# wins proxy = yes
+		dns proxy = no
+
+② Networking
+
+	# 여러개의 네트워크 장치(랜카드)를 사용 중이면서, 특정 네트워크 장치로 samba 서비스를 제한해야 하는 경우
+	# 사용할 네트워크 장치를 정의할 수 있습니다.
+	# 일반적인 경우에는 수정할 필요가 없으므로 주석 그대로 남겨둡니다.
+	
+		;   interfaces = 127.0.0.0/8 eth0
+		;   bind interfaces only = yes
+	
+	# 특정 IP 또는 대역폭에서의 접근만을 허용하고 싶은 경우...
+	# 아래의 유형들 중 하나를 선택하여 내용을 추가합니다.
+	# 접속 IP 단위로 접근을 허용
+	
+		hosts allow = 192.168.0.100 192.168.0.101
+		
+	# 대역폭 단위로 지정. 마지막에 점(.)으로 끝남에 유의
+	
+		hosts allow = 192.168.0. 10.10.10.
+		
+	# 192.168.0.0 네트워크 대역에 속한 접속은 허용하되, 100번 101번은 제외
+	
+		hosts allow = 192.168.0. except 192.168.0.100 192.168.0.101
+		
+	# 호스트명 단위로 접근 설정
+	
+		hosts allow = hamonikr01 hamonikr02 hamonikrweb hamonikrdb
+
+③ Debugging/Accounting
+
+	# 로그 파일의 경로를 지정합니다.
+	# samba에 접속하는 호스트 별로 개별적인 로그 파일을 만들도록 설정되어 있습니다.
+	# 기본값 그대로 두어도 무방합니다.
+	
+		log file = /var/log/samba/log.%m
+	
+	# 로그 파일의 최대 사이즈를 지정합니다. (kb 단위)
+	# 로그 파일의 용량이 지정된 사이즈를 초과하는 경우,
+	# loglotate를 통해서 넘버링을 하고 새로운 로그파일로 저장됩니다.
+	
+		max log size = 1000
+	
+	# samba를 통한 파일 오퍼레이션(operation)에 있어 로그를 남기도록 하는 설정입니다.
+	# 파일 오퍼레이션 : read pread write pwrite chmod rmdir unlink mkdir rename 등
+	# syslog 서비스가 같이 구동되어야 합니다. 기본값은 no
+	
+		# syslog only = no
+		syslog = 0
+	
+	# samba 서버가 강제종료(crash)되는 등의 이슈 발생 시, admin 계정으로 메일 통지를 보내는 설정입니다.
+	# 기본 설정 그대로 둡니다.
+	
+		panic action = /usr/share/samba/panic-action %d
+
+④ Authentication
+
+	# samba의 역할을 정의합니다.
+	# samba를 도메인 컨트롤러로 사용하지 않는 이상 단일서버(standaloneserver)로 사용합니다.
+	
+		server role = standalone server
+	
+	# 사용자 패스워드를 어떻게 관리할지를 결정합니다.
+	# 일반적으로 smbpasswd를 사용합니다.
+	# 계정 수가 많아져도 부하가 적어 빠른 성능을 보여주는 tdbsam으로 변경할 수 있습니다. (기본값 smbpasswd)
+	
+		; passdb backend = tdbsam
+	
+	# PAM 인증 방식을 준수한다는 설정입니다. 기본값 그대로 둡니다.
+	
+		obey pam restrictions = yes
+	
+	# samba 계정의 패스워드 변경 시, 해당 리눅스 계정도 같이 동기화할 수 있도록하는 옵션입니다.
+	# 이를 위해 encrypt password, smb passwd file 두 옵션을 반드시 사용해야 합니다.
+	# passwd chat에서 패스워드 변경 시 사용자에게 보여지는 메세지 설정이 가능합니다.
+	
+		unix password sync = yes
+		passwd program = /usr/bin/passwd %u
+		passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+	
+	# 패스워드 변경 요청 시 PAM을 사용하여 변경하도록하는 설정입니다. 기본값 그대로 둡니다.
+	
+		pam password change = yes
+	
+	# 클라이언트에서 samba 접근 시, 로그인에 실패한 사용자들을 어떻게 취급할지를 결정합니다.
+	# 기본값은 bad user는 guest로 취급하는 것입니다.
+	
+		map to guest = bad user
+	
+⑤ 기타
+
+	# 사용자 공유에 guest 접근을 허용합니다.
+	
+		usershare allow guests = yes
+	
+	# samba 계정과 리눅스 계정을 다르게 사용할 경우 매칭 테이블 파일을 지정합니다.
+	
+		username map = /etc/samba/smbusers
+	
+	#################################################################
+	다음으로 [homes] 설정에 대해 알아봅니다.
+	여기서부터는 사용 형태에 따라 임의로 설정해주어야 합니다.
+	
+	[homes] 설정은, 접속하는 samba 계정별로 가지는 자신만의 공유 경로로서,
+	본인만이 사용하고 읽기/쓰기 권한을 모두 가지는게 일반적입니다.
+	이점을 고려하여 아래와 같이 설정을 해보도록 합니다.
+	
+		[homes]
+		  comment = Home Directories        # 설명
+		  valid users = %S                  # 본인만 사용
+		  writeable = yes                   # 쓰기 허용
+		  browseable = no                   # 숨김
+	
+	※ 자신의 경로로 자동 지정되므로, path 옵션을 사용할 필요가 없습니다.
+	
+	#################################################################
+	다음은 프린터 설정입니다.
+	현재 시스템에 프린터가 설치되어 있다면, 자동으로 공유프린터로 보여지도록 설정되어 있습니다.
+	기본값 그대로 사용하면 됩니다.
+	
+		[printers]
+		  comment = All Printers
+		  browseable = no
+		  path = /var/spool/samba
+		  printable = yes
+		; guest ok = no
+		; read only = yes
+		  create mask = 0700 
+	
+	#################################################################
+	이제 필요한 공유 디렉터리를 입맛대로 만들어 보도록 합니다.
+	각 옵션별 의미를 파악하면 이들을 잘 조합하여 공유 폴더를 만들 수 있습니다.
+	
+	먼저 공개(public) 항목을 만들어 보겠습니다.
+	공개 디렉터리이기에 누구나 접근할 수 있어야 하며, 보안상 읽기전용으로 설정하기도 합니다.
+	
+		[public]
+		  comment = Public Directories
+		  path = /var/public                # 시스템 상의 접속 경로 지정
+		  public = yes                      # public 권한
+		  writable = no                     # 쓰기 불가 (읽기 전용)
+		  write list = @staff               # 읽기 전용이지만, staff 그룹 사용자는 쓰기 허용
+		  force user = admin                # 파일/폴더 생성 시, 지정되는 user 계정
+		  force group = staff               # 파일/폴더 생성 시, 지정되는 group 계정 
+	
+	#################################################################
+	특정 사용자들에 한해 읽기/쓰기가 가능한 공유 디렉터리를 만들어 보겠습니다.
+	
+		[data]
+		  comment = Data Directories
+		  path = /var/data                  # 시스템 상의 접속 경로 지정
+		  read only = no                    # 읽기만 가능하게 할지를 지정
+		  writable = yes                    # 쓰기 허용
+		  valid user = user1 user2 user3    # 사용 가능한 사용자를 지정
+		  public = no                       # guest는 이용할 수 없고 개인 사용자만 사용
+		  browseable = no
+		  create mask = 0777                # 파일 생성 mask
+		  directory mask = 0777             # 디렉터리 생성 mask
+		  follow symlinks = no              # 심볼릭 링크로 이동 제한
+	
+	※ 공유 디렉터리를 사용할 user가 많은 경우, 그룹으로 간단히 명시할 수도 있습니다.
+	   그룹 표시문자(@)를 사용 (예: valid user = @groupname)
+	※ mask는 파일/디렉터리 생성시 적용되는 퍼미션(사용권한)을 말합니다.
+	   첫째 자리는 시스템 구분 비트이므로 제외하고, 두번째 자리부터 "사용자(user), 그룹(group), 기타(other)" 입니다.
+	   숫자값은 "읽기(read)/쓰기(write)/실행(exec)"을 뜻하며, 각 자리의 값은 읽기(4), 쓰기(2), 실행(1) 입니다.
+	   즉, 숫자가 6이면 읽기/쓰기(r+w), 7이면 읽기/쓰기/실행(r+w+x), 5이면 읽기/실행(r+x) 입니다.
+	   위 예에서와 같이 0777 이면, 사용자/그룹/기타 모두에게 읽기/쓰기/실행 권한을 주겠다는 뜻이 됩니다.
+	   필요에 따라 0755, 0644 등과 같이 적절한 퍼미션 값을 지정하면 됩니다.
+	
+	#################################################################
+	
+	samba 설정에 대해 대략 살펴보았는데요.
+	설정 설명 위주다보니 제가 봐도 따분하게 느껴지네요.
+	초급편에서 samba 구동까지 마치셨다면, 중급편에서 필요한 부분만 뽑아 사용하면 무난히 설정할 수 있으리라 보여집니다.
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------
+[ 트러블 슈팅 (Trouble Shooting) ]
+
+■ [Q1] Windows의 "네트워크"에 samba 서버 이름이 나오지 않습니다.
+
+	"작업그룹" 상의 이름을 확인해 봅니다.
+	Samba 서버에서 설정시, workgroup 항목의 값과 클라이언트(windows)의 작업그룹이 같은지 확인해 봅니다.
+	Samba 서버의 workgroup의 기본 값은 "WORKGROUP"으로 되어 있습니다. (별도로 변경하지 않았다면)
+	Windows의 경우, WinXP까지는 "MSHOME"으로 되어 있으며, Win7 이후로는 "WORKGROUP"이 기본 값으로 되어 있을 겁니다.
+	
+	"작업그룹"이 다르더라도 호스트명 또는 IP로 직접 접속할 수 있습니다.
+	"탐색기" 상단에 아래와 같이 주소를 직접 입력하면 바로 접근할 수 있습니다.
+	
+		\\192.168.0.**     ← Samba 서버의 IP를 직접 입력
+		\\hostname           ← Samba 서버의 호스트명을 직접 입력
+
+■ [Q2] IP로 직접 접속했으나, 연결할 수 없다는 메시지가 나옵니다.
+
+	① 먼저 Samba 서버에 방화벽이 설정되어 있는지 확인해 보세요.
+
+		$ sudo iptables -L
+	
+			[sudo] password for user: 
+			Chain INPUT (policy ACCEPT)
+			target     prot opt source               destination         
+			
+			Chain FORWARD (policy ACCEPT)
+			target     prot opt source               destination         
+			
+			Chain OUTPUT (policy ACCEPT)
+			target     prot opt source               destination
+
+	※ 위와 같이 나온다면, 방화벽이 구동되지 않은 상태입니다.
+	
+	방화벽이 구동 중이라면, 사용하고자 하는 samba 포트를 개방시켜 주어야 합니다. (방화벽 설정방법은 별도 확인)
+	우선 방화벽을 내린 뒤 다시 접속해보고, 방화벽 문제로 인한 접속오류인지 확인해 보세요.
+	
+		$ sudo iptables -F
+	
+	② 두번째로, 방화벽 문제도 아니라면, SELinux 동작 유무를 확인합니다.
+
+		$ sudo sestatus
+			SELinux status: enabled
+			SELinuxfs mount: /selinux
+			Current mode: enforcing
+			Mode from config file: enforcing
+			Policy version: 24
+			Policy from config file: targeted
+
+	위와 같이 enforcing으로 나온다면, SELinux가 동작 중인 것이며,
+	SELinux 설정을 추가하여 Samba를 허용해 주어야 합니다. (SELinux 설정방법은 별도 확인)
+	우선 SELinux를 비활성화 시킨 뒤 다시 접속해보고, SELinux 문제인지 확인해 보세요.
+
+		$ sudo setenforce 0
+		$ sudo sestatus
+			SELinux status: enabled
+			SELinuxfs mount: /selinux
+			Current mode: permissive
+			Mode from config file: enforcing
+			Policy version: 24
+			Policy from config file: targeted
+	
+	③ 마지막으로 samba 데몬 서비스가 정상적으로 구동 중인지 확인해 봅니다.
+
+		$ sudo service smbd status
+		   smbd start/running, process 652
+		$ sudo service nmbd status
+		   nmbd start/running, process 1340
+
+
+■ [Q3] Windows에서 ID/PW로 연결에 성공한 이후, 다른 ID로 접속하려 했더니 접속 인증 오류가 나옵니다.
+
+	클라이언트(windows)에서 연결을 한번 시도하였다면 해당 공유 세션이 계속 남아 있어, 이후 접속에도 동일한 접속을 시도하게 됩니다.
+	클라이언트(windows)에서 콘솔창을 띄운 후, 아래 명령으로 연결 유무를 확인합니다.
+	
+		C:> net use
+		상태          로컬             원격                          네크워크
+		------------------------------------------------------------------------
+		OK                             \\주소                     Microseft Windows 네트워크
+
+	위와 같은 형태로 현재 연결되어 있는 공유 세션을 보여줍니다.
+	연결을 끊고자 하는 항목을 찾아서 아래와 같은 명령으로 연결을 해제하고, 다시 samba 연결을 시도해 봅니다.
+
+		C:> net use \\주소 /d
+
+■ [Q4] samba 서버에 접속 후, 디렉터리에 접근하려고 하니 권한이 없다는 메시지가 나옵니다.
+
+	① samba 서버에서 해당 디렉터리의 퍼미션을 확인해 봅니다.
+	
+	읽기/쓰기 속성이 제대로 갖추어 졌는지 확인해보고, 그렇지 않다면 chmod 명령으로 권한을 지정합니다.
+	예: 소유자, 그룹, 기타 사용자 모두에게 읽기/쓰기/실행 권한을 주고자 한다면 아래와 같이 명령을 줍니다.
+	
+		$ sudo chmod 777 디렉터리명
+	
+	② samba 계정으로 등록되어 있는지 확인하고, 그렇지않다면 등록해 줍니다.
+	
+		$ sudo smbpasswd -a username
+
+
+-----------------------------------------------------------------------------------------------------
+[ 전송 속도 튜닝 (Performance Tuning) ]
+
+	Windows to Windows
+	Windows to Linux
+	
+	Windows PC 간의 전송 속도 보다, Windows to Linux 간의 전송 속도가 더 느리게 나온다면,
+	사용자의 로컬 네트워크 상에서 samba 서버가 최적의 성능을 발휘할 수 있도록 퍼포먼스 튜닝을 한번 고려해 볼 필요가 있습니다.
+	
+	samba 설정 파일을 열어서 [global] 섹션의 적당한 위치에 아래 내용을 포함시켜 봅니다.
+	
+		$ sudo vi /etc/samba/smb.conf
+
+			Read Raw = no
+			Write Raw = no
+			
+			#  socket options = TCP_NODELAY IPTOS_LOWDELAY SO_SNDBUF=4096 SO_RCVBUF=4096
+			#  socket options = TCP_NODELAY IPTOS_LOWDELAY SO_SNDBUF=8192 SO_RCVBUF=8192
+			#  socket options = TCP_NODELAY IPTOS_LOWDELAY SO_SNDBUF=16384 SO_RCVBUF=16384
+			#  socket options = TCP_NODELAY IPTOS_LOWDELAY SO_SNDBUF=32768 SO_RCVBUF=35768
+			#  socket options = TCP_NODELAY IPTOS_LOWDELAY SO_SNDBUF=65536 SO_RCVBUF=65536
+			socket options = TCP_NODELAY IPTOS_LOWDELAY SO_KEEPALIVE SO_RCVBUF=524288 SO_SNDBUF=524288
+	
+	socket options 부분은 samba 서버의 사양에 따라 설정 결과가 다르게 나타날 수 있으므로 자신의 PC에 맞는 사양을 찾아야 합니다. TCP_NODELAY, IPTOS_LOWDELAY, IPTOS_THROUGHPUT, SO_KEEPALIVE 등의 옵션이 있으며, SO_SNDBUF 와 SO_RCVBUF 값을 2배씩 증가 시키면서 체크해보는 것도 방법입니다.
+	여러 socket options을 작성해둔 후, 하나만 주석을 풀어 samba 서비스를 재가동한 뒤, 파일 전송 속도를 체크해 봅니다.
+
+
+
+
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
