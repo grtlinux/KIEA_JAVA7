@@ -6,8 +6,7 @@
 
 더 나은 방법이 있다면 댓글이나, 쪽지로 알려주세용!!! ㅎㅎ;;
 
-출처 : 
-http://massapi.com/class/de/DefaultFileMonitor.html
+출처 : http://massapi.com/class/de/DefaultFileMonitor.html
 
 설명 :
 1. apache VFS library 이용
