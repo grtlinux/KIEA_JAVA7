@@ -1,0 +1,89 @@
+----------------------------------------------------------------------------------------------
+
+[ java에서 특정 폴더나, 파일 내용 바뀌면 이벤트 발생 시키기 ]
+
+
+
+더 나은 방법이 있다면 댓글이나, 쪽지로 알려주세용!!! ㅎㅎ;;
+
+출처 : 
+http://massapi.com/class/de/DefaultFileMonitor.html
+
+설명 :
+1. apache VFS library 이용
+2. Thread로 생성하고, 주기마다 위치 체크해서 변경사항 알림
+3. config 파일 동적 로딩이 필요할 때 쓰면 괜찮을 듯 함.
+4. 첨부파일 : FileChangeListener.java, commons-vfs-1.0.jar, commons-logging-1.0.4.jar
+※ apache library 최신 버전은 http://search.maven.org/#browse 에서 다운 받으면 됨
+
+예제 코드 : 
+
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.vfs.FileChangeEvent;
+import org.apache.commons.vfs.FileListener;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.VFS;
+import org.apache.commons.vfs.impl.DefaultFileMonitor;
+
+public class FileChangeListener extends Thread implements FileListener {
+	Log log = LogFactory.getLog(FileChangeListener.class);
+
+	private static FileChangeListener listener = null;
+	private static long readInterval = 1000; // 밀리세컨드
+
+	public static void main(String[] args){
+		if(listener == null) listener = new FileChangeListener();
+		listener.run();
+	}
+
+	public void run() {
+		try{
+			FileSystemManager fsManager = VFS.getManager();
+			FileObject listendir = fsManager.resolveFile("C:\\config\\");
+			
+			DefaultFileMonitor fm = new DefaultFileMonitor(new FileChangeListener());
+			fm.setRecursive(true);
+			fm.addFile(listendir);
+			fm.start();
+		
+			while(true){
+				Thread.sleep(readInterval);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public void fileCreated(FileChangeEvent fileChangeEvent) throws Exception {
+		log.info("file created : " + fileChangeEvent.getFile().getName());
+	}
+
+	public void fileDeleted(FileChangeEvent fileChangeEvent) throws Exception {
+		log.info("file deleted : " + fileChangeEvent.getFile().getName());
+	}
+
+	public void fileChanged(FileChangeEvent fileChangeEvent) throws Exception {
+		log.info(String.format("File [%s] changed event from [%s]", fileChangeEvent.getFile().getName(), this));
+	}
+}
+
+
+
+
+
+[출처] java에서 특정 폴더나, 파일 내용 바뀌면 이벤트 발생 시키기|작성자 캐나다여행
+
+
+
+
+
+
+
+
+
+
+
+
