@@ -41,6 +41,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses( value = {
 		ControllerDefaultTest01.class,
 		ControllerDefaultTest02.class,
+		ControllerDefaultTest03.class,
+		ControllerDefaultTest04.class,
 })
 public class ControllerDefaultTestSuite01 {
 
