@@ -72,9 +72,11 @@ public final class MainTest01 extends Thread implements FileListener {
 				fm.setRecursive(true);
 				fm.addFile(listendir);
 				fm.start();
-			
-				while(true){
-					Thread.sleep(1 * 1000);
+				
+				for (int i=0;; i = ++i % 100) {
+					System.out.println("#");
+					
+					try { Thread.sleep(1 * 1000); } catch (InterruptedException e) {}
 				}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -98,7 +100,7 @@ public final class MainTest01 extends Thread implements FileListener {
 	 */
 	@Override
 	public void fileCreated(FileChangeEvent fileChangeEvent) throws Exception {
-		if (flag) log.info("file created : " + fileChangeEvent.getFile().getName());
+		if (flag) log.info(String.format("file created : %s.", fileChangeEvent.getFile().getName()));
 	}
 
 	/* (non-Javadoc)
@@ -106,7 +108,7 @@ public final class MainTest01 extends Thread implements FileListener {
 	 */
 	@Override
 	public void fileDeleted(FileChangeEvent fileChangeEvent) throws Exception {
-		if (flag) log.info("file deleted : " + fileChangeEvent.getFile().getName());
+		if (flag) log.info(String.format("file deleted : %s.", fileChangeEvent.getFile().getName()));
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
