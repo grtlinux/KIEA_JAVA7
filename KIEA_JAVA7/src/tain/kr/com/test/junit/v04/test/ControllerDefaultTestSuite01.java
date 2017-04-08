@@ -19,7 +19,9 @@
  */
 package tain.kr.com.test.junit.v04.test;
 
-import org.apache.log4j.Logger;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * Code Templates > Comments > Types
@@ -35,24 +37,12 @@ import org.apache.log4j.Logger;
  * @author taincokr
  *
  */
+@RunWith ( value = Suite.class )
+@SuiteClasses( value = {
+		ControllerDefaultTest01.class,
+})
 public class ControllerDefaultTestSuite01 {
 
-	private static boolean flag = true;
-
-	private static final Logger log = Logger
-			.getLogger(ControllerDefaultTestSuite01.class);
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	/*
-	 * constructor
-	 */
-	public ControllerDefaultTestSuite01() {
-		if (flag)
-			log.debug(">>>>> in class " + this.getClass().getSimpleName());
-	}
-
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,30 +55,4 @@ public class ControllerDefaultTestSuite01 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	/*
-	 * static test method
-	 */
-	private static void test01(String[] args) throws Exception {
-
-		if (flag)
-			new ControllerDefaultTestSuite01();
-
-		if (flag) {
-
-		}
-	}
-
-	/*
-	 * main method
-	 */
-	public static void main(String[] args) throws Exception {
-
-		if (flag)
-			log.debug(">>>>> " + new Object() {
-			}.getClass().getEnclosingClass().getName());
-
-		if (flag)
-			test01(args);
-	}
 }
