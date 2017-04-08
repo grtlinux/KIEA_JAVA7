@@ -90,7 +90,7 @@ public final class MainTest01 extends Thread implements FileListener {
 	 */
 	@Override
 	public void fileChanged(FileChangeEvent fileChangeEvent) throws Exception {
-		log.info(String.format("File [%s] changed event from [%s]", fileChangeEvent.getFile().getName(), this));
+		if (flag) log.info(String.format("File [%s] changed event from [%s]", fileChangeEvent.getFile().getName(), this));
 	}
 
 	/* (non-Javadoc)
@@ -98,7 +98,7 @@ public final class MainTest01 extends Thread implements FileListener {
 	 */
 	@Override
 	public void fileCreated(FileChangeEvent fileChangeEvent) throws Exception {
-		log.info("file created : " + fileChangeEvent.getFile().getName());
+		if (flag) log.info("file created : " + fileChangeEvent.getFile().getName());
 	}
 
 	/* (non-Javadoc)
@@ -106,7 +106,7 @@ public final class MainTest01 extends Thread implements FileListener {
 	 */
 	@Override
 	public void fileDeleted(FileChangeEvent fileChangeEvent) throws Exception {
-		log.info("file deleted : " + fileChangeEvent.getFile().getName());
+		if (flag) log.info("file deleted : " + fileChangeEvent.getFile().getName());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
