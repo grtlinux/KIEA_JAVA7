@@ -43,6 +43,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		ControllerDefaultTest02.class,
 		ControllerDefaultTest03.class,
 		ControllerDefaultTest04.class,
+		ControllerDefaultTest05.class,
 })
 public class ControllerDefaultTestSuite01 {
 
