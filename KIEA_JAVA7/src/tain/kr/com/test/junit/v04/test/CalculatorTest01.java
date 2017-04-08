@@ -40,7 +40,7 @@ import tain.kr.com.test.junit.v04.Calculator;
  * @author taincokr
  *
  */
-public class CalculatorTest01 {
+public final class CalculatorTest01 {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
