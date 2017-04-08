@@ -66,7 +66,7 @@ public final class MainTest01 extends Thread implements FileListener {
 		if (flag) {
 			try{
 				FileSystemManager fsManager = VFS.getManager();
-				FileObject listendir = fsManager.resolveFile("C:\\[ KANG ]\\VB_Share\\TEMP");
+				FileObject listendir = fsManager.resolveFile("N:\\tain\\temp\\vfs");
 				
 				DefaultFileMonitor fm = new DefaultFileMonitor(new MainTest01());
 				fm.setRecursive(true);
