@@ -21,15 +21,10 @@ package tain.kr.com.test.junit.v04.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 import tain.kr.com.test.junit.v04.Calculator;
+
 
 /**
  * Code Templates > Comments > Types
@@ -45,30 +40,16 @@ import tain.kr.com.test.junit.v04.Calculator;
  * @author taincokr
  *
  */
-@RunWith ( value = Parameterized.class )
 public class CalculatorTest01 {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private double expected;
-	private double value1;
-	private double value2;
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public CalculatorTest01(double expected, double value1, double value2) {
-		
-		this.expected = expected;
-		this.value1 = value1;
-		this.value2 = value2;
-	}
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	
 	@Test
-	public void sum() {
+	public void testAdd() {
 		Calculator calc = new Calculator();
-		assertEquals(expected, calc.add(value1, value2), 0);
+		double result = calc.add(10, 50);
+		
+		assertEquals(60, result, 0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,17 +59,8 @@ public class CalculatorTest01 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Parameters
-	public static Collection<Integer[]> getTestParameters() {
-		return Arrays.asList(new Integer[][] {
-				{  2,  1,  1, },
-				{  3,  2,  1, },
-				{  4,  3,  1, },
-				{  7,  3,  4, },
-				{  2,  3, -1, },
-		});
-	}
 }
