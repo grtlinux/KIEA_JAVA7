@@ -81,8 +81,19 @@ public class Version {
 	private static void test01(String[] args) throws Exception {
 		
 		if (flag) {
+			/*
+			 * Version
+			 */
 			Version.getInstance().printVersion();
 			log.debug("> " + Version.getInstance().getVersion() + ".");
+		}
+		
+		if (flag) {
+			/*
+			 * String.hashCode
+			 */
+			System.out.printf("1. 'hello'.hashCode = [%d]\n", "hello".hashCode());
+			System.out.printf("2. 'hello'.hashCode = [%d]\n", "hellohellohellohello".hashCode());
 		}
 	}
 	
