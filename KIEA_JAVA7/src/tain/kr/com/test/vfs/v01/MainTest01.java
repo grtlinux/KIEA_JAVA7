@@ -74,7 +74,7 @@ public final class MainTest01 extends Thread implements FileListener {
 				fm.start();
 			
 				while(true){
-					Thread.sleep(readInterval);
+					Thread.sleep(1 * 1000);
 				}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -117,10 +117,6 @@ public final class MainTest01 extends Thread implements FileListener {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	private static MainTest01 listener = null;
-	private static long readInterval = 1000; // 밀리세컨드
-
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
@@ -132,10 +128,10 @@ public final class MainTest01 extends Thread implements FileListener {
 			/*
 			 * begin
 			 */
-			
-			if (listener == null)
-				listener = new MainTest01();
-			listener.run();
+			Thread thread = null;
+			if (thread == null)
+				thread = new MainTest01();
+			thread.run();
 		}
 	}
 
