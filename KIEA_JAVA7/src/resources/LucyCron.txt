@@ -5,6 +5,9 @@
 LucyCron
 
 	conf
+		lucycron.properties
+		
+	tables
 		README
 		TEST0 ~ 9
 		RUN00 ~99
@@ -18,6 +21,9 @@ LucyCron
 		startweb.bat
 		stopweb.bat
 	
+	db
+		lucycron
+		
 	logs
 		db.log
 		web.log
@@ -43,27 +49,58 @@ LucyCron
 -----------------------------------------------------------------------------------------------------------------
 [ TEST1 sample conf file ]
 
+# -----------------------------------------------------------------
+# Copyright 2014, 2015, 2016 TAIN, Inc. all rights reserved.
+#
+# Licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.gnu.org/licenses/
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# -----------------------------------------------------------------
+#  Copyright 2014, 2015, 2016, 2017 TAIN, Inc.
+#
 # --------------------------------------
 # DATE : 2017.04.10
 # AUTHOR : taincokr
 # sample TEST1 conf file
 #
 
-work.path = N:/WORK
+# working director
+work.path := N:/WORK
 
-cmd.01 = CMD
-cmd.02 = /C
-cmd.03 = DIR
-cmd.04 = /W
+# running command
+cmd := CMD
+cmd := /C
+cmd := DIR
+cmd := /W
 
-env.01 = PARAM1=123
-env.02 = PARAM2=hello, world
+# running environment
+env := PARAM1=123
+env := PARAM2=hello, world
 
-schedule.tab.hour =
-schedule.tab.min  =
-schedule.tab.day  =
-schedule.tab.mon  =
-schedule.tab.week =
+# cron schecule list
+schedule.tab.hour := *    # every hour
+schedule.tab.min  := *    # every minute
+schedule.tab.day  := *    # every day
+schedule.tab.mon  := *    # every month
+schedule.tab.week := *    # every week
+
+# properties
+properties := tain.lucycron.desc = LucyCron package for package scheduling program
+properties := tain.lucycron.version = 1.01
+properties := tain.lucycron. 
+
+
+
+
 
 -----------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------
