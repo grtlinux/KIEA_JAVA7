@@ -108,19 +108,19 @@ public final class Top {
 
 				System.out.println(Uptime.getInfo(sigar));
 
-				System.out.println(toString(sigar.getProcStat()));
+				System.out.println(toString(sigar.getProcStat()));  // TODO 2017.04.10
 
-				System.out.println(sigar.getCpuPerc());
+				System.out.println(sigar.getCpuPerc());  // TODO 2017.04.10
 
-				System.out.println(sigar.getMem());
+				System.out.println(sigar.getMem());  // TODO 2017.04.10
 
-				System.out.println(sigar.getSwap());
+				System.out.println(sigar.getSwap());  // TODO 2017.04.10
 
 				System.out.println();
 
 				System.out.println(HEADER);
 
-				long[] pids = Shell.getPids(sigar, args);
+				long[] pids = Shell.getPids(sigar, args);  // TODO 2017.04.10
 
 				for (int i=0; i<pids.length; i++) {
 					long pid = pids[i];
@@ -130,14 +130,14 @@ public final class Top {
 					List<String> info;
 					
 					try {
-						info = Ps.getInfo(sigar, pid);
+						info = Ps.getInfo(sigar, pid);  // TODO 2017.04.10
 					} catch (SigarException e) {
 						continue; //process may have gone away
 					}
 					
 					try {
-						ProcCpu cpu = sigar.getProcCpu(pid);
-						cpuPerc = CpuPerc.format(cpu.getPercent());
+						ProcCpu cpu = sigar.getProcCpu(pid);  // TODO 2017.04.10
+						cpuPerc = CpuPerc.format(cpu.getPercent());  // TODO 2017.04.10
 					} catch (SigarException e) {
 					}
 
@@ -147,7 +147,7 @@ public final class Top {
 				}
 
 				Thread.sleep(SLEEP_TIME);
-				SigarProxyCache.clear(sigar);
+				SigarProxyCache.clear(sigar);  // TODO 2017.04.10
 			}
 		}
 	}
