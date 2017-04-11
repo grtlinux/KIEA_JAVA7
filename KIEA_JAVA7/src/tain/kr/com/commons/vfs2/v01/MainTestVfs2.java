@@ -127,7 +127,7 @@ public final class MainTestVfs2 {
 		
 		@Override
 		public void fileChanged(FileChangeEvent fileChangeEvent) throws Exception {
-			if (flag) System.out.printf("[%s] STATUS: the file [%s] has a changed event from [%s]."
+			if (flag) System.out.printf("[%s] STATUS: the file [%s] has a changed event from [%s].\n"
 					, DateFormat.getTime("HH:mm:ss")
 					, fileChangeEvent.getFile().getName()
 					, this);
@@ -135,14 +135,14 @@ public final class MainTestVfs2 {
 		
 		@Override
 		public void fileCreated(FileChangeEvent fileChangeEvent) throws Exception {
-			if (flag) System.out.printf("[%s] STATUS: create the file [%s]."
+			if (flag) System.out.printf("[%s] STATUS: create the file [%s].\n"
 					, DateFormat.getTime("HH:mm:ss")
 					, fileChangeEvent.getFile().getName());
 		}
 		
 		@Override
 		public void fileDeleted(FileChangeEvent fileChangeEvent) throws Exception {
-			if (flag) System.out.printf("[%s] STATUS: delete the file [%s]."
+			if (flag) System.out.printf("[%s] STATUS: delete the file [%s].\n"
 					, DateFormat.getTime("HH:mm:ss")
 					, fileChangeEvent.getFile().getName());
 		}
