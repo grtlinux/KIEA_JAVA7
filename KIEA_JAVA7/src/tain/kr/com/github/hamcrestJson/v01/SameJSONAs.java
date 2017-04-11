@@ -1,20 +1,19 @@
 package tain.kr.com.github.hamcrestJson.v01;
 
+import static tain.kr.com.github.hamcrestJson.v01.JSONArrayComparatorFactory.jsonArrayComparison;
+import static tain.kr.com.github.hamcrestJson.v01.JSONAssertComparator.modalComparatorFor;
+import static tain.kr.com.github.hamcrestJson.v01.JSONObjectComparatorFactory.jsonObjectComparison;
+import static tain.kr.com.github.hamcrestJson.v01.StringComparatorFactory.stringComparison;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import tain.kr.com.github.json.orgJson.v01.JSONArray;
 import tain.kr.com.github.json.orgJson.v01.JSONException;
 import tain.kr.com.github.json.orgJson.v01.JSONObject;
-
-import static tain.kr.com.github.hamcrestJson.v01.JSONArrayComparatorFactory.jsonArrayComparison;
-import static tain.kr.com.github.hamcrestJson.v01.JSONAssertComparator.modalComparatorFor;
-import static tain.kr.com.github.hamcrestJson.v01.JSONObjectComparatorFactory.jsonObjectComparison;
-import static tain.kr.com.github.hamcrestJson.v01.StringComparatorFactory.stringComparison;
 
 /**
  * Matcher that asserts that one JSON document is the same as another.
@@ -103,12 +102,12 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 * @param expected the expected {@code JSONObject} instance
 	 * @return the {@code Matcher} instance
 	 */
-	@Factory
+	//@Factory
 	public static SameJSONAs<JSONObject> sameJSONObjectAs(JSONObject expected) {
 		return new SameJSONAs<JSONObject>(expected, modalComparatorFor(jsonObjectComparison()));
 	}
 
-	@Factory
+	//@Factory
 	public static SameJSONAs<JSONObject> sameJSONObjectAs(JSONObject expected, JSONModalComparator<JSONObject> comparator) {
 		return new SameJSONAs<JSONObject>(expected, comparator);
 	}
@@ -119,12 +118,12 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 * @param expected the expected {@code JSONArray} instance
 	 * @return the {@code Matcher} instance
 	 */
-	@Factory
+	//@Factory
 	public static SameJSONAs<JSONArray> sameJSONArrayAs(JSONArray expected) {
 		return new SameJSONAs<JSONArray>(expected, modalComparatorFor(jsonArrayComparison()));
 	}
 
-	@Factory
+	//@Factory
 	public static SameJSONAs<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONModalComparator<JSONArray> comparator) {
 		return new SameJSONAs<JSONArray>(expected, comparator);
 	}
@@ -135,12 +134,12 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 * @param expected the expected JSON document
 	 * @return the {@code Matcher} instance
 	 */
-	@Factory
+	//@Factory
 	public static SameJSONAs<? super String> sameJSONAs(String expected) {
 		return new SameJSONAs<String>(expected, modalComparatorFor(stringComparison()));
 	}
 	
-	@Factory
+	//@Factory
 	public static SameJSONAs<? super String> sameJSONAs(String expected, JSONModalComparator<String> comparator) {
 		return new SameJSONAs<String>(expected, comparator);
 	}
