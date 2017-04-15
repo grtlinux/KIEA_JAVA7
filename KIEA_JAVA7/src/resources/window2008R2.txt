@@ -1,0 +1,58 @@
+-------------------------------------------------------------------------------------
+## 해제 ##
+
+1. cmd 
+
+2. slmgr /dlv (제품키 인증 상태 확인)
+
+3. slmgr /cpky (레지스트리 키 제거)
+
+4. slmgr /upk (제품키 제거)
+
+
+-------------------------------------------------------------------------------------
+## slmgr 명령어 ##
+
+1. slmgr -ipk [제품키]  (제품키 입력)
+
+2. slmgr -ato      (다시 정품인증 시도)
+
+
+-------------------------------------------------------------------------------------
+## 복구 ##
+
+1. cmd 실행 (관리자 권한으로)
+
+2. DOS> cd C:/windows/system32로 이동
+
+3. DOS> sfc /scannow : 입력 후 실행 (무결성 검사)
+
+4. 리부팅
+
+5. DOS> services.msc : 서비스 실행
+
+6. Software Protection 중지 (우클릭)
+
+7. 탐색기 실행 (작업표시줄에 있음)
+
+8. C:\Windows
+	\ServiceProfiles
+	\NetworkService
+	\AppData
+	\Roaming
+	\Microsoft
+	\SoftwareProtectionPlatform 폴더로 이동 (이동경로간 띄어쓰기x)
+
+9. 파일 백업 : tokens.dat 의 이름을 바꾼다 (ex: token.dat.old 이런식으로)
+
+10. DOS> slmgr -rilc      입력후 실행 -> 조금 시간 지난뒤 팝업 뜸
+
+11. DOS> services.msc : 서비스 실행 후 Software Protection 시작
+
+12. DOS> slui 3 실행 
+
+13. 정품인증 창 뜨면 정품인증 실행
+
+
+
+
