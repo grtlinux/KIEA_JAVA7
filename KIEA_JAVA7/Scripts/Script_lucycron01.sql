@@ -1,0 +1,49 @@
+--
+-- database : lucycron01
+-- user : kang
+--
+
+-- ========================================================================================
+-- TB_RUNCWD
+
+SELECT 'TB_RUNCWD' AS TB_NAME, COUNT(*) AS TB_CNT FROM TB_RUNCWD
+UNION SELECT 'TB_RUNCMD'  AS TB_NAME, COUNT(*) AS TB_CNT FROM TB_RUNCMD
+UNION SELECT 'TB_RUNENV'  AS TB_NAME, COUNT(*) AS TB_CNT FROM TB_RUNENV
+UNION SELECT 'TB_RUNHHMM' AS TB_NAME, COUNT(*) AS TB_CNT FROM TB_RUNHHMM
+UNION SELECT 'TB_RUNPROP' AS TB_NAME, COUNT(*) AS TB_CNT FROM TB_RUNPROP
+UNION SELECT 'TB_SCHDTTM' AS TB_NAME, COUNT(*) AS TB_CNT FROM TB_SCHDTTM
+UNION SELECT 'TB_SCHLOG'  AS TB_NAME, COUNT(*) AS TB_CNT FROM TB_SCHLOG
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
