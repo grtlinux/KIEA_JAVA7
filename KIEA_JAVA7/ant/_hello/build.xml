@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     2017. 4. 22. 오전 4:53:41                                                        
+
+     Hello    
+     Hello Project description
+                   
+     taincokr                                                                
+     ====================================================================== -->
+<project name="Hello" default="default">
+    <description>
+            Hello Project description
+    </description>
+
+    <!-- ================================= 
+          target: default              
+         ================================= -->
+    <target name="default" depends="depends" description="Hello Project description">
+        
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: depends                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="depends">
+    </target>
+
+</project>
