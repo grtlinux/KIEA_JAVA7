@@ -721,6 +721,64 @@ http://ant.apacne.org/manual/index.html
 		</target>
 
 
+# -----------------------------------------------------------------------------------------------------------
+
+			<scp todir="user:pass@host:/home/user">
+				<fileset dir="${src.dir}">
+					<include name="**/*.java"/>
+				</fileset>
+			</scp>
+
+# -----------------------------------------------------------------------------------------------------------
+
+			<scp todir="user:password@somehost:/home/chuck" trust="true">
+				<fileset dir="src_dir">
+					<include name="**/*.java"/>
+				</fileset>
+			</scp>
+			
+			<scp todir="user@somehost:/home/chuck" password="pass" trust="true">
+				<fileset dir="src_dir" excludes="**/*.java"/>
+			</scp>
+
+# -----------------------------------------------------------------------------------------------------------
+
+		<target name="scp" depends="compile">
+			<scp port="22" todir="username:password@hostname:/destdir/" trust="true" verbose="true">
+				<fileset dir="${src.dir}/..">
+					<!-- 변경된 파일만 복사 -->
+					<modified>
+						<param name="cache.cachefile" value="localdev.cache"/>
+					</modified>
+				</fileset>
+			</scp>
+		</target>
+
+# -----------------------------------------------------------------------------------------------------------
+
+		<?xml version="1.0" encoding="UTF-8"?>
+		<project name="ad_engine" default="all" basedir=".">
+		 
+			<property name="server.host" value="아이피"/>
+			<property name="server.port" value="포트"/>
+			<property name="server.username" value="사용자아이디"/>
+			<property name="server.password" value="사용자비밀번호">
+		 
+			<target name="all" depends="copy,reboot"/>
+		 
+			<target name="copy">
+				<echo>copy</echo>
+				<scp file="target/ad_engine.jar" todir="${server.username}:${server.password}@${server.host}:/home/obigo/opt/AdEngine/libs" port="${server.port}" trust="true"></scp>
+			</target>
+			 
+			<target name="reboot">
+				<echo>reboot</echo>
+				<sshexec host="${server.host}" port="${server.port}" trust="true" username="${server.username}" password="${server.password}" command="cd opt/AdEngine; bin/stop.sh; bin/boot.sh start" timeout="10000" failonerror="false" />
+			</target>
+		 
+		</project>
+
+
 
 # -----------------------------------------------------------------------------------------------------------
 [ 이클립스에서 ant 설정 ]
@@ -892,6 +950,10 @@ http://ant.apacne.org/manual/index.html
 3. build.xml을 실행한다.
 
 
+
+
+
+
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
 [ Java SE 6, Eclipse, Ant를 이용한 간단한 웹 서비스 ]
@@ -965,6 +1027,11 @@ wsimport : WSDL을 읽고서 웹 서비스 개발, 전개 및 호출에 필요한 모든 아티팩트를 �
 			System.out.println(proxy.getGreeting("Fiona"));
 		}
 	}
+
+
+
+
+
 
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
