@@ -778,6 +778,206 @@ http://ant.apacne.org/manual/index.html
 		 
 		</project>
 
+# -----------------------------------------------------------------------------------------------------------
+
+		<project name="Jsch" default="dist" basedir=".">
+			<description>
+			JSch is a pure Java implementation of SSH2. JSch allows you to connect to an
+			sshd server and use port forwarding, X11 forwarding, file transfer, etc., and
+			you can integrate its functionality into your own Java programs
+			</description>
+
+			<!-- set global properties for this build -->
+			<property name="version"     value="0.1.54"/>
+			<property name="src"         location="src/main/java/"/>
+			<property name="exasrc"      location="examples"/>
+			<property name="build"       location="build"/>
+			<property name="exabuild"    location="examples"/>
+			<property name="dist"        location="dist"/>
+			<property name="javadoc"     location="javadoc"/>
+			<property name="javac.debug" value="true"/>
+			<path id="lib.path.ref">
+				<fileset dir="lib" includes="*.jar"/>
+			</path>
+			<path id="project.cp">
+				<pathelement location="${build}"/>
+			</path>
+
+		    <!-- =================================
+		          target: init
+		         ================================= -->
+			<target name="init">
+				<!-- Create the time stamp -->
+				<tstamp/>
+				<!-- Create the build directory structure used by compile -->
+				<mkdir dir="${build}"/>
+			</target>
+
+		    <!-- =================================
+		          target: compile
+		         ================================= -->
+			<target name="compile" depends="init" description="compile the source " >
+				<!-- Compile the java code from ${src} into ${build} -->
+				<available property="jzlib.available" classname="com.jcraft.jzlib.ZStream">
+					<classpath refid="lib.path.ref"/>
+				</available>
+				<javac srcdir="${src}"
+					destdir="${build}"
+					target="1.4"
+					source="1.4"
+					debug="${javac.debug}">
+					<classpath refid="lib.path.ref"/>
+					<exclude name="com/jcraft/jsch/jcraft/Compression.java" unless="jzlib.available"/>
+				</javac>
+			</target>
+
+		    <!-- =================================
+		          target: dist
+		         ================================= -->
+			<target name="dist" depends="compile" description="generate the distribution" >
+				<!-- Create the distribution directory -->
+				<mkdir dir="${dist}/lib"/>
+
+				<!-- Put everything in ${build} into the MyProject-${version}.jar file -->
+				<jar jarfile="${dist}/lib/jsch-${version}.jar" basedir="${build}">
+					<!--
+					<manifest>
+						<attribute name="Bundle-ClassPath" value="."/>
+						<attribute name="Bundle-Vendor" value="JCraft, Inc."/>
+						<attribute name="Bundle-Name" value="com.jcraft.jsch"/>
+						<attribute name="Bundle-ManifestVersion" value="2"/>
+						<attribute name="Bundle-SymbolicName" value="com.jcraft.jsch"/>
+						<attribute name="Bundle-Version" value="${version}"/>
+						<attribute name="Export-Package" value='com.jcraft.jsch;version="${version}",com.jcraft.jsch.jce;version="${version}";x-internal:=true,com.jcraft.jsch.jcraft;version="${version}";x-internal:=true,com.jcraft.jsch.jgss;version="${version}";x-internal:=true'/>
+						<attribute name="Import-Package" value="javax.crypto,javax.crypto.spec,javax.crypto.interfaces,org.ietf.jgss,com.jcraft.jzlib"/>
+					</manifest>
+					-->
+				</jar>
+			</target>
+
+		    <!-- =================================
+		          target: examples
+		         ================================= -->
+			<target name="examples" description="compiles the examples" depends="compile">
+				<!-- examples -->
+				<path id="compile.classpath">
+					<pathelement location="${build}" />
+				</path>
+
+				<javac srcdir="${exasrc}" destdir="${exabuild}">
+					<classpath refid="compile.classpath"/>
+				</javac>
+			</target>
+
+		    <!-- =================================
+		          target: clean
+		         ================================= -->
+			<target name="clean" description="clean up" >
+				<!-- Delete the ${build} and ${dist} directory trees -->
+				<delete dir="${build}"/>
+				<delete dir="${dist}"/>
+				<delete dir="${javadoc}"/>
+			</target>
+
+		    <!-- =================================
+		          target: javadoc
+		         ================================= -->
+			<target name="javadoc">
+				<javadoc sourcepath="${src}" destdir="${javadoc}">
+					<packageset dir="${src}"/>
+				</javadoc>
+			</target>
+		</project>
+
+
+# -----------------------------------------------------------------------------------------------------------
+
+	SCP업로드.xml
+	
+		<?xml version="1.0" encoding="UTF-8"?>
+		<project name="홈페이지 업로드" basedir="." default="수정 파일 업로드">
+			<property name="scp.server" value="192.168.20.xxx"/>
+			<property name="scp.port" value="22" />
+			<property name="scp.home.dir" value="/복사할디렉토리"/>
+			<property name="scp.userid" value="아이디"/>
+			<property name="scp.pw" value="패스워드"/>
+		
+			<target name="수정 파일 업로드">
+				<scp username="${scp.userid}" password="${scp.pw}" todir="${scp.userid}:${scp.pw}@${scp.server}:${scp.home.dir}" trust="true" verbose="true" >
+					<fileset dir="./">
+						<modified>
+							<param name="cache.cachefile" value="./update.cachefile"/>
+						</modified>
+		
+						<include name="/WebContent/**"/>
+					</fileset>
+				</scp>
+			</target>
+		
+			<target name="전체 파일 업로드">
+				<scp username="${scp.userid}" password="${scp.pw}" todir="${scp.userid}:${scp.pw}@${scp.server}:${scp.home.dir}" trust="true" verbose="true" >
+					<fileset dir="./">
+						<include name="/WebContent/**"/>
+					</fileset>
+				</scp>
+			</target>
+		
+		</project>
+		
+		com.jcraft.jsch 라이브러리가 필요함(파일첨부)
+		
+		
+	SFTP업로드.xml
+	
+		<?xml version="1.0" encoding="UTF-8"?>
+		<project name="홈페이지 업로드" basedir="." default="바뀐 파일만 업로드">
+			<property name="sftp.server" value="192.168.20.xxx"/>
+			<property name="sftp.port" value="22" />
+			<property name="sftp.home.dir" value="복사할 디렉토리"/>
+			<property name="sftp.userid" value="아이디"/>
+			<property name="sftp.pw" value="패스워드"/>
+		
+			<taskdef name="ssh" classname="com.sshtools.ant.Ssh" />
+		
+			<target name="모든 파일 업로드">
+				<ssh host="${sftp.server}" port="${sftp.port}" username="${sftp.userid}" password="${sftp.pw}" version="2">
+					<exec cmd="rm -R ${sftp.home.dir}/WebContent/" />
+		
+					<sftp action="put" remotedir="${sftp.home.dir}" verbose="true">
+						<fileset dir=".">
+							<include name="**/WebContent/**" />
+						</fileset>
+					</sftp>
+		
+					<exec cmd="service tomcat7 restart" />
+				</ssh>
+			</target>
+		
+			<target name="바뀐 파일만 업로드">
+				<ssh host="${sftp.server}" port="${sftp.port}" username="${sftp.userid}" password="${sftp.pw}" version="2">
+					<sftp action="put" remotedir="${sftp.home.dir}" verbose="true" depends="yes">
+						<fileset dir=".">
+							<include name="**/WebContent/**" />
+						</fileset>
+					</sftp>
+				</ssh>
+			</target>
+		</project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # -----------------------------------------------------------------------------------------------------------
