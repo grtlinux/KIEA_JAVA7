@@ -82,9 +82,88 @@ Shell command를 사용하는 대신에, xml 기반의 설정파일로 여러가지의 실행되는 task�
 	> ant -buildfile testBuild.xml main clean         <- target명
 
 
+# -----------------------------------------------------------------------------------------------------------
+[ build.properties ]
+#
+#
+version   = 1.7.98
 
 
+# -----------------------------------------------------------------------------------------------------------
+[ build.xml ]
+<?xml version="1.0" encoding="euc-kr"?>
+<project name="test" default="dist">
+	<!-- 프로퍼티를 지정 합니다. -->
+	<property file="build.properties"/>
+	<property name="base.dir"  value="."/>
+	<property name="dist.dir"  value="dist"/>
+	<property name="build.dir" value="build"/>
+	<property name="src.dir"   value="src"/>
+	<property name="jar.file"  value="${version}_helloworld.jar"/>
+	<property name="dist.file"  value="${version}_helloworld.zip"/>
 
+	<!-- 빌드 초기 단계에 날짜 및 시간을 출력 -->
+	<target name="prepare">
+		<tstamp>
+			<format property="DSTAMP" pattern="yyyy.MM.dd"/>
+			<format property="TSTAMP" pattern="HH:mm"/>
+		</tstamp>
+		<echo message="Build Start!! ======> ${DSTAMP}-${TSTAMP}"/>
+	</target>
+
+	<!-- 이미 있는 배포 파일 및 데렉토리를 삭제 -->
+	<target name="clean" depends="prepare">
+		<delete dir="${dist.dir}"/>
+		<delete dir="${build.dir}"/>
+	</target>
+
+	<!-- 소스 컴파일 -->
+	<target name="compile" depends="clean">
+		<mkdir dir="${build.dir}"/>
+		<javac deprecation="off" srcdir="${src.dir}" destdir="${build.dir}" listfiles="no" failonerror="true" >
+			<classpath>
+				<pathelement path="${base.dir}/lib" />
+				<fileset dir="${base.dir}/lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- 빌드 디렉토리에 컴파일이 끝난 클래스를 jar 파일로 묶음 -->
+	<target name="mkjar" depends="compile">
+		<mkdir dir="${dist.dir}"/>
+		<jar destfile="${dist.dir}/${jar.file}" basedir="${build.dir}" />
+	</target>
+
+	<!-- 배포할 라이브러리와 소스등을 배포용 디렉토리로 복사하고 배포용 디렉토리를 zip으로 묶음 -->
+	<!-- jar와 소스, lib 아래의 jar를 배포용 디렉토리에 복사 후 zip으로 묶음 -->
+	<target name="dist" depends="mkjar">
+		<copy todir="${dist.dir}/lib">
+			<fileset dir="lib" />
+		</copy>
+		<copy todir="${dist.dir}/src">
+			<fileset dir="src" />
+		</copy>
+		<zip destfile="${DSTAMP}_${dist.file}">
+			<fileset dir="${dist}/.."/>
+		</zip>
+	</target>
+
+	<!-- HelloWorld 클래스를 호출하여 실행 -->
+	<!-- <java> 태스크에 실행 파일을 입력하고 클래스 패스를 지정 -->
+	<target name="run">
+		<java classname="test.HelloWorld">
+			<classpath>
+				<pathelement location="${dist.dir}/${jar.file}" />
+				<pathelement path="${base.dir}/lib" />
+				<fileset dir="${base.dir}/lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+</project>
 
 
 
