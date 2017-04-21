@@ -11,12 +11,12 @@
     <description>
             Hello Project description
     </description>
+	<property file="hello.properties"/>
 
     <!-- ================================= 
           target: default              
          ================================= -->
-    <target name="default" depends="depends" description="Hello Project description">
-        
+    <target name="default" depends="prepare, depends" description="Hello Project description">
     </target>
 
     <!-- - - - - - - - - - - - - - - - - - 
@@ -25,4 +25,23 @@
     <target name="depends">
     </target>
 
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: prepare                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="prepare">
+		<tstamp>
+			<format property="DSTAMP" pattern="yyyy.MM.dd"/>
+			<format property="TSTAMP" pattern="HH:mm"/>
+		</tstamp>
+		<echo message="Build Start!! ======> ${DSTAMP}-${TSTAMP}"/>
+		<echo message="version =======> ${version}"/>
+		<echo message="base.dir ======> ${base.dir}"/>
+		<echo message="dist.dir ======> ${dist.dir}"/>
+		<echo message="build.dir =====> ${build.dir}"/>
+		<echo message="src.dir =======> ${src.dir}"/>
+		<echo message="jar.file ======> ${jar.file}"/>
+		<echo message="dist.file =====> ${dist.file}"/>
+		
+	</target>
+	
 </project>
