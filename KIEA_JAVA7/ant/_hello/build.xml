@@ -16,19 +16,13 @@
     <!-- ================================= 
           target: default              
          ================================= -->
-    <target name="default" depends="prepare, depends" description="Hello Project description">
-    </target>
-
-    <!-- - - - - - - - - - - - - - - - - - 
-          target: depends                      
-         - - - - - - - - - - - - - - - - - -->
-    <target name="depends">
+    <target name="default" depends="prepare, dist" description="Hello Project description">
     </target>
 
     <!-- - - - - - - - - - - - - - - - - - 
           target: prepare                      
          - - - - - - - - - - - - - - - - - -->
-	<target name="prepare">
+	<target name="prepare" description="prepare description">
 		<tstamp>
 			<format property="DSTAMP" pattern="yyyy.MM.dd"/>
 			<format property="TSTAMP" pattern="HH:mm"/>
@@ -41,7 +35,36 @@
 		<echo message="src.dir =======> ${src.dir}"/>
 		<echo message="jar.file ======> ${jar.file}"/>
 		<echo message="dist.file =====> ${dist.file}"/>
-		
 	</target>
 	
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: init                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="init" description="init description">
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: backup                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="backup" depends="init" description="backup">
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: compile
+         - - - - - - - - - - - - - - - - - -->
+    <target name="compile" depends="backup" description="compile">
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: dist
+         - - - - - - - - - - - - - - - - - -->
+    <target name="dist" depends="compile" description="distribution">
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: clean
+         - - - - - - - - - - - - - - - - - -->
+    <target name="clean" description="clean up">
+    </target>
+
 </project>
