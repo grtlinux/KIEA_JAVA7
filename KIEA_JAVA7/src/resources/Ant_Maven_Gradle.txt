@@ -409,8 +409,200 @@ http://ant.apacne.org/manual/index.html
 
 
 # -----------------------------------------------------------------------------------------------------------
+[ Ant에서 ssh 서버에서 upload/download 처리 - scp task ]
+
+	Ant에서 기본적으로 제공해주는 scp task를 이용하여 ssh가 열려있는 서버에 업로드와 다운로드를 처리할 수 있다.
+	
+	JCraft 홈페이지에서 'jsch-0.1.42.jar'를 추가합니다.
+
+		<property name="deploy.lib" value="/home/lib" />
+		<target name="upload workflow.jar">
+			<tstamp />
+			<property name="deploy.lib.backup" value="/home/lib/backup/${DSTAMP}${TSTAMP}" />
+			
+			<mkdir dir="${deploy.lib.backup}" />
+			
+			<!-- download -->
+			<scp file="<user>:<pass>@<host>:/home/workflow.jar" todir="${deploy.lib.backup}" trust="true" />
+			
+			<!-- upload -->
+			<scp todir="<user>:<pass>@<host>:/home" trust="true">
+				<fileset dir="${deploy.lib}" include="makeflow.jar" />
+			</scp>
+		</target>
+
+
+
 # -----------------------------------------------------------------------------------------------------------
+[ 이클립스에서 ant 설정 ]
+
+	1. Windows > Preferences > General > Content Type > Text > XML > Ant Buildfile > build.xml(locked) : UTF-8
+
+	2. Windows > Preferences > General > Editors > File Associations > File types : build.xml(추가) > Default(클릭)
+	
+	3. Windows > Preferences > Ant > Editor > Formatter
+	
+	4. Windows > Preferences > Ant > Editor > Templates
+	
+	5. Windows > Preferences > Ant > Runtime
+	
+		Classpath  : ant 클래스페스에 태스크와 타입을 정의하는 클래스를 추가가능
+		Task       : 클래스패스에 잡혀있는 클래스 가운데 하나의 클래스 안에 있는 태스크들을 추가가능
+		Types      : 클래스패스에 잡혀잇는 클래스 가운데 하나의 클래스 안에 있는 타입들을 추가가능
+		Properties : ant 실행 시 글로벌하게 사용가능한 프로퍼티나 프로퍼티 파일 추가 가능
+
+	6. build.xml파일을 생성하고 <Ctrl + Space>로 buildfile template(기본포맷)을 선택
+
+
+	프로퍼티 지정
+
+		빌드시에 사용할 프로퍼티를 설정한다. 별도의 프로퍼티 파일로 생성해서 사용 가능
+
+			<!--퍼로퍼티 파일 지정 -->
+			<property file="build.properties" />
+			<!--퍼로퍼티 설정 : 각종 폴더 & 생성파일 -->
+			<property name="project.name" value="VerySimpleBlog"/>
+			<property name="base.dir" value="."/>
+			<property name="src.dir" value="src" />
+			<property name="web.dir" value="WebContent"/>
+			<property name="dist.dir" value="dist"/>
+			<property name="build.dir" value="build"/>
+			<property name="war.file" value="${dist.dir}/${project.name}.war"/>
+
+	path 지정
+
+		컴파일에 필요한 라이브러리 패스를 설정한다.
+
+			<!-- 컴파일 패스 설정 : 웹 라이브러리 위치 (WEB-INF/lib), 톰캣 라이브러리 추가(tomcat/lib) -->
+			<path id="project.classpath">
+				<pathelement location="${web.dir}/WEB-INF/lib"/>
+				<fileset dir="${web.dir}/WEB-INF/lib">
+					<include name="*.jar"/>
+				</fileset>
+				<pathelement location="${tomcat.home}/lib"/>
+				<fileset dir="${tomcat.home}/lib">
+					<include name="*.jar"/>
+				</fileset>
+			</path>
+
+	빌드 날짜 생성
+
+		빌드 날짜를 스탬프로 찍는다.
+
+			<target name="datentime" description="create current date">
+				<tstamp>
+					<format property="DSTAMP" pattern="yyyy-MM-dd"/>
+					<format property="TSTAMP" pattern="HH:mm:ss"/>
+				</tstamp>
+				<echo message="Build started at : ${DSTAMP} - ${TSTAMP}" />
+			</target>
+
+	prepare
+
+		빌드하기전에 빌드폴더 생성 및 WebContent?내의 파일을 build 폴더로 복사한다.
+
+			<target name="prepare" depends="datentime, clean" description="copy web contents">
+				<mkdir dir="${build.dir}"/>
+				<mkdir dir="${build.dir}/WEB-INF" />
+				<mkdir dir="${build.dir}/WEB-INF/classes" />
+				<copy todir="${build.dir}">
+					<fileset dir="${web.dir}" />
+				</copy>
+			</target>
+
+	Clean
+
+		build와 dist 폴더를 삭제한다.
+
+			<target name="clean" description="delete build, dist">
+				<delete dir="${dist.dir}" />
+				<delete dir="${build.dir}" />
+			</target>
+
+	build
+
+		build 폴더에 자바 컴파일 후 classes 파일을 복사한다.
+
+			<target name="build" depends="prepare" description="compile java">
+				<javac srcdir="${src.dir}"
+					destdir="${build.dir}/WEB-INF/classes"
+					debug="${compile.debug}"
+					deprecation="${compile.deprecation}"
+					optimize="${compile.optimize}"
+					classpathref="project.classpath">
+				</javac>
+				<copy todir="${build.dir}/WEB-INF/classes">
+					<fileset dir="${src.dir}" excludes="**/*.java, **/*.properties" />
+				</copy>
+			</target>
+
+	Dist
+
+		build 폴더를 프로젝트이름.war로 압축해서 dist 폴더로
+
+			<target name="dist" depends="build" description="make war file from build to dist">
+				<mkdir dir="${dist.dir}"/>
+				<jar destfile="${war.file}" basedir="${build.dir}" />
+			</target>
+
+	apply
+
+		build 폴더와 톰캣 app 폴더와 동기화 시킨다.
+
+			<target name="apply" depends="build" description="sync between webapp and build ">
+				<sync todir="${tomcat.home}/webapps/${project.name}">
+					<fileset dir="${build.dir}" />
+				</sync>
+			</target>
+
+	javadoc
+
+		api documentation 생성
+
+			<target name="javadoc" description="api documentation">
+				<mkdir dir="${dist.dir}/docs/api" />
+				<javadoc sourcepath="${src.dir}" destdir="${dist.dir}/docs/api" packagenames="*">
+					<classpath refid="project.classpath" />
+				</javadoc>
+			</target>
+
+
+
+
+
+
+
+
+
 # -----------------------------------------------------------------------------------------------------------
+[ META-INF/MANIFEST.MF 파일에 build실행한 날짜와 시간을 자동 작성]
+
+1. 실행시 build 시작 시간을 출력한다.
+
+	<target name="prepare" depends="clean">
+		<tstamp>
+			<format property="DSTAMP" pattern="yyyy.MM.dd" />
+			<format property="TSTAMP" pattern="HH:mm:ss" />
+		</tstamp>
+		<echo message="Build start!! ==========> ${DSTAMP} ${TSTAMP}" />
+		<property name="builddate" value="${DSTAMP} ${TSTAMP}" />
+	</target>
+	
+2. JAR 파일에 builddate을 자동 작성
+
+	<target name="build" depends="prepare">
+		<javac srcdir="${source}" destdir="${build}" />
+		<jar jarfile="${jar}/${archive}-${version}.jar" basedir="${build}">
+			<manifest>
+				<attribute name="Main-Class" value="${main.class}" />
+				<attribute name="Last-Updated-Date" value="${builddate}" />
+			</manifest>
+		</jar>
+	</target>
+
+3. build.xml을 실행한다.
+
+
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
