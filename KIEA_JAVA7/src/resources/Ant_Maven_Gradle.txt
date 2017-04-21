@@ -83,14 +83,15 @@ Shell command를 사용하는 대신에, xml 기반의 설정파일로 여러가지의 실행되는 task�
 
 
 # -----------------------------------------------------------------------------------------------------------
-[ build.properties ]
+[ build.properties ] sample - 1
 #
 #
 version   = 1.7.98
 
 
 # -----------------------------------------------------------------------------------------------------------
-[ build.xml ]
+[ build.xml ] sample - 1
+
 <?xml version="1.0" encoding="euc-kr"?>
 <project name="test" default="dist">
 	<!-- 프로퍼티를 지정 합니다. -->
@@ -165,6 +166,177 @@ version   = 1.7.98
 	</target>
 </project>
 
+
+
+
+# -----------------------------------------------------------------------------------------------------------
+[ axis_bujava.xml ] sample - 2
+
+<?xml version="1.0"?>
+<project name="ANTTEST" default="main" basedir=".">
+	<description>
+		Ant example
+	</description>
+	
+	<!-- properties -->	
+	<property name="src"    location="src"    />
+	<property name="build"  location="build"  />
+	<property name="dist"   location="dist"   />
+	<property name="backup" location="backup" />
+
+	<!-- init -->	
+	<target name="init">
+		<mkdir dir="${basedir}" />
+		<mkdir dir="${build}" />
+		<tstamp>
+			<format property="DSTAMP" pattern="yyyyMMdd" />
+			<format property="TSTAMP" pattern="HHmm" />
+		</tstamp>
+	</target>
+	
+	<!-- backup -->	
+	<target name="backup" depends="init">
+		<mkdir dir="${backup}/${DSTAMP}" />
+		<copy todir="${backup}/${DSTAMP}" >
+			<fileset dir="${src}" />
+		</copy>
+	</target>
+	
+	<!-- compile -->	
+	<target name="compile" depends="backup" description="compile the source">
+		<javac srcdir="${src}" destdir="${build}" />
+	</target>
+	
+	<!-- dist -->	
+	<target name="dist" depends="compile" description="generate the discribution">
+		<mkdir dir="${dist}/lib" />
+		<jar jarfile="${dist}/lib/main_${DSTAMP}.jar" basedir="${build}" />
+	</target>
+	
+	<!-- clean -->	
+	<target name="clean" description="clean up">
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+	
+	<!-- main -->	
+	<target name="main">
+		<wsgen/>
+	</target>
+	
+</project>
+
+
+# -----------------------------------------------------------------------------------------------------------
+[ Result ] sample - 2
+
+TESTANT
+	src
+		com.antTest
+			antTest.java
+	backup
+		20110208
+			com
+				antTest
+					antTest.java
+	build
+		com
+			antTest
+				antTest.class
+	dist
+		lib
+			main_20110208.jar
+	
+	axis_bujava.xml
+
+
+
+# -----------------------------------------------------------------------------------------------------------
+[ build.xml ] sample - 3
+
+<?xml version="1.0" encoding="utf-8"?>
+<project name="backup build script for ant" default="dist" basedir=".">
+
+	<property name="backup_src.dir" location="d:/workspace/" />
+	<property name="backup_dst.dir" location="d:/workspace/backup" />
+	<property name="crsweb1_jar.dir" location="d:/ASF/apphome/wtpwebapps/crsweb1" />
+	<property name="crsweb2_jar.dir" location="d:/ASF/apphome/wtpwebapps/crsweb2" />
+
+	<!-- date -->
+	<target name="init">
+		<tstamp>
+			<format property="yyyymmdd" pattern="yyyy-MM-dd"/>
+			<format property="hhmi" pattern="HH:mm"/>
+			<format property="DSTAMP" pattern="yyyyMMdd"/>
+			<format property="TSTAMP" pattern="HHmm"/>
+		</tstamp>
+		<echo message="Build Start!! Now time is ${yyyymmdd}-${hhmi}"/>
+		<mkdir dir="${backup_dst.dir}"/>
+		<echo message="Backup directory [${backup_dst.dir}] is created!!"/>
+	</target>
+
+	<!-- mkdir
+	<target name="backup_makedir">
+		<mkdir dir="${backup_dst.dir}"/>
+		<echo message="Backup directory created!!"/>
+	</target>
+	-->
+
+	<target name="dist" depends="init">
+		<zip zipfile="${backup_dst.dir}/crs_backup_${DSTAMP}${TSTAMP}.zip" >
+			<fileset dir="${backup_src.dir}" >
+				<include name="crscommon/**"/>
+				<include name="crsweb1/**"/>
+				<include name="crsweb2/**"/>
+			</fileset>
+		</zip>
+		<echo message="crs_backup_${DSTAMP}${TSTAMP}.zip is completed!!"/>
+
+		<jar jarfile="${backup_dst.dir}/crsweb1_app_${DSTAMP}${TSTAMP}.jar" >
+			<fileset dir="${crsweb1_jar.dir}" >
+				<include name="**"/>
+				<exclude name="WEB-INF/classes/crsweb.properties"/>
+				<exclude name="WEB-INF/classes/SqlMapConfig.xml"/>
+			</fileset>
+		</jar>
+		<echo message="crsweb1_app_${DSTAMP}${TSTAMP}.jar is completed!!"/>
+
+		<jar jarfile="${backup_dst.dir}/crsweb1_web_${DSTAMP}${TSTAMP}.jar" >
+			<fileset dir="${crsweb1_jar.dir}" >
+				<include name="css/**"/>
+				<include name="email/**"/>
+				<include name="images/**"/>
+				<include name="js/**"/>
+				<include name="RexServer30/**"/>
+				<include name="uploads/**"/>
+				<include name="XecureObject/**"/>
+				<include name="index.html"/>
+			</fileset>
+		</jar>
+		<echo message="crsweb1_web_${DSTAMP}${TSTAMP}.jar is completed!!"/>
+
+		<!-- crsweb2
+		<jar jarfile="${backup_dst.dir}/crsweb2_app_${DSTAMP}${TSTAMP}.jar" >
+			<fileset dir="${crsweb2_jar.dir}" >
+				<include name="**"/>
+			</fileset>
+		</jar>
+		<echo message="crsweb2_app_${DSTAMP}${TSTAMP}.jar is completed!!"/>
+		-->
+
+		<!-- ftp
+		<ftp server="ftp.apache.org"
+			remotedir="incoming"
+			userid="anonymous"
+			password="me@myorg.com"
+			depends="yes"  >
+			<fileset dir="htdocs/manual"/>
+		</ftp>
+		-->
+
+	<!-- echo message="Build End!!"/ -->
+	</target>
+</project>
 
 
 
@@ -720,6 +892,90 @@ http://ant.apacne.org/manual/index.html
 3. build.xml을 실행한다.
 
 
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+[ Java SE 6, Eclipse, Ant를 이용한 간단한 웹 서비스 ]
+
+wsgen    : 서비스 앤드 포인트 클래스를 읽고서 웹 서비스 전개 및 호출에 필요한 모든 아티팩트를 생성한다.
+
+wsimport : WSDL을 읽고서 웹 서비스 개발, 전개 및 호출에 필요한 모든 아티팩트를 생성한다.
+
+
+1. 웹서비스 서버 어플리케이션 : Create stand-alone Web services application with Eclipse and Java SE 6
+
+	사이트: https://www.ibm.com/developerworks/webservices/tutorials/ws-eclipse-javase1/ws-eclipse-javase1.html
+
+	package com.myfirst.wsServer;
+
+	@WebService
+	public class SayHello {
+		private static final String SALUTATION = "Hello";
+		
+		public String getGreeting(String name) {
+			return SALUTATION + " " + name;
+		}
+	}
+	
+	<project default="wsgen">
+		<target name="wsgen">
+			<exec executable="wsgen">
+				<arg line="-cp ./bin -keep -s ./src -d ./bin com.myfirst.wsServer.SayHello" />
+			</exec>
+		</target>
+	</project>
+
+	ant를 실행하면 com.myfirst.wsServer.jaxws가 생김
+	
+	package com.myfirst.wsServer;
+	
+	public class RunService {
+		public static void main(String[] args) {
+			System.out.println("SayHello Web Service started.");
+			Endpoint.publish("http://localhost:8080/wsServiceExample", new SayHello());
+		}
+	}
+	
+	Web 서버를 실행시키고, Browser로 http://localhost:8080/wsServerExample?wsdl을 입력하면 WSDL을 볼 수 있다.
+	
+	
+
+2. 웹서비스 클라이언트 응용프로그램 : Create stand-alone Web services application with Eclipse and Java SE 6
+
+	사이트: https://www.ibm.com/developerworks/webservices/tutorials/ws-jse/index.html
+
+	<project default="wsimport">
+		<target name="wsimport">
+			<exec executable="${java.home}/../bin/wsimport">
+				<arg line="-keep -s ./src -p com.myfirst.wsClient -d ./bin http://localhost:8080/wsServerExample?wsdl" />
+			</exec>
+		</target>
+	</project>
+
+	wsimport 태스크를 실행하면 WSDL를 참조해서 JAX-WS 관련 스텁이 생성된다.
+	
+	package com.myfirst.wsClient;
+	
+	public class SayHelloClient {
+		public static void main(String[] args) {
+			SayHelloService service = new SayHelloService();
+			SayHello proxy = (SayHello) service.getSayHelloPort();
+			((BindingProvider)proxy).getREquestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8080/wsServerExample");
+			
+			System.out.println(((BindingProvider)proxy).toString());
+			System.out.println(proxy.getGreeting("Fiona"));
+		}
+	}
+
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
