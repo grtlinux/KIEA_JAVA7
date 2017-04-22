@@ -1349,7 +1349,13 @@ wsimport : WSDL을 읽고서 웹 서비스 개발, 전개 및 호출에 필요한 모든 아티팩트를 �
 	
 		-> SUCCESS
 	
+	[참조]
 	
+		> mvn package
+		
+		> cd ..
+		
+		> mvn package -Pdist -DskipTests -Dtar
 	
 	
 	
