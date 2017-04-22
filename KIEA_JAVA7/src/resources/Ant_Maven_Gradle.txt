@@ -1426,6 +1426,13 @@ wsimport : WSDL을 읽고서 웹 서비스 개발, 전개 및 호출에 필요한 모든 아티팩트를 �
 	on project sshd: Deployment failed: repository element was not specified in the POM inside distributionManagement 
 	element or in -DaltDeploymentRepository=id::layout::url parameter -> [Help 1]	
 
+2. [ERROR] Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.8.2:deploy (default-deploy) 
+	on project sshd: Deployment failed: repository element was not specified in the POM inside distributionManagement 
+	element or in -DaltDeploymentRepository=id::layout::url parameter -> [Help 1]
+	
+	mvn -e -DaltDeploymentRepository=org.apache.sshd::sshd::sshd deploy
+
+
 
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
