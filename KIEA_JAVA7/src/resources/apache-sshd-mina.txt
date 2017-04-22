@@ -1,20 +1,1425 @@
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
+[ SshServer ]
+
+	SSHD Server 실행방법
+	
+		ServerSocket s = new ServerSocket(0);
+		port = s.getLocalPort();
+		s.close();
+		
+		SshServer sshd = SshServer.setUpDefaultServer();
+		sshd.setPort(port);
+		
+		sshd.setKeyPairProvider(Utils.createTestHostKeyProvider());
+		
+		sshd.setSubsystemFactories(Arrays.<NamedFactory<Command>>asList(new SftpSubsystem.Factory()));
+		sshd.setCommandFactory(new ScpCommandFactory());
+		sshd.setShellFactory(new EchoShellFactory());
+		
+		sshd.setPasswordAuthenticator(new BogusPasswordAuthenticator());
+		
+		sshd.start();
+
+
+	SSHD Server 사용자인증 방식 추가
+	
+		List<NamedFactory<UserAuth>> userAuthFactories = new ArrayList<NamedFactory<UserAuth>>(1);
+		userAuthFactories.add(new UserAuthGSS.Factory());
+		server.setUserAuthFactories(userAuthFactories);
+		
+		GSSAuthenticator authenticator = new GSSAuthenticator();
+		authenticator.setKeytabFile(keytab);
+		// authenticator.setServicePrincipalName(principalName);
+		server.setGSSAuthenticator(authenticator);
+
+
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
+
+/*! ******************************************************************************
+ * 
+ * Pentaho Data Integration 
+ * 
+ * Copyright (C) 2002-2015 by Pentaho : http://www.pentaho.com 
+ * 
+ ******************************************************************************* 
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with 
+ * the License. You may obtain a copy of the License at 
+ * 
+ *    http://www.apache.org/licenses/LICENSE-2.0 
+ * 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License. 
+ * 
+ ******************************************************************************/
+ 
+package org.pentaho.di.job.entries.sftp; 
+ 
+import java.io.IOException; 
+import java.util.Collections; 
+import java.util.Properties; 
+import java.util.Random; 
+import java.util.UUID; 
+ 
+import org.apache.sshd.SshServer; 
+import org.apache.sshd.common.NamedFactory; 
+import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory; 
+import org.apache.sshd.server.Command; 
+import org.apache.sshd.server.PasswordAuthenticator; 
+import org.apache.sshd.server.command.ScpCommandFactory; 
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider; 
+import org.apache.sshd.server.session.ServerSession; 
+import org.apache.sshd.sftp.subsystem.SftpSubsystem; 
+import org.junit.rules.TemporaryFolder; 
+ 
+import com.jcraft.jsch.JSch; 
+import com.jcraft.jsch.JSchException; 
+import com.jcraft.jsch.Session; 
+ 
+/**
+ * @author Andrey Khayrutdinov 
+ */ 
+public class SftpServer implements PasswordAuthenticator { 
+ 
+  /**
+   * Creates a server's instance for <tt>localhost</tt> using random values for username, password, and port. 
+   * 
+   * @param folder temporary folder 
+   * @return server's instance 
+   * @throws IOException 
+   */ 
+  public static SftpServer createDefaultServer( TemporaryFolder folder ) throws IOException { 
+    return new SftpServer( "fakeuser", UUID.randomUUID().toString(), new Random().nextInt( 20000 ) + 1024, 
+      folder.getRoot().getAbsolutePath(), folder.newFile( "server.key" ).getAbsolutePath() ); 
+  } 
+ 
+  private final String username; 
+  private final String password; 
+ 
+  private final SshServer server; 
+ 
+  /**
+   * Creates a server's instance for <tt>localhost</tt>, using supplied values for username, password, and port. 
+   *  
+   * @param username 
+   *   The username that will be allowed for authentication 
+   * @param password 
+   *   The password that will be allowed for authentication 
+   * @param port 
+   *   The port number that the SSH Server should listen on 
+   * @param homeDir 
+   *   The local directory that should be the SSH Server's root directory 
+   * @param hostKeyPath 
+   *   The file that should be used to store the SSH Host Key 
+   * @return 
+   *   An SftpServer instance 
+   * @throws IOException 
+   */ 
+  public SftpServer( String username, String password, int port, String homeDir, String hostKeyPath ) { 
+    this.username = username; 
+    this.password = password; 
+    this.server = createSshServer( port, homeDir, hostKeyPath ); 
+  } 
+ 
+  private SshServer createSshServer( int port, String homeDir, String hostKeyPath ) { 
+    SshServer server = SshServer.setUpDefaultServer(); 
+    server.setHost( "localhost" ); 
+    server.setPort( port ); 
+    server.setFileSystemFactory( new VirtualFileSystemFactory( homeDir ) ); 
+    server.setSubsystemFactories( Collections.<NamedFactory<Command>>singletonList( new SftpSubsystem.Factory() ) ); 
+    server.setCommandFactory( new ScpCommandFactory() ); 
+    server.setKeyPairProvider( new SimpleGeneratorHostKeyProvider( hostKeyPath ) ); 
+    server.setPasswordAuthenticator( this ); 
+    return server; 
+  } 
+ 
+  public String getUsername() { 
+    return username; 
+  } 
+ 
+  public String getPassword() { 
+    return password; 
+  } 
+ 
+  public int getPort() { 
+    return server.getPort(); 
+  } 
+ 
+  public void start() throws IOException { 
+    server.start(); 
+  } 
+ 
+  public void stop() throws InterruptedException { 
+    server.stop(); 
+  } 
+ 
+  public Session createJschSession() throws JSchException { 
+    JSch jsch = new JSch(); 
+    com.jcraft.jsch.Session session = jsch.getSession( username, server.getHost(), server.getPort() ); 
+    session.setPassword( password ); 
+ 
+    Properties config = new java.util.Properties(); 
+    config.put( "StrictHostKeyChecking", "no" ); 
+    session.setConfig( config ); 
+ 
+    return session; 
+  } 
+ 
+  @Override 
+  public boolean authenticate( String username, String password, ServerSession session ) { 
+    return this.username.equals( username ) && this.password.equals( password ); 
+  } 
+}
+
+
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
+
+/**
+ *  Copyright 2013 OpenBEL Consortium 
+ * 
+ *  Licensed under the Apache License, Version 2.0 (the "License"); 
+ *  you may not use this file except in compliance with the License. 
+ *  You may obtain a copy of the License at 
+ * 
+ *    http://www.apache.org/licenses/LICENSE-2.0 
+ * 
+ *  Unless required by applicable law or agreed to in writing, software 
+ *  distributed under the License is distributed on an "AS IS" BASIS, 
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ *  See the License for the specific language governing permissions and 
+ *  limitations under the License. 
+ */
+package org.openbel.framework.core.protocol.handler; 
+ 
+import java.io.File; 
+import java.io.IOException; 
+import java.util.Arrays; 
+ 
+import junit.framework.Assert; 
+ 
+import org.apache.sshd.SshServer; 
+import org.apache.sshd.common.NamedFactory; 
+import org.apache.sshd.server.Command; 
+import org.apache.sshd.server.PasswordAuthenticator; 
+import org.apache.sshd.server.command.ScpCommandFactory; 
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider; 
+import org.apache.sshd.server.session.ServerSession; 
+import org.apache.sshd.server.sftp.SftpSubsystem; 
+import org.junit.After; 
+import org.junit.Before; 
+import org.junit.Test; 
+import org.openbel.framework.core.protocol.handler.SftpProtocolHandler; 
+import org.openbel.framework.core.protocol.handler.SftpProtocolHandler.DefaultUserInfo; 
+ 
+/**
+ * {@link SftpLoaderTest} tests the {@link SftpProtocolHandler}. 
+ * 
+ * @author Anthony Bargnesi {@code <abargnesi@selventa.com>} 
+ */ 
+public class SftpLoaderTest extends AbstractProtocolTest { 
+    /**
+     * Defines the ssh server daemon. 
+     */ 
+    private SshServer sshd; 
+ 
+    /**
+     * Defines the random available ephermal port to use for the ssh 
+     * server. 
+     */ 
+    private int port; 
+ 
+    /**
+     * Defines the local test file to retrieve to. 
+     */ 
+    private File localTestFile; 
+ 
+    /**
+     * Set up the test. 
+     */ 
+    @SuppressWarnings("unchecked") 
+    @Before 
+    public void startSSHServer() { 
+        port = getAvailablePort(); 
+ 
+        sshd = SshServer.setUpDefaultServer(); 
+        sshd.setPort(port); 
+        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider( 
+                "src/test/resources/hostkey.ser")); 
+        sshd.setSubsystemFactories(Arrays 
+                .<NamedFactory<Command>> asList(new SftpSubsystem.Factory())); 
+        sshd.setCommandFactory(new ScpCommandFactory()); 
+        sshd.setPasswordAuthenticator(new PasswordAuthenticator() { 
+ 
+            @Override 
+            public boolean authenticate(String u, String p, ServerSession s) { 
+                return ("sftptest".equals(u) && "sftptest".equals(p)); 
+            } 
+        }); 
+ 
+        try { 
+            sshd.start(); 
+        } catch (IOException e) { 
+            e.printStackTrace(); 
+            Assert.fail(e.getMessage()); 
+        } 
+ 
+        localTestFile = new File(System.getProperty("user.dir") 
+                + File.separator + TEST_FILE_PATH); 
+    } 
+ 
+    /**
+     * Test cleanup - Stop the ssh server and delete test file. 
+     */ 
+    @After 
+    public void deleteTempFile() { 
+        try { 
+            sshd.stop(); 
+        } catch (InterruptedException e) { 
+            e.printStackTrace(); 
+            Assert.fail(e.getMessage()); 
+        } 
+ 
+        boolean deleted = new File("src/test/resources/hostkey.ser").delete(); 
+        assert deleted; 
+    } 
+ 
+    /**
+     * Test the successful retrieval of a file using username/password 
+     * authentication in the url. 
+     */ 
+    @Test 
+    public void testUsernamePasswordSecureFtpFilePath() { 
+        try { 
+            SftpProtocolHandler sftp = new SftpProtocolHandler(); 
+            File downloadedNamespace = sftp.downloadResource( 
+                    "sftp://sftptest:sftptest@localhost:" + port 
+                            + localTestFile.getAbsolutePath(), "test.belns"); 
+            tempFiles.add(downloadedNamespace); 
+            testFile(downloadedNamespace); 
+        } catch (Exception e) { 
+            e.printStackTrace(); 
+            Assert.fail("Error reading relative file path: " + e.getMessage()); 
+        } 
+    } 
+ 
+    /**
+     * Test the successful retrieval of a file only a username and prompting 
+     * for the password using {@link TestUserInfo}. 
+     */ 
+    @Test 
+    public void testUsernameOnlySecureFtpFilePath() { 
+        try { 
+            SftpProtocolHandler sftp = new SftpProtocolHandler(); 
+            sftp.setUserInfo(new TestUserInfo()); 
+            File downloadedNamespace = sftp.downloadResource( 
+                    "sftp://sftptest@localhost:" + port 
+                            + localTestFile.getAbsolutePath(), "test.belns"); 
+            tempFiles.add(downloadedNamespace); 
+            testFile(downloadedNamespace); 
+        } catch (Exception e) { 
+            e.printStackTrace(); 
+            Assert.fail("Error reading relative file path: " + e.getMessage()); 
+        } 
+    } 
+ 
+    /**
+     * TestUserInfo provides a mocked {@link DefaultUserInfo} to prompt for 
+     * and immediately return the test password. 
+     * 
+     * @author Anthony Bargnesi {@code <abargnesi@selventa.com>} 
+     */ 
+    protected class TestUserInfo extends DefaultUserInfo { 
+ 
+        /**
+         * Creates the test user info. 
+         */ 
+        public TestUserInfo() { 
+            new SftpProtocolHandler().super(); 
+        } 
+ 
+        /**
+         * {@inheritDoc} 
+         */ 
+        @Override 
+        public boolean promptPassword(String message) { 
+            p = "sftptest"; 
+            System.out.print(message + ": " + p); 
+            return true; 
+        } 
+    } 
+}
+
+
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
+
+package org.ovirt.engine.core.utils.hostinstall;
+ 
+import java.io.IOException; 
+import java.net.ServerSocket; 
+ 
+import junit.framework.TestCase; 
+ 
+import org.apache.sshd.SshServer; 
+import org.apache.sshd.server.Command; 
+import org.apache.sshd.server.CommandFactory; 
+import org.apache.sshd.server.command.ScpCommandFactory; 
+import org.apache.sshd.server.shell.ProcessShellFactory; 
+import org.junit.After; 
+import org.junit.Before; 
+import org.junit.Test; 
+ 
+import org.ovirt.engine.core.common.config.Config; 
+import org.ovirt.engine.core.common.config.IConfigUtilsInterface; 
+ 
+public class MinaInstallWrapperTest extends TestCase { 
+    private int port = 54321; 
+    private SshServer sshd; 
+    private boolean WinOS = false; 
+    private static String[] hostKstore = new String[] { "src/test/resources/.hostKstore" }; 
+    private static String[] factoryLin = new String[] { "/bin/bash", "-i", "-l" }; 
+    private static String[] factoryWin = new String[] { "cmd.exe" }; 
+ 
+    @Before 
+    public void setup() throws IOException { 
+        WinOS = System.getProperty("os.name").startsWith("Win"); 
+ 
+        ServerSocket s = new ServerSocket(0); 
+        port = s.getLocalPort(); 
+        s.close(); 
+ 
+        sshd = SshServer.setUpDefaultServer(); 
+        sshd.setPort(port); 
+        sshd.setKeyPairProvider(new KeystoreKeyPairProvider(hostKstore, "NoSoup4U", "engine")); 
+ 
+        if (WinOS) { 
+            sshd.setShellFactory(new ProcessShellFactory(factoryWin)); 
+        } else { 
+            sshd.setShellFactory(new ProcessShellFactory(factoryLin)); 
+        } 
+        sshd.setCommandFactory(new ScpCommandFactory(new CommandFactory() { 
+            public Command createCommand(String command) { 
+                return new ProcessShellFactory(command.split(" ")).create(); 
+            } 
+        })); 
+        sshd.setPasswordAuthenticator(new DummyPasswordAuthenticator()); 
+        sshd.setPublickeyAuthenticator(new DummyPublickeyAuthenticator()); 
+        sshd.start(); 
+        System.out.println("Finished setup !!! "); 
+    } 
+ 
+    @Test 
+    public void testMinaInstallWrapper() throws Exception { 
+        this.setup(); 
+ 
+        IConfigUtilsInterface confInstance = new DefaultValuesConfigUtil(); 
+        Config.setConfigUtils(confInstance); 
+ 
+        System.out.println("Testing password auth."); 
+        MinaInstallWrapper mina = new MinaInstallWrapper(); 
+        mina.setPort(port); 
+        System.out.println("Server port=" + port); 
+ 
+        assertTrue(mina.ConnectToServer("127.0.0.1", "root")); 
+ 
+        String cmd = "ls -l /tmp"; 
+        if (WinOS) { 
+            cmd = "cmd.exe /c dir c:\\"; 
+        } 
+        assertTrue(mina.RunSSHCommand(cmd)); 
+ 
+        mina.wrapperShutdown(); 
+        mina = null; 
+ 
+        System.out.println("Testing public key auth."); 
+        mina = new MinaInstallWrapper(); 
+        mina.setPort(port); 
+ 
+        assertTrue(mina.ConnectToServer("127.0.0.1", "src/test/resources/.keystore", "NoSoup4U")); 
+ 
+        mina.wrapperShutdown(); 
+        mina = null; 
+    } 
+ 
+    @After 
+    public void tearDown() throws Exception { 
+        System.out.println("Stopping...."); 
+        if (sshd != null) { 
+            sshd.stop(true); 
+            Thread.sleep(50); 
+        } 
+    } 
+}
+
+
+
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
+
+package net.sf.expectit.ant;
+ 
+/*
+ * #%L 
+ * ExpectIt 
+ * %% 
+ * Copyright (C) 2014 Alexey Gavrilov and contributors 
+ * %% 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ *  
+ *      http://www.apache.org/licenses/LICENSE-2.0 
+ *  
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License. 
+ * #L% 
+ */ 
+ 
+import static org.junit.Assert.fail; 
+import static org.junit.runners.Parameterized.Parameters; 
+ 
+import com.google.common.base.Function; 
+import com.google.common.base.Predicate; 
+import com.google.common.collect.Iterables; 
+import com.google.common.io.Resources; 
+import java.io.File; 
+import java.io.FileOutputStream; 
+import java.io.IOException; 
+import java.net.ServerSocket; 
+import java.net.URL; 
+import java.util.TreeSet; 
+import org.apache.ftpserver.FtpServer; 
+import org.apache.ftpserver.FtpServerFactory; 
+import org.apache.ftpserver.ftplet.FtpException; 
+import org.apache.ftpserver.listener.Listener; 
+import org.apache.ftpserver.listener.ListenerFactory; 
+import org.apache.ftpserver.usermanager.impl.BaseUser; 
+import org.apache.sshd.SshServer; 
+import org.apache.sshd.server.PasswordAuthenticator; 
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider; 
+import org.apache.sshd.server.session.ServerSession; 
+import org.apache.tools.ant.BuildException; 
+import org.apache.tools.ant.DefaultLogger; 
+import org.apache.tools.ant.Project; 
+import org.apache.tools.ant.ProjectHelper; 
+import org.junit.AfterClass; 
+import org.junit.BeforeClass; 
+import org.junit.Test; 
+import org.junit.runner.RunWith; 
+import org.junit.runners.Parameterized; 
+ 
+/**
+ * A test harness for running Ant targets. 
+ */ 
+@RunWith(Parameterized.class) 
+public class AntHarnessTest { 
+ 
+    private static FtpServer ftpServer; 
+    private static int ftpPort; 
+ 
+    private static SshServer sshServer; 
+    private static int sshPort; 
+ 
+ 
+    @BeforeClass 
+    public static void startFtpServer() throws FtpException { 
+        FtpServerFactory serverFactory = new FtpServerFactory(); 
+        BaseUser user = new BaseUser(); 
+        user.setName("ftp"); 
+        user.setPassword("secret"); 
+        serverFactory.getUserManager().save(user); 
+        ListenerFactory factory = new ListenerFactory(); 
+        factory.setPort(0); 
+        Listener listener = factory.createListener(); 
+        serverFactory.addListener("default", listener); 
+        ftpServer = serverFactory.createServer(); 
+        ftpServer.start(); 
+        ftpPort = listener.getPort(); 
+    } 
+ 
+    @BeforeClass 
+    public static void startSshServer() throws IOException { 
+        sshServer = SshServer.setUpDefaultServer(); 
+        ServerSocket serverSocket = new ServerSocket(0); 
+        sshPort = serverSocket.getLocalPort(); 
+        serverSocket.close(); 
+        sshServer.setPort(sshPort); 
+        sshServer.setPasswordAuthenticator( 
+                new PasswordAuthenticator() { 
+                    @Override 
+                    public boolean authenticate( 
+                            String username, 
+                            String password, 
+                            ServerSession session) { 
+                        return "ssh".equals(username) && "secret".equals(password); 
+                    } 
+                }); 
+        sshServer.setShellFactory(new SshEchoCommandFactory()); 
+        sshServer.setKeyPairProvider(new SimpleGeneratorHostKeyProvider()); 
+        sshServer.start(); 
+    } 
+ 
+    @AfterClass 
+    public static void stopServers() throws FtpException, InterruptedException { 
+        ftpServer.stop(); 
+        sshServer.stop(); 
+    } 
+ 
+    private static File buildFile; 
+ 
+    private static void setupBuildFile() throws IOException { 
+        if (buildFile != null) { 
+            return; 
+        } 
+        buildFile = File.createTempFile("build", ".xml"); 
+        buildFile.deleteOnExit(); 
+        URL url = Resources.getResource("build-test.xml"); 
+        Resources.copy(url, new FileOutputStream(buildFile)); 
+    } 
+ 
+    @Parameters(name = "{0}") 
+    public static Iterable<Object[]> data() throws IOException { 
+        Project project = newProject(); 
+        Function<String, Object[]> toTargetArray = new Function<String, Object[]>() { 
+            @Override 
+            public Object[] apply(String input) { 
+                return new Object[]{input}; 
+            } 
+        }; 
+        Iterable<String> filtered = Iterables.filter( 
+                new TreeSet<String>(project.getTargets().keySet()), 
+                new Predicate<String>() { 
+                    @Override 
+                    public boolean apply(String input) { 
+                        return !input.isEmpty(); 
+                    } 
+                } 
+        ); 
+        return Iterables.transform(filtered, toTargetArray); 
+    } 
+ 
+    private static Project newProject() throws IOException { 
+        setupBuildFile(); 
+        Project project = new Project(); 
+        project.setUserProperty("ant.file", buildFile.getAbsolutePath()); 
+        project.init(); 
+        DefaultLogger listener = new DefaultLogger(); 
+        listener.setErrorPrintStream(System.err); 
+        listener.setOutputPrintStream(System.out); 
+        listener.setMessageOutputLevel(Project.MSG_INFO); 
+        ProjectHelper helper = ProjectHelper.getProjectHelper(); 
+        project.addReference("ant.projectHelper", helper); 
+        project.setProperty("ftp.port", String.valueOf(ftpPort)); 
+        project.setProperty("ssh.port", String.valueOf(sshPort)); 
+        helper.parse(project, buildFile); 
+        project.addBuildListener(listener); 
+        return project; 
+    } 
+ 
+    private final String target; 
+ 
+    public AntHarnessTest(String target) { 
+        this.target = target; 
+    } 
+ 
+    @Test 
+    public void runTarget() throws IOException { 
+        Project project = newProject(); 
+        project.log("started: " + target); 
+        // prepare 
+        project.executeTarget(""); 
+        boolean negative = target.endsWith("-negative"); 
+        // run test 
+        try { 
+            project.executeTarget(target); 
+            if (negative) { 
+                fail("Negative test fails"); 
+            } 
+        } catch (BuildException e) { 
+            e.printStackTrace(); 
+            if (!negative) { 
+                fail("Positive test fails"); 
+            } 
+        } finally { 
+            project.log("finished"); 
+        } 
+    } 
+ 
+}
+
+
+
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
+
+package org.wso2.carbon.esb.vfs.transport.test;
+ 
+/**
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved. 
+ * 
+ * WSO2 Inc. licenses this file to you under the Apache License, 
+ * Version 2.0 (the "License"); you may not use this file except 
+ * in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0 
+ * 
+ * Unless required by applicable law or agreed to in writing, 
+ * software distributed under the License is distributed on an 
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND, either express or implied.  See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License. 
+ */ 
+ 
+import junit.framework.Assert; 
+import org.apache.axiom.om.OMElement; 
+import org.apache.axiom.om.util.AXIOMUtil; 
+import org.apache.commons.io.IOUtils; 
+import org.apache.sshd.SshServer; 
+import org.apache.sshd.common.NamedFactory; 
+import org.apache.sshd.server.Command; 
+import org.apache.sshd.server.PublickeyAuthenticator; 
+import org.apache.sshd.server.UserAuth; 
+import org.apache.sshd.server.auth.UserAuthPublicKey; 
+import org.apache.sshd.server.command.ScpCommandFactory; 
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider; 
+import org.apache.sshd.server.session.ServerSession; 
+import org.apache.sshd.server.sftp.SftpSubsystem; 
+import org.testng.annotations.AfterClass; 
+import org.testng.annotations.BeforeClass; 
+import org.testng.annotations.Test; 
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment; 
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment; 
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager; 
+import org.wso2.carbon.proxyadmin.stub.ProxyServiceAdminProxyAdminException; 
+import org.wso2.carbon.utils.ServerConstants; 
+import org.wso2.esb.integration.common.utils.ESBIntegrationTest; 
+ 
+import javax.xml.namespace.QName; 
+import javax.xml.stream.XMLStreamException; 
+import java.io.File; 
+import java.io.FileInputStream; 
+import java.io.FileOutputStream; 
+import java.io.IOException; 
+import java.nio.channels.FileChannel; 
+import java.security.PublicKey; 
+import java.util.ArrayList; 
+import java.util.List; 
+ 
+ 
+/**
+ * Test case for https://wso2.org/jira/browse/ESBJAVA-3470 
+ * VFS SFTP using passphrase protected keys 
+ */ 
+public class ESBJAVA3470 extends ESBIntegrationTest { 
+    //Server credentials 
+    //DO NOT CHANGE 
+    private static final String SFTP_USER_NAME = "sftpuser"; 
+    private static final String IDENTITY_PASSPHRASE = "wso2test"; 
+    private static final String INPUT_FOLDER_NAME = "in"; 
+    private static final String OUTPUT_FOLDER_NAME = "out"; 
+    private static final String MOVE_FOLDER_NAME = "original"; 
+    private static final String STOCK_QUOTE = "http://localhost:9000/services/SimpleStockQuoteService"; 
+ 
+    private SshServer sshd; 
+    private File inputFolder; 
+    private File outputFolder; 
+    private File originalFolder; 
+    private File SFTPFolder; 
+    private String carbonHome; 
+ 
+    private ServerConfigurationManager serverConfigurationManager; 
+ 
+    @BeforeClass(alwaysRun = true) 
+    public void deployService() throws Exception { 
+ 
+        super.init(); 
+        serverConfigurationManager = new ServerConfigurationManager(context); 
+        serverConfigurationManager.applyConfiguration(new File(getClass().getResource(File.separator + "artifacts" + File.separator + "ESB" + File.separator + "synapseconfig" + File.separator + "vfsTransport" + File.separator + "axis2.xml").getPath())); 
+        super.init(); 
+ 
+        carbonHome = System.getProperty(ServerConstants.CARBON_HOME); 
+ 
+        setupSftpFolders(carbonHome); 
+        setupSftpServer(); 
+        Thread.sleep(15000); 
+    } 
+ 
+    @Test(groups = "wso2.esb", description = "VFS absolute path test for sftp") 
+    @SetEnvironment(executionEnvironments = { ExecutionEnvironment.ALL }) 
+    public void test() throws XMLStreamException, ProxyServiceAdminProxyAdminException, IOException, InterruptedException { 
+ 
+        String baseDir; 
+        ClassLoader classLoader = getClass().getClassLoader(); 
+        String identityFile = classLoader.getResource("sftp/id_rsa").getFile(); 
+        String sentMessageFile = "getQuote.xml"; 
+        File sourceMessage = new File(classLoader.getResource("sftp/" + sentMessageFile).getFile()); 
+        File destinationMessage = new File(inputFolder + File.separator + sentMessageFile); 
+        copyFile(sourceMessage, destinationMessage); 
+ 
+        //This is required to handle SFTP server root differences 
+        if(carbonHome.indexOf("/target") > 0){ 
+            baseDir = (carbonHome.split("/target"))[1]; 
+        } else { 
+            baseDir = carbonHome; 
+        } 
+ 
+        String proxy =  "<proxy xmlns=\"http://ws.apache.org/ns/synapse\"\n" + 
+                "       name=\"SFTPTestCaseProxy\"\n" + 
+                "       transports=\"vfs\"\n" + 
+                "       statistics=\"disable\"\n" + 
+                "       trace=\"disable\"\n" + 
+                "       startOnLoad=\"true\">\n" + 
+                "   <target>\n" + 
+                "      <inSequence>\n" + 
+                "           <send>\n" + 
+                "               <endpoint>\n" + 
+                "                   <address uri=\"" + STOCK_QUOTE + "\"/>\n" + 
+                "               </endpoint>\n" + 
+                "           </send>" + 
+                "      </inSequence>\n" + 
+                "      <outSequence/>\n" + 
+                "   </target>\n" + 
+                "   <parameter name=\"transport.vfs.ActionAfterProcess\">MOVE</parameter>\n" + 
+                "   <parameter name=\"transport.PollInterval\">5</parameter>\n" + 
+                "   <parameter name=\"transport.vfs.MoveAfterProcess\">vfs:sftp://" + SFTP_USER_NAME + 
+                "@localhost:9009"+baseDir +"/out/</parameter>\n" + 
+                "   <parameter name=\"transport.vfs.FileURI\">vfs:sftp://" + SFTP_USER_NAME + "@localhost:9009"+baseDir +"/in/</parameter>\n" + 
+                "   <parameter name=\"transport.vfs.MoveAfterFailure\">vfs:sftp://" + SFTP_USER_NAME + "@localhost:9009"+baseDir +"/original/</parameter>\n" + 
+                "   <parameter name=\"transport.vfs.FileNamePattern\">.*\\.xml</parameter>\n" + 
+                "   <parameter name=\"transport.vfs.ContentType\">text/xml</parameter>\n" + 
+                "   <parameter name=\"transport.vfs.ActionAfterFailure\">MOVE</parameter>\n" + 
+                "   <parameter name=\"transport.vfs.SFTPIdentityPassPhrase\">" + IDENTITY_PASSPHRASE + "</parameter>\n" + 
+                "   <parameter name=\"transport.vfs.SFTPIdentities\">" + identityFile + "</parameter>\n" + 
+                "   <description/>\n" + 
+                "</proxy>\n" + 
+                "                                "; 
+        OMElement proxyOM = AXIOMUtil.stringToOM(proxy); 
+ 
+        //create VFS transport listener proxy 
+        try { 
+            addProxyService(proxyOM); 
+        } catch (Exception e) { 
+            log.error("Error while updating the Synapse config", e); 
+        } 
+        log.info("Synapse config updated"); 
+        Thread.sleep(30000); 
+ 
+        //check whether the added message was moved to the original folder 
+        final File[] files = outputFolder.listFiles(); 
+        if (files != null) { 
+            Assert.assertEquals(files.length > 0, true); 
+        } 
+    } 
+ 
+    @AfterClass(alwaysRun = true) 
+    public void stopSFTPServer() throws Exception { 
+        //sshd.stop(); 
+        log.info("SFTP Server stopped successfully"); 
+        super.cleanup(); 
+        serverConfigurationManager.restoreToLastConfiguration(); 
+    } 
+ 
+    /**
+     * Creates the required directories 
+     */ 
+    private void setupSftpFolders(String baseDir) { 
+        //local folder of the SFTP server root 
+        SFTPFolder = new File(baseDir); 
+ 
+        //create FTP server root folder and sub-folders 
+        if (!SFTPFolder.exists()) { 
+            SFTPFolder.mkdir(); 
+        } 
+ 
+        inputFolder = new File(SFTPFolder.getAbsolutePath() + File.separator + INPUT_FOLDER_NAME); 
+        outputFolder = new File(SFTPFolder.getAbsolutePath() + File.separator + OUTPUT_FOLDER_NAME); 
+        originalFolder = new File(SFTPFolder.getAbsolutePath() + File.separator + MOVE_FOLDER_NAME); 
+ 
+        if (inputFolder.exists()) { 
+            inputFolder.delete(); 
+        } 
+        if (outputFolder.exists()) { 
+            outputFolder.delete(); 
+        } 
+        if (originalFolder.exists()) { 
+            originalFolder.delete(); 
+        } 
+ 
+        log.info("Creating inputFolder " + inputFolder.getAbsolutePath()); 
+        inputFolder.mkdir(); 
+        log.info("Creating outputFolder " + outputFolder.getAbsolutePath()); 
+        outputFolder.mkdir(); 
+        log.info("Creating originalFolder " + originalFolder.getAbsolutePath()); 
+        originalFolder.mkdir(); 
+    } 
+ 
+    /**
+     * Starts a SFTP server on port 22 
+     */ 
+    private void setupSftpServer() { 
+        SshServer sshd = SshServer.setUpDefaultServer(); 
+        sshd.setPort(9009); 
+        //sshd.setKeyPairProvider(new FileKeyPairProvider(new String[]{"/home/ravi/WORK/SUPPORT/JIRA/SKYTVNZDEV-26/SftpTest/dist/hostkey.ser"})); 
+        ClassLoader classLoader = getClass().getClassLoader(); 
+        log.info("Using identity file: " + classLoader.getResource("sftp/id_rsa.pub").getFile()); 
+        File file = new File(classLoader.getResource("sftp/id_rsa.pub").getFile()); 
+        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(file.getAbsolutePath())); 
+        System.out.println(file.getAbsolutePath()); 
+ 
+        List<NamedFactory<UserAuth>> userAuthFactories = new ArrayList<NamedFactory<UserAuth>>(); 
+        userAuthFactories.add(new UserAuthPublicKey.Factory()); 
+        sshd.setUserAuthFactories(userAuthFactories); 
+ 
+        sshd.setPublickeyAuthenticator(new PublickeyAuthenticator() { 
+            public boolean authenticate(String username, PublicKey key, ServerSession session) { 
+                if ("sftpuser".equals(username)) { 
+                    return true; 
+                } 
+ 
+                return false; 
+            } 
+        }); 
+ 
+        sshd.setCommandFactory(new ScpCommandFactory()); 
+ 
+        List<NamedFactory<Command>> namedFactoryList = new ArrayList<NamedFactory<Command>>(); 
+        namedFactoryList.add(new SftpSubsystem.Factory()); 
+        sshd.setSubsystemFactories(namedFactoryList); 
+ 
+        try { 
+            sshd.start(); 
+        } catch (Exception e) { 
+            e.printStackTrace(); 
+        } 
+    } 
+ 
+    /**
+     * Copy the given source file to the given destination 
+     * 
+     * @param sourceFile 
+     *                 source file 
+     * @param destFile 
+     *                 destination file 
+     * @throws IOException 
+     */ 
+    public static void copyFile(File sourceFile, File destFile) throws IOException { 
+        if (!destFile.exists()) { 
+            destFile.createNewFile(); 
+        } 
+        FileInputStream fileInputStream = null; 
+        FileOutputStream fileOutputStream = null; 
+ 
+        try { 
+            fileInputStream = new FileInputStream(sourceFile); 
+            fileOutputStream = new FileOutputStream(destFile); 
+ 
+            FileChannel source = fileInputStream.getChannel(); 
+            FileChannel destination = fileOutputStream.getChannel(); 
+            destination.transferFrom(source, 0, source.size()); 
+        } finally { 
+            IOUtils.closeQuietly(fileInputStream); 
+            IOUtils.closeQuietly(fileOutputStream); 
+        } 
+    } 
+ 
+    protected void addProxyService(OMElement proxyConfig) throws Exception { 
+        String proxyName = proxyConfig.getAttributeValue(new QName("name")); 
+        if (esbUtils.isProxyServiceExist(context.getContextUrls().getBackEndUrl(), sessionCookie, proxyName)) { 
+            esbUtils.deleteProxyService(context.getContextUrls().getBackEndUrl(), sessionCookie, proxyName); 
+        } 
+        esbUtils.addProxyService(context.getContextUrls().getBackEndUrl(), sessionCookie, setEndpoints(proxyConfig)); 
+    } 
+}
+
+
+
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
+
+/*
+* JBoss, Home of Professional Open Source 
+* Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual 
+* contributors by the @authors tag. See the copyright.txt in the 
+* distribution for a full listing of individual contributors. 
+* 
+* Licensed under the Apache License, Version 2.0 (the "License"); 
+* you may not use this file except in compliance with the License. 
+* You may obtain a copy of the License at 
+* http://www.apache.org/licenses/LICENSE-2.0 
+* Unless required by applicable law or agreed to in writing, software 
+* distributed under the License is distributed on an "AS IS" BASIS, 
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+* See the License for the specific language governing permissions and 
+* limitations under the License. 
+*/
+ 
+package com.redhat.acceptance.utils; 
+ 
+import java.io.IOException; 
+import java.util.ArrayList; 
+import java.util.List; 
+ 
+import org.apache.sshd.SshServer; 
+import org.apache.sshd.common.NamedFactory; 
+import org.apache.sshd.server.Command; 
+import org.apache.sshd.server.UserAuth; 
+import org.apache.sshd.server.auth.UserAuthNone; 
+import org.apache.sshd.server.command.ScpCommandFactory; 
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider; 
+import org.apache.sshd.server.sftp.SftpSubsystem; 
+ 
+public class FtpServer { 
+  private SshServer sshd; 
+   
+  public FtpServer(int port){ 
+    sshd = SshServer.setUpDefaultServer(); 
+    sshd.setPort(port); 
+    sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider("target/hostkey.ser")); 
+     
+    List<NamedFactory<UserAuth>> userAuthFactories = new ArrayList<NamedFactory<UserAuth>>(); 
+    userAuthFactories.add(new UserAuthNone.Factory()); 
+    sshd.setUserAuthFactories(userAuthFactories); 
+ 
+    sshd.setCommandFactory(new ScpCommandFactory()); 
+ 
+    List<NamedFactory<Command>> namedFactoryList = new ArrayList<NamedFactory<Command>>(); 
+    namedFactoryList.add(new SftpSubsystem.Factory()); 
+    sshd.setSubsystemFactories(namedFactoryList); 
+  } 
+   
+  public FtpServer start() { 
+      try { 
+        sshd.start(); 
+      } catch (IOException e) { 
+        e.printStackTrace(); 
+      } 
+      return this; 
+  } 
+   
+  public FtpServer stop() { 
+    try { 
+      sshd.stop(); 
+    } catch (InterruptedException e) { 
+      e.printStackTrace(); 
+    } 
+    return this; 
+  } 
+   
+}
+
+
+
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
+
+/*
+ * Syncany, www.syncany.org 
+ * Copyright (C) 2011-2014 Philipp C. Heckel <philipp.heckel@gmail.com>  
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ * 
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * GNU General Public License for more details. 
+ * 
+ * You should have received a copy of the GNU General Public License 
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+ */
+package org.syncany.tests.plugin.sftp; 
+ 
+import java.io.File; 
+import java.io.IOException; 
+import java.util.ArrayList; 
+import java.util.List; 
+ 
+import org.apache.sshd.SshServer; 
+import org.apache.sshd.common.NamedFactory; 
+import org.apache.sshd.common.file.nativefs.NativeFileSystemFactory; 
+import org.apache.sshd.server.Command; 
+import org.apache.sshd.server.PasswordAuthenticator; 
+import org.apache.sshd.server.UserAuth; 
+import org.apache.sshd.server.auth.UserAuthPassword; 
+import org.apache.sshd.server.command.ScpCommandFactory; 
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider; 
+import org.apache.sshd.server.session.ServerSession; 
+import org.apache.sshd.server.sftp.SftpSubsystem; 
+ 
+/**
+ * @author vincent 
+ * 
+ */ 
+public class EmbeddedSftpServerTest { 
+ public static int PORT = 2338; 
+ public static String HOST = "127.0.0.1"; 
+ 
+ private static SshServer sshd; 
+ 
+ public static void stopServer() throws InterruptedException { 
+  if (sshd != null) { 
+   sshd.stop(); 
+  } 
+ } 
+ 
+ public static void startServer() throws IOException { 
+  File hostKeyFile = File.createTempFile("hostkey", "ser"); 
+   
+  sshd = SshServer.setUpDefaultServer(); 
+  sshd.setPort(PORT); 
+  sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(hostKeyFile.getAbsolutePath())); 
+  sshd.setFileSystemFactory(new NativeFileSystemFactory()); 
+ 
+  List<NamedFactory<UserAuth>> userAuthFactories = new ArrayList<NamedFactory<UserAuth>>(); 
+  userAuthFactories.add(new UserAuthPassword.Factory()); 
+  sshd.setUserAuthFactories(userAuthFactories); 
+ 
+  sshd.setCommandFactory(new ScpCommandFactory()); 
+ 
+  List<NamedFactory<Command>> namedFactoryList = new ArrayList<NamedFactory<Command>>(); 
+  namedFactoryList.add(new SftpSubsystem.Factory()); 
+  sshd.setSubsystemFactories(namedFactoryList); 
+  sshd.setPasswordAuthenticator(new PasswordAuthenticator() { 
+   @Override 
+   public boolean authenticate(String username, String password, ServerSession session) { 
+    return true; 
+   } 
+  }); 
+ 
+  sshd.start(); 
+ } 
+}
+
+
+
 # -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one 
+ *  or more contributor license agreements.  See the NOTICE file 
+ *  distributed with this work for additional information 
+ *  regarding copyright ownership.  The ASF licenses this file 
+ *  to you under the Apache License, Version 2.0 (the 
+ *  "License"); you may not use this file except in compliance 
+ *  with the License.  You may obtain a copy of the License at 
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0 
+ * 
+ *  Unless required by applicable law or agreed to in writing, software 
+ *  distributed under the License is distributed on an "AS IS" BASIS, 
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ *  See the License for the specific language governing permissions and 
+ *  limitations under the License. 
+ */
+package org.apache.hadoop.fs.sftp; 
+ 
+import java.io.IOException; 
+import java.net.URI; 
+import java.util.ArrayList; 
+import java.util.Arrays; 
+import java.util.List; 
+ 
+import org.apache.hadoop.conf.Configuration; 
+import org.apache.hadoop.fs.FSDataInputStream; 
+import org.apache.hadoop.fs.FSDataOutputStream; 
+import org.apache.hadoop.fs.FileStatus; 
+import org.apache.hadoop.fs.FileSystem; 
+import org.apache.hadoop.fs.Path; 
+import org.apache.hadoop.util.Shell; 
+ 
+import org.apache.sshd.SshServer; 
+import org.apache.sshd.common.NamedFactory; 
+import org.apache.sshd.server.Command; 
+import org.apache.sshd.server.PasswordAuthenticator; 
+import org.apache.sshd.server.UserAuth; 
+import org.apache.sshd.server.auth.UserAuthPassword; 
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider; 
+import org.apache.sshd.server.session.ServerSession; 
+import org.apache.sshd.server.sftp.SftpSubsystem; 
+ 
+import org.junit.AfterClass; 
+import org.junit.BeforeClass; 
+import org.junit.Rule; 
+import org.junit.Test; 
+import org.junit.rules.TestName; 
+ 
+import static org.junit.Assert.*; 
+import static org.junit.Assume.assumeTrue; 
+ 
+public class TestSFTPFileSystem { 
+ 
+  private static final String TEST_SFTP_DIR = "testsftp"; 
+  private static final String TEST_ROOT_DIR = 
+    System.getProperty("test.build.data", "build/test/data"); 
+ 
+  @Rule public TestName name = new TestName(); 
+ 
+  private static final String connection = "sftp://user:password@localhost"; 
+  private static Path localDir = null; 
+  private static FileSystem localFs = null; 
+  private static FileSystem sftpFs = null; 
+  private static SshServer sshd = null; 
+  private static int port; 
+ 
+  private static void startSshdServer() throws IOException { 
+    sshd = SshServer.setUpDefaultServer(); 
+    // ask OS to assign a port 
+    sshd.setPort(0); 
+    sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider()); 
+ 
+    List<NamedFactory<UserAuth>> userAuthFactories = 
+        new ArrayList<NamedFactory<UserAuth>>(); 
+    userAuthFactories.add(new UserAuthPassword.Factory()); 
+ 
+    sshd.setUserAuthFactories(userAuthFactories); 
+ 
+    sshd.setPasswordAuthenticator(new PasswordAuthenticator() { 
+      @Override 
+      public boolean authenticate(String username, String password, 
+          ServerSession session) { 
+        if (username.equals("user") && password.equals("password")) { 
+          return true; 
+        } 
+        return false; 
+      } 
+    }); 
+ 
+    sshd.setSubsystemFactories( 
+        Arrays.<NamedFactory<Command>>asList(new SftpSubsystem.Factory())); 
+ 
+    sshd.start(); 
+    port = sshd.getPort(); 
+  } 
+ 
+  @BeforeClass 
+  public static void setUp() throws Exception { 
+    // skip all tests if running on Windows 
+    assumeTrue(!Shell.WINDOWS); 
+ 
+    startSshdServer(); 
+ 
+    Configuration conf = new Configuration(); 
+    conf.setClass("fs.sftp.impl", SFTPFileSystem.class, FileSystem.class); 
+    conf.setInt("fs.sftp.host.port", port); 
+    conf.setBoolean("fs.sftp.impl.disable.cache", true); 
+ 
+    localFs = FileSystem.getLocal(conf); 
+    localDir = localFs.makeQualified(new Path(TEST_ROOT_DIR, TEST_SFTP_DIR)); 
+    if (localFs.exists(localDir)) { 
+      localFs.delete(localDir, true); 
+    } 
+    localFs.mkdirs(localDir); 
+ 
+    sftpFs = FileSystem.get(URI.create(connection), conf); 
+  } 
+ 
+  @AfterClass 
+  public static void tearDown() { 
+    if (localFs != null) { 
+      try { 
+        localFs.delete(localDir, true); 
+        localFs.close(); 
+      } catch (IOException e) { 
+        // ignore 
+      } 
+    } 
+    if (sftpFs != null) { 
+      try { 
+        sftpFs.close(); 
+      } catch (IOException e) { 
+        // ignore 
+      } 
+    } 
+    if (sshd != null) { 
+      try { 
+        sshd.stop(true); 
+      } catch (InterruptedException e) { 
+        // ignore 
+      } 
+    } 
+  } 
+ 
+  private static final Path touch(FileSystem fs, String filename) 
+      throws IOException { 
+    return touch(fs, filename, null); 
+  } 
+ 
+  private static final Path touch(FileSystem fs, String filename, byte[] data) 
+      throws IOException { 
+    Path lPath = new Path(localDir.toUri().getPath(), filename); 
+    FSDataOutputStream out = null; 
+    try { 
+      out = fs.create(lPath); 
+      if (data != null) { 
+        out.write(data); 
+      } 
+    } finally { 
+      if (out != null) { 
+        out.close(); 
+      } 
+    } 
+    return lPath; 
+  } 
+ 
+  /**
+   * Creates a file and deletes it. 
+   * 
+   * @throws Exception 
+   */ 
+  @Test 
+  public void testCreateFile() throws Exception { 
+    Path file = touch(sftpFs, name.getMethodName().toLowerCase()); 
+    assertTrue(localFs.exists(file)); 
+    assertTrue(sftpFs.delete(file, false)); 
+    assertFalse(localFs.exists(file)); 
+  } 
+ 
+  /**
+   * Checks if a new created file exists. 
+   * 
+   * @throws Exception 
+   */ 
+  @Test 
+  public void testFileExists() throws Exception { 
+    Path file = touch(localFs, name.getMethodName().toLowerCase()); 
+    assertTrue(sftpFs.exists(file)); 
+    assertTrue(localFs.exists(file)); 
+    assertTrue(sftpFs.delete(file, false)); 
+    assertFalse(sftpFs.exists(file)); 
+    assertFalse(localFs.exists(file)); 
+  } 
+ 
+  /**
+   * Test writing to a file and reading its value. 
+   * 
+   * @throws Exception 
+   */ 
+  @Test 
+  public void testReadFile() throws Exception { 
+    byte[] data = "yaks".getBytes(); 
+    Path file = touch(localFs, name.getMethodName().toLowerCase(), data); 
+    FSDataInputStream is = null; 
+    try { 
+      is = sftpFs.open(file); 
+      byte[] b = new byte[data.length]; 
+      is.read(b); 
+      assertArrayEquals(data, b); 
+    } finally { 
+      if (is != null) { 
+        is.close(); 
+      } 
+    } 
+    assertTrue(sftpFs.delete(file, false)); 
+  } 
+ 
+  /**
+   * Test getting the status of a file. 
+   * 
+   * @throws Exception 
+   */ 
+  @Test 
+  public void testStatFile() throws Exception { 
+    byte[] data = "yaks".getBytes(); 
+    Path file = touch(localFs, name.getMethodName().toLowerCase(), data); 
+ 
+    FileStatus lstat = localFs.getFileStatus(file); 
+    FileStatus sstat = sftpFs.getFileStatus(file); 
+    assertNotNull(sstat); 
+ 
+    assertEquals(lstat.getPath().toUri().getPath(), 
+                 sstat.getPath().toUri().getPath()); 
+    assertEquals(data.length, sstat.getLen()); 
+    assertEquals(lstat.getLen(), sstat.getLen()); 
+    assertTrue(sftpFs.delete(file, false)); 
+  } 
+ 
+  /**
+   * Test deleting a non empty directory. 
+   * 
+   * @throws Exception 
+   */ 
+  @Test(expected=java.io.IOException.class) 
+  public void testDeleteNonEmptyDir() throws Exception { 
+    Path file = touch(localFs, name.getMethodName().toLowerCase()); 
+    sftpFs.delete(localDir, false); 
+  } 
+ 
+  /**
+   * Test deleting a file that does not exist. 
+   * 
+   * @throws Exception 
+   */ 
+  @Test 
+  public void testDeleteNonExistFile() throws Exception { 
+    Path file = new Path(localDir, name.getMethodName().toLowerCase()); 
+    assertFalse(sftpFs.delete(file, false)); 
+  } 
+ 
+  /**
+   * Test renaming a file. 
+   * 
+   * @throws Exception 
+   */ 
+  @Test 
+  public void testRenameFile() throws Exception { 
+    byte[] data = "dingos".getBytes(); 
+    Path file1 = touch(localFs, name.getMethodName().toLowerCase() + "1"); 
+    Path file2 = new Path(localDir, name.getMethodName().toLowerCase() + "2"); 
+ 
+    assertTrue(sftpFs.rename(file1, file2)); 
+ 
+    assertTrue(sftpFs.exists(file2)); 
+    assertFalse(sftpFs.exists(file1)); 
+ 
+    assertTrue(localFs.exists(file2)); 
+    assertFalse(localFs.exists(file1)); 
+ 
+    assertTrue(sftpFs.delete(file2, false)); 
+  } 
+ 
+  /**
+   * Test renaming a file that does not exist. 
+   * 
+   * @throws Exception 
+   */ 
+  @Test(expected=java.io.IOException.class) 
+  public void testRenameNonExistFile() throws Exception { 
+    Path file1 = new Path(localDir, name.getMethodName().toLowerCase() + "1"); 
+    Path file2 = new Path(localDir, name.getMethodName().toLowerCase() + "2"); 
+    sftpFs.rename(file1, file2); 
+  } 
+ 
+  /**
+   * Test renaming a file onto an existing file. 
+   * 
+   * @throws Exception 
+   */ 
+  @Test(expected=java.io.IOException.class) 
+  public void testRenamingFileOntoExistingFile() throws Exception { 
+    Path file1 = touch(localFs, name.getMethodName().toLowerCase() + "1"); 
+    Path file2 = touch(localFs, name.getMethodName().toLowerCase() + "2"); 
+    sftpFs.rename(file1, file2); 
+  } 
+ 
+}
+
+
+
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------
