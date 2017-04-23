@@ -53,9 +53,46 @@ public class MainTestDaemon {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static Thread thrController;
+	private static Thread thrDaemon;
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static class ThrController extends Thread {
+		
+		public ThrController(String thrName) {
+			super(thrName);
+		}
+		
+		@Override
+		public void run() {
+			
+			for (int i=0; i < 5; i++) {
+				
+				try { Thread.sleep(5000); } catch (InterruptedException e) {}
+				
+				System.out.printf("\n[%s][thrDaemon.isAlive=%s]\n", this.getName(), MainTestDaemon.thrDaemon.isAlive());
+			}
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static class ThrDaemon implements Runnable {
+	
+		@Override
+		public void run() {
+			
+			while (true) {
+				System.out.print(".");
+				
+				try { Thread.sleep(1000); } catch (InterruptedException e) {}
+			}
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +111,26 @@ public class MainTestDaemon {
 			new MainTestDaemon();
 
 		if (flag) {
-
+			/*
+			 * begin
+			 */
+			if (flag) {
+				/*
+				 * run daemon thread
+				 */
+				MainTestDaemon.thrDaemon = new Thread(new ThrDaemon(), "THR_DAEMON");
+				MainTestDaemon.thrDaemon.setDaemon(true);
+				MainTestDaemon.thrDaemon.start();
+			}
+			
+			if (flag) {
+				/*
+				 * run controller thread
+				 */
+				MainTestDaemon.thrController = new ThrController("THR_CONTROLLER");
+				MainTestDaemon.thrController.start();
+				MainTestDaemon.thrController.join();
+			}
 		}
 	}
 
