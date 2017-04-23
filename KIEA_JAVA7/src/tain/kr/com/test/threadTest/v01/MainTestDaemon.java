@@ -68,11 +68,18 @@ public class MainTestDaemon {
 		@Override
 		public void run() {
 			
+			if (Thread.currentThread().isDaemon()) {
+				System.out.println(Thread.currentThread().getName() + " daemon thread");
+			} else {
+				System.out.println(Thread.currentThread().getName() + " user thread");
+			}
+
 			for (int i=0; i < 5; i++) {
 				
 				try { Thread.sleep(5000); } catch (InterruptedException e) {}
 				
-				System.out.printf("\n[%s][thrDaemon.isAlive=%s]\n", this.getName(), MainTestDaemon.thrDaemon.isAlive());
+				System.out.printf("\n[%s][thrDaemon.isAlive=%s]\n"
+						, Thread.currentThread().getName(), MainTestDaemon.thrDaemon.isAlive());
 			}
 		}
 	}
@@ -84,6 +91,12 @@ public class MainTestDaemon {
 	
 		@Override
 		public void run() {
+			
+			if (Thread.currentThread().isDaemon()) {
+				System.out.println(Thread.currentThread().getName() + " daemon thread #");
+			} else {
+				System.out.println(Thread.currentThread().getName() + " user thread #");
+			}
 			
 			while (true) {
 				System.out.print(".");
