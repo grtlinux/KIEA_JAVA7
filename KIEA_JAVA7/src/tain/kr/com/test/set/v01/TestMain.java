@@ -20,6 +20,7 @@
 package tain.kr.com.test.set.v01;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
@@ -86,17 +87,44 @@ public final class TestMain {
 			
 			Random random = new Random(new Date().getTime());
 			
-			for (int i=0; i < 100; i++) {
-				setNum.add(random.nextInt(20));
+			for (int i=0; i < 24; i++) {
+				setNum.add(random.nextInt(24));
 			}
 			
 			if (flag) {
 				/*
-				 * use for loop
+				 * use the for loop
 				 */
 				int i = 0;
+				System.out.println("---------------------- use the for loop ---------------------------");
 				for (Integer num : setNum) {
-					System.out.printf("%2d [%d]\n", i, num);
+					System.out.printf("%2d [%02d]\n", ++i, num);
+				}
+				System.out.println("-------------------------------------------------");
+			}
+			
+			if (flag) {
+				/*
+				 * use the iterator loop
+				 */
+				Iterator<Integer> iter = setNum.iterator();
+				int i = 0;
+				System.out.println("---------------------- use the iterator loop ---------------------------");
+				while (iter.hasNext()) {
+					System.out.printf("%2d [%02d]\n", ++i, iter.next());
+				}
+				System.out.println("-------------------------------------------------");
+			}
+			
+			if (flag) {
+				/*
+				 * use the array
+				 */
+				Integer[] num = setNum.toArray(new Integer[setNum.size()]);
+				
+				System.out.println("---------------------- use the array ---------------------------");
+				for (int i=0; i < num.length; i++) {
+					System.out.printf("%2d [%02d]\n", i+1, num[i]);
 				}
 				System.out.println("-------------------------------------------------");
 			}
