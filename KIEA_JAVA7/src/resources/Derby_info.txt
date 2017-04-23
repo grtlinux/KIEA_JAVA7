@@ -710,7 +710,7 @@ set DERBY_HOME=jdk1.7.0_79/db
 		
 		SELECT TIMESTAMP('2008-01-01 10:10:10.000') AS TIME_STAMP FROM SYSIBM.SYSDUMMY1;
 		
-14) derby.property
+14) derby.properties
 
 	set DERBY_OPTS=-Dderby.system.home=%TAIN_HOME%\data\derbyDB
 	-Dderby.system.home=%TAIN_HOME%\data\derbyDB 위치에 아래와 같은 내용으로 생성한다.
