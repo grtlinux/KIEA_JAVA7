@@ -238,12 +238,14 @@
 	netsh interface ipv4> set address name="로컬 영역 연결" source="static" addr="192.168.0.112" mask="255.255.255.0"   <- 고정IP
 	netsh interface ipv4> set address name="로컬 영역 연결" gateway="192.168.0.1"                                       <- Gateway
 	netsh interface ipv4> set dns name="로컬 영역 연결" source="static" addr="168.126.63.1"
+	netsh interface ipv4> add dns name="로컬 영역 연결" addr="168.126.63.2"
 	netsh interface ipv4> dump      <- 확인방법
 	
 
 
 	netsh interface ipv4> set address "로컬 영역 연결" static   192.168.0.112   255.255.255.0   192.168.0.1   1
 	netsh interface ipv4> set dns "로컬 영역 연결" static 168.126.63.1
+	netsh interface ipv4> add dns "로컬 영역 연결" static 168.126.63.2
 
 
 	----------------------------------------------------------------------------------------------------------------------
