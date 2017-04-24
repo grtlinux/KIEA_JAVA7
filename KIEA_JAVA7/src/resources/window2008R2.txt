@@ -393,6 +393,31 @@ almost any of its subcommands. Here are 10 cool things that you can use Netsh to
 
 
 
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+[ https://technet.microsoft.com/en-us/library/bb490890.aspx]
+
+Command-line reference A-Z
+
+	To find information about a command, on the A-Z button menu at the top of this page, click the letter that 
+	the command starts with, and then click the command name.
+	
+	In addition to the tools installed with Windows XP, there are over 40 support tools included on the Windows XP CD. 
+	You can use these tools to diagnose and resolve computer problems. For more information about these support tools, 
+	see Windows Support Tools For information about installing support tools, see Install Windows Support Tools
+	
+	For more information about changes to the functionality of MS-DOS commands, new command-line tools, command shell 
+	functionality, configuring the command prompt, and automating commmand-line tasks, see Command-line reference 
+	
+	Some command-line tools require the user to have administrator-level privileges on source and/or target computers.
+	
+	Command-line tools must be run at the prompt of the Cmd.exe command interpreter. To open Command Prompt, 
+	click Start, click Run, type cmd, and then click OK. To view help at the command-line, at the command prompt, 
+	type the following:
+	
+		CommandName  /?
+
 ------------------------------------------------------------------------------------------------------------------------------------------
 [ https://technet.microsoft.com/en-us/library/bb490943.aspx ]
 
