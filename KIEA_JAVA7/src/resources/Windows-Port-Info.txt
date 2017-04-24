@@ -38,6 +38,7 @@
   102  TCP       X.400                           Microsoft Exchange MTA Stacks   ¡¡
   110  TCP       POP3                            Microsoft POP3 Service                                      POP3SVC
   110  TCP       POP3                            Exchange Server ¡¡
+  111  TCP       rpcbind                         Network File Service(rpcbind)
   119  TCP       NNTP                            Network News Transfer Protocol                              NntpSvc
   123  UDP       NTP                             Windows Time                                                W32Time
   123  UDP       SNTP                            Windows Time                                                W32Time
@@ -123,6 +124,7 @@
  1812  UDP       RADIUS Authentication           Internet Authentication Service                             IAS
  1813  UDP       RADIUS Accounting               Internet Authentication Service                             IAS
  1900  UDP       SSDP                            SSDP Discovery Service                                      SSDPRSRV
+ 2049  TCP       NFS                             Network File Service(NFS)
  2101  TCP       MSMQ-DCs                        Message Queuing                                             msmq
  2103  TCP       MSMQ-RPC                        Message Queuing                                             msmq
  2105  TCP       MSMQ-RPC                        Message Queuing                                             msmq
@@ -153,5 +155,7 @@
  5000  TCP       SSDP legacy event notification  SSDP Discovery Service                                      SSDPRSRV
  5004  UDP       RTP                             Windows Media Services                                      WMServer
  5005  UDP       RTCP                            Windows Media Services                                      WMServer
+15100  TCP                                       Mouse without Border Service-1
+15101  TCP                                       Mouse without Border Service-2
 42424  TCP       ASP.Net Session State           ASP.NET State Service                                       aspnet_state
 51515  TCP       MOM-Clear                       Microsoft Operations Manager 2000                           one point
