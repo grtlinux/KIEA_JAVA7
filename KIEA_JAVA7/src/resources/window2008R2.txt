@@ -99,6 +99,320 @@
 
 
 
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+[ 도스창에서 네트워크 연결/끊기 ]
+
+	DOS> netsh interface set interface "로컬 영역 연결" [admin=]disable     <- 사용안함
+
+	DOS> netsh interface set interface "로컬 영역 연결" [admin=]enable      <- 사용함
+
+	DOS> netsh interface set interface "로컬 영역 연결" disconnect     <- 연결끊기
+
+	DOS> netsh interface set interface "로컬 영역 연결" connect        <- 연결
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+[ 도스창에서 컴퓨터 ip변경하는 방법(netsh > interface ip) ]
+
+	DOS> netsh
+	
+	netsh> interface ip
+	
+	netsh interface ipv4> 
+	
+	netsh interface ipv4>show
+	
+		다음 명령을 사용할 수 있습니다.
+		
+		netsh 컨텍스트로부터 상속된 명령:
+		show alias     - 모든 정의된 별칭을 나열합니다.
+		show helper    - 모든 상위 수준의 도우미 dll을 나열합니다.
+		show mode      - 현재 모드를 표시합니다.
+		
+		이 컨텍스트에 있는 명령:
+		show addresses - IP 주소 구성을 표시합니다.
+		show compartments - 컴파트먼트 매개 변수를 표시합니다.
+		show config    - IP 주소 및 추가 정보를 표시합니다.
+		show destinationcache - 대상 캐시 항목을 표시합니다.
+		show dnsservers - DNS 서버 주소를 표시합니다.
+		show dynamicportrange - 동적 포트 범위 구성 매개 변수를 표시합니다.
+		show global    - 글로벌 구성 매개 변수를 표시합니다.
+		show icmpstats - ICMP 통계를 표시합니다.
+		show interfaces - 인터페이스 매개 변수를 표시합니다.
+		show ipaddresses - 현재 IP 주소를 표시합니다.
+		show ipnettomedia - IP 네트워크에서 미디어로의 매핑을 표시합니다.
+		show ipstats   - IP 통계를 표시합니다.
+		show joins     - 참가하고 있는 멀티캐스트 그룹을 표시합니다.
+		show neighbors - 인접 캐시 항목을 표시합니다.
+		show offload   - 오프로드 정보를 표시합니다.
+		show route     - 경로 테이블 항목을 표시합니다.
+		show subinterfaces - 하위 인터페이스 매개 변수를 표시합니다.
+		show tcpconnections - TCP 연결을 표시합니다.
+		show tcpstats  - TCP 통계를 표시합니다.
+		show udpconnections - UDP 연결을 표시합니다.
+		show udpstats  - UDP 통계를 표시합니다.
+		show winsservers - WINS 서버 주소를 표시합니다.
+
+	netsh interface ipv4>help
+	
+		다음 명령을 사용할 수 있습니다.
+		
+		netsh 컨텍스트로부터 상속된 명령:
+		..             - 한 컨텍스트 수준 위로 이동합니다.
+		abort          - 오프라인 모드에서 변경된 내용은 무시합니다.
+		add            - 항목 목록에 구성 항목을 추가합니다.
+		advfirewall    - `netsh advfirewall' 컨텍스트의 변경 내용입니다.
+		alias          - 별칭을 추가합니다.
+		branchcache    - `netsh branchcache' 컨텍스트의 변경 내용입니다.
+		bridge         - `netsh bridge' 컨텍스트의 변경 내용입니다.
+		bye            - 프로그램을 끝냅니다.
+		commit         - 오프라인 모드에서 변경한 내용을 적용합니다.
+		delete         - 항목 목록에서 구성 항목을 삭제합니다.
+		dhcpclient     - `netsh dhcpclient' 컨텍스트의 변경 내용입니다.
+		dnsclient      - `netsh dnsclient' 컨텍스트의 변경 내용입니다.
+		exit           - 프로그램을 끝냅니다.
+		firewall       - `netsh firewall' 컨텍스트의 변경 내용입니다.
+		http           - `netsh http' 컨텍스트의 변경 내용입니다.
+		interface      - `netsh interface' 컨텍스트의 변경 내용입니다.
+		ipsec          - `netsh ipsec' 컨텍스트의 변경 내용입니다.
+		lan            - `netsh lan' 컨텍스트의 변경 내용입니다.
+		mbn            - `netsh mbn' 컨텍스트의 변경 내용입니다.
+		namespace      - `netsh namespace' 컨텍스트의 변경 내용입니다.
+		nap            - `netsh nap' 컨텍스트의 변경 내용입니다.
+		netio          - `netsh netio' 컨텍스트의 변경 내용입니다.
+		offline        - 현재 모드를 오프라인 모드로 설정합니다.
+		online         - 현재 모드를 온라인 모드로 설정합니다.
+		p2p            - `netsh p2p' 컨텍스트의 변경 내용입니다.
+		popd           - 해당 스택으로부터 컨텍스트를 표시합니다.
+		pushd          - 현재 컨텍스트를 스택에 넣습니다.
+		quit           - 프로그램을 끝냅니다.
+		ras            - `netsh ras' 컨텍스트의 변경 내용입니다.
+		rpc            - `netsh rpc' 컨텍스트의 변경 내용입니다.
+		set            - 구성 설정을 업데이트합니다.
+		show           - 정보를 표시합니다.
+		trace          - `netsh trace' 컨텍스트의 변경 내용입니다.
+		unalias        - 별칭을 삭제합니다.
+		wcn            - `netsh wcn' 컨텍스트의 변경 내용입니다.
+		wfp            - `netsh wfp' 컨텍스트의 변경 내용입니다.
+		winhttp        - `netsh winhttp' 컨텍스트의 변경 내용입니다.
+		winsock        - `netsh winsock' 컨텍스트의 변경 내용입니다.
+		wlan           - `netsh wlan' 컨텍스트의 변경 내용입니다.
+		
+		netsh interface 컨텍스트로부터 상속된 명령:
+		6to4           - `netsh interface 6to4' 컨텍스트의 변경 내용입니다.
+		httpstunnel    - `netsh interface httpstunnel' 컨텍스트의 변경 내용입니다.
+		ipv4           - `netsh interface ipv4' 컨텍스트의 변경 내용입니다.
+		ipv6           - `netsh interface ipv6' 컨텍스트의 변경 내용입니다.
+		isatap         - `netsh interface isatap' 컨텍스트의 변경 내용입니다.
+		portproxy      - `netsh interface portproxy' 컨텍스트의 변경 내용입니다.
+		set            - 구성 정보를 설정합니다.
+		show           - 정보를 표시합니다.
+		tcp            - `netsh interface tcp' 컨텍스트의 변경 내용입니다.
+		teredo         - `netsh interface teredo' 컨텍스트의 변경 내용입니다.
+		
+		이 컨텍스트에 있는 명령:
+		?              - 명령 목록을 표시합니다.
+		add            - 테이블에 구성 항목을 추가합니다.
+		delete         - 테이블의 구성 항목을 삭제합니다.
+		dump           - 구성 스크립트를 표시합니다.
+		help           - 명령 목록을 표시합니다.
+		install        - IP 프로토콜을 설치합니다.
+		reset          - IP 구성을 다시 설정합니다.
+		set            - 구성 정보를 설정합니다.
+		show           - 정보를 표시합니다.
+		uninstall      - IP 프로토콜을 제거합니다.
+		
+		명령에 대한 도움말을 보려면 명령을 입력한 다음 공백을 입력한 후
+		?을(를) 입력하십시오.
+		
+	netsh interface ipv4> set address name="로컬 영역 연결" source="static" addr="192.168.0.112" mask="255.255.255.0"   <- 고정IP
+	
+	netsh interface ipv4> set address name="로컬 영역 연결" gateway="192.168.0.1"                                       <- Gateway
+	
+	netsh interface ipv4> dump      <- 확인방법
+	
+
+	
+	netsh interface ipv4> set address name="로컬 영역 연결" source="dhcp"     <- DHCP 유동IP
+	
+	// netsh interface ipv4> set address name="로컬 영역 연결" gateway="192.168.0.1" dnsservers="168.126.63.3,168.126.63.4"   <- Gateway, DNS
+
+	
+	 
+
+------------------------------------------------------------------------------------------------------------------------------------------
+[ Cool Things to do with netsh ]
+
+ * change almost any network configuration setting with this powerful tool netsh
+
+The netsh command is a powerful command-line tool for Windows. Netsh is available in the Microsoft Windows Resource Kit and is standard
+in Windows. Netsh lets you change almost any network configuration setting as well as document network configurations. You can use
+the command in a batch file or from its own command shell. Netsh has a useful Help system that you can access by adding /? to
+almost any of its subcommands. Here are 10 cool things that you can use Netsh to do.
+
+
+1. Show TCP/IP setting
+
+		DOS> netsh interface ip show config
+	
+	shows the system's current TCP/IP configuration settings. You can see whether the system is using DHCP or static addressing as well as
+	view the system's IP address, subnet mask, gateway address, and DNS servers.
+
+
+
+2. Change network configuration - Netsh can change the current network configuration. The command
+
+		DOS> netsh interface ip set address "Local Area Connection" static  192.168.0.113   255.255.255.0   192.168.0.1
+	
+	sets the IP address of the system configuration Local Area Connection to 192.168.0.113, the subnet mask to 255.255.255.0, and the
+	gateway address to 192.168.0.1. This use of Netsh comes in handy for laptops that must switch between static and dynamic addressed
+	networks.
+
+
+
+3. Use a dynamic DHCP assigned address - The command
+
+		DOS> netsh interface ip set address "Local Area Connection" dhcp
+	
+	sets the IP address of the Local Area Connection system configuration to use DHCP addressing.
+
+
+
+4. Change a DNS server address - When you change the system's IP address type, you almost always have to change the DNS server's
+	address as well. The command
+	
+		DOS> netsh interface ip set dns "Local Area Connection" static 168.126.63.1,168.126.63.2
+	
+	configures the Local Area Connection to use a DNS server whose address is 168.126.63.1, 168.126.63.2
+
+
+
+5. Dynamically assign the DNS server address - When you switch to dynamic DHCP addressing, you typically also want the DNS server
+	address to be assigned dynamically. The command
+	
+		DOS> netsh interface ip set dns "Local Area Connection" dhcp
+	
+	sets the Local Area Connection interface to use a DHCP-assigned DNS address.
+
+
+
+6. Configure a WINS server - Netsh also lets you configure WINS servers. The following command configures a system's Local Area
+	Connection interface to use a WINS server that has the IP address 192.168.0.100
+	
+		DOS> netsh interface ip set wins "Local Area Connection" static 192.168.0.100
+	
+	
+
+7. Work with other interfaces - Netsh works with DHCP, Internet Authentication Server(IAS), and RAS interfaces as well as the local
+	network interface. The command
+	
+		DOS> netsh dhcp dump > dhcp-cfg.dat
+
+	dumps the local DHCP server's configuration to the dhcp-cfg.dat file. You can use this file in conjunction with Netsh to
+	recreate the DHCP server
+
+8. Work with remote systems - One of Netsh's best hidden features is its ability to work with remote systems. The command
+
+		DOS> netsh set machine remotecomputer
+	
+	sets the current computer to a different system on the network.
+	
+	
+
+9. Save the current configuration - The interface Dump subcommand saves your current network configuration and generates a script
+	that you can use to regenerate the configuration. The command
+	
+		DOS> netsh interface dump > mycfg.dat
+
+	redirects the Dump command to the mycfg.dat file.
+	
+	
+	
+10. Restore network configuration - The Netsh Exec command runs a Netsh script file. The command
+
+		DOS> netsh exec mycfg.dat
+	
+	restores to your system the network configuration data that the preceding sample command saved.
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
