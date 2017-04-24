@@ -123,12 +123,40 @@
 	DOS> netsh interface portproxy add v4tov4 listenport=4242 listenaddress=0.0.0.0  connectport=80 connectaddress=192.168.0.113
 
 	DOS> netsh interface portproxy show all     <- 정책들 보기
-	
+
+		ipv4 수신 대기:             ipv4에 연결:
+		
+		주소            포트        주소            포트
+		--------------- ----------  --------------- ----------
+		0.0.0.0         4242        192.168.0.113   80
+
 	DOS> netsh interface portproxy delete v4tov4 listenport=4242 listenaddress=0.0.0.0   <- 해당 정책만 제거
 	
 	DOS> netsh interface portproxy reset   <- 모든 정책 제거
 	
 	
+
+------------------------------------------------------------------------------------------------------------------------------------------
+[ 방화벽 끄기/켜기 ]
+
+	DOS> netsh firewall set opmode [disable|enable]             <- less than and equal to WindowsXP, Windows2003
+	DOS> netsh f s o d
+	
+	DOS> netsh advfirewall set allprofiles state [off|on]   <- more than and equal to WindowsVista, Windows2008
+	DOS> netsh ad s a state [off|on]
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+[ Wifi 프로파일면 제거 ]
+
+	DOS> netsh wlan delete profile name="aroot5G"
+	
+	DOS> netsh wlan show profile
+	
+
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 [ 도스창에서 컴퓨터 ip변경하는 방법(netsh > interface ip) ]
@@ -248,14 +276,14 @@
 
 	netsh interface ipv4> set address name="로컬 영역 연결" source="static" addr="192.168.0.112" mask="255.255.255.0"   <- 고정IP
 	netsh interface ipv4> set address name="로컬 영역 연결" gateway="192.168.0.1"                                       <- Gateway
-	netsh interface ipv4> set dns name="로컬 영역 연결" source="static" addr="168.126.63.1"
+	netsh interface ipv4> set dns name="로컬 영역 연결" source="static" addr="168.126.63.1" suffix=primary
 	netsh interface ipv4> add dns name="로컬 영역 연결" addr="168.126.63.2"
 	netsh interface ipv4> dump      <- 확인방법
 	
 
 
 	netsh interface ipv4> set address "로컬 영역 연결" static   192.168.0.112   255.255.255.0   192.168.0.1   1
-	netsh interface ipv4> set dns "로컬 영역 연결" static 168.126.63.1
+	netsh interface ipv4> set dns "로컬 영역 연결" static 168.126.63.1   primary
 	netsh interface ipv4> add dns "로컬 영역 연결" 168.126.63.2
 
 
