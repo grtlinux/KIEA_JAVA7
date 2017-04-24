@@ -245,7 +245,7 @@
 
 	netsh interface ipv4> set address "로컬 영역 연결" static   192.168.0.112   255.255.255.0   192.168.0.1   1
 	netsh interface ipv4> set dns "로컬 영역 연결" static 168.126.63.1
-	netsh interface ipv4> add dns "로컬 영역 연결" static 168.126.63.2
+	netsh interface ipv4> add dns "로컬 영역 연결" 168.126.63.2
 
 
 	----------------------------------------------------------------------------------------------------------------------
@@ -394,6 +394,307 @@ almost any of its subcommands. Here are 10 cool things that you can use Netsh to
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------
+[ https://technet.microsoft.com/en-us/library/bb490943.aspx ]
+
+Netsh commands for Interface IP
+
+You can use commands in the Netsh Interface IP context to configure the TCP/IP protocol (including addresses, default gateways, DNS servers, and WINS servers) and to display configuration and statistical information.
+You can run these commands from the Windows XP command prompt or from the command prompt for the Netsh Interface IP context. For these commands to work at the Windows XP command prompt, you must type netsh interface ip before typing commands and parameters as they appear in the syntax below. To run these Netsh commands on a remote Windows 2000 Server, you must first use Remote Desktop Connection to connect to a Windows 2000 Server that is running Terminal Server. There might be functional differences between Netsh context commands on Windows 2000 and Windows XP.
+For more information on Netsh, see Using Netsh
+To view the command syntax, click a command:
+set address
+Configures an IP address and a default gateway on a specified interface.
+Syntax
+set address [name=]InterfaceName [source=]{dhcp | static [addr=]IPAddress [mask=]SubnetMask [gateway=]{none | DefaultGateway [[gwmetric=]GatewayMetric]}}
+Top of page 
+Parameters
+[ name = ] InterfaceName   : Required. Specifies the name of the interface for which you want to configure address and gateway information. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+[ source= ]{ dhcp | static [ addr= ] IPAddress [ mask= ] SubnetMask [ gateway= ]{ none | DefaultGateway [[ gwmetric= ] GatewayMetric ]}} : Required. Specifies whether the IP address to configure originates from a Dynamic Host Configuration Protocol (DHCP) server or is static. If the address is static, IPAddress specifies the address to configure, and SubnetMask specifies the subnet mask for the IP address being configured. If the address is static, you must also specify whether you want to leave the current default gateway (if any) in place or configure one for the address. If you configure a default gateway, DefaultGateway specifies the IP address of the default gateway to be configured, and GatewayMetric specifies the metric for the default gateway to be configured.
+/? : Displays help at the command prompt.
+Top of page 
+Remarks
+You can use this command to switch an interface between DHCP configuration and static configuration. If the interface is configured statically, the DNS and WINS server addresses for this interface must also be statically configured.
+Omitting the DefaultGateway parameter does not clear gateway configuration but preserves whatever was previously configured.
+add address
+Adds an IP address and a default gateway on a specified interface configured with a static IP address.
+Top of page 
+Syntax
+add address [name=]InterfaceName [addr=]IPAddress [mask=]SubnetMask [[gateway=] DefaultGateway [gwmetric=]GatewayMetric]
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Required. Specifies the name of the interface for which you want to add address and gateway information. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+[ addr= ] IPAddress [ mask= ] SubnetMask   : Required. Specifies the IP address to add and the subnet mask for that IP address.
+[ gateway= ] DefaultGateway [ gwmetric= ] GatewayMetric   : Specifies the IP address of the default gateway to add and the metric for that default gateway.
+/? : Displays help at the command prompt.
+delete address
+Deletes an IP address or a default gateway on a statically configured interface.
+Top of page 
+Syntax
+delete address [name=]InterfaceName [addr=] IPAddress [[gateway=]{DefaultGateway | all}]
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Required. Specifies the name of the interface for which you want to delete address and gateway information. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+[ addr= ] IPAddress   : Required. Specifies the IP address to delete.
+[ gateway= ]{ DefaultGateway | all } : Specifies whether to delete one default gateway or all default gateways. If only one default gateway should be deleted, DefaultGateway specifies the IP address of the default gateway to be deleted.
+/? : Displays help at the command prompt.
+Top of page 
+Remarks
+This command will not delete the last IP address on the interface.
+show address
+Displays information about static IP addresses and default gateways on a specified interface. Used without parameters, show address displays address information for all interfaces.
+Top of page 
+Syntax
+show address [[name=]InterfaceName]
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Specifies the name of the interface for which you want to display address information. The InterfaceName must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+/? : Displays help at the command prompt.
+Top of page 
+Remarks
+For interfaces configured using DHCP, use the ipconfig command to display the assigned IP addresses, lease parameters, and other DHCP information.
+set dns
+Configures a DNS server address for a specified interface.
+Top of page 
+Syntax
+set dns [name=]InterfaceName [source=]{dhcp | static [addr=]{DNSAddress | none}} [[ddns=]{disabled | enabled}] [[suffix=]{interface | primary}]
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Required. Specifies the name of the interface for which you want to set DNS information. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+[ source= ]{ dhcp | static [ addr = ]{ DNSAddress | none }} : Required. Specifies whether the IP address of the DNS server is configured by DHCP or is static. If the IP address is static, DNSAddress specifies the IP address of the DNS server to configure, and none specifies that the DNS configuration should be removed.
+[ ddns= ]{ disabled | enabled } : Specifies whether the computer should attempt DNS dynamic update registration of the IP addresses of this connection and the full computer name. The full computer name is specified in the Control Panel item System on the Computer Name tab. The enabled parameter specifies that the attempt should occur. The disabled parameter specifies that the attempt should not occur.
+[ suffix= ]{ interface | primary } : Specifies whether the computer should attempt DNS dynamic update to register the IP addresses and the connection-specific domain name of the specified connection in addition to the full computer name. The connection-specific DNS name of this connection is the concatenation of the computer name (which is the first label of the full computer name) and the DNS suffix of this connection. The interface parameter specifies that both the full computer name and connection-specific name should be registered. The primary parameter specifies that only the full computer name should be registered.
+/? : Displays help at the command prompt.
+Top of page 
+Remarks
+If the interface is already statically configured, the static parameter replaces the existing list of DNS server addresses with the one specified in the command.
+The default setting for ddns= is enabled.
+The default setting for suffix= is primary.
+add dns
+Adds a DNS server to a list of DNS servers for a specified interface.
+Top of page 
+Syntax
+add dns [name=]InterfaceName [addr=] DNSAddress [[index=]DNSIndex]
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Required. Specifies the name of the interface for which you want to add DNS information. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+[ addr= ] DNSAddress   : Required. Specifies the IP address of the DNS server to add.
+[ index= ] DNSIndex   : Specifies the position of the added DNS server in the list of DNS servers for the interface.
+/? : Displays help at the command prompt.
+Top of page 
+Remarks
+A lower number for the DNSIndex parameter corresponds to a higher preference. If no index is specified, then the server is added with the lowest preference.
+delete dns
+Deletes a DNS server or all DNS servers from a list of DNS servers for a specified interface or for all interfaces.
+Top of page 
+Syntax
+delete dns [name=]InterfaceName [addr=]{DNSAddress | all}
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Required. Specifies the name of the interface for which you want to delete DNS information. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+[ addr= ]{ DNSAddress | all } : Required. Specifies whether to delete the address of one DNS server or all servers for all interfaces. If only one DNS server should be deleted, DNSAddress specifies the IP address of the DNS server to delete.
+/? : Displays help at the command prompt.
+show dns
+Displays the DNS configuration of a specified interface. Used without parameters, show dns displays the DNS configurations of all interfaces.
+Top of page 
+Syntax
+show dns [[name=]InterfaceName]
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Specifies the name of the interface whose DNS configuration you want to display. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+/? : Displays help at the command prompt.
+set wins
+Sets WINS server configuration to either DHCP or static mode for a specified interface.
+Top of page 
+Syntax
+set wins [name=]InterfaceName [source=]{dhcp | static [addr=]{WINSAddress | none }}
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Required. Specifies the name of the interface for which you want to set WINS information. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+[ source= ]{ dhcp | static [ addr= ]{ WINSAddress | none }} : Required. Specifies whether the IP address of the WINS server to configure should be assigned by DHCP or is static. If the IP address is static, WINSAddress specifies the IP address of the WINS server to configure, and none specifies that the WINS configuration should be removed.
+/? : Displays help at the command prompt.
+Top of page 
+Remarks
+If the interface is already statically configured, the static parameter replaces the existing WINS server address list with the one specified in the set wins command.
+add wins
+Adds a WINS server to a list of WINS servers for a specified interface.
+Top of page 
+Syntax
+add wins [name=]InterfaceName [addr=] WINSAddress [[index=]WINSIndex]
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Required. Specifies the name of the interface for which you want to add WINS information. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+[ addr= ] WINSAddress   : Required. Specifies the IP address of the WINS server to add.
+[ index= ] WINSIndex   : Specifies the position of the added WINS server in the WINS server list for that interface.
+/? : Displays help at the command prompt.
+Top of page 
+Remarks
+A lower number for the WINSIndex parameter corresponds to a higher preference. If no index is specified, then the server is added with the lowest preference.
+delete wins
+Deletes a WINS server or servers from a list of WINS servers for a specified interface or all interfaces.
+Top of page 
+Syntax
+delete wins [name=]InterfaceName [addr=]{WINSAddress | all}
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Required. Specifies the name of the interface for which you want to delete a WINS server or servers. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+[ addr= ]{ WINSAddress | all } : Required. Specifies whether to delete only one server for an interface or all servers for all interfaces. If only one server should be deleted, WINSAddress specifies the IP address of the WINS server to delete.
+/? : Displays help at the command prompt.
+show wins
+Displays the WINS configuration for a specified interface. Used without parameters, show wins displays the WINS configuration for all interfaces.
+Top of page 
+Syntax
+show wins [[name=]InterfaceName]
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Specifies the name of the interface whose WINS information you want to display. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+/? : Displays help at the command prompt.
+show icmp
+Displays ICMP statistics. Used without parameters, show icmp displays the statistics only once.
+Top of page 
+Syntax
+show icmp [[rr=]RefreshRate]
+Top of page 
+Parameters
+[ rr= ] RefreshRate   : Specifies the refresh rate (the number of seconds between refreshing the display of the statistics).
+/? : Displays help at the command prompt.
+show interface
+Displays statistics for a specified interface. Used without parameters, show interface displays statistics for all interfaces only once.
+Top of page 
+Syntax
+show interface [[index=]InterfaceIndex] [[rr=]RefreshRate]
+Top of page 
+Parameters
+[ index= ] InterfaceIndex   : Specifies the interface index, an integer that identifies the interface.
+[ rr= ] RefreshRate   : Specifies the refresh rate (the number of seconds between refreshing the display of the statistics).
+/? : Displays help at the command prompt.
+Top of page 
+Remarks
+To obtain the interface index for an interface, review the output of the show interface command used without parameters.
+show ipaddress
+Displays information for a specified IP address. Used without parameters, show ipaddress displays information for all IP addresses on all interfaces once.
+Top of page 
+Syntax
+show ipaddress [[index=]IPAddress] [[rr=]RefreshRate]
+Top of page 
+Parameters
+[ index= ] IPAddress   : Specifies an IP address of an interface.
+[ rr= ] RefreshRate   : Specifies the refresh rate (the number of seconds between refreshing the display of the statistics).
+/? : Displays help at the command prompt.
+Top of page 
+Remarks
+To obtain the IP addresses of all interfaces, review the display of the show ipaddress command used without parameters.
+show ipnet
+Displays the contents of the Address Resolution Protocol (ARP) cache, which contains the hardware addresses of resolved next-hop IP addresses. Used without parameters, show ipnet displays the information once.
+Top of page 
+Syntax
+show ipnet [[rr=]RefreshRate]
+Top of page 
+Parameters
+[ rr= ] RefreshRate   : Specifies the refresh rate (the number of seconds between refreshing the display of the statistics).
+/? : Displays help at the command prompt.
+show ipstats
+Displays IP statistics. Used without parameters, show ipstats displays the statistics once.
+Top of page 
+Syntax
+show ipstats [[rr=]RefreshRate]
+Top of page 
+Parameters
+[ rr= ] RefreshRate   : Specifies the refresh rate (the number of seconds between refreshing the display of the statistics).
+/? : Displays help at the command prompt.
+show joins
+Displays IP multicast groups that have been joined for the specified IP address. Used without parameters, show joins displays information for all IP addresses.
+Top of page 
+Syntax
+show joins [[index=]IPAddress]
+Top of page 
+Parameters
+[ index= ] IPAddress   : Specifies an IP address of an interface.
+/? : Displays help at the command prompt.
+Top of page 
+Remarks
+To obtain the IP addresses for all interfaces, review the display of the show ipaddress command used without parameters.
+show tcpconn
+Displays information on a specified TCP connection. Used without parameters, show tcpconn displays information for all TCP connections once.
+Top of page 
+Syntax
+show tcpconn [[index=]{LocalIPAddress | LocalPort | RemoteIPAddress | RemotePort}] [[rr=]RefreshRate]
+Top of page 
+Parameters
+[ index= ]{ LocalIPAddress | LocalPort | RemoteIPAddress | RemotePort } : Specifies the connection about which to display information. The LocalIPAddress parameter specifies an IP address of an interface. The LocalPort parameter specifies a TCP port for a local process. The RemoteIPAddress parameter specifies an IP address of a remote host. The RemotePort parameter specifies a TCP port for a remote process.
+[ rr= ] RefreshRate   : Specifies the refresh rate (the number of seconds between refreshing the display of the information).
+/? : Displays help at the command prompt.
+show tcpstats
+Displays TCP statistics. Used without parameters, show tcpstats displays the statistics once.
+Top of page 
+Syntax
+show tcpstats [[rr=]RefreshRate]
+Top of page 
+Parameters
+[ rr= ] RefreshRate   : Specifies the refresh rate (the number of seconds between refreshing the display of the statistics).
+/? : Displays help at the command prompt.
+show udpconn
+Displays information about the UDP ports used for each IP address. Used without parameters, show udpconn displays UDP port information for all IP addresses once.
+Top of page 
+Syntax
+show udpconn [[index=]{LocalIPAddress | LocalPort}] [[rr=]RefreshRate]
+Top of page 
+Parameters
+[ index= ]{ LocalIPAddress | LocalPort } : Specifies the connection about which to display information. The LocalIPAddress parameter specifies an IP address of an interface. The LocalPort parameter specifies a UDP port for a local process.
+[ rr= ] RefreshRate   : Specifies the refresh rate (the number of seconds between refreshing the display of the statistics).
+/? : Displays help at the command prompt.
+show udpstats
+Displays UDP statistics. Used without parameters, show udpstats displays the statistics once.
+Top of page 
+Syntax
+show udpstats [[rr=]RefreshRate]
+Top of page 
+Parameters
+[ rr= ] RefreshRate   : Specifies the refresh rate (the number of seconds between refreshing the display of the statistics).
+/? : Displays help at the command prompt.
+show config
+Displays IP address and other configuration information for a specified interface. Used without parameters, show config displays configuration information for all interfaces.
+Top of page 
+Syntax
+show config [[name=]InterfaceName]
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Specifies the name of the interface for which you want to display configuration information. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+/? : Displays help at the command prompt.
+show offload
+Displays the tasks that can be performed by the network adapter for the specified interface corresponding to installed network hardware. Used without parameters, show offload displays offload information for all interfaces corresponding to installed network hardware.
+Top of page 
+Syntax
+show offload [[name=]InterfaceName ]
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Specifies the name of the interface for which you want to display offload information. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+/? : Displays help at the command prompt.
+delete arpcache
+Removes the entries in the Address Resolution Protocol (ARP) cache for a specified interface. Used without parameters, delete arpcache removes the entries in the ARP caches of all interfaces.
+Top of page 
+Syntax
+delete arpcache [[name=]InterfaceName]
+Top of page 
+Parameters
+[ name= ] InterfaceName   : Specifies the name of the interface for which you want to remove the ARP cache entries. The InterfaceName parameter must match the name of the interface as specified in Network Connections. If InterfaceName contains spaces, use quotation marks around the text (for example, "Interface Name").
+/? : Displays help at the command prompt.
+dump
+Displays the current configuration as a series of Netsh Interface IP commands.
+Top of page 
+Syntax
+dump
+Top of page 
+Parameters
+none
+Top of page 
+Remarks
+To create a configuration script file, redirect the output of this command to a file.
+Top of page 
+Netsh Interface IP example
+The following command configures the interface named Local Area Connection with the static IP address 10.0.5.99, the subnet mask of 255.255.255.0, and a default gateway of 10.0.5.1:
+set address name="Local Area Connection" source=static addr=10.0.5.99 mask=255.255.255.0 gateway=10.0.5.1 
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
