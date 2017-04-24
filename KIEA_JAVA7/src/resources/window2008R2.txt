@@ -120,9 +120,13 @@
 ------------------------------------------------------------------------------------------------------------------------------------------
 [ 포트 포워딩 ]
 
-	DOS> netsh interface portproxy add "로컬 영역 연결" listenport=4242 listenaddress=0.0.0.0  connectport=80 connectaddress=192.168.0.113
+	DOS> netsh interface portproxy add v4tov4 listenport=4242 listenaddress=0.0.0.0  connectport=80 connectaddress=192.168.0.113
 
-	DOS> netsh interface portproxy reset
+	DOS> netsh interface portproxy show all     <- 정책들 보기
+	
+	DOS> netsh interface portproxy delete v4tov4 listenport=4242 listenaddress=0.0.0.0   <- 해당 정책만 제거
+	
+	DOS> netsh interface portproxy reset   <- 모든 정책 제거
 	
 	
 
