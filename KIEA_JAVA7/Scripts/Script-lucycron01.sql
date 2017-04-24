@@ -109,7 +109,24 @@ UNION SELECT 'TB_RUNLOG'  AS TB_NAME, COUNT(*) AS TB_CNT FROM KANG.TB_RUNLOG
 ;
 
 
+-- ==================================================================================================
+-- ==================================================================================================
+-- TABLE COUNT
 
+--INSERT INTO
+	KANG.TB_SCHCWD (
+		F_SCHID
+		, F_SEQ
+		, F_CWD
+	)
+VALUES (
+	'Hello'
+	, 1
+	, 'Hello current working directory'
+);
+
+SELECT * FROM KANG.TB_SCHCWD
+;
 
 
 
