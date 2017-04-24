@@ -2,6 +2,7 @@
 [ 윈도우에서 실행되는 서비스와 포트번호 ]
 
 version : TODO 2017.04.24
+version : TODO 2017.04.25
 
 포 트  Protocol  네트워크 서비스                 관련 윈도우 서비스                                          서비스명
     7  TCP       Echo                            Simple TCP/IP Services                                      SimpTcp
@@ -158,6 +159,7 @@ version : TODO 2017.04.24
  5004  UDP       RTP                             Windows Media Services                                      WMServer
  5005  UDP       RTCP                            Windows Media Services                                      WMServer
  5357  TCP                                       HomeGroup Provider (System)
+ 7680  TCP                                       Windows Update                                              wuauserv
 15100  TCP                                       Mouse without Border Service-1
 15101  TCP                                       Mouse without Border Service-2
 42424  TCP       ASP.Net Session State           ASP.NET State Service                                       aspnet_state
