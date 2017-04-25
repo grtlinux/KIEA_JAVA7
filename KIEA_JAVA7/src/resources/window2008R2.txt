@@ -186,6 +186,77 @@
 [ 방화벽 with Windows7 ]
 
 
+	DOS> netsh interface show interface
+
+	DOS> netsh interface dump
+
+	[ 6to4 httpstunnel ipv4 ipv6 isatap portproxy tcp teredo ]
+	DOS> netsh interface ipv4 dump
+
+	DOS> netsh interface tcp dump
+
+	DOS> netsh interface ipv4 show tcpconnections remoteport=80
+
+	DOS> netsh interface ipv4 show global
+
+
+	DOS> netsh interface ip set address name="이더넷" source=static addr="10.211.55.9" mask="255.255.255.0" gateway="10.211.55.1" gwmetric=0
+	DOS> netsh interface ip set dns name="이더넷" source=static addr="168.126.63.1" register=PRIMARY
+	DOS> netsh interface ip add dns name="이더넷" addr="168.126.63.2" index=2
+
+	DOS> netsh interface ip set address name ="이더넷" source=dhcp
+	DOS> netsh interface ip set dns "이더넷" dhcp
+
+
+	DOS> netsh advfirewall export c:\advfirewallpolicy.wfw
+	DOS> netsh advfirewall import c:\advfirewallpolicy.wfw
+
+	DOS> netsh advfirewall firewall show rule name=all
+
+	DOS> netsh advfirewall firewall show rule name=clover verbose
+
+
+	DOS> netsh advfirewall firewall add rule name="clover" dir=out program="C:\Program Files....\clover.exe" action=block
+
+	DOS> netsh addfirewall firewall add rule name="TCP/80" protocol=TCP dir=in localport=80 action=allow
+
+
+	DOS> netsh advfirewall firewall set rule name="clover" new protocol=tcp
+
+	DOS> netsh advfirewall firewall set rule name="TCP/80" protocol=TCP dir=in new remoteip=10.211.55.5,10.211.55.6
+
+
+	DOS> netsh interface portproxy add v4tov4 listenport=80 listenaddress=0.0.0.0 connectport=80 connectaddress=10.211.55.11
+
+	DOS> netsh advfirewall firewall add rule name="TCP/80" protocol=TCP dir=in localport=80 action=allow
+
+	DOS> netsh interface portproxy show v4tov4
+
+	[ Ubuntu ]
+	
+		# apt-get install apache2
+		# iptables -A INPUT -p tcp --dport 80 -j REJECT;
+		# iptables -l INPUT -p tcp -s 10.211.55.9 --dport 80 -j ACCEPT;
+		# iptables -L INPUT
+
+	DOS> netsh interface portproxy add v4tov4 listenport=80 listenaddress=0.0.0.0 connectport=80 connectaddress=10.211.55.11
+
+	DOS> netsh advfirewall firewall add rule name="TCP/80" protocol=TCP dir=in localport=80 action=allow
+
+
+
+	DOS> netsh advfirewall firewall add rule name="ICMP ALLOW" protocol=icmp4:8,any dir=in action=allow
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -193,13 +264,123 @@
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------
-[ Wifi 프로파일면 제거 ]
+[ Wifi 프로파일 ]
 
-	DOS> netsh wlan delete profile name="aroot5G"
+	DOS> netsh wlan delete profile name="aroot24"
 	
 	DOS> netsh wlan show profile
 	
+		무선 네트워크 연결 인터페이스의 프로필:
+		
+		그룹 정책 프로필(읽기 전용)
+		---------------------------------
+		    <없음>
+		
+		사용자 프로필
+		-------------
+		    모든 사용자 프로필 : A
+		    모든 사용자 프로필 : ollehEgg_438
+		    모든 사용자 프로필 : Angel in us
+		    모든 사용자 프로필 : aroot
+		    모든 사용자 프로필 : twosometra
+		    모든 사용자 프로필 : DongbuLounge
+		    모든 사용자 프로필 : aroot24
+    	
+	DOS> netsh wlan show drivers
+	
+		인터페이스 이름: 무선 네트워크 연결
+		
+		    드라이버                    : Intel(R) Wireless-N 7260
+		    공급업체                    : Intel Corporation
+		    공급자                  : Intel
+		    날짜                      : 2014-04-16
+		    버전                   : 17.0.2.5
+		    INF 파일                  : C:\Windows\INF\oem13.inf
+		    파일                     : 전체 3
+		                                C:\Windows\system32\DRIVERS\Netwsw02.sys
+		                                C:\Windows\system32\DRIVERS\Netwfw02.dat
+		                                C:\Windows\system32\drivers\vwifibus.sys
+		    유형                      : 기본 Wi-Fi 드라이버
+		    지원되는 주파수 형식     : 802.11b 802.11g 802.11n
+		    FIPS 140-2 모드 지원됨: 예
+		    호스트된 네트워크 지원  : 예
+		    인프라 모드에서 지원되는 인증 및 암호:
+		                                오픈              없음
+		                                오픈              WEP-40bit
+		                                오픈              WEP-104비트
+		                                오픈              WEP
+		                                공유              WEP-40bit
+		                                공유              WEP-104비트
+		                                공유              WEP
+		                                WPA-엔터프라이즈      TKIP
+		                                WPA-엔터프라이즈      CCMP
+		                                WPA-개인          TKIP
+		                                WPA-개인          CCMP
+		                                WPA2-엔터프라이즈     TKIP
+		                                WPA2-엔터프라이즈     CCMP
+		                                WPA2-개인         TKIP
+		                                WPA2-개인         CCMP
+		                                오픈              공급업체 정의
+		    특별 모드에서 지원되는 인증 및 암호:
+		                                오픈              없음
+		                                오픈              WEP-40bit
+		                                오픈              WEP-104비트
+		                                오픈              WEP
+		                                공유              WEP-40bit
+		                                공유              WEP-104비트
+		                                공유              WEP
+		                                WPA2-개인         CCMP
+		    IHV 서비스 존재       : 예
+		    IHV 어댑터 OUI           : [00 80 86], 유형: [00]
+		    IHV 확장성 DLL 경로: C:\Windows\System32\IWMSSvc.dll
+		    IHV UI 확장성 ClSID: {1bf6cb2d-2ae0-4879-a7aa-a75834fbd0e3}
+		    IHV 진단 CLSID     : {00000000-0000-0000-0000-000000000000}
+	
+	
+	DOS> netsh wlan show profiles name=aroot24 key=clear
+		
+		무선 네트워크 연결 인터페이스의 aroot24 프로필:
+		=======================================================================
+		
+		적용됨: 모든 사용자 프로필
+		
+		프로필 정보
+		-------------------
+		    버전                : 1
+		    유형                   : 무선 LAN
+		    이름                   : aroot24
+		    제어 옵션        :
+		        연결 모드    : 자동 연결
+		        네트워크 브로드캐스트: 이 네트워크가 브로드캐스트 중인 경우에만 연결
+		        자동 전환         : 다른 네트워크로 전환 안 함
+		
+		연결 설정
+		---------------------
+		    SSID 개수        : 1
+		    SSID 이름              : "aroot24"
+		    네트워크 종류           : 인프라
+		    Radio 유형             : [ 모든 라디오 유형 ]
+		    공급업체 확장          : 없음
+		
+		보안 설정
+		-----------------
+		    인증         : WPA2-개인
+		    암호                 : CCMP
+		    보안 키           : 있음
+		    키 콘텐츠            : [XXXXXXXX]     <- 인증키
+	
 
+	DOS> netsh wlan set profileparameter aroot24 connectiontype=ibss
+	
+	DOS> netsh wlan delete profile name="aroot24"
+	
+	DOS> netsh wlan connect aroot24
+
+	DOS> netsh wlan disconnect
+	
+	DOS> netsh wlan delete profile aroot24
+	
+	
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------
@@ -941,6 +1122,75 @@ set address name="Local Area Connection" source=static addr=10.0.5.99 mask=255.2
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
+[ netsh 무선랜 수신율 보기 분석 : http://blog.naver.com/mokomoji/130174325204 ]
+
+		:: BEGIN SCRIPT ::::::::::::::::::::::::::::::::::::::::::::::::::::: 
+		:: wifiGraphic.cmd 
+		:: From the desk of Frank P. Westlake, 2013-06-01 
+		:: A single bar graph of the connected WIFI signal strength. 
+		:: Written on Windows 8. 
+		:: If you have a hex editor set mark character to hex DB. 
+		@Echo OFF 
+		@SetLocal EnableExtensions EnableDelayedExpansion 
+		:User_Configuration **************************************************** 
+		  REM These values may be changed while the script is active. 
+		  Set "mark=§"            % REM Set this to your desired graphic.      % 
+		  Set "delay=10"          % REM Delay in seconds between updates.      % 
+		  Set "low=20"            % REM Zero to "low" is the low range.        % 
+		  Set "mid=50"            % REM "low" to "mid" is the mid range.       % 
+		                          % REM "mid" to 100 is the high range.        % 
+		  Set "lowColor=0C"       % REM Color for low range.                   % 
+		  Set "midColor=0E"       % REM Color for moderate range.              % 
+		  Set "highColor=0A"      % REM Color for high range.                  % 
+		REM END USER CONFIGURATION ******************************************** 
+		Set "codePage=437"       % REM Code page.                             % 
+		REM Continue if just starting, go to :EOF if being CALLed. 
+		If "%0" EQU ":User_Configuration" Goto :EOF 
+		If "%*" NEQ "/start" ( 
+		   START "WIFI" CMD /c%~f0 /start 
+		   Exit /B 0 
+		   Goto :EOF 
+		) 
+		MODE CON lines=1 cols=107 
+		CHCP %codePage% >NUL: 
+		Set "bar=" 
+		Set "sp=" 
+		For /L %%i in (1,1,100) Do ( 
+		   Set "bar=!bar!!mark!" 
+		   Set "sp=!sp! " 
+		) 
+		Set /A "delay*=1000" 
+		Set "SLEEP=PING 127.255.255.255 -n 1 -w !delay! >NUL:" 
+		:: Get a carriage return character. 
+		For /F %%a in ('COPY /Z "%~dpf0" NUL:') Do Set "CR=%%a" 
+		For /L %%i in (1,0,2) Do ( 
+		   For /F "tokens=1 delims==" %%a in ('Set "$" 2^>NUL:') Do Set "%%a=" 
+		   Set "$Signal=0%%" & Set "color=!lowColor!" 
+		   For /F "tokens=1,2 delims=:" %%a in ('netSh wlan show interfaces') Do ( 
+		     Set "#=%%a" & Set "#=!#: =!" 
+		     Set "$=%%b" & Set "$=!$:~1!" & Set "$!#!=!$!" 
+		     If DEFINED $Profile ( 
+		       If /I "!$State!" EQU "connected" ( 
+		         Set "load=!$Signal!  " 
+		       ) 
+		       Set "$Profile=" 
+		     ) 
+		   ) 
+		   For /L %%s in (!$Signal! 1 !$Signal!) Do ( 
+		            If %%s LEQ !low! ( Set "COLOR=!lowColor!" 
+		     ) Else If %%s LEQ !mid! ( Set "COLOR=!midColor!" 
+		     ) Else                  ( Set "COLOR=!highColor!" 
+		     ) 
+		     Set /P "=!load:~0,4! !bar:~0,%%s!!sp:~%%s! !CR!"<NUL: 
+		     COLOR !color! 
+		   ) 
+		   %SLEEP% 
+		   Call :User_Configuration 
+		) 
+		Goto :EOF 
+		:: END SCRIPT ::::::::::::::::::::::::::::::::::::::::::::::::::::  
+ 
+
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
