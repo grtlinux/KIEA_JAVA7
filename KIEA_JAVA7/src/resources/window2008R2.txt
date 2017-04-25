@@ -146,6 +146,50 @@
 	DOS> netsh ad s a state [off|on]
 
 
+------------------------------------------------------------------------------------------------------------------------------------------
+[ 방화벽 프로필/정책 보기 ] with Windows7
+	
+	DOS> netsh advfirewall show allprofiles   <- 모든 프로필의 속성을 표시
+	
+	DOS> netsh advfirewall show global        <- 전역 속성을 표시
+	
+	DOS> netsh advfirewall show store         <- 현재 대화형 세션의 정책 저장소를 표시
+	
+	
+	DOS> netsh advfirewall firewall show rule name=all dir=in type=dynamic    <- 모든 동적 인바운드 정책을 표시
+	
+	DOS> netsh advfirewall firewall show rule name="WEB_80" verbose    <- 정책이름이 'WEB_80'인 모든 정책 표시
+	
+	DOS> netsh advfirewall firewall show rule name="KMPlayer 연결차단" verbose
+		
+		규칙 이름:                            KMPlayer 연결차단
+		----------------------------------------------------------------------
+		사용:                                 예
+		방향:                                 아웃
+		프로필:                               도메인,개인,공용
+		그룹화:
+		LocalIP:                              모두
+		RemoteIP:                             모두
+		Protocol:                             모두
+		에지 통과:                            아니요
+		프로그램:                             C:\The KMPlayer\KMPlayer.exe
+		InterfaceTypes:                       모두
+		Security:                             NotRequired
+		규칙 원본:                            로컬 설정
+		작업:                                 차단
+		확인됨
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+[ 방화벽 with Windows7 ]
+
+
+
+
+
+
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------
