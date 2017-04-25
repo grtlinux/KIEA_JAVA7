@@ -805,6 +805,140 @@ set address name="Local Area Connection" source=static addr=10.0.5.99 mask=255.2
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
+[ 분석 : http://blog.naver.com/pepcast/220981245900 ]
+		
+		@echo off
+		mode con cols=80 lines=25&gt;nul
+		mode con cp select=949&gt;nul
+		setlocal ENABLEEXTENSIONS
+		setlocal ENABLEDELAYEDEXPANSION
+		pushd %~dp0
+		
+		
+		
+		echo&nbsp;&nbsp; ◆ 유무선 IP 및 무선 접속 프로필 백업
+		
+		sc start dot3svc&gt;nul
+		call:_win7_lan_export
+		call:_win7_wlan_export
+		sc stop dot3svc&gt;nul
+		
+		exit /b
+		
+		
+		
+		:_delay
+		::----------------------------------------------------------------------------------------------------------
+		::-- 입력 받은 숫자 만큼 시간 지연[초]
+		::----------------------------------------------------------------------------------------------------------
+		CHOICE /N /C yn /D y /T %~1 &gt;NUL
+		goto:eof
+		
+		
+		
+		:_win7_lan_export
+		::------------------------------------------------------------------------------
+		::-- 유선랜 IP 백업
+		::&nbsp;- ip_all.txt 파일로 전체 덤프 떠 놓고 ip_lan.txt 파일에 유선랜 ip를 백업 함
+		::&nbsp;- dhcp 사용하는 경우에는 백업 생략
+		::&nbsp;- 유선랜이 여러개인 경우 백업 생략(가상랜 포함)
+		::------------------------------------------------------------------------------
+		set lan_name=
+		set lan_guid=
+		set lan_dhcp=
+		set lan_ip=
+		set lan_sm=
+		set lan_gw=
+		set lan_dns=
+		set temp_var=
+		
+		netsh dump &gt;"%DataDrv%\%Backup_Folder%\ip_all.txt"
+		ipconfig /all &gt;"%DataDrv%\%Backup_Folder%\ip_all_2.txt"
+		
+		for /f "usebackq tokens=1-4" %%a in (`"netsh lan show interface|find "인터페이스가""`) do (set temp_var=%%b)
+		set temp_var=%temp_var:~0,1%
+		if "%temp_var%"=="1" (
+		&nbsp;echo 유선랜&gt;"%DataDrv%\%Backup_Folder%\ip_lan.txt"
+		&nbsp;echo ------------------------- &gt;&gt;"%DataDrv%\%Backup_Folder%\ip_lan.txt"
+		) else (goto:eof)
+		
+		for /f "usebackq tokens=1,2*" %%a in (`"netsh lan show interface|find "이름""`) do (set lan_name=%%c)
+		for /f "usebackq tokens=1,2*" %%a in (`"netsh lan show interface|find "GUID""`) do (set lan_guid=%%c)
+		
+		for /f "usebackq tokens=1-3" %%a in (`"netsh interface ipv4 show address name="%lan_name%"|find "DHCP 사용:""`) do (set lan_dhcp=%%c)
+		if "%lan_dhcp%"=="Yes" (echo dhcp = %lan_dhcp%&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_lan.txt" &amp; goto:eof)
+		
+		for /f "usebackq tokens=1-2" %%a in (`"netsh interface ipv4 show ipaddresses "%lan_name%" store=persistent|find "매개 변수""`) do (set lan_ip=%%b)
+		for /f "usebackq tokens=1-4 delims==" %%a in (`"netsh interface ipv4 dump|find "mask"|find "%lan_name%""`) do (set lan_sm=%%d)
+		for /f "usebackq tokens=1-3" %%a in (`"netsh interface ipv4 show addresses name="%lan_name%"|find "기본 게이트웨이:""`) do (set lan_gw=%%c)
+		for /f "usebackq tokens=1-5" %%a in (`"netsh interface ipv4 show dnsservers name="%lan_name%"|find "DNS 서버:""`) do (set lan_dns=%%e)
+		
+		echo dhcp = %lan_dhcp%&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_lan.txt"
+		echo ip = %lan_ip%&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_lan.txt"
+		echo sm = %lan_sm%&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_lan.txt"
+		echo gw = %lan_gw%&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_lan.txt"
+		echo dns = %lan_dns%&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_lan.txt"
+		echo.&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_lan.txt"
+		goto:eof
+		
+		
+		
+		:_win7_wlan_export
+		::------------------------------------------------------------------------------
+		::-- 무선랜 IP 백업
+		::&nbsp;- ip_all.txt 파일로 전체 덤프 떠 놓고 ip_wlan.txt 파일에 무선랜 ip를 백업 함
+		::&nbsp;- dhcp 사용하는 경우에는 생략
+		::&nbsp;- 무선네트워크 프로필 백업
+		::&nbsp;- 무선랜이 여러개인 경우 백업 생략(가상랜 포함)
+		::------------------------------------------------------------------------------
+		set wlan_name=
+		set wlan_guid=
+		set wlan_dhcp=
+		set wlan_ip=
+		set wlan_sm=
+		set wlan_gw=
+		set wlan_dns=
+		set temp_var=
+		
+		netsh dump &gt;"%DataDrv%\%Backup_Folder%\ip_all.txt"
+		ipconfig /all &gt;"%DataDrv%\%Backup_Folder%\ip_all_2.txt"
+		
+		for /f "usebackq tokens=1-4" %%a in (`"netsh wlan show interface|find "인터페이스가""`) do (set temp_var=%%b)
+		set temp_var=%temp_var:~0,1%
+		if "%temp_var%"=="1" (
+		&nbsp;echo 무선랜&gt;"%DataDrv%\%Backup_Folder%\ip_wlan.txt"
+		&nbsp;echo ------------------------- &gt;&gt;"%DataDrv%\%Backup_Folder%\ip_wlan.txt"
+		) else (goto:eof)
+		
+		for /f "usebackq tokens=1,2*" %%a in (`"netsh wlan show interface|find "이름""`) do (set wlan_name=%%c)
+		for /f "usebackq tokens=1,2*" %%a in (`"netsh wlan show interface|find "GUID""`) do (set wlan_guid=%%c)
+		
+		for /f "usebackq tokens=1-3" %%a in (`"netsh interface ipv4 show address name="%wlan_name%"|find "DHCP 사용:""`) do (set wlan_dhcp=%%c)
+		if "%wlan_dhcp%"=="Yes" (
+		&nbsp;echo dhcp = %wlan_dhcp%&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_wlan.txt"
+		&nbsp;netsh wlan export profile folder="%DataDrv%\%Backup_Folder%" 1&gt;nul 2&gt;nul
+		&nbsp;goto:eof
+		)
+		
+		for /f "usebackq tokens=1-2" %%a in (`"netsh interface ipv4 show ipaddresses "%wlan_name%" store=persistent|find "매개 변수""`) do (set wlan_ip=%%b)
+		for /f "usebackq tokens=1-4 delims==" %%a in (`"netsh interface ipv4 dump|find "mask"|find "%wlan_name%""`) do (set wlan_sm=%%d)
+		for /f "usebackq tokens=1-3" %%a in (`"netsh interface ipv4 show addresses name="%wlan_name%"|find "기본 게이트웨이:""`) do (set wlan_gw=%%c)
+		for /f "usebackq tokens=1-5" %%a in (`"netsh interface ipv4 show dnsservers name="%wlan_name%"|find "DNS 서버:""`) do (set wlan_dns=%%e)
+		
+		echo dhcp = %wlan_dhcp%&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_wlan.txt"
+		echo ip = %wlan_ip%&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_wlan.txt"
+		echo sm = %wlan_sm%&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_wlan.txt"
+		echo gw = %wlan_gw%&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_wlan.txt"
+		echo dns = %wlan_dns%&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_wlan.txt"
+		echo.&gt;&gt;"%DataDrv%\%Backup_Folder%\ip_wlan.txt"
+		
+		netsh wlan export profile folder="%DataDrv%\%Backup_Folder%" 1&gt;nul 2&gt;nul
+		goto:eof
+		
+
+
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
