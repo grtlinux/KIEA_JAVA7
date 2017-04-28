@@ -236,18 +236,18 @@
 			
 			  프로토콜  로컬 주소              외부 주소              상태            PID
 			  .....
-			  TCP    0.0.0.0:445            0.0.0.0:0              LISTENING       4
+			  TCP    0.0.0.0:445            0.0.0.0:0              LISTENING       4    <- Server
 			  .....
-			  TCP    192.168.1.112:139      0.0.0.0:0              LISTENING       4
-			  TCP    192.168.2.112:139      0.0.0.0:0              LISTENING       4
+			  TCP    192.168.1.112:139      0.0.0.0:0              LISTENING       4    <- Computer Browser
+			  TCP    192.168.2.112:139      0.0.0.0:0              LISTENING       4    <- Computer Browser
 			  .....
-			  TCP    [::]:445               [::]:0                 LISTENING       4
+			  TCP    [::]:445               [::]:0                 LISTENING       4    <- Server
 			  .....
-			  UDP    192.168.1.112:137      *:*                                    4
-			  UDP    192.168.1.112:138      *:*                                    4
+			  UDP    192.168.1.112:137      *:*                                    4    <- Computer Browser
+			  UDP    192.168.1.112:138      *:*                                    4    <- Computer Browser
 			  .....
-			  UDP    192.168.2.112:137      *:*                                    4
-			  UDP    192.168.2.112:138      *:*                                    4
+			  UDP    192.168.2.112:137      *:*                                    4    <- Computer Browser
+			  UDP    192.168.2.112:138      *:*                                    4    <- Computer Browser
 			  .....
 
 
