@@ -219,6 +219,16 @@
       1) rinetd가 445포트를 포워딩하지 못하기 때문에 중지해야만 사용가능함
 
       2) Server 서비스를 중지하면 해당 PC의 공유기능(Server)이 중지됨 [해당 메뉴가 사라짐]
+      
+      	[ 종속성 ]
+      	
+      		Security Accounts Manager
+      		서버 SMB 1.xxx 드라이버
+      		
+      			Server
+      			
+      				Computer Browser
+      				HomeGroup Listener
 
       3) Server 서비스를 중지하여도 445 포트가 지속적으로 사용중이라면 다음의 절차를 수행
       
