@@ -889,7 +889,33 @@ Command-line reference A-Z
 		DOS> echo %date%
 		2017-05-01
 
-
+		DOS> type exeDate.cmd
+		
+			@echo off
+			@setlocal
+			
+			reg add "HKCU\Control Panel\International" /v sShortDate /d "yyyy-MM-dd" /f
+			set datex=%date%
+			
+			:: 문자분류는 공백이고 3번째 문자 빼오고 %f에 매칭함
+			for /f "usebackq tokens=3 delims= " %%f in ('reg query "HKCU\Control Panel\International" /v sShortDate') do {
+				set var=%%f
+			)
+			
+			:: 문자분류는 -이고 1,2,3 번째 문자 빼오고 %a,%b,%c로 매칭함
+			for /f "usebackq tokens=1-3 delims=- " %%a in ('%datex%') do (
+				:: 문자분류는 -이고 1,2,3 번째 문자 빼오고 %g,%h,%i로 매칭함
+				for /f "usebackq tokens=1-3 delims=- " %%g in ('%var%') do (
+					set xx%%g=%%a
+					set xx%%h=%%b
+					set xx%%i=%%c
+				)
+			)
+			
+			set xx
+			echo %xxyyyy% %xxMM% %xxdd%%xxd%
+			
+			@endlocal
 
 
 
