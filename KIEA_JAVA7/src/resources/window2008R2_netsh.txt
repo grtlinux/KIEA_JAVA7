@@ -827,6 +827,73 @@ Command-line reference A-Z
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------
+[ reg 명령어 ]
+
+
+		DOS> reg query "HKCU\Control Panel\International"
+		
+			Locale    REG_SZ    00000412
+			LocaleName    REG_SZ    ko-KR
+			s1159    REG_SZ    오전
+			s2359    REG_SZ    오후
+			sCountry    REG_SZ    대한민국
+			sCurrency    REG_SZ    \
+			sDate    REG_SZ    -
+			sDecimal    REG_SZ    .
+			sGrouping    REG_SZ    3;0
+			sLanguage    REG_SZ    KOR
+			sList    REG_SZ    ,
+			sLongDate    REG_SZ    yyyy'년' M'월' d'일' dddd
+			sMonDecimalSep    REG_SZ    .
+			sMonGrouping    REG_SZ    3;0
+			sMonThousandSep    REG_SZ    ,
+			sNativeDigits    REG_SZ    0123456789
+			sNegativeSign    REG_SZ    -
+			sPositiveSign    REG_SZ
+			sShortDate    REG_SZ    yyyy-MM-dd                  <- 처리 대상
+			sThousand    REG_SZ    ,
+			sTime    REG_SZ    :
+			sTimeFormat    REG_SZ    tt h:mm:ss
+			sShortTime    REG_SZ    tt h:mm
+			sYearMonth    REG_SZ    yyyy'년' M'월'
+			iCalendarType    REG_SZ    1
+			iCountry    REG_SZ    82
+			iCurrDigits    REG_SZ    0
+			iCurrency    REG_SZ    0
+			iDate    REG_SZ    2
+			iDigits    REG_SZ    2
+			NumShape    REG_SZ    1
+			iFirstDayOfWeek    REG_SZ    6
+			iFirstWeekOfYear    REG_SZ    0
+			iLZero    REG_SZ    1
+			iMeasure    REG_SZ    0
+			iNegCurr    REG_SZ    1
+			iNegNumber    REG_SZ    1
+			iPaperSize    REG_SZ    9
+			iTime    REG_SZ    0
+			iTimePrefix    REG_SZ    1
+			iTLZero    REG_SZ    0
+
+		DOS> echo %date%
+		2017-05-01
+		
+		DOS> reg add "HKCU\Control Panel\International" /v sShortDate /d "MM-dd-yyyy" /f
+		작업을 완료했습니다.
+		
+		DOS> echo %date%
+		05-01-2017
+		
+		DOS> reg add "HKCU\Control Panel\International" /v sShortDate /d "yyyy-MM-dd" /f
+		작업을 완료했습니다.
+		
+		DOS> echo %date%
+		2017-05-01
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
 [ command ]
 
 		calc : 계산기
