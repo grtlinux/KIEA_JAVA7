@@ -825,6 +825,72 @@ Command-line reference A-Z
 		XPS Viewer 										xpsrchvw
 
 
+
+------------------------------------------------------------------------------------------------------------------------------------------
+[ command ]
+
+		calc : 계산기
+		charmap : 문자표
+		cleanmgr : 디스크정리
+		clipbrd : 클립보드에 복사된 내용표시
+		cmd : 도스명령프롬프트 실행
+		control : 제어판
+		dxdiag : 다이렉트X 진단도구 및 그래픽과 사운드의 세부정보
+		eudcedit : 사용자정의 문자 편집기
+		explorer : 탐색기
+		maqnify : 돋보기
+		mobsync : 동기화
+		msconfig : 시작프로그램 제어등 많은 기능 제공
+		msinfo32 : 시스템정보
+		mstsc : 원격 데스크톱 연결
+		netstat : 현재열린포트와 TCP/IP 프로토콜정보
+		notepad : 메모장
+		ntbackup : 백업 및 복원 마법사
+		osk : 화상키보드
+		pbrush : 그림판
+		ping : 사이트주소핑테스트 해당 사이트의 인터넷연결 유무 확인
+		regedit : 레지스트리 편집기
+		sfc : 시스템 파일 검사기
+		sndrec32 : 녹음기
+		sndvol32 : 시스템 사운드 등록정보, 볼륨조절
+		sysedit : autoexec.bat, config.sys, win.ini, system.ini 시스템구성편집기
+		systrav : 사운드 볼륨설정 노란색 스피커 아이콘을 트라이목록에 띄움
+		telnet : OPEN 사이트주소 (텔넷접속명령어)
+		telnet open : 사이트주소텔넷접속 명령어
+		tourstart : 윈도우 기능안내 html 문서표지
+		wab : 주소록
+		winipcfg : 인터넷에 접속된 자신의 IP주소를 보여주며 2000은 ipconfig
+		winmine : 지뢰찾기 
+		winver : 윈도우 버전확인
+		wmplayer : 윈도우 미디어 플레이어
+		wordpad : 워드패드
+		wscui.cpl : 보안센터
+		wupdmar : 윈도우업데이트
+		
+		
+		certmgr.msc : 인증서관리
+		ciadv.msc : 인덱싱 서비스
+		comexp.msc : COMEXP 구성 요소 서비스
+		compmgmt.msc : 컴퓨터관리
+		control userpasswords2 : 사용자계정
+		devmgmt.msc : 장치관리자
+		dfrg.msc : 디스크 조각모음
+		diskmgmt.msc : 디스크 관리
+		eventvwr.msc : 이벤트 뷰어
+		fsmgmt.msc : 공유폴더 (공유 폴더 관리)
+		gpedit.msc : 그룹 정책
+		Inetcpl.cpl : 인터넷 옵션
+		lusrmgr.msc : 로컬 사용자 및 그룹
+		ntmsmgr.msc : Removable Storage
+		ntmsoprq.msc : 이동식 저장소 운영자 요청
+		oobe/msoobe /a : XP 정품 인증 확인
+		perfmon.msc : 성능모니터뷰
+		rsop.msc : 정책의 결과 집합
+		secpol.msc : 로컬 보안 설정
+		services.msc : 서비스
+		wmimgmt.msc : WMI 서비스 구성
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------
 [ https://technet.microsoft.com/en-us/library/bb490943.aspx ]
 
