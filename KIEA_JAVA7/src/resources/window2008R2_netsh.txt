@@ -917,6 +917,50 @@ Command-line reference A-Z
 			
 			@endlocal
 
+------------------------------------------------------------------------------------------------------------------------------------------
+
+		:: PROGRAM : main.cmd
+		@echo off
+		set ipmain=127.0.0.
+		set ipnum=100
+		set steping=5
+		set lineplus=1
+		if exist piz.txt del piz.txt
+		if exist pinglist.txt del pinglist.txt
+		for /l %%l in (1,1,%ipnum%) do (
+			echo %%l
+			if exist %%l.txt del %%l.txt
+			start pingz.cmd "%%l" "%ipmain%"
+		)
+		:loop
+		ping 127.0.0.1 -n 2 %steping% >nul
+		for /f %%f in (piz.txt) do (
+			set /a lineplus=%lineplus%+1
+		)
+		if %lineplus% gtr %ipnum% goto :fileplus
+		goto :loop
+		:fileplus
+		for /l %%z in (1,1,%ipnum%) do (
+			type %%z.txt>>pinglist.txt
+		)
+		ping 127.0.0.1 -n %steping% >nul
+		for /l %%q in (1,1,%ipnum%) do (
+			if exist %%q.txt del %%q.txt
+		)
+		goto :end
+		:end
+		if exist piz.txt del piz.txt
+		echo --------------
+		pause
+
+
+		:: PROGRAM : pinz.cmd
+		@echo off
+		set num=%~1
+		set ipn=%~2
+		ping "%ipn%%num%" >>%num%.txt
+		echo ok>>piz.txt
+		exit
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------
