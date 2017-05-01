@@ -916,6 +916,13 @@ Command-line reference A-Z
 			echo %xxyyyy% %xxMM% %xxdd%%xxd%
 			
 			@endlocal
+		
+		DOS> for /f "tokens=1-3 delims=-" %a in ('echo %date%') do ( echo %a %b %c )
+		
+			2017 05 01
+
+
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 
