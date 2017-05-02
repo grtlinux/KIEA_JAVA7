@@ -1,0 +1,61 @@
+C:\Users\KangSeok>netstat -nao -p tcp
+
+활성 연결
+
+  프로토콜  로컬 주소              외부 주소              상태            PID
+  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       676
+  TCP    0.0.0.0:445            0.0.0.0:0              LISTENING       4
+  TCP    0.0.0.0:3389           0.0.0.0:0              LISTENING       984
+  TCP    0.0.0.0:5357           0.0.0.0:0              LISTENING       4
+  TCP    0.0.0.0:9000           0.0.0.0:0              LISTENING       3284    <- local listen server
+  TCP    0.0.0.0:49152          0.0.0.0:0              LISTENING       348
+  TCP    0.0.0.0:49153          0.0.0.0:0              LISTENING       772
+  TCP    0.0.0.0:49154          0.0.0.0:0              LISTENING       912
+  TCP    0.0.0.0:49156          0.0.0.0:0              LISTENING       448
+  TCP    0.0.0.0:49158          0.0.0.0:0              LISTENING       464
+  TCP    0.0.0.0:55920          0.0.0.0:0              LISTENING       2308
+  TCP    127.0.0.1:8380         0.0.0.0:0              LISTENING       2308
+  TCP    127.0.0.1:16107        0.0.0.0:0              LISTENING       2564
+  TCP    127.0.0.1:55501        0.0.0.0:0              LISTENING       1624
+  TCP    127.0.0.1:55512        0.0.0.0:0              LISTENING       1624
+  TCP    192.168.1.112:139      0.0.0.0:0              LISTENING       4
+  TCP    192.168.1.112:50522    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50531    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50544    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50571    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50574    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50590    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50662    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50666    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50670    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50687    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50690    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50691    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50713    222.234.3.182:80       ESTABLISHED     3284    <- Batery Server - 182
+  TCP    192.168.1.112:50779    59.15.70.178:9000      ESTABLISHED     3284    <- Batery Connection Server with data transformation
+  TCP    192.168.1.112:50780    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50785    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50798    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50811    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50819    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50823    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50827    222.234.3.181:80       TIME_WAIT       0       <- Batery Server - 181
+  TCP    192.168.1.112:50831    222.234.3.180:80       ESTABLISHED     3284    <- Batery Server - 180
+  TCP    192.168.1.112:50832    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50838    222.234.3.181:80       ESTABLISHED     3284    <- Batery Server
+  TCP    192.168.1.112:50839    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50840    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50841    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.1.112:50842    222.234.3.181:80       TIME_WAIT       0       <- Batery Server
+  TCP    192.168.2.112:139      0.0.0.0:0              LISTENING       4
+
+C:\Users\KangSeok>tasklist /fi "pid eq 3284"
+
+이미지 이름                    PID 세션 이름              세션#  메모리 사용
+========================= ======== ================ =========== ============
+BateryApp.exe                 3284 Console                    1     85,044 K
+
+
+
+
+
