@@ -278,6 +278,34 @@ Help                                        -> This menu contains items to help 
 ---------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------
+[ Filter Comparison Operations ]
+
+	eq, ==    Equal
+	ne, !=    Not Equal
+	gt, >     Greater Than
+	lt, <     Less Than
+	ge, >=    Greater than or Equal to
+	le, <=    Less than or Equal to
+
+    contains     Does the protocol, field or slice contain a value
+    matches, ~   Does the protocol or text string match the given Perl
+                 regular expression
+
+	ip.src == 192.168.1.1
+	ip.addr == 129.111.0.0/16
+	ipx.src.net == 0xc0a82c00
+	http.request.method == "POST"
+	smb.path contains "\\\\SERVER\\SHARE"
+	tcp.port in {80 443 8080}
+	tcp.port == 80 and ip.src == 192.168.2.1
+	
+	ip.dst == 192.168.1.10 and tcp.port in { 80 }
+	
+	
+	
+	
+	
+
 ---------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------
