@@ -1,225 +1,273 @@
 ---------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------
 
-File
+File                                        -> This menu contains items to open and merge capture files, save, print,
+												or export capture files in whole or in part, and to quite the Wireshark
+												application. See Section 3.5 The File menu.
 
-	Open
-	Open Recent
-	Merge...
-	Import from Hex Dump...
-	Close
-	
-	Save
-	Save As...
-	
-	File Set
-	
-	Export Specified Packets...
-	Export Packet Dissections
-	Export Packet Bytes...
-	Export PDUs to File...
-	Export SSL Session Keys...
-	Export Objects
-	
-	Print...
-	
-	Quit
+	Open                                    -> This shows the file open dialog box that allows you to load a capture file
+												for viewing. It is discussed in more detail in Section 5.2.1
+												The Open Capture File dialog box.
 
+	Open Recent                             -> This lets you open recently opened capture files. Clicking on one of the submenu
+												items will open the corresponding capture file directly.
 
+	Merge...                                -> This menu item lets you merge a capture file into the currently loaded one. It is
+												discussed in more detail in Section 5.4 Merging capture files.
 
-Edit
+	Import from Hex Dump...                 -> This menu item brings up the import file dialog box that allows you to import
+												a text file containing a hex dump into a new temporary capture. It is discussed in
+												more detail in Section 5.5 Import hex dump.
 
-	Copy
-	Find Packet...
-	Find Next
-	Find Previous
-	
-	Mark/Unmark Packet
-	Mark All Displayed
-	Unmark All Displayed
-	Next Mark
-	Previous Mark
-	
-	Ignore/Unignore Packet
-	Ignore All Displayed
-	Unignore All Displayed
-	
-	Set/Unset Time Reference
-	Unset All Time References
-	Next Time Reference
-	Previous Time Reference
-	
-	Time Shift...
-	
-	Packet Comment...
-	
-	Configuration Profiles...
-	Preferences...
-	
+	Close                                   -> This menu item closes the current capture. If you haven't saved the capture,
+												you will be asked to do so first (this can be disabled by a preference setting).
 
-View
+	Save                                    ->
+	Save As...                              ->
 
-	Main Toolbar
-	Filter Toolbar
-	Wireless Toolbar
-	Status Bar
-	
-	Packet List
-	Packet Details
-	Packet Bytes
-	
-	Time Display Format
-	Name Resolution
-	
-	Zoom
-	
-	Expand Subtrees
-	Expand All
-	Collapse All
-	
-	Colorize Packet List
-	Coloring Rules...
-	Colorize Conversation
-	
-	Resize Columns
-	
-	Internals
-	
-	Show Packet in New Window
-	Reload as File Format/Capture
-	Reload
+	File Set                                ->
+
+	Export Specified Packets...             ->
+	Export Packet Dissections               ->
+	Export Packet Bytes...                  ->
+	Export PDUs to File...                  ->
+	Export SSL Session Keys...              ->
+	Export Objects                          ->
+
+	Print...                                ->
+
+	Quit                                    ->
 
 
 
-Go
+Edit                                        -> This menu contains items to find a packet, time reference or mark one or more packets,
+												handle configuration profiles, and set your preferences; (cut, copy, and paste are
+												not presently implemented). See Session 3.6 The Edit menu.
 
-	Go to Packet...
-	Go to Linked Packet
-	
-	Next Packet
-	Previous Packet
-	First Packet
-	Last Packet
-	Next Packet in Conversation
-	Previous Packet in Conversation
-	
-	Auto Scroll in Live Capture
+	Copy                                    -> These menu items will copy the packet list, packet detail, or properties of the currently
+												selected packet to the clipboard.
 
+	Find Packet...                          ->
+	Find Next                               ->
+	Find Previous                           ->
 
+	Mark/Unmark Packet                      ->
+	Mark All Displayed                      ->
+	Unmark All Displayed                    ->
+	Next Mark                               ->
+	Previous Mark                           ->
 
-Capture
+	Ignore/Unignore Packet                  ->
+	Ignore All Displayed                    ->
+	Unignore All Displayed                  ->
 
-	Options
-	Start
-	Stop
-	Restart
-	Capture Filters
-	Refressh Interfaces
+	Set/Unset Time Reference                ->
+	Unset All Time References               ->
+	Next Time Reference                     ->
+	Previous Time Reference                 ->
 
+	Time Shift...                           ->
 
+	Packet Comment...                       ->
 
-Analyze
-
-	Display Filters...
-	Display Filter Macros...
-	
-	Apply as Column
-	Apply as Filter
-	Prepare a Filter
-	Conversation Filter
-	
-	Enabled Protocols...
-	Decode As...
-	Reload Lua Plugins
-	
-	SCTP
-	Follow
-	
-	Expert Information
+	Configuration Profiles...               ->
+	Preferences...                          ->
 
 
-Statistics
+View                                        -> This menu controls the display of the captured data, including colorization of packets,
+												zooming the font, showing a packet in a separate window, expanding and collapsing trees
+												in packet details, See Section 3.7 The View menu.
 
-	Capture File Properties
-	Resolved Addresses
-	Protocol Hierarchy
-	Conversations
-	Endpoints
-	Packet Lengths
-	I/O Graph
-	Service Response Time
-	
-	DHCP (BOOTP) Statistics
-	ONC-RPC Programs
-	29West
-	ANCP
-	BACnet
-	Collectd
-	DNS
-	Flow Graph
-	HART-IP
-	HPFEEDS
-	HTTP
-	HTTP2
-	Sametime
-	TCP Stream Graphs
-	UDP Multicast Streams
-	
-	IPv4 Statistics
-	IPv6 Statistics
+	Main Toolbar                            ->
+	Filter Toolbar                          ->
+	Wireless Toolbar                        ->
+	Status Bar                              ->
 
+	Packet List                             ->
+	Packet Details                          ->
+	Packet Bytes                            ->
 
-Telephony
+	Time Display Format                     ->
+	Name Resolution                         ->
 
-	VoIP Calls
-	ANSI
-	GSM
-	IAX2 Stream Analysis
-	ISUP Messages
-	LTE
-	MTP3
-	RTP
-	RTSP
-	SCTP
-	SMPP Operations
-	UCP Messages
-	H.225
-	SIP Flows
-	SIP Statistics
-	WAP-WSP Packet Counter
+	Zoom                                    ->
+
+	Expand Subtrees                         ->
+	Expand All                              ->
+	Collapse All                            ->
+
+	Colorize Packet List                    ->
+	Coloring Rules...                       ->
+	Colorize Conversation                   ->
+
+	Resize Columns                          ->
+
+	Internals                               ->
+
+	Show Packet in New Window               ->
+	Reload as File Format/Capture           ->
+	Reload                                  ->
 
 
 
-Wireless
+Go                                          -> This menu contains items to go to a specific packet. See Section 3.8 The Go menu.
 
-	Bluetooth ATT Server Attributes
-	Bluetooth Devices
-	Bluetooth HCI Summary
-	
-	WLAN Traffic
+	Back                                    -> Jump to the recently visited packet in the packet history, much like the page
+												history in a web browser.
 
-Tools
+	Forward                                 -> Jump to the next visited packet in the packet history, much like the page
+												history in a web browser.
 
-	Firewall ACL Rules
-	Lua
+	Go to Packet...                         -> Bring up a window frame that allows you to specify a packet number, and then goes
+												to that packet. See Section 6.9 Go to a specific packet for details.
+
+	Go to Linked Packet                     ->
+
+	Next Packet                             ->
+	Previous Packet                         ->
+	First Packet                            ->
+	Last Packet                             ->
+	Next Packet in Conversation             ->
+	Previous Packet in Conversation         ->
+
+	Auto Scroll in Live Capture             ->
 
 
-Help
 
-	Contents
-	Manual pages
-	
-	Website
-	FAQ's
-	Ask(Q&A)
-	Downloads
-	
-	Wiki
-	Sample Captures
-	
-	Check for Updates...
-	
-	About Wireshark
+Capture                                     -> This menu allows you to start and stop captures and to edit capture filters.
+												See Section 3.9 The Capture menu.
+
+	Interfaces...                           -> This menu item brings up a dialog box that shows what's going on at the network interfaces.
+												Wireshark knows of, see Section 4.4 The Capture Interfaces dialog box.
+
+	Options                                 -> This menu item brings up the Capture Options dialog box (discussed further in Section 4.5
+												The Capture Options dialog box) and allows you to start captureing packets.
+
+	Start                                   -> Immediately start capturing packets with the same settings than the last time.
+
+	Stop                                    -> This menu item stops the currently running capture, see Section 4.13.2 Stop the running capture.
+
+	Restart                                 -> This menu item stops the currently running capture and starts again with the same options,
+												this is just for convenience.
+	Capture Filters                         -> this menu item brings up a dialog box that allows you to create and edit capture filters.
+												You can name filters, and you can save them for future use. More detail on this subject is
+												provided in Section 6.6 Defining and saving filters.
+
+	Refressh Interfaces                     ->
+
+
+
+Analyze                                     -> This menu contains items to manipulate display filters, enable or disable the
+												dissection of protocols, configure user specified decodes and follow a TCP stream.
+												See Section 3.10 The Analyze menu.
+
+	Display Filters...                      ->
+	Display Filter Macros...                ->
+
+	Apply as Column                         ->
+	Apply as Filter                         ->
+	Prepare a Filter                        ->
+	Conversation Filter                     ->
+
+	Enabled Protocols...                    ->
+	Decode As...                            ->
+	Reload Lua Plugins                      ->
+
+	SCTP                                    ->
+	Follow                                  ->
+
+	Expert Information                      ->
+
+
+Statistics                                  -> This menu contains items to display various statistic windows, including a summary
+												of the packets that have been captured, display protocol hierarchy statistics and
+												much more. See Section 3.11 The Statistics menu.
+
+	Capture File Properties                 ->
+	Resolved Addresses                      ->
+	Protocol Hierarchy                      ->
+	Conversations                           ->
+	Endpoints                               ->
+	Packet Lengths                          ->
+	I/O Graph                               ->
+	Service Response Time                   ->
+
+	DHCP (BOOTP) Statistics                 ->
+	ONC-RPC Programs                        ->
+	29West                                  ->
+	ANCP                                    ->
+	BACnet                                  ->
+	Collectd                                ->
+	DNS                                     ->
+	Flow Graph                              ->
+	HART-IP                                 ->
+	HPFEEDS                                 ->
+	HTTP                                    ->
+	HTTP2                                   ->
+	Sametime                                ->
+	TCP Stream Graphs                       ->
+	UDP Multicast Streams                   ->
+
+	IPv4 Statistics                         ->
+	IPv6 Statistics                         ->
+
+
+Telephony                                   -> This menu contains items to display various telephony related statistic windows, including
+												a media analysis, flow diagrams, display protocol hierarchy statistics and much more.
+												See Section 3.12 The Telephony menu.
+
+	VoIP Calls                              ->
+	ANSI                                    ->
+	GSM                                     ->
+	IAX2 Stream Analysis                    ->
+	ISUP Messages                           ->
+	LTE                                     ->
+	MTP3                                    ->
+	RTP                                     ->
+	RTSP                                    ->
+	SCTP                                    ->
+	SMPP Operations                         ->
+	UCP Messages                            ->
+	H.225                                   ->
+	SIP Flows                               ->
+	SIP Statistics                          ->
+	WAP-WSP Packet Counter                  ->
+
+
+
+Wireless                                    -> The items in this menu show Bluetooth and IEEE 802.11 wireless statistics.
+
+	Bluetooth ATT Server Attributes         ->
+	Bluetooth Devices                       ->
+	Bluetooth HCI Summary                   ->
+
+	WLAN Traffic                            ->
+
+Tools                                       -> This menu contains various tools available in Wireshark, such as creating Filewall ACL Rules.
+												See Section 3.13 The Tools menu.
+
+	Firewall ACL Rules                      ->
+	Lua                                     ->
+
+
+Help                                        -> This menu contains items to help the user, e.g. access to some basic help, manual pages of
+												the various command line tools, online access to some of the webpages, and the usual about
+												dialog. See Section 3.15 The Help menu.
+
+	Contents                                ->
+	Manual pages                            ->
+
+	Website                                 ->
+	FAQ's                                   ->
+	Ask(Q&A)                                ->
+	Downloads                               ->
+
+	Wiki                                    ->
+	Sample Captures                         ->
+
+	Check for Updates...                    ->
+
+	About Wireshark                         ->
 
 
 
