@@ -1,5 +1,230 @@
 ---------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------
+
+File
+
+	Open
+	Open Recent
+	Merge...
+	Import from Hex Dump...
+	Close
+	
+	Save
+	Save As...
+	
+	File Set
+	
+	Export Specified Packets...
+	Export Packet Dissections
+	Export Packet Bytes...
+	Export PDUs to File...
+	Export SSL Session Keys...
+	Export Objects
+	
+	Print...
+	
+	Quit
+
+
+
+Edit
+
+	Copy
+	Find Packet...
+	Find Next
+	Find Previous
+	
+	Mark/Unmark Packet
+	Mark All Displayed
+	Unmark All Displayed
+	Next Mark
+	Previous Mark
+	
+	Ignore/Unignore Packet
+	Ignore All Displayed
+	Unignore All Displayed
+	
+	Set/Unset Time Reference
+	Unset All Time References
+	Next Time Reference
+	Previous Time Reference
+	
+	Time Shift...
+	
+	Packet Comment...
+	
+	Configuration Profiles...
+	Preferences...
+	
+
+View
+
+	Main Toolbar
+	Filter Toolbar
+	Wireless Toolbar
+	Status Bar
+	
+	Packet List
+	Packet Details
+	Packet Bytes
+	
+	Time Display Format
+	Name Resolution
+	
+	Zoom
+	
+	Expand Subtrees
+	Expand All
+	Collapse All
+	
+	Colorize Packet List
+	Coloring Rules...
+	Colorize Conversation
+	
+	Resize Columns
+	
+	Internals
+	
+	Show Packet in New Window
+	Reload as File Format/Capture
+	Reload
+
+
+
+Go
+
+	Go to Packet...
+	Go to Linked Packet
+	
+	Next Packet
+	Previous Packet
+	First Packet
+	Last Packet
+	Next Packet in Conversation
+	Previous Packet in Conversation
+	
+	Auto Scroll in Live Capture
+
+
+
+Capture
+
+	Options
+	Start
+	Stop
+	Restart
+	Capture Filters
+	Refressh Interfaces
+
+
+
+Analyze
+
+	Display Filters...
+	Display Filter Macros...
+	
+	Apply as Column
+	Apply as Filter
+	Prepare a Filter
+	Conversation Filter
+	
+	Enabled Protocols...
+	Decode As...
+	Reload Lua Plugins
+	
+	SCTP
+	Follow
+	
+	Expert Information
+
+
+Statistics
+
+	Capture File Properties
+	Resolved Addresses
+	Protocol Hierarchy
+	Conversations
+	Endpoints
+	Packet Lengths
+	I/O Graph
+	Service Response Time
+	
+	DHCP (BOOTP) Statistics
+	ONC-RPC Programs
+	29West
+	ANCP
+	BACnet
+	Collectd
+	DNS
+	Flow Graph
+	HART-IP
+	HPFEEDS
+	HTTP
+	HTTP2
+	Sametime
+	TCP Stream Graphs
+	UDP Multicast Streams
+	
+	IPv4 Statistics
+	IPv6 Statistics
+
+
+Telephony
+
+	VoIP Calls
+	ANSI
+	GSM
+	IAX2 Stream Analysis
+	ISUP Messages
+	LTE
+	MTP3
+	RTP
+	RTSP
+	SCTP
+	SMPP Operations
+	UCP Messages
+	H.225
+	SIP Flows
+	SIP Statistics
+	WAP-WSP Packet Counter
+
+
+
+Wireless
+
+	Bluetooth ATT Server Attributes
+	Bluetooth Devices
+	Bluetooth HCI Summary
+	
+	WLAN Traffic
+
+Tools
+
+	Firewall ACL Rules
+	Lua
+
+
+Help
+
+	Contents
+	Manual pages
+	
+	Website
+	FAQ's
+	Ask(Q&A)
+	Downloads
+	
+	Wiki
+	Sample Captures
+	
+	Check for Updates...
+	
+	About Wireshark
+
+
+
+
+
 ---------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------
