@@ -3140,7 +3140,7 @@ $ psexec.exe (원격명령어 실행 도구)
         # 타겟컴퓨터에 445번 포트를 개방합니다 
         $ netsh.exe advfirewall firewall add rule name="TCP-445" dir=in action=allow protocol=tcp localport=445 
 
-        # 타겟컴퓨터 Start -> Run -> secpol.msc -> Local Policies -> Security Options -> Network Access: Sharing > and security model for local accounts > Classic -> local users authenticate as themselves 
+        # 타겟컴퓨터 Start -> Run -> secpol.msc -> Local Policies -> Security Options -> Network Access: Sharing > and security model for local accounts > Classic - local users authenticate as themselves 
 
         # 내컴퓨터, psexec 명령어를 사용합니다 
         $ psexec \\172.30.1.15 -u <hostname> -p <password> <command> 
