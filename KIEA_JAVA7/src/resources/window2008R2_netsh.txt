@@ -1233,6 +1233,21 @@ Command-line reference A-Z
 		exit
 
 ------------------------------------------------------------------------------------------------------------------------------------------
+[ 파일 사용자 권한 부여 ]
+
+	# 20130202.png 파일의 소유자를 현재 계정으로 설정합니다	 
+	
+		DOS> takeown.exe /f C:\Users\gyurs\Downloads\20130202.png 
+	
+	# 20130202.png 파일의 소유자를 Administrators 그룹으로 넘깁니다 
+	
+		DOS> takeown.exe /f C:\Users\gyurs\Downloads\20130202.png /A 
+	
+	# Downloads 폴더 안에 있는 모든 파일의 권한을 Administrators 그룹으로 넘깁니다 
+	# Administrators 그룹으로 넘김, 모든 하위파일까지 적용, 중간에 읽기 권한없는 폴더를 만나도 권한을 부여하고 계속 실행 
+	
+		DOS> takeown.exe /f C:\Users\gyurs\Downloads\* /A /r /d y 
+
 
 
 
