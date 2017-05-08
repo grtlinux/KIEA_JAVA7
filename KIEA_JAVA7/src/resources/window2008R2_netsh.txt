@@ -621,7 +621,7 @@
 	
 	netsh interface ipv4> 
 	
-	netsh interface ipv4>show
+	netsh interface ipv4> show
 	
 		다음 명령을 사용할 수 있습니다.
 		
@@ -654,7 +654,7 @@
 		show udpstats  - UDP 통계를 표시합니다.
 		show winsservers - WINS 서버 주소를 표시합니다.
 
-	netsh interface ipv4>help
+	netsh interface ipv4> help
 	
 		다음 명령을 사용할 수 있습니다.
 		
@@ -1776,6 +1776,180 @@ Command-line reference A-Z
 		모르는 건 아니겠죠?
 		님이 안다고 해서 뺀 거라고 생각 하겠습니다. 사실 이정도 내용을 질문 하는데 있어서..
 		어느정도는 해야 한다고 생각하기에..
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+[ 시작메뉴 명령어들 ]
+
+		[Accwiz.exe] Accessibility Wizard  내게 필요한 옵션 마법사
+		[Narrator.exe ] 내레이터 Narrator
+		[Wab.exe] 주소록 - 주ID Address book
+		[Notepad.exe ] 메모장 Notepad
+		[Ntbackup.exe] 백업및 복원 마법사 Backup
+
+		[Osk.exe ] 화상키보드 On-Screen Keyboard
+		[Calc.exe] 계산기 Calculator
+		[Msimn.exe ] 아웃룩 익스프레스 Outlook Express
+		[Charmap.exe] 문자표 Character map
+		[Mspaint.exe ] 그림판 Paint
+
+		[Cmd.exe] 명령프롬프트 Command prompt
+		[Pinball.exe ] 핀볼 Pinball
+		[Odbcad32.exe] ODBC 데이터 원본 관리자 Data sources (ODBC)
+		[Rcimlby.exe ] MSN Remote Assistance
+		[Cleanmgr.exe] 디스크 정리 Disk cleanup
+
+		[Mstsc.exe ] 원격 데스크톱 연결 Remote Desktop Connection
+		[Freecell.exe] 프리셀 FreeCell
+		[Sol.exe ] 카드놀이 Solitaire
+		[Migwiz.exe] 파일 및 설정 전송 마법사 Files and Settings Transfer Wizard
+		[Sndrec32.exe ] 녹음기 Sound Recorder
+
+		[Mshearts.exe] 하트 네트워크 Hearts
+		[Spider.exe ] 스파이더 Spider Solitaire
+		[Hypertrm.exe] 하이퍼터미널 HyperTerminal
+		[Msinfo32.exe] 시스템 정보 System Information
+		[Bckgzm.exe] 주사위 놀이 Internet Backgammon
+
+		[Rstrui.exe] 시스템 복원 System Restore
+		[Chkrzm.exe] 체커 온라인 Internet Checkers
+		[Tourstart.exe ] XP의 새로운 기능을 경험 Tour Windows XP
+		[Iexplore.exe] 익스플로러 Internet Explorer
+		[Utilman.exe ] 유틸리티 관리자 Utility Manager
+
+		[Hrtzzm.exe] 하트 온라인 Internet Hearts
+		[Wmplayer.exe ] 윈도우 미디어 플레이어 Windows Media Player
+		[Rvsezm.exe] 리버시 온라인 Internet Reversi
+		[Msmsgs.exe ] MSN창모드 Windows Messenger
+		[Shvlzm.exe] 스페이드 온라인 Windows Movie Maker
+
+		[Magnify.exe] 윈도우 돋보기 Magnifier
+		[Wupdmgr.exe ] 윈도우 업데이트 Windows Update
+		[Winmine.exe] 지뢰찾기  Minesweeper
+		[Wordpad.exe ] 워드패드 WordPad
+
+
+		C:\>dir/p/w
+		디스크의 파일과 디렉토리를 한 화면씩 가로목록 형식으로 출력하는 명령어이다.
+
+		C:\>sys a:
+		3.5 디스켓을 넣고 부팅 가능하게 시스템 파일을A드라이브에 전송하라는 명령어이다. 만약 윈도우 98사용자라면 c:\windows\comand\ebd\폴더에 있는 파일을 전부 디스켓에 복사 하면 된다.
+
+		C:\DOS>copy .d:
+		C드라이브에 있는 DOS디렉토리의 모든파일(*.*과 같음)을 D드라이브에 카피하라는 명령어이다.
+
+		C:\>xcopy . d: /s
+		하드카피와 비슷한 명령어로 C드라이브에 있는 디렉토리와 파일들을 D드라이브로 복사한다는 명령어 이다.
+
+		C:\>diskcopy a: a:
+		A드라이브의 플로피 디스크의 내용을 다른 플로피 디스크에 똑 같이 복사할 때 사용하는 명령어 이다.
+
+		C:\>move sys.com d:\win
+		C드라이브에 있는 SYS.COM이라는 파일을 D드라이브에 있는 win디렉토리에 이동시킨다는 말이다.
+
+		C:\>ren kkn.txt kim.doc
+		파일의 이름을 kkn.txt에서 kim.doc로 바꾼다는 명령어 이다.
+
+		C:\>del . /P
+		C드라이브에 있는 루트 파일들을 확인 절차를 한후 전부 지운다는 명령어이다.
+
+		C:\>deltree windows
+		C드라이브의 windows디렉토리의 하위 폴더까지 전부 삭제하는 명령어다.
+
+		C:\>undelete command.com
+		지워진 command.com이라는 파일을 복구하라는 명령어이다.(도스에서 사용하고 윈도우 9x부터는 휴지통의 개념을 사용한다)
+
+		C:\>edit autoexec.bat
+		autoexec.bat 파일의 편집을 하기위한 명령어이다.
+
+		C:\>cd windows
+		windows디렉토리로 체인지 할 때 사용하는 명령어이다.
+
+		C:\>md 게임방
+		게임방 이라는 디렉토리를 만들려고 할 때 사용하는 명령어이다.
+
+		C:\>doskey
+		매크로를 만들 때 사용하는 명령어로서 그전에 입력했던 명령어를 화살표키로 출력시킬 수 있다.
+
+		C:\>fdisk
+		도스를 사용할 수 있도록 하드디스크의 파티션을 설정합니다.
+
+		C:\>format c: /q/s
+		하드디스크를 빠른 포맷하고 시스템파일을 복사하라는 명령어 이다.
+
+		C:\>chkdsk c: /f
+		C드라이브를 검사하여 오류가 있으면 수정하라는 명령어 이다.
+
+		C:\>scandisk /all
+		모든 지역 드라이브를 검사하고 오류가 있으면 수정하라는 명령어이다.
+
+		C:\>attrib -r -s -h msdos.sys
+		msdos.sys라는 파일의 숨김속성을 읽기,시스템파일속성,숨김파일 속성을 해제할 때 사용하는 명령어 이다.
+
+		C:\>attrib +r +s +h msdos.sys
+		msdos.sys라는 파일의 숨김속성을 읽기,시스템파일속성,숨김파일 속성을 지정할 때 사용하는 명령어 이다.
+
+		C:\>mshbios /u 또는 hbios /u
+		한글 바이오스를 메모리에서 삭제하라는 명령어 이다.
+
+		C:\>nlsfunc
+		국가별 정보를 로드할 때 사용하며 이 키가 autoexec.bat파일에 지정이 안되있으면 국가별 언어코드가 전환되지 않는다. 만약 국가별 코드전환이 안되면 autoexec.bat에 loadhigh c:\windows\ command\nlsfunc.exe c:\windows\country.sys라는 항목이 설정되어있는지 확인한다.
+
+		C:\>mem /c/p
+		시스템의 사용 중인 메모리와 사용할 수 있는 메모리 양을 유형별로 한페이지씩 보여 주는 명령어 이다.
+
+
+
+		netstat -a== pc와 연결된 모든 아이피 주소
+		nbtstat -a 컴퓨터 이름 ===원격 컴퓨터의 넷바이오스 이름 테이블 표시
+		nbtstat -A ip주소 ====원격 컴퓨터의 ip주소로 넷바이오스 이름 테이블표시
+		nbtstat -c ======넷바이오스 이름 캐시의 내용
+		nbtstat -n ====로컬 컴퓨터의 넷바이오스 이름 테이블 표시
+		nbtstat -r ====넷바이오스 이름 확인 통계표시
+		nbtstat -R ====넷바이오스 이름 캐시의 내용을 비움
+		net start scardsvr(서비스명) === smart card 서비스 실행 명령어
+		net session /delete ===연결된 세션을 모두 종료 시킴
+		netstat -a -p udp === 컴퓨터와 연결된 udp 프로토콜 아이피주소 표시
+		at 16:00 /every:f c:\asin.bat ===매주 금요일16시에 asin.bat 파일 실행. at는 정해진 날짜나 시간 설정을 실행하는 것.
+		pathping 164.124.101.2 === 상대방 호스트간 라우트 경로 및 홉값표시
+		nslookup naver.com 또는 nslookup www.naver.com ===특정 사이트의 서버 ip주소 알아내기
+		tracert 222.122.84.250 ==특정 호스트 까지의 패킷경로 확인.네이버
+		tracert naver.com ==naver.com 이라는 사이트의 패킷경로
+		ipconfig/renew ==TCP/IP 설치유무 확인
+		pathping 164.124.101.2 ===패킷 입출력 통계와 목적지까지의 경로 확인
+		route print ==ip 경로 추적 및 삭제
+		ipconfig /all ==ip 정보(mac주소검사) 및 기타정보
+		ipconfig > c:\icqa.txt ===ipconfig 내용을 C 에저장
+		ipconfig/all > c:\icqa.txt ===ipconfig/all 내용을 C 에저장
+		description-랜카드칩의 모델명
+		physical adress-맥주소. 예)00-16-EB-29-F2-CC 맥주소는 변경 중복될 수 없다
+		ping 테스트 ping 127.0.0.1
+		ping 192.222.209.1 -t ==게이트웨이로 무한 루핑 테스트
+		convert F /Fs:Ntfs ==드라이버 파일 형식 변환 (F라는 드라이버의 Fat32 를 Ntfs 로)
+		net send 192.168.1.202 I love you ==192.168.1.202 에게 I love you 라는 문구를 메신저로 보내기
+		net user honggildong 123456 /add ===계정생성
+		tsshutdown 3600 ==1시간후 pc 종료 명령어 (초단위로 환산)
+		diskpart 엔터 list volume 엔터 ==디스크 볼륨정보 확인
+		chkdsk c: === 디스크의 물리적 논리적 상태검사
+		sc start alerter === xp의 서비스항목중 alerter 서비스 상태를 “시작됨”으로 변경
+		net share ===xp 공유자원 명령어
+
+		실행-- SFC /purgecache . sfc /scannow ==모든파일 즉시 스캔 및 잘못된 버전수정
+		실행-- shutdown -a ==웜감염 등으로 인한 무한 리부팅 오류 발생시 중단 명령어
+		실행 -- d:\i386\winnt32.exe /cmdcons == xp 부팅시 복구 콘솔 표시되게(xp cdrk 들어 있는 드라이버는 d)
+		실행-- c:\windows\servicepackfiles\i386 이동후에
+		cpl 확장자를 가진 파일들을 c:\windows\system32 폴더에 복사
+		===제어판 실행시 일부 목록 나타나지 않을때
+		실행 winver ===윈도우의 버전확인 실행
+
+		부팅 불능시 복구 콘솔로 마스트 레코드 복구 c:\windows>fixmbr
+		타컴퓨터에서 만든 인쇄파일(icqa.prm)을 LP1에 연결된 프린터로 인쇄
+		print icqa.prm>LP1
+		print /d:LP1 icqa.prm
+
+
+
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 [ https://technet.microsoft.com/en-us/library/bb490943.aspx ]
