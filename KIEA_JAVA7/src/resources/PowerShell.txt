@@ -14,7 +14,10 @@
 	6. http://svrstudy.tistory.com/category/Powershell
 	
 	7. http://blogs.technet.com/b/csps/p/start.aspx
+	
+	8. https://msdn.microsoft.com/ko-kr/powershell/scripting/powershell-scripting
 
+	9. http://cafe.naver.com/randomaccess/54
 
 ---------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------
