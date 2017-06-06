@@ -96,14 +96,50 @@
 
 	Adding a network drive
 	
-		(New-Object -Com WScript.Network).MapNetworkDrive("x:", "\\share_IP\share_name")
+		(New-Object -Com WScript.Network).MapNetworkDrive("P:", "\\192.168.1.10\SVR_2MOV", $false, "taincokr", "123")
 	
 	Removing a network drive
 
-		(New-Object -Com WScript.Network).RemoveNetworkDrive("x:")
+		(New-Object -Com WScript.Network).RemoveNetworkDrive("P:", $true, $true)
 
 
 ---------------------------------------------------------------------------------------------------------------
+[ Powershell 에서 응용 프로그램 실행 ]
+
+	Microsoft Word
+	
+		$AppWord = New-Object -ComObject Word.Application
+		$AppWord.visible = $true
+	
+	Microsoft Excel
+	
+		$AppExcel = New-Object -ComObject Excel.Application
+		$AppExcel.visible = $true
+
+	Microsoft PowerPoint
+	
+		$AppPPT = New-Object -ComObject PowerPoint.Application
+		$AppPPT.visible = $true
+
+	Internet Explorer
+	
+		$AppIE = New-Object -ComObject InternetExplorer.Application
+		$AppIE.navigate("http://www.naver.com")
+		$AppIE.visible = $true
+
+	Command
+	
+		$AppCmd = New-Object -ComObject "Shell.Application"
+		$AppCmd.shellExecute("cmd.exe")
+		
+	Network Drive
+	
+		$net = New-Object -Com WScript.Network
+		$net.MapNetworkDrive("P:", "\\share-IP\share-name", $false, "user", "pass")
+
+
+
+
 ---------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------
