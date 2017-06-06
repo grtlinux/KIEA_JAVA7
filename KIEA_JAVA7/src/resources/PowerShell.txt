@@ -96,11 +96,11 @@
 
 	Adding a network drive
 	
-		(New-Object-Com WScript.Network).MapNetworkDrive("x:", "\\share_IP\share_name")
+		(New-Object -Com WScript.Network).MapNetworkDrive("x:", "\\share_IP\share_name")
 	
 	Removing a network drive
 
-		(New-Object-Com WScript.Network).RemoveNetworkDrive("x:")
+		(New-Object -Com WScript.Network).RemoveNetworkDrive("x:")
 
 
 ---------------------------------------------------------------------------------------------------------------
