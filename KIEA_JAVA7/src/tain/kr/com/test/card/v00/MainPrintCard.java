@@ -144,7 +144,7 @@ public class MainPrintCard {
 		lstBean.add(new Bean("DAY-063", "Save my seat."                  , "자리 잡아 놔."));
 		lstBean.add(new Bean("DAY-064", "It's worth visiting."           , "가 볼 만해."));
 		lstBean.add(new Bean("DAY-065", "The game ended in a tie."       , "무승부로 끝났어."));
-		lstBean.add(new Bean("DAY-066", "Hang in there."                 , "조금만 참아."));
+		lstBean.add(new Bean("DAY-066", "Hang in there."                 , "조금만 참아."));     // you can do it. don't give up!  keep going   continue
 		lstBean.add(new Bean("DAY-067", "I ran into her."                , "걔를 우연히 만났어."));
 		lstBean.add(new Bean("DAY-068", "Sorry to hear that."            , "안됐구나."));
 		lstBean.add(new Bean("DAY-069", "You have a minute?"             , "시간 좀 있어?"));
@@ -223,9 +223,9 @@ public class MainPrintCard {
 			Bean[] arrBean = lstBean.toArray(new Bean[lstBean.size()]);
 			
 			for (int cnt=0; cnt < 50; cnt ++) {
-				for (int i=70; i < arrBean.length; i++) {
+				for (int i=0; i < arrBean.length; i++) {
 					switch (i / 10) {
-					case 7:
+					case 5:
 						String code = arrBean[i].getCode();
 						String strEng = arrBean[i].getStrEng();
 						String strHan = arrBean[i].getStrHan();
@@ -234,8 +234,16 @@ public class MainPrintCard {
 						try { Thread.sleep(2 * 1000); } catch (InterruptedException e) {}
 
 						System.out.printf("\t* %-40s\n\n", strEng);
-						try { Thread.sleep(1 * 1000); } catch (InterruptedException e) {}
+						try { Thread.sleep(1 * 100); } catch (InterruptedException e) {}
 						break;
+					case 0:
+					case 1:
+					case 2:
+					case 3:
+					case 4:
+						break;
+					case 6:
+					case 7:
 					case 8:
 					case 9:
 					default: 
