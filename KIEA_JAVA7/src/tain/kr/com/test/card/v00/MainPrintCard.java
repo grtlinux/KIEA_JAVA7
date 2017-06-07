@@ -206,10 +206,10 @@ public class MainPrintCard {
 				String strEng = bean.getStrEng();
 				String strHan = bean.getStrHan();
 				
-				System.out.printf("[%-7s] [%-25s]", code, strHan);
-				try { Thread.sleep(3 * 1000); } catch (InterruptedException e) {}
+				System.out.printf("[%-7s] %-25s", code, strHan);
+				try { Thread.sleep(2 * 1000); } catch (InterruptedException e) {}
 
-				System.out.printf(" [%-40s]\n", strEng);
+				System.out.printf("\t* %-40s\n", strEng);
 				try { Thread.sleep(1 * 1000); } catch (InterruptedException e) {}
 			}
 		}
