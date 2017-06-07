@@ -222,17 +222,25 @@ public class MainPrintCard {
 			
 			Bean[] arrBean = lstBean.toArray(new Bean[lstBean.size()]);
 			
-			for (int cnt=0; cnt < 3; cnt ++) {
+			for (int cnt=0; cnt < 50; cnt ++) {
 				for (int i=70; i < arrBean.length; i++) {
-					String code = arrBean[i].getCode();
-					String strEng = arrBean[i].getStrEng();
-					String strHan = arrBean[i].getStrHan();
-					
-					System.out.printf("[%-7s]     %-25s", code, strHan);
-					try { Thread.sleep(2 * 1000); } catch (InterruptedException e) {}
+					switch (i / 10) {
+					case 7:
+						String code = arrBean[i].getCode();
+						String strEng = arrBean[i].getStrEng();
+						String strHan = arrBean[i].getStrHan();
+						
+						System.out.printf("[%-7s]     %-25s", code, strHan);
+						try { Thread.sleep(2 * 1000); } catch (InterruptedException e) {}
 
-					System.out.printf("\t* %-40s\n\n", strEng);
-					try { Thread.sleep(1 * 1000); } catch (InterruptedException e) {}
+						System.out.printf("\t* %-40s\n\n", strEng);
+						try { Thread.sleep(1 * 1000); } catch (InterruptedException e) {}
+						break;
+					case 8:
+					case 9:
+					default: 
+						break;
+					}
 				}
 				
 				System.out.println("-----------------------------------");
