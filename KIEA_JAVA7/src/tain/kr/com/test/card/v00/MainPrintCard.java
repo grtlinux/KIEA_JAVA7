@@ -84,7 +84,7 @@ public class MainPrintCard {
 		lstBean.add(new Bean("DAY-009", "Want to come along?"            , "같이 갈래?"));
 		lstBean.add(new Bean("DAY-010", "He's getting out of hand."      , "감당이 안 돼."));
 
-		lstBean.add(new Bean("DAY-011", "You've crossed the line."       , "너 너무 심했어. 인간관계에서 넘지 말아야 할 한계선을 넘었다."));
+		lstBean.add(new Bean("DAY-011", "You've crossed the line."       , "너 너무 심했어.")); // 인간관계에서 넘지 말아야 할 한계선을 넘었다.
 		lstBean.add(new Bean("DAY-012", "Are you sure?"                  , "정말이야?"));
 		lstBean.add(new Bean("DAY-013", "Don't tell me what to do."      , "잔소리 그만해."));
 		lstBean.add(new Bean("DAY-014", "I called in sick."              , "나 병가 냈어."));
