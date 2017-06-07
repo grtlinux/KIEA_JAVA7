@@ -195,10 +195,12 @@ public class MainPrintCard {
 			new MainPrintCard();
 
 		if (!flag) {
+			System.out.println();
 			System.out.println("♡♤♧◇ ♠♣♥♦");
 		}
 		
-		if (flag) {
+		if (!flag) {
+			System.out.println();
 			setListBean();
 			
 			for (Bean bean : lstBean) {
@@ -210,6 +212,25 @@ public class MainPrintCard {
 				try { Thread.sleep(2 * 1000); } catch (InterruptedException e) {}
 
 				System.out.printf("\t* %-40s\n", strEng);
+				try { Thread.sleep(1 * 1000); } catch (InterruptedException e) {}
+			}
+		}
+		
+		if (flag) {
+			System.out.println();
+			setListBean();
+			
+			Bean[] arrBean = lstBean.toArray(new Bean[lstBean.size()]);
+			
+			for (int i=80; i < arrBean.length; i++) {
+				String code = arrBean[i].getCode();
+				String strEng = arrBean[i].getStrEng();
+				String strHan = arrBean[i].getStrHan();
+				
+				System.out.printf("[%-7s] %-25s", code, strHan);
+				try { Thread.sleep(2 * 1000); } catch (InterruptedException e) {}
+
+				System.out.printf("\t* %-40s\n\n", strEng);
 				try { Thread.sleep(1 * 1000); } catch (InterruptedException e) {}
 			}
 		}
