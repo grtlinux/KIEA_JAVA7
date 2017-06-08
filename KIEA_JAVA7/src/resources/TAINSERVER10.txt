@@ -94,7 +94,7 @@
 		DOS> reg.exe query "HKLM\SYSTEM\CurrentControlSet\Control\Lsa"        <- 확인
 		
 		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RestrictAnonymous /t REG_DWORD /d 2 /f      <- 변경 (0 -> 2)
-		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RestrictAnonymous /t REG_DWORD /d 1 /f      <- 변경 (0 -> 1) : 공유폴더에 대한 접근을 제한
+		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RestrictAnonymous /t REG_DWORD /d 1 /f      <- 변경 (0 -> 1) : 공유폴더에 대한 익명사용자접근을 제한
 
 
 	4. 제거
