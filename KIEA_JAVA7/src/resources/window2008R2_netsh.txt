@@ -1206,12 +1206,20 @@ Command-line reference A-Z
 			T$           T:\                             기본 공유
 			명령을 잘 실행했습니다.	
 		
-	
+
+		ADMIN$ : 시스템에서 컴퓨터를 원격 관리하는 동안 사용하는 리소스입니다.
+			이 리소스의 경로는 항상 Windows 시스템 루트, 즉 Windows에 설치되어 있는 디렉토리에서 C:\WINDOWS의 경로와 일치함.
+			
+		IPC$   : 프로그램 사이의 연결에 필수적인 명명 파이프를 공유하는 리소스입니다.
+			이 리소스는 컴퓨터를 원격관리하는 동안 그리고 컴퓨터의 공유 리소스를 볼 때 사용합니다.
+		
+			
 	2. ADMIN$, C$.... 삭제
 		
 		DOS> reg.exe query "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters"        <- 확인
 		
-		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" /v AutoshareServer /t REG_DWORD /d 0 /f   <- 생성
+		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" /v AutoshareWks    /t REG_DWORD /d 0 /f   <- 생성(win7)
+		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" /v AutoshareServer /t REG_DWORD /d 0 /f   <- 생성(win2008)
 
 
 	3. IPC$.... 삭제
@@ -1219,6 +1227,7 @@ Command-line reference A-Z
 		DOS> reg.exe query "HKLM\SYSTEM\CurrentControlSet\Control\Lsa"        <- 확인
 		
 		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RestrictAnonymous /t REG_DWORD /d 2 /f      <- 변경 (0 -> 2)
+		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RestrictAnonymous /t REG_DWORD /d 1 /f      <- 변경 (0 -> 1) : 공유폴더에 대한 접근을 제한
 
 
 	4. 제거
@@ -1229,7 +1238,15 @@ Command-line reference A-Z
 	5. Reboot
 	
 	
+	6. 확인
 	
+		DOS> net share
+	
+			공유 이름   리소스                        설명
+			
+			-------------------------------------------------------------------------------
+			IPC$                                         원격 IPC
+			명령을 잘 실행했습니다.	
 	
 
 
