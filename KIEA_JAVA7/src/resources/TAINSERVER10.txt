@@ -54,6 +54,50 @@
 
 
 -------------------------------------------------------------------------------------------------------------------------
+[ 공유폴더 삭제 ]
+
+	1. 확인
+	
+		DOS> net share
+		
+			공유 이름   리소스                        설명
+			
+			-------------------------------------------------------------------------------
+			ADMIN$       C:\Windows                      원격 관리
+			C$           C:\                             기본 공유
+			D$           D:\                             기본 공유
+			IPC$                                         원격 IPC
+			O$           O:\                             기본 공유
+			P$           P:\                             기본 공유
+			R$           R:\                             기본 공유
+			S$           S:\                             기본 공유
+			T$           T:\                             기본 공유
+			명령을 잘 실행했습니다.	
+		
+	
+	2. ADMIN$, C$.... 삭제
+		
+		DOS> reg.exe query "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters"        <- 확인
+		
+		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" /v AutoshareWks    /t REG_DWORD /d 0 /f   <- 생성(win7)
+		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" /v AutoshareServer /t REG_DWORD /d 0 /f   <- 생성(win2008)
+
+
+	3. IPC$.... 삭제
+
+		DOS> reg.exe query "HKLM\SYSTEM\CurrentControlSet\Control\Lsa"        <- 확인
+		
+		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RestrictAnonymous /t REG_DWORD /d 2 /f      <- 변경 (0 -> 2)
+
+
+	4. 제거
+	
+		DOS> net share ADMIN$ /delete
+
+		
+	5. Reboot
+	
+
 -------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------
