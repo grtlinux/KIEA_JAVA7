@@ -1186,6 +1186,78 @@ Command-line reference A-Z
 		
 
 ------------------------------------------------------------------------------------------------------------------------------------------
+[ 공유폴더 삭제 ]
+
+	1. 확인
+	
+		DOS> net share
+		
+			공유 이름   리소스                        설명
+			
+			-------------------------------------------------------------------------------
+			ADMIN$       C:\Windows                      원격 관리
+			C$           C:\                             기본 공유
+			D$           D:\                             기본 공유
+			IPC$                                         원격 IPC
+			O$           O:\                             기본 공유
+			P$           P:\                             기본 공유
+			R$           R:\                             기본 공유
+			S$           S:\                             기본 공유
+			T$           T:\                             기본 공유
+			명령을 잘 실행했습니다.	
+		
+	
+	2. ADMIN$, C$.... 삭제
+		
+		DOS> reg.exe query "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters"        <- 확인
+		
+		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" /v AutoshareServer /t REG_DWORD /d 0 /f   <- 생성
+
+
+	3. IPC$.... 삭제
+
+		DOS> reg.exe query "HKLM\SYSTEM\CurrentControlSet\Control\Lsa"        <- 확인
+		
+		DOS> reg.exe add   "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RestrictAnonymous /t REG_DWORD /d 2 /f      <- 변경 (0 -> 2)
+
+
+	4. 제거
+	
+		DOS> net share ADMIN$ /delete
+
+		
+	5. Reboot
+	
+	
+	
+	
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+[ reg.exe (레지스트리 추가/수정/삭제 명령어) ]
+
+	/v : value
+	/t : type
+	/d : data
+	/f : force
+
+	1. 해당 레지스트리 값을 추가합니다 (psexec을 사용하기 위해) 
+
+		DOS> reg.exe add hklm\software\microsoft\windows\currentversion\policies\system /v LocalAccountTokenFilterPolicy /t reg_dword /d 1 /f 
+
+	2. UAC(User Account Control) 세팅을 해제합니다 (재부팅 필요)
+	 
+		DOS> reg.exe add "hklm\software\microsoft\windows\currentversion\policies\system" /v EnableLua /t reg_dword /d 0 /f 
+	
+	3. IPC$의 기본공유를 해제합니다 
+	
+		DOS> reg.exe add hkey_local_machine\system\currentcontrolset\control\lsa\ /v RestrictAnonymous /t reg_dword /d 2 /f
+	 
+	4. ADMIN$, C$의 기본공유를 해제합니다 
+	
+		DOS> reg.exe add hkey_local_machine\system\currentcontrolset\services\lanmanserver\parameters /v AutoshareWks /t reg_dword /d 0 /f 
+
+------------------------------------------------------------------------------------------------------------------------------------------
 
 		::-------------------------------------------------------------
 		:: PROGRAM : main.cmd
