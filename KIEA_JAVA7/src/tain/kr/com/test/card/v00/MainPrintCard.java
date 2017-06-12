@@ -222,10 +222,10 @@ public class MainPrintCard {
 			
 			Bean[] arrBean = lstBean.toArray(new Bean[lstBean.size()]);
 			
-			for (int cnt=0; cnt < 50; cnt ++) {
+			for (int cnt=0; cnt < 100; cnt ++) {
 				for (int i=0; i < arrBean.length; i++) {
 					switch (i / 10) {
-					case 5:
+					case 4:
 						String code = arrBean[i].getCode();
 						String strEng = arrBean[i].getStrEng();
 						String strHan = arrBean[i].getStrHan();
@@ -240,8 +240,8 @@ public class MainPrintCard {
 					case 1:
 					case 2:
 					case 3:
-					case 4:
 						break;
+					case 5:
 					case 6:
 					case 7:
 					case 8:
