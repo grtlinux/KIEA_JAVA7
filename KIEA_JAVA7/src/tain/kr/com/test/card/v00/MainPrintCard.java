@@ -225,21 +225,22 @@ public class MainPrintCard {
 			for (int cnt=0; cnt < 100; cnt ++) {
 				for (int i=0; i < arrBean.length; i++) {
 					switch (i / 10) {
+					case 2:
+					case 3:
 					case 4:
 						String code = arrBean[i].getCode();
 						String strEng = arrBean[i].getStrEng();
 						String strHan = arrBean[i].getStrHan();
 						
 						System.out.printf("[%-7s]     %-25s", code, strHan);
-						try { Thread.sleep(2 * 1000); } catch (InterruptedException e) {}
+						if (!flag) try { Thread.sleep(2 * 1000); } catch (InterruptedException e) {}
+						else try { Thread.sleep(3 * 1000); } catch (InterruptedException e) {}
 
 						System.out.printf("\t* %-40s\n\n", strEng);
 						try { Thread.sleep(1 * 100); } catch (InterruptedException e) {}
 						break;
 					case 0:
 					case 1:
-					case 2:
-					case 3:
 						break;
 					case 5:
 					case 6:
