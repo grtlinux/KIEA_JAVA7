@@ -135,7 +135,7 @@ public final class MainTest {
 
 final class DBConnection {
 	
-	private String DB_URL = "Jdbc:Odbc:Testdata";
+	private String DB_URL = "Jdbc:Odbc:Testdata";   // Testdata
 	private String DB_USER = "test";
 	private String DB_PASS = "test";
 	
