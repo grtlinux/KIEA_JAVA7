@@ -90,7 +90,89 @@ else {
 
 
 ------------------------------------------------------------------------------------------------------------------
+
+	element.requestFullscreen();
+	
+	Document.getElementById("MyCanvas").requestFullscreen();
+	
+	document.cancelFullscreen()
+	
+	Document.fullScreen
+	
+	document.fullScreenElement
+	
+	
+
 ------------------------------------------------------------------------------------------------------------------
+
+function startFS(element) {
+
+	if(element.requestFullScreen) {
+
+		element.requestFullScreen();
+
+	} else if(element.webkitRequestFullScreen ) {
+
+		element.webkitRequestFullScreen();
+
+	} else if(element.mozRequestFullScreen) {
+
+		element.mozRequestFullScreen();
+
+	} else if (element.msRequestFullscreen) {
+
+		element.msRequestFullscreen(); // IE
+
+	}
+
+}
+
+
+function exitFS(element) {		
+
+	if (element.exitFullscreen){
+
+		element.exitFullscreen();
+
+	}else if(element.cancelFullScreen) {
+
+		element.cancelFullScreen();
+
+	} else if(element.webkitCancelFullScreen ) {
+
+		element.webkitCancelFullScreen();
+
+	} else if(element.mozCancelFullScreen) {
+
+		element.mozCancelFullScreen();
+
+	} else if (element.msExitFullscreen) {
+
+            element.msExitFullscreen(); // IE        
+
+	}
+
+}
+
+// IE	
+function max() {
+
+    var wscript = new ActiveXObject("Wscript.shell");
+
+    wscript.SendKeys("{F11}");
+
+}
+
+max();
+
+
+
+<button onclick="startFS(document)">Fullscreen</button>
+
+<button onclick="exitFS(document)">exit</button>
+
+
+
 ------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------
