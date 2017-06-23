@@ -107,24 +107,22 @@ else {
 
 function startFS(element) {
 
-	if(element.requestFullScreen) {
+	if (element.requestFullScreen) {
 
 		element.requestFullScreen();
 
-	} else if(element.webkitRequestFullScreen ) {
+	} else if (element.webkitRequestFullScreen ) {
 
 		element.webkitRequestFullScreen();
 
-	} else if(element.mozRequestFullScreen) {
+	} else if (element.mozRequestFullScreen) {
 
 		element.mozRequestFullScreen();
 
 	} else if (element.msRequestFullscreen) {
 
 		element.msRequestFullscreen(); // IE
-
 	}
-
 }
 
 
@@ -134,24 +132,22 @@ function exitFS(element) {
 
 		element.exitFullscreen();
 
-	}else if(element.cancelFullScreen) {
+	} else if (element.cancelFullScreen) {
 
 		element.cancelFullScreen();
 
-	} else if(element.webkitCancelFullScreen ) {
+	} else if (element.webkitCancelFullScreen ) {
 
 		element.webkitCancelFullScreen();
 
-	} else if(element.mozCancelFullScreen) {
+	} else if (element.mozCancelFullScreen) {
 
 		element.mozCancelFullScreen();
 
 	} else if (element.msExitFullscreen) {
 
-            element.msExitFullscreen(); // IE        
-
+        element.msExitFullscreen(); // IE        
 	}
-
 }
 
 // IE	
@@ -160,7 +156,6 @@ function max() {
     var wscript = new ActiveXObject("Wscript.shell");
 
     wscript.SendKeys("{F11}");
-
 }
 
 max();
@@ -182,22 +177,25 @@ max();
 이럴 경우 다른 방식으로 설정해주어야 한다
 컨테이너를 만들고 컨테이너를 100%해주고 canvas의 크기를 수동으로 조정해준담에..... 중앙으로맞추고... 
 
-<style>
-#canvas:-webkit-full-screen {
-    height: 100vh;
-}
-
-#canvas:-moz-full-screen {
-    height: 100vh;
-}
-#canvas:-ms-fullscreen {
-   height: 100vh;
-}
-#canvas:fullscreen {
-   height: 100vh;
-}
-
-</style>
+	<style>
+	
+	#canvas:-webkit-full-screen {
+	    height: 100vh;
+	}
+	
+	#canvas:-moz-full-screen {
+	    height: 100vh;
+	}
+	
+	#canvas:-ms-fullscreen {
+	   height: 100vh;
+	}
+	
+	#canvas:fullscreen {
+	   height: 100vh;
+	}
+	
+	</style>
 
 동영상을 실행할 때 전체 화면으로 실행이 가능하게 한다.
 
