@@ -1,36 +1,1104 @@
 ------------------------------------------------------------------------------------------------------------------------------------------
+
+이클립스 다이나믹 웹 프로젝트로 생성했다.
+ 
+추가한 라이브러리는
+ 
+  <dependency>
+   <groupId>org.apache.tomcat</groupId>
+   <artifactId>juli</artifactId>
+   <version>6.0.26</version>
+  </dependency>
+ 
+위의 dependency 는 테스트중에 예외가 발생하여 추가한 라이브러리다.
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+WSServer.java
+ 
+package per.wofmaker.webmodule1.server;
+ 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+ 
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
+ 
+@ServerEndpoint("/ratesrv")
+public class WSServer {
+
+	// 클라이언트를 관리하기 위한 컬렉션
+	private static Queue<Session> clients = new ConcurrentLinkedQueue<Session>();
+
+	// 현재 클라이언트의 정보를 각 클라이언트로 보내기 위한 쓰레드
+	private static Thread rateThread;
+
+	static {
+
+		rateThread = new Thread() {
+			@Override
+			public void run() {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd (E) hh:mm:ss");
+
+				while (true) {
+					if (clients != null){
+						// 각 클라이언트로 시간을 보내준다.
+						sendAll(sdf.format(new Date()));
+					}
+					try {
+						sleep(2000);
+					} catch (InterruptedException e) {
+					}
+				}
+			};
+		};
+		rateThread.start();
+	}
+
+	// 클라이언트가 메세지를 보내면 호출되는 메소드
+	@OnMessage
+	public void onMessage(Session session, String msg) {
+		try {
+			System.out.println("received msg " + msg + " from " + session.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// 클라이언트가 접속을 하게되면 호출되는 메소드
+	@OnOpen
+	public void open(Session session) {
+		// url의 파라미터 출력
+		System.out.println(session.getQueryString());
+		// 클라이언트 추가
+		clients.add(session);
+		System.out.println("New session opened: " + session.getId());
+	}
+
+	// 통신 중 에러 발생 시 호출되는 메소드
+	@OnError
+	public void error(Session session, Throwable t) {
+		// 클라이언트 삭제
+		clients.remove(session);
+		System.err.println("Error on session " + session.getId());
+	}
+
+	// 클라이언트와 연결이 끊길때 호출되는 메소드
+	@OnClose
+	public void closedConnection(Session session) {
+		// 클라이언트 삭제
+		clients.remove(session);
+		System.out.println("session closed: " + session.getId());
+	}
+
+	// 모든 클라이언트에게 메세지 전송
+	private static void sendAll(String msg) {
+		try {
+			// clients에 등록된 session이 있지만 오픈하지 않은 세션을 담을 리스트
+			ArrayList<Session> closedSessions = new ArrayList<>();
+
+			// clients에서 하나씩 꺼내서
+			for (Session session : clients) {
+				if (!session.isOpen()) {
+					// 세션이 열리지 않았다면
+					// 닫혀진 세션이라 출력하고
+					System.err.println("Closed session: " + session.getId());
+					// closedSessions 에 추가
+					closedSessions.add(session);
+				} else {
+					// 세션이 열려 있다면
+					// 인수로 넘어온 메세지를 각 클라이언트로 보낸다.
+					session.getBasicRemote().sendText(msg);
+				}
+			}
+			// 닫힌 세션 리스트를 가지고 clients 에서 삭제
+			clients.removeAll(closedSessions);
+			System.out.println("Sending " + msg + " to " + clients.size() + " clients");
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+WSClient.java
+
+package per.wofmaker.webmodule1.server;
+
+import java.net.URI;
+
+import javax.websocket.ClientEndpoint;
+import javax.websocket.ContainerProvider;
+import javax.websocket.OnMessage;
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
+
+@ClientEndpoint
+public class WSClient {
+ 
+	// 동기화 기준이 되는 객체 선언
+	private static Object waitLock = new Object();
+	
+	// 서버로 부터 메세지가 왔을 때 호출되는 메소드
+	@OnMessage
+	public void onMessage(String message) {
+		System.out.println("Received msg: " + message);
+	}
+	
+	private static void wait4TerminateSignal() {
+		synchronized (waitLock) {
+			try {
+				waitLock.wait();
+			} catch (InterruptedException e) {
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		WebSocketContainer container = null;//
+		Session session = null;
+		try {
+			// 웹소켓 컨테이너를 가지고 온다.
+			container = ContainerProvider.getWebSocketContainer();
+			
+			// WebModule 는 톰캣 설치 폴더 안에 webapps 안에 있는 폴더명이다.
+			// webapps 에 war 파일을 넣고 서버 재시작을 하게되면 배포가 되는데
+			// war 파일명으로 폴더가 생성된다.  이 폴더명이 WebModule 이다.
+			// retesrv 는 웹 소켓 서버역할을 하는 클래스(@ServerEndpoint("/ratesrv") 를 가진)와
+			// 매핑하기 위하여 붙여준다.
+			// ? 이후 부터 id=user00 .....  붙여주게 되면 서버에서
+			// session.getQueryString() 으로 받을 수 있다.
+			session = container.connectToServer(WSClient.class, URI.create("ws://localhost:8080/WebModule/ratesrv?id=user00"));
+			// container.connectToServer([작성한 클라이언트 타입], [URI - ws://서버/url?쿼리]);
+			
+			wait4TerminateSignal();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="EUC-KR">
+	<title>Insert title here</title>
+	<script type="text/javascript">
+		var wsocket;
+
+		function connect() {
+			// 웹소켓 생성
+			wsocket = new WebSocket("ws://localhost:8080/WebModule/ratesrv?id=user00");
+			// 메세지가 왔을때 호출할 메소드 지정
+			wsocket.onmessage = onMessage;
+		}
+
+		// 메세지가 왔을때 호출되는 메소드
+		function onMessage(evt) {
+			document.getElementById("time").innerHTML = evt.data;
+		}
+
+		// 서버로 데이터를 보낼때 호출
+		function send(data){
+			wsocket.send(data);
+		}
+
+		window.addEventListener("load", connect, false);
+	</script>
+</head>
+<body>
+
+	<table>
+		<tr>
+			<td><label id="timeLbl">Time :</label></td>
+			<td><label id="time">0</label></td>
+			<td><button id="send" onclick="send('asdf')">send</button></td>
+		</tr>
+	</table>
+
+</body>
+</html>
+
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+
+@ServerEndpoint(value = "/ws/was")
+public class WasWebSocket {
+
+	private static Logger log = LoggerFactory.getLogger(WasWebSocket.class);
+
+	// connections of clients
+	public static Set<waswebsocket> connections = new CopyOnWriteArraySet<>();
+
+	// local session
+	private Session session;
+
+	public WasWebSocket() {
+		log.info("----------- thread start");
+	}
+
+	public Session getSession() {
+		return this.session;
+	}
+
+	@OnOpen
+	public void onOpen(Session session) {
+		log.info("onOpen this: {}, this.sessson: {}", this.getClass(), session);
+		this.session = session;
+		synchronized (connections){
+			connections.add(this);
+		}
+	}
+
+
+	@OnClose
+	public void onClose() {
+		log.info("onClose");
+		synchronized (connections){
+			connections.remove(this);
+		}
+	}
+
+
+	@OnMessage
+	public void onMessage(String message) {
+		log.info("@OnMessage");
+		log.info("websocket message: " + message);
+	}
+
+
+
+	@OnError
+	public void onError(Throwable t) throws Throwable {
+		log.error("e: ", t.toString());
+		synchronized (connections){
+			connections.remove(this);
+		}
+	}
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+	function wasStatusListen() {
+		var oSocket = new WebSocket(WS_URL + "/ws/was");
+
+		oSocket.onmessage = function (e) {
+			var json = eval("(" + e.data + ")");
+			if (json.result && json.result == "0000") {
+				var wasNode = json.data.name;
+				var heapUsedPercent = json.data.heapUsedPercent;
+				..
+				..
+				처리
+
+			}
+		};
+
+		oSocket.onopen = function (e) {
+			console.log("open");
+		};
+
+		oSocket.onclose = function (e) {
+			console.log("close");
+			wasStatusListen();
+		};
+
+		window.unload = function() {
+			if (oSocket.readyState != 3)
+				oSocket.disconnect();
+		}
+	}
+	wasStatusListen();
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+
+A WebSocket is a full-duplex communication mechanism that allows both textual and binary messages
+to be sent between clients and servers,
+without the HTTP request/response life cycle.
+WebSockets allow either the client or the server to send a message at any time,
+providing an asynchronous solution for working with data while the user is performing a task.
+Websockets API are included in Tomcat 7 Web server distribution so you don't have to download any extra library:
+ 
+ 
+In this tutorial we will show how to create a WebSocket example using Apache Tomcat and Eclipse.
+Start by creating on Eclipse a new Dynamic project named websocket-example:
+ 
+ 
+ 
+ 
+We will now create a server side class named WebSocketDemo that is going to
+echo messages from a Javascript client:
+ 
+ 
+	package com.sample;
+	
+	import java.io.IOException;
+	import javax.websocket.OnMessage;
+	import javax.websocket.Session;
+	import javax.websocket.server.ServerEndpoint;
+	 
+	 
+	@ServerEndpoint("/echo")
+	public class WebSocketDemo {
+	
+		@OnMessage
+		public void echoTextMessage(Session session, String msg, boolean last) {
+			try {
+				if (session.isOpen()) {
+					session.getBasicRemote().sendText(msg, last);
+				}
+			} catch (IOException e) {
+				try {
+					session.close();
+				} catch (IOException e1) {
+					// Ignore
+				}
+			}
+		}
+	}
+
+ 
+The @ServerEndpoint annotation accepts a String-based path attribute,
+which is used to indicate the URI at which the server is available to accept client messages.
+Therefore, when the server is started, the value of the path attribute would be appended to the
+end of the context path and application name in which the WebSocket resides.
+By initiating a call to that URL, one method, annotated with @OnMessage,
+will be invoked to process the message that is sent.
+Here is the index.jsp file which contains a Javascript code and a form where you can enter a message:
+
+
+	<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+		<meta charset="utf-8">
+		<title>Your First WebSocket!</title>
+		<script language="javascript" type="text/javascript">
+
+			var wsUri = "ws://localhost:8080/websocket-example/echo";
+
+			function init() {
+				output = document.getElementById("output");
+			}
+
+			function send_message() {
+				websocket = new WebSocket(wsUri);
+				websocket.onopen = function(evt) {
+					onOpen(evt)
+				};
+				websocket.onmessage = function(evt) {
+					onMessage(evt)
+				};
+				websocket.onerror = function(evt) {
+					onError(evt)
+				};
+			}
+
+			function onOpen(evt) {
+				writeToScreen("Connected to Endpoint!");
+				doSend(textID.value);
+			}
+			function onMessage(evt) {
+				writeToScreen("Message Received: " + evt.data);
+			}
+			function onError(evt) {
+				writeToScreen('ERROR: ' + evt.data);
+			}
+
+			function doSend(message) {
+				writeToScreen("Message Sent: " + message);
+				websocket.send(message);
+				//websocket.close();
+			}
+
+			function writeToScreen(message) {
+				var pre = document.createElement("p");
+				pre.style.wordWrap = "break-word";
+				pre.innerHTML = message;
+
+				output.appendChild(pre);
+			}
+
+			window.addEventListener("load", init, false);
+		</script>
+	</head>
+	<body>
+		<h1 style="text-align: center;">Hello World WebSocket Client</h2>
+		<br>
+		<div style="text-align: center;">
+			<form action="">
+				<input onclick="send_message()" value="Send" type="button">
+				<input id="textID" name="message" value="Hello WebSocket!" type="text"><br>
+			</form>
+		</div>
+		<div id="output"></div>
+	</body>
+	</html>
+
+
+In this example, the message contained in the "message"
+input field will be sent as text message to the Websocket available at:
+var wsUri = "ws://localhost:8080/websocket-example/echo";
+ 
+ 
+Now startup Tomcat and deploy the application.
+Once that you have entered the message in the text field you should expect to
+read the echo message on the Web page:
+ 
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
+
+http://tomcat.apache.org/tomcat-7.0-doc/web-socket-howto.html
+
+
+
+Tomcat 7에 포함된 WebSocket API (JSR-356) 예제를 참고하여 아래와 같은 예제를 작성하고 실행하고자 한다.
+
+Eclipse의 Dynamic Web Project에서 테스트할 때는 실행되지 않았지만, Eclipse에서 컴파일된 파일을 톰캣에 배포한 후에 실행하면 문제가 없었다.
+
+
+
+서버측에서 JSON 문자열을 처리하기 위해 사용한 라이브러리 https://code.google.com/p/json-simple/
+
+ json-simple-1.1.1.jar                   
+
+
+
+위의 URL을 참조하거나 로컬시스템에 설치한 Tomcat 7 의 examples 디렉토리에서 WebSocket 예제를 찾을 수 있다.
+
+
+
+다음 예제는 클라이언트측(Javascript)에서 WebSocket을 이용하여 서버측에 접속할 때 2가지 방식으로 데이터를 전달하는 예이다.
+
+1. 파라미터를 요청 URL에 포함하여 전달하는 방법
+
+2. 파라미터가 아닌 일반 데이터를 JSON 문자열로 전달하는 방법
+
+서버에서 수신한 데이터는 다시 클라이언트 측으로 되돌려 보내는 Echo 서버의 기능이다
+
+
+
+WebSocket Client Code (HTML5 Javascript)
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="EUC-KR">
+	<title>WebSocket Client</title>
+	<script type="text/javascript">
+
+		var ws = null;
+
+		function connect() {
+			// 아래의 적색 경로는 서버측의 ServerEndPoint 를 사용해야 하고 ? 표시 오른쪽에는 파라미터가 온다
+			var target = "ws://localhost:8080/websocket/echoAnnotation?usr=홍길동"; //서버에서 파라미터를
+
+			if ('WebSocket' in window) {
+				ws = new WebSocket(target);
+			} else if ('MozWebSocket' in window) {
+				ws = new MozWebSocket(target);
+			} else {
+				alert('WebSocket is not supported by this browser.');
+				return;
+			}
+
+			ws.onopen = function () {
+				document.getElementById("msg").innerText = 'Info: WebSocket connection opened.';
+			};
+
+			ws.onmessage = function (event) {
+				document.getElementById("msg").innerText = 'Received: '+event.data;
+			};
+
+			ws.onclose = function () {
+				document.getElementById("msg").innerText = 'Info: WebSocket connection closed.';
+			};
+		}
+
+		function send() {// JSON 문자열을 서버로 전송한다
+			var msg = {
+			"usrName":"홍길동", "phone":"010-1234-6543", "content":"Hello World, 감사합니다"
+			};
+			var jsonStr = JSON.stringify(msg);
+			ws.send(jsonStr);
+		}
+
+		function sendFile() {
+			// Sending file as Blob
+			var file = document.querySelector('input[type="file"]').files[0];
+			ws.send(file);
+		}
+
+	</script>
+</head>
+<body>
+
+	<input type="button" value="Connect" onClick="javascript:connect();"><br/>
+	<input type="button" value="Send" onClick="javascript:send();"><br/><p/>
+	파일선택<input type="file" id="file1"><p/>
+	<input type="button" value="sendFile" onClick="javascript:sendFile();"><p/>
+	<div id="msg"></div>
+
+</body>
+</html>
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+package my.websocket.test;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.PongMessage;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
+
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
+@ServerEndpoint("/websocket/echoAnnotation")
+public class MyWebSocket {
+
+	@OnOpen
+	public void echoOpen(Session session) {
+	}
+
+	//텍스트 데이터를 수신할 때 호출됨(session을 이용하여 파라미터를 추출할 수 있고 일반 데이터는 msg에 전달된다)
+	@OnMessage
+	public void echoTextMessage(Session session, String msg, boolean last) {
+
+		// 클라이언트가 요청할 때 전달한 파라미터(usr=홍길동)는 아래처럼 추출할 수 있다
+		String[] params = session.getQueryString().split("&");
+
+		String usr = params[0].split("=")[1];
+
+		try {
+			usr = URLDecoder.decode(usr,"EUC-KR");//파라미터로 전달된 데이터는 URLDecoder를 사용하여 복원한다
+		} catch(Exception e) {
+		}
+
+		// JSON-Simple 라이브러리를 사용하여 JSON 문자열을 처리한다
+		JSONObject jobj = (JSONObject)JSONValue.parse(msg);
+
+		String usrName = (String)jobj.get("usrName");
+		String phone = (String)jobj.get("phone");
+		String content = (String)jobj.get("content");
+
+		try {
+			if (session.isOpen()) { //클라이언트 측으로 다시 전송한다
+				session.getBasicRemote().sendText(usrName+","+phone+","+content, last);
+			}
+		} catch (IOException e) {
+			try {
+				session.close();
+			} catch (IOException e1) {
+				// Ignore
+			}
+		}
+	}
+
+	// 바이너리 데이터를 수신할 때 호출됨
+	@OnMessage
+	public void echoBinaryMessage(Session session, ByteBuffer bb, boolean last) {
+		try {
+			if (session.isOpen()) {
+				//session.getBasicRemote().sendBinary(bb, last);
+				session.getBasicRemote().sendText("파일이 서버에 도착했어요~", last);
+
+				File file = new File("D:/test/sample.txt");
+
+				// Set to true if the bytes should be appended to the file;
+				// set to false if the bytes should replace current bytes
+				// (if the file exists)
+
+				boolean append = false;
+
+				try {
+					// Create a writable file channel
+					FileChannel wChannel = new FileOutputStream(file, append).getChannel();
+
+					// Write the ByteBuffer contents; the bytes between the ByteBuffer's
+					// position and the limit is written to the file
+					wChannel.write(bb);
+
+					// Close the file
+					wChannel.close();
+				} catch (IOException e) {
+				}
+			}
+		} catch (IOException e) {
+			try {
+				session.close();
+			} catch (IOException e1) {
+				// Ignore
+			}
+		}
+	}
+
+	/**
+	 * Process a received pong. This is a NO-OP.
+	 *
+	 * @param pm    Ignored.
+	 */
+	@OnMessage
+	public void echoPongMessage(PongMessage pm) {
+		// NO-OP
+	}
+
+	@OnClose
+	public void onClose() {
+		// disconnection handling
+	}
+
+	@OnError
+	public void onError(Session session, Throwable throwable) {
+		// Error handling
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+클라이언트 측에서 서버로 전송하는 데이터는 문자열, 이미지, 파일 등이 해당된다
+
+	// Sending String
+	ws.send('your message');
+
+	// Sending canvas ImageData as ArrayBuffer
+	var img = canvas_context.getImageData(0, 0, 400, 320);
+	var binary = new Uint8Array(img.data.length);
+	for (var i = 0; i < img.data.length; i++) {
+	  binary[i] = img.data[i];
+	}
+	ws.send(binary.buffer);
+
+	// Sending file as Blob
+	var file = document.querySelector('input[type="file"]').files[0];
+	ws.send(file);
+
+
+
+클라이언트 측에서 수신하는 데이터의 타입 설정
+
+클라이언트가 바이너리 데이터를 수신할 때 arraybuffer 타입인지 blob 타입인지를 설정할 수 있다. 
+
+디폴트 설정은 arraybuffer 타입이다
+
+
+	// Setting binaryType to accept received binary as either 'blob' or 'arraybuffer'
+	ws.binaryType = 'arraybuffer';
+	ws.onmessage = function(e) {
+		console.log(e.data.byteLength); // ArrayBuffer object if binary
+	};
+
+
+
+클라이언트 측에서 이미지 파일을 수신하여 Canvas에 출력하는 예 ( HTML5 Javascript )
+
+	if (event.data instanceof ArrayBuffer)
+	{
+		var bytearray = new Uint8Array(event.data);
+
+		var tempcanvas = document.createElement('canvas');
+			tempcanvas.height = imageheight;
+			tempcanvas.width = imagewidth;
+
+		var tempcontext = tempcanvas.getContext('2d');
+
+		var imgdata = tempcontext.getImageData(0,0,imagewidth,imageheight);
+
+		var imgdatalen = imgdata.data.length;
+
+		for(var i=8;i<imgdatalen;i++)
+		{
+			imgdata.data[i] = bytearray[i];
+		}
+
+		tempcontext.putImageData(imgdata,0,0);
+
+		var img = document.createElement('img');
+			img.height = imageheight;
+			img.width = imagewidth;
+			img.src = tempcanvas.toDataURL();
+
+		chatdiv.appendChild(img);
+		chatdiv.innerHTML = chatdiv.innerHTML + "<br />";
+	}
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
+
+loginForm.jsp
+
+	<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<title>로그인</title>
+	</head>
+	<body>
+		<p>
+		<form action="loginProc.jsp" method="post">
+		I D <input type="text" name="id" value="user01">
+		PWD <input type="password" name="pwd" value="1111">
+		<button type="submit">로그인</button>
+		</form>
+	</body>
+	</html>
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------
+
+loginProc.jsp
+
+	<%@page import="java.util.*"%>
+	<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+	<%
+	    request.setCharacterEncoding("utf-8");
+	    String id = request.getParameter("id");
+	    String pwd = request.getParameter("pwd");
+	    if(id!=null && !id.equals("")) {
+	        session.setAttribute("id", id);
+	    }
+	%>
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<title> 로그인 결과 </title>
+	</head>
+	<body>
+		<p>
+		<a href="canvas_network.jsp">네트웍 그리기</a>
+	</body>
+	</html>
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------
+
+canvas_network.jsp
+
+	<%@page import="java.util.*"%>
+	<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+	<%
+		Object objList = application.getAttribute("usrList");
+		List<String> usrList = null;
+		if(objList!=null) usrList = (List<String>) objList;
+	%>
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<title>네트워크 캔바스 예제</title>
+		<script type="text/javascript" src="jquery-2.1.4.min.js"></script>
+		<style type="text/css">
+			body { margin:0px 0px; text-align: center; }
+			canvas { display:inline-block; border: 1px solid black; }
+		</style>
+		<script type="text/javascript">
+			var clientId = '<%=(String) session.getAttribute("id")%>';
+			var Chat = {};
+
+			Chat.socket = null;
+
+			// connect() 함수 정의
+			Chat.connect = (function(host) {
+				// 서버에 접속시도
+				if ('WebSocket' in window) {
+					Chat.socket = new WebSocket(host);
+				} else if ('MozWebSocket' in window) {
+					Chat.socket = new MozWebSocket(host);
+				} else {
+					Console.log('Error: WebSocket is not supported by this browser.');
+					return;
+				}
+
+				 // 서버에 접속이 되면 호출되는 콜백함수
+				Chat.socket.onopen = function () {
+					console.log('Info: WebSocket connection opened.');
+				};
+
+				// 연결이 끊어진 경우에 호출되는 콜백함수
+				Chat.socket.onclose = function () {
+					console.log('Info: WebSocket closed.');
+				};
+
+				// 서버로부터 메시지를 받은 경우에 호출되는 콜백함수
+				Chat.socket.onmessage = function (message) {
+					var jsonObj = eval('('+message.data+')');
+					if('clear' in jsonObj) {
+						clearCanvas();
+					}
+					else if('content' in jsonObj) {
+						var jsonLine = jsonObj.content;
+						drawLine(jsonLine);
+					}
+				};
+			});
+				// connect() 함수 정의 끝
+
+				// 위에서 정의한 connect() 함수를 호출하여 접속을 시도함
+			Chat.initialize = function() {
+				if (window.location.protocol == 'http:') {
+					//Chat.connect('ws://' + window.location.host + '/websocket/chat');
+					Chat.connect('ws://192.168.8.32:8888/MyWeb/websocket/chat');
+				} else {
+					Chat.connect('wss://' + window.location.host + '/websocket/chat');
+				}
+			};
+
+			// 서버로 메시지를 전송하고 입력창에서 메시지를 제거함
+			Chat.sendMessage = (function(jsonObj) {
+				if (jsonObj != null) {
+					Chat.socket.send(JSON.stringify(jsonObj));
+				}
+			});
+		</script>
+
+		<script type="text/javascript">
+			var cnt = 0;
+			var ctx = null;
+			var x1=y1=x2=y2=0;
+			var isDrag = false;
+			var ptArr = new Array();
+			var timer = null;
+			var jsonStr = '';
+
+			$(function(){
+				var $canvas = $('canvas').eq(0);
+				ctx = $canvas[0].getContext("2d");
+
+				$canvas.on('mousedown', function(evt){
+					x1 = evt.pageX - this.offsetLeft;
+					y1 = evt.pageY - this.offsetTop;
+
+					isDrag = true;
+				});
+
+				$canvas.on('mouseup', function(evt){
+					isDrag = false;
+				});
+
+				$canvas.on('mousemove', function(evt){
+					if(isDrag) {
+						x2 = evt.pageX-this.offsetLeft;
+						y2 = evt.pageY-this.offsetTop;
+
+						var receiver = $('select[name=receiver]').val();
+						var msg = {sender:clientId, receiver:receiver};
+						msg.content = {x1:x1, y1:y1, x2:x2, y2:y2};
+
+						Chat.sendMessage(msg);
+
+						x1 = x2;
+						y1 = y2;
+					}
+				});
+
+				$('#btnClear').eq(0).on('click',function(){
+					var receiver = $('select[name=receiver]').val();
+					Chat.sendMessage({sender:clientId, receiver:receiver, clear:true});
+				});
+
+				Chat.initialize();
+			});
+
+			function drawLine(jsonLine) {
+				ctx.strokeStyle = "#ff5533";
+				ctx.lineJoin = "round";
+				ctx.lineWidth = 5;
+
+				ctx.beginPath();
+
+				ctx.moveTo(jsonLine.x1, jsonLine.y1);
+
+				ctx.lineTo(jsonLine.x2, jsonLine.y2);
+
+				ctx.closePath();
+				ctx.stroke();
+			}
+
+			function clearCanvas() {
+				ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+			}
+		</script>
+	</head>
+	<body>
+		대화상대 선택<select id="receiver" name="receiver">
+		<%
+			if(usrList!=null) {
+				for(int i=0;i<usrList.size();i++) {
+		%>
+					<option><%=usrList.get(i)%></option>
+		<%
+				}
+			}
+		%>
+		</select><br>
+		<canvas width="600" height="480"></canvas>
+		<button type="button" id='btnClear' style="vertical-align: top;">캔바스 지우기</button>
+	</body>
+	</html>
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------
+
+ServletAwareConfig.java
+
+	package org.kdea.web.socket;
+
+	import javax.servlet.ServletContext;
+	import javax.servlet.http.HttpSession;
+	import javax.websocket.HandshakeResponse;
+	import javax.websocket.server.HandshakeRequest;
+	import javax.websocket.server.ServerEndpointConfig;
+
+	public class ServletAwareConfig extends ServerEndpointConfig.Configurator {
+
+		@Override
+		public void modifyHandshake(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response) {
+
+			HttpSession session = (HttpSession) request.getHttpSession();
+			//ServletContext ctx = session.getServletContext();
+
+			config.getUserProperties().put(HttpSession.class.getName(), session);
+			//config.getUserProperties().put(ServletContext.class.getName(), ctx);
+		}
+	}
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
+
+ChatAnnotation.java
+
+	package org.kdea.web.socket;
+
+	import java.io.IOException;
+	import java.util.*;
+
+	import javax.servlet.http.HttpSession;
+	import javax.websocket.EndpointConfig;
+	import javax.websocket.OnClose;
+	import javax.websocket.OnError;
+	import javax.websocket.OnMessage;
+	import javax.websocket.OnOpen;
+	import javax.websocket.Session;
+	import javax.websocket.server.ServerEndpoint;
+
+	import org.json.simple.*;
+	import org.json.simple.parser.*;
+
+	@ServerEndpoint(value = "/websocket/chat", configurator=ServletAwareConfig.class) //클라이언트가 접속할 때 사용될 URI
+	public class ChatAnnotation {
+
+		private static Map<String, Session> sessionMap = new HashMap<>();
+
+		private HttpSession httpSession;
+
+		public ChatAnnotation() {
+		}
+
+
+		@OnOpen
+		public void start(Session session, EndpointConfig config) {
+			this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+			String userId = (String)httpSession.getAttribute("id");
+			System.out.println("접속한 클라이언트 ID:"+userId);
+
+			sessionMap.put(userId, session);
+			Object objList = httpSession.getServletContext().getAttribute("usrList");
+			if(objList==null) {
+				List<String> usrList = new ArrayList<>();
+				httpSession.getServletContext().setAttribute("usrList", usrList);
+				objList = usrList;
+			}
+			List<String> usrList = (List<String>) objList;
+			usrList.add(userId);
+		}
+
+
+		@OnClose
+		public void end() {
+			String usrId = (String)httpSession.getAttribute("id");
+			sessionMap.remove(usrId);
+
+			Object objList = httpSession.getServletContext().getAttribute("usrList");
+			List<String> usrList = (List<String>) objList;
+			usrList.remove(usrId);
+		}
+
+		// 현재 세션과 연결된 클라이언트로부터 메시지가 도착할 때마다 새로운 쓰레드가 실행되어 incoming()을 호출함
+		@OnMessage
+		public void incoming(String message) {
+			if(message==null || message.trim().equals("")) return;
+
+			JSONParser jsonParser = new JSONParser();
+			try {
+				JSONObject jsonObj = (JSONObject)jsonParser.parse(message);
+				String sender = (String)jsonObj.get("sender");
+				String receiver = (String)jsonObj.get("receiver");
+
+				try {
+					sessionMap.get(receiver).getBasicRemote().sendText(message);
+					sessionMap.get(sender).getBasicRemote().sendText(message);
+					return;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+
+		@OnError
+		public void onError(Throwable t) throws Throwable {
+			System.err.println("Chat Error: " + t.toString());
+		}
+	}
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
